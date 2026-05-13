@@ -33,7 +33,8 @@
       "require": "./dist/organisms.cjs"
     },
     "./tokens.css": "./dist/tokens.css",
-    "./fonts/*": "./dist/fonts/*"
+    "./fonts/*": "./dist/fonts/*",
+    "./brand/*": "./dist/brand/*"
   },
   "files": [
     "dist",
@@ -41,8 +42,9 @@
   ],
   "scripts": {
     "dev": "ladle serve",
-    "build": "vite build && tsc --emitDeclarationOnly",
+    "build": "vite build && tsc --emitDeclarationOnly && pnpm run build:tokens && pnpm run build:brand",
     "build:tokens": "cpy src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
+    "build:brand": "cpy 'brand/**' dist/brand",
     "test": "playwright test -c playwright-ct.config.ts",
     "playwright:install": "playwright install chromium webkit",
     "test:ui": "playwright test -c playwright-ct.config.ts --ui",

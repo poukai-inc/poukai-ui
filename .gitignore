@@ -7,3 +7,4 @@ playwright/.cache
 test-results
 *.log
 .omc
+.DS_Store

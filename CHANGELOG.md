@@ -1,0 +1,105 @@
+# @poukai/ui
+
+## 0.1.0
+
+### Minor Changes
+
+- e8b1b83: `0.1.0` — Phase 1 complete. Atomic-Design taxonomy with six new components.
+
+  **Atoms**
+  - **`Stat`** — display numeral + caption + optional source line. Pure typography.
+    Props: `value`, `caption`, `source?`, `align?: "start" | "end"`, `size?: "md" | "lg"`.
+    Uses new tokens `--fs-stat`, `--fs-stat-large`, `--tracking-stat`.
+
+  **Molecules**
+  - **`Hero`** — owns the hand-tuned vertical rhythm from the holding page.
+    Props: `title`, `lede`, `status?`, `cta?`, `align?: "start" | "center"`,
+    `titleAs?: "h1" | "h2"`. `status` and `cta` are `ReactNode` slots — the
+    molecule does **not** import `StatusBadge` or `Button` itself.
+  - **`RoleCard`** — surface + hairline + `--radius-3` card recipe with editorial
+    typography. Props: `eyebrow`, `title`, `body`, `hiredBy?`, `icon?`. `icon`
+    is a slot; the DS does not import `lucide-react`. `hiredBy` footer is
+    bottom-pinned so cards in a grid align regardless of body length.
+  - **`Principle`** — editorial numbered block (`/principles` recipe). Margin
+    numeral on desktop, numeral above title on mobile. Props: `numeral` (free-form
+    string), `title`, `children`. Numeral is `aria-hidden` (decorative).
+  - **`FailureMode`** — `/why-ai` recipe. Zero-padded index above the title.
+    Props: `index: number`, `indexLabel?: string`, `title`, `children`.
+    Visually distinct from `Principle`: the failure is the subject, the number
+    is just a reference.
+
+  **Organisms**
+  - **`SiteShell`** — top nav (linked wordmark + route list) + main slot +
+    hairline footer. Props: `currentRoute?`, `routes?`, `footer?`, `homeHref?`,
+    `navLabel?`, `children`. **No router awareness** — emits plain `<a href>`.
+    Composes `Wordmark` from `atoms/` (organisms may know about chrome).
+    Active route is marked with `aria-current="page"`.
+
+  **Tokens**
+  - Additive only. New: `--fs-stat`, `--fs-stat-large`, `--tracking-stat`.
+    No existing token changed.
+
+  **Structure**
+  - First entries in `src/molecules/` and `src/organisms/` — both directories
+    are now real, not just reserved.
+
+  Public import paths (`@poukai/ui`) unchanged. No breaking changes.
+
+  This release unblocks Phase 2 of the migration plan — `Pouk-AI-INC/pouk.ai`
+  can consume `@poukai/ui@0.1.0` for the Astro site rebuild.
+
+- e8b1b83: Restructure `src/` under Atomic-Design taxonomy.
+  - `src/components/Wordmark` -> `src/atoms/Wordmark`
+  - `src/components/StatusBadge` -> `src/atoms/StatusBadge`
+  - `src/components/Button` -> `src/atoms/Button`
+  - New empty folders reserved for `src/molecules/` and `src/organisms/`.
+  - Path aliases updated: `@atoms/*`, `@molecules/*`, `@organisms/*`.
+
+  Public import paths (`@poukai/ui`) are unchanged; this is a contributor-facing
+  move only. No API changes.
+
+### Patch Changes
+
+- 5eed86a: DX + CI improvements.
+
+  **a11y gate**
+  - New `src/a11y.test.tsx` mounts every shipped component and scans with
+    `@axe-core/playwright`. Runs as part of `pnpm test` (same Playwright
+    suite) and on every PR via the existing CI job.
+  - `@axe-core/playwright` added as a dev dep.
+  - New `pnpm test:a11y` script for running just the a11y leg locally.
+
+  **Per-subpath size budgets**
+  - `size-limit` now measures each subpath entry independently:
+    `dist/atoms.js`, `dist/molecules.js`, `dist/organisms.js`. Catches
+    accidental cross-layer imports (e.g. an atom pulling in a molecule).
+
+  **Wordmark regeneration script**
+  - `scripts/build-wordmark.mjs` regenerates `wordmark-geometry.ts` from
+    `brand/poukai-logo.svg`. The header of the generated file references the
+    command so the next contributor doesn't hand-edit.
+  - New `pnpm build:wordmark` script.
+  - `brand/poukai-logo.svg` is now committed inside the package so the script
+    has its source colocated.
+
+  **README**
+  - New "Subpath imports" section showing the per-layer entry points.
+
+  No public API changes.
+
+- e8b1b83: Fix: `Wordmark` renders empty.
+
+  The component referenced an external SVG symbol via
+  `<use href="#poukai-wordmark-geometry" />`, but no consumer or DS-internal
+  sprite ever defined that symbol. The mark rendered as an empty box.
+
+  Geometry is now **inlined** at build time from a generated
+  `wordmark-geometry.ts` (regenerated from `brand/poukai-logo.svg`, with the
+  verbose per-path styling stripped — `fill="currentColor"` on the parent
+  `<svg>` handles colour). Self-contained; no consumer setup required.
+
+  Adds a regression test that asserts at least six `<path>` elements render.
+  Bundle grows by ~9 kB (the path data itself is incompressible); within the
+  size-limit budget.
+
+  No API change.

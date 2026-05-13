@@ -41,6 +41,6 @@ test("forwards arbitrary props to the article root", async ({ mount }) => {
   const component = await mount(
     <RoleCard eyebrow="E" title="T" body="B" data-testid="role" aria-label="A role" />,
   );
-  const root = component.locator("[data-testid='role']");
-  await expect(root).toHaveAttribute("aria-label", "A role");
+  await expect(component).toHaveAttribute("data-testid", "role");
+  await expect(component).toHaveAttribute("aria-label", "A role");
 });

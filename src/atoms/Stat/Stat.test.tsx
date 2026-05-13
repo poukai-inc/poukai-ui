@@ -23,14 +23,14 @@ test("omits source line when not provided", async ({ mount }) => {
 
 test("applies end alignment", async ({ mount }) => {
   const component = await mount(<Stat value="85%" caption="of teams." align="end" />);
-  await expect(component.locator("div").first()).toHaveCSS("align-items", "flex-end");
+  await expect(component).toHaveCSS("align-items", "flex-end");
 });
 
 test("forwards arbitrary props to the root element", async ({ mount }) => {
   const component = await mount(
     <Stat value="1" caption="thing." data-testid="stat-1" aria-label="metric" />,
   );
-  const root = component.locator("[data-testid='stat-1']");
-  await expect(root).toBeVisible();
-  await expect(root).toHaveAttribute("aria-label", "metric");
+  await expect(component).toBeVisible();
+  await expect(component).toHaveAttribute("data-testid", "stat-1");
+  await expect(component).toHaveAttribute("aria-label", "metric");
 });

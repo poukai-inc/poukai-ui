@@ -43,9 +43,10 @@
     "dev": "ladle serve",
     "build": "vite build && tsc --emitDeclarationOnly",
     "build:tokens": "cpy src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
-    "test": "playwright test",
-    "test:ui": "playwright test --ui",
-    "test:a11y": "playwright test src/a11y.test.tsx",
+    "test": "playwright test -c playwright-ct.config.ts",
+    "playwright:install": "playwright install chromium webkit",
+    "test:ui": "playwright test -c playwright-ct.config.ts --ui",
+    "test:a11y": "playwright test -c playwright-ct.config.ts src/a11y.test.tsx",
     "build:wordmark": "node scripts/build-wordmark.mjs",
     "lint": "eslint src --max-warnings 0",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
@@ -103,10 +104,12 @@
     "vite-plugin-dts": "^4.2.0"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
+    "src/**/*.{ts,tsx}": [
+      "eslint --fix --max-warnings 0 --no-warn-ignored",
       "prettier --write"
     ],
+    "playwright-ct.config.ts": "prettier --write",
+    "vite.config.ts": "prettier --write",
     "*.{css,md,json}": [
       "prettier --write"
     ]

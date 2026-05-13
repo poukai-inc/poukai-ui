@@ -42,6 +42,6 @@ test("forwards arbitrary props to the section root", async ({ mount }) => {
       <p>Body.</p>
     </Principle>,
   );
-  const root = component.locator("[data-testid='principle']");
-  await expect(root).toHaveAttribute("aria-labelledby", "x");
+  await expect(component).toHaveAttribute("data-testid", "principle");
+  await expect(component).toHaveAttribute("aria-labelledby", "x");
 });

@@ -3,6 +3,7 @@ node_modules
 .ladle/build
 .turbo
 playwright-report
+playwright/.cache
 test-results
 *.log
 .omc

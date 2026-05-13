@@ -17,18 +17,29 @@ import { SiteShell } from "./organisms/SiteShell";
  * Per migration-plan §3.3 the DS publishes only on a "green Playwright +
  * size-limit + a11y CI" — this file is the a11y leg of that gate.
  *
- * Failures here are real — axe rules are conservative. If a rule genuinely
- * doesn't apply (e.g. `landmark-one-main` on a card-in-isolation mount),
- * disable it surgically via `.disableRules([...])` on the AxeBuilder for
- * that test, with a comment explaining why. Don't disable rules globally.
+ * Isolated CT mounts are not full documents: axe best-practice rules such as
+ * `landmark-one-main`, `page-has-heading-one`, and `region` fire on the empty
+ * harness. Those are suppressed by default here. Full chrome (e.g. `SiteShell`)
+ * opts into strict document semantics via `fullPageSemantics: true`.
  */
+
+const AXE_ISOLATED_MOUNT_RULES = ["landmark-one-main", "page-has-heading-one", "region"] as const;
+
+type ExpectAxeCleanOptions = {
+  /** Run axe without suppressing document-level best-practice rules (use for organisms that model a real page). */
+  fullPageSemantics?: boolean;
+  configure?: (b: AxeBuilder) => AxeBuilder;
+};
 
 async function expectAxeClean(
   page: import("@playwright/test").Page,
-  builder?: (b: AxeBuilder) => AxeBuilder,
+  options?: ExpectAxeCleanOptions,
 ) {
-  const base = new AxeBuilder({ page });
-  const configured = builder ? builder(base) : base;
+  let base = new AxeBuilder({ page });
+  if (!options?.fullPageSemantics) {
+    base = base.disableRules([...AXE_ISOLATED_MOUNT_RULES]);
+  }
+  const configured = options?.configure ? options.configure(base) : base;
   const { violations } = await configured.analyze();
   expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
 }
@@ -153,5 +164,5 @@ test("a11y — SiteShell (full chrome)", async ({ mount, page }) => {
       <p>Body copy.</p>
     </SiteShell>,
   );
-  await expectAxeClean(page);
+  await expectAxeClean(page, { fullPageSemantics: true });
 });

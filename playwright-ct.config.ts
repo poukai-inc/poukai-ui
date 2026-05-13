@@ -1,5 +1,8 @@
 import { defineConfig, devices } from "@playwright/experimental-ct-react";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const rootDir = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
   testDir: "./src",
@@ -15,11 +18,11 @@ export default defineConfig({
       },
       resolve: {
         alias: {
-          "@": resolve(__dirname, "src"),
-          "@atoms": resolve(__dirname, "src/atoms"),
-          "@molecules": resolve(__dirname, "src/molecules"),
-          "@organisms": resolve(__dirname, "src/organisms"),
-          "@tokens": resolve(__dirname, "src/tokens"),
+          "@": resolve(rootDir, "src"),
+          "@atoms": resolve(rootDir, "src/atoms"),
+          "@molecules": resolve(rootDir, "src/molecules"),
+          "@organisms": resolve(rootDir, "src/organisms"),
+          "@tokens": resolve(rootDir, "src/tokens"),
         },
       },
     },

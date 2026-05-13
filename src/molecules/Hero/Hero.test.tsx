@@ -43,6 +43,6 @@ test("renders status and cta slots when provided", async ({ mount }) => {
 
 test("forwards arbitrary props to the root section", async ({ mount }) => {
   const component = await mount(<Hero title="H" lede="L" data-testid="hero" aria-labelledby="x" />);
-  const root = component.locator("[data-testid='hero']");
-  await expect(root).toHaveAttribute("aria-labelledby", "x");
+  await expect(component).toHaveAttribute("data-testid", "hero");
+  await expect(component).toHaveAttribute("aria-labelledby", "x");
 });

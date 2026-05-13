@@ -4,7 +4,7 @@ import styles from "./Hero.module.css";
 
 export type HeroAlign = "start" | "center";
 
-export interface HeroProps extends ComponentPropsWithoutRef<"section"> {
+export interface HeroProps extends Omit<ComponentPropsWithoutRef<"section">, "title"> {
   /** The display headline — usually an `<h1>` or plain text. Rendered inside an `<h1>`. */
   title: ReactNode;
   /** Sub-headline / standfirst. Rendered inside a `<p class="lede">`. */
@@ -49,11 +49,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(function Hero(
 ) {
   const Title = titleAs;
   return (
-    <section
-      ref={ref}
-      className={clsx(styles.root, alignClass[align], className)}
-      {...rest}
-    >
+    <section ref={ref} className={clsx(styles.root, alignClass[align], className)} {...rest}>
       {status ? <div className={styles.status}>{status}</div> : null}
       <Title className={styles.title}>{title}</Title>
       <p className={clsx(styles.lede, "lede")}>{lede}</p>

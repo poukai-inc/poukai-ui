@@ -2,7 +2,7 @@ import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from "react
 import clsx from "clsx";
 import styles from "./RoleCard.module.css";
 
-export interface RoleCardProps extends ComponentPropsWithoutRef<"article"> {
+export interface RoleCardProps extends Omit<ComponentPropsWithoutRef<"article">, "title"> {
   /** Tiny uppercase label above the title — e.g. "Role 01". */
   eyebrow: ReactNode;
   /** The role title — e.g. "Builder". */

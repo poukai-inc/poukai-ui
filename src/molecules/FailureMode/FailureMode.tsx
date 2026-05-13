@@ -2,7 +2,7 @@ import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from "react
 import clsx from "clsx";
 import styles from "./FailureMode.module.css";
 
-export interface FailureModeProps extends ComponentPropsWithoutRef<"section"> {
+export interface FailureModeProps extends Omit<ComponentPropsWithoutRef<"section">, "title"> {
   /**
    * Sequence number — rendered zero-padded to two digits (`1` → `"01"`).
    * Pass an explicit string via `indexLabel` to override the format.

@@ -6,7 +6,7 @@ module.exports = {
     ecmaVersion: 2022,
     sourceType: "module",
     ecmaFeatures: { jsx: true },
-    project: "./tsconfig.json",
+    project: "./tsconfig.eslint.json",
   },
   plugins: ["@typescript-eslint", "react", "react-hooks", "jsx-a11y"],
   extends: [

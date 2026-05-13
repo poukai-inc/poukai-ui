@@ -2,7 +2,7 @@ import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from "react
 import clsx from "clsx";
 import styles from "./Principle.module.css";
 
-export interface PrincipleProps extends ComponentPropsWithoutRef<"section"> {
+export interface PrincipleProps extends Omit<ComponentPropsWithoutRef<"section">, "title"> {
   /**
    * Margin numeral — lowercase Roman by convention (`"i."`, `"ii."`, ...).
    * Free-form string; the consumer owns the format so we can swap to Arabic

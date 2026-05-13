@@ -1,0 +1,77 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  text-decoration: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-2, 8px);
+  cursor: pointer;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease, transform 80ms ease;
+  user-select: none;
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.root:disabled,
+.root[data-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Sizes */
+.size-sm {
+  font-size: var(--fs-meta);
+  padding: 6px 12px;
+  min-height: 32px;
+}
+
+.size-md {
+  font-size: var(--fs-body);
+  padding: 10px 18px;
+  min-height: 44px;
+}
+
+.size-lg {
+  font-size: var(--fs-body);
+  padding: 14px 24px;
+  min-height: 52px;
+}
+
+/* Variants */
+.variant-primary {
+  background: var(--fg);
+  color: var(--bg);
+}
+
+.variant-primary:hover {
+  background: color-mix(in oklab, var(--fg) 88%, transparent);
+}
+
+.variant-primary:active {
+  transform: translateY(1px);
+}
+
+.variant-secondary {
+  background: var(--surface);
+  color: var(--fg);
+  border-color: var(--hairline);
+}
+
+.variant-secondary:hover {
+  background: color-mix(in oklab, var(--surface) 70%, var(--hairline));
+}
+
+.variant-ghost {
+  background: transparent;
+  color: var(--fg);
+}
+
+.variant-ghost:hover {
+  background: var(--surface);
+}

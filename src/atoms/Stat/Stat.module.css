@@ -1,0 +1,45 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  /* Tabular figures so adjacent stats line up vertically. */
+  font-variant-numeric: tabular-nums;
+}
+
+.align-start { align-items: flex-start; text-align: left; }
+.align-end   { align-items: flex-end;   text-align: right; }
+
+.value {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: var(--tracking-stat);
+  color: var(--fg);
+  /* Optical adjustment for serif descenders on $, %, ×. */
+  padding-bottom: 0.04em;
+}
+
+.size-md .value { font-size: var(--fs-stat); }
+.size-lg .value { font-size: var(--fs-stat-large); }
+
+.caption {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.45;
+  color: var(--fg-muted);
+  max-width: 22rem;
+  text-wrap: pretty;
+}
+
+.align-end .caption { margin-left: auto; }
+
+.source {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-top: var(--space-1);
+}

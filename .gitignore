@@ -1,0 +1,7 @@
+dist
+node_modules
+.ladle/build
+.turbo
+playwright-report
+test-results
+*.log

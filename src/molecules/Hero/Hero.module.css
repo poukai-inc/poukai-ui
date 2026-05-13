@@ -1,0 +1,49 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--hero-max);
+  /* Vertical rhythm — mirrors the holding page. Status sits tight above title;
+     title-to-lede gets the editorial gap (handled by `h1`'s own margin);
+     CTA gets a deliberate generous gap beneath the lede. */
+  margin: 0;
+}
+
+.align-start { align-items: flex-start; text-align: left; }
+.align-center {
+  align-items: center;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.status {
+  margin: 0 0 var(--space-6);
+}
+
+/* Override the h1 margin defined in tokens.css — the Hero owns the title-to-lede
+   rhythm, not the global cascade. */
+.title {
+  margin: 0 0 var(--space-6);
+}
+
+@media (min-width: 768px) {
+  .title { margin-bottom: var(--space-8); }
+}
+
+.lede {
+  /* `.lede` class from tokens.css already sets color, max-width.
+     Hero only needs to zero the trailing margin so the CTA gap is controlled here. */
+  margin: 0;
+  font-size: var(--fs-body);
+}
+
+.align-center .lede { margin-left: auto; margin-right: auto; }
+
+.cta {
+  margin-top: var(--space-8);
+  display: inline-flex;
+}
+
+@media (min-width: 768px) {
+  .cta { margin-top: var(--space-10, 2.5rem); }
+}

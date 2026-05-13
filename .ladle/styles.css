@@ -1,0 +1,9 @@
+/* Ladle preview global styles — applied around every story. */
+@import "../src/tokens/tokens.css";
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  padding: var(--space-12);
+}

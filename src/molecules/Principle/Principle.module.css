@@ -1,0 +1,70 @@
+.root {
+  display: grid;
+  /* Mobile: numeral above title, single column. */
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+  padding: var(--space-8) 0;
+  border-top: var(--hairline-w) solid var(--hairline);
+}
+
+.root:last-child {
+  border-bottom: var(--hairline-w) solid var(--hairline);
+}
+
+@media (min-width: 768px) {
+  .root {
+    /* Desktop: margin numeral + body column. */
+    grid-template-columns: 5rem 1fr;
+    gap: var(--space-8);
+    padding: var(--space-12) 0;
+  }
+}
+
+.numeral {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-body);
+  color: var(--fg-muted);
+  line-height: 1.2;
+  /* Align baseline with the title on desktop. */
+}
+
+@media (min-width: 768px) {
+  .numeral {
+    font-size: 1.25rem;
+    /* Optical nudge to align numeral baseline with title cap-height. */
+    padding-top: 0.4rem;
+  }
+}
+
+.body {
+  /* Body column owns its own internal rhythm. */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 38rem;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.5rem, 1.15rem + 1.2vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: var(--fg);
+  margin: 0;
+  padding-bottom: 0.04em;
+  text-wrap: balance;
+}
+
+.content {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  color: var(--fg);
+}
+
+/* Children paragraphs / lists get their own rhythm — zero the first/last margin
+   so the .body gap controls spacing between title and body. */
+.content > :first-child { margin-top: 0; }
+.content > :last-child  { margin-bottom: 0; }

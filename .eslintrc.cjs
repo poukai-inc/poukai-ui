@@ -6,7 +6,7 @@ module.exports = {
     ecmaVersion: 2022,
     sourceType: "module",
     ecmaFeatures: { jsx: true },
-    project: "./tsconfig.eslint.json",
+    project: "./tsconfig.json",
   },
   plugins: ["@typescript-eslint", "react", "react-hooks", "jsx-a11y"],
   extends: [
@@ -23,5 +23,11 @@ module.exports = {
     "@typescript-eslint/consistent-type-imports": ["error", { prefer: "type-imports" }],
     "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
   },
-  ignorePatterns: ["dist", "node_modules", ".ladle"],
+  ignorePatterns: [
+    "dist",
+    "node_modules",
+    ".ladle",
+    "**/*.test.tsx",
+    "**/*.stories.tsx",
+  ],
 };

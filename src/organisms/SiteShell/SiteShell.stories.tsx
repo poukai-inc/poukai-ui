@@ -26,24 +26,22 @@ export const Playground: Story = () => (
   >
     <h1>Roles</h1>
     <p className="lede">
-      The four shapes a Poukai engagement takes. Pick the one closest to the gap
-      your team can't close on its own.
+      The four shapes a Poukai engagement takes. Pick the one closest to the gap your team can't
+      close on its own.
     </p>
     <p>
-      Page contents go here. The shell only owns the chrome — nav above, hairline
-      footer below, and a sensible content max-width in between.
+      Page contents go here. The shell only owns the chrome — nav above, hairline footer below, and
+      a sensible content max-width in between.
     </p>
   </SiteShell>
 );
 
 export const NoNav: Story = () => (
-  <SiteShell
-    footer={<p>© Pouk AI INC 2026</p>}
-  >
+  <SiteShell footer={<p>© Pouk AI INC 2026</p>}>
     <h1>Holding page</h1>
     <p className="lede">
-      Routes omitted — the shell renders the wordmark on its own. Used on{" "}
-      <code>/</code> while the rest of the site is still draft.
+      Routes omitted — the shell renders the wordmark on its own. Used on <code>/</code> while the
+      rest of the site is still draft.
     </p>
   </SiteShell>
 );

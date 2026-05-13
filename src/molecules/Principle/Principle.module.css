@@ -66,5 +66,9 @@
 
 /* Children paragraphs / lists get their own rhythm — zero the first/last margin
    so the .body gap controls spacing between title and body. */
-.content > :first-child { margin-top: 0; }
-.content > :last-child  { margin-bottom: 0; }
+.content > :first-child {
+  margin-top: 0;
+}
+.content > :last-child {
+  margin-bottom: 0;
+}

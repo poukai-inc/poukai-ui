@@ -9,9 +9,8 @@ export const Playground: Story = () => (
   <div style={{ maxWidth: "56rem", padding: "var(--space-8)" }}>
     <FailureMode index={1} title="The chatbot-on-top-of-RAG plateau.">
       <p>
-        Most teams stop here. The demo dazzles; the production loop never
-        closes; quality degrades silently and nobody has the eval harness to
-        see it.
+        Most teams stop here. The demo dazzles; the production loop never closes; quality degrades
+        silently and nobody has the eval harness to see it.
       </p>
     </FailureMode>
   </div>
@@ -55,9 +54,8 @@ export const CustomIndexLabel: Story = () => (
   <div style={{ maxWidth: "56rem", padding: "var(--space-8)" }}>
     <FailureMode index={1} indexLabel="A1" title="Custom labels.">
       <p>
-        Pass <code>indexLabel</code> to render <code>"A1"</code>,{" "}
-        <code>"§ 1"</code>, or any custom format. <code>index</code> stays a
-        number so consumers can keep ordering logic clean.
+        Pass <code>indexLabel</code> to render <code>"A1"</code>, <code>"§ 1"</code>, or any custom
+        format. <code>index</code> stays a number so consumers can keep ordering logic clean.
       </p>
     </FailureMode>
   </div>

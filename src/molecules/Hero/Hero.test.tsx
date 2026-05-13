@@ -7,17 +7,13 @@ test("renders title in an h1 by default", async ({ mount }) => {
 });
 
 test("renders title in the requested element", async ({ mount }) => {
-  const component = await mount(
-    <Hero titleAs="h2" title="Section heading" lede="A lede." />,
-  );
+  const component = await mount(<Hero titleAs="h2" title="Section heading" lede="A lede." />);
   await expect(component.locator("h2")).toHaveText("Section heading");
   await expect(component.locator("h1")).toHaveCount(0);
 });
 
 test("renders the lede in a p.lede", async ({ mount }) => {
-  const component = await mount(
-    <Hero title="Heading" lede="The lede copy goes here." />,
-  );
+  const component = await mount(<Hero title="Heading" lede="The lede copy goes here." />);
   const lede = component.locator("p.lede");
   await expect(lede).toHaveText("The lede copy goes here.");
 });
@@ -34,7 +30,11 @@ test("renders status and cta slots when provided", async ({ mount }) => {
       title="Heading"
       lede="Lede."
       status={<span data-testid="status">Status</span>}
-      cta={<a data-testid="cta" href="#">CTA</a>}
+      cta={
+        <a data-testid="cta" href="#">
+          CTA
+        </a>
+      }
     />,
   );
   await expect(component.locator("[data-testid='status']")).toBeVisible();
@@ -42,9 +42,7 @@ test("renders status and cta slots when provided", async ({ mount }) => {
 });
 
 test("forwards arbitrary props to the root section", async ({ mount }) => {
-  const component = await mount(
-    <Hero title="H" lede="L" data-testid="hero" aria-labelledby="x" />,
-  );
+  const component = await mount(<Hero title="H" lede="L" data-testid="hero" aria-labelledby="x" />);
   const root = component.locator("[data-testid='hero']");
   await expect(root).toHaveAttribute("aria-labelledby", "x");
 });

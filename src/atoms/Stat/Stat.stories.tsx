@@ -45,11 +45,7 @@ export const PairedRow: Story = () => (
       maxWidth: "44rem",
     }}
   >
-    <Stat
-      value="85%"
-      caption="of AI pilots never reach production."
-      source="MIT Sloan, 2025"
-    />
+    <Stat value="85%" caption="of AI pilots never reach production." source="MIT Sloan, 2025" />
     <Stat
       value="$300B"
       caption="annual spend on initiatives that stall at proof-of-concept."

@@ -23,7 +23,10 @@ import { SiteShell } from "./organisms/SiteShell";
  * that test, with a comment explaining why. Don't disable rules globally.
  */
 
-async function expectAxeClean(page: import("@playwright/test").Page, builder?: (b: AxeBuilder) => AxeBuilder) {
+async function expectAxeClean(
+  page: import("@playwright/test").Page,
+  builder?: (b: AxeBuilder) => AxeBuilder,
+) {
   const base = new AxeBuilder({ page });
   const configured = builder ? builder(base) : base;
   const { violations } = await configured.analyze();
@@ -75,7 +78,11 @@ test("a11y — Hero (with status + cta)", async ({ mount, page }) => {
   await mount(
     <Hero
       status={<StatusBadge status="available">Status copy.</StatusBadge>}
-      title={<>Title with <em>emphasis</em>.</>}
+      title={
+        <>
+          Title with <em>emphasis</em>.
+        </>
+      }
       lede="Lede copy that gives the reader the gist."
       cta={
         <Button asChild>
@@ -90,7 +97,11 @@ test("a11y — Hero (with status + cta)", async ({ mount, page }) => {
 test("a11y — RoleCard (with icon and footer)", async ({ mount, page }) => {
   await mount(
     <RoleCard
-      icon={<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3" fill="currentColor" /></svg>}
+      icon={
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="3" fill="currentColor" />
+        </svg>
+      }
       eyebrow="Role 01"
       title="Builder"
       body="Ships production systems end-to-end."
@@ -131,7 +142,10 @@ test("a11y — SiteShell (full chrome)", async ({ mount, page }) => {
       ]}
       footer={
         <p>
-          © Pouk AI INC · <a href="mailto:hello@pouk.ai" className="muted-link">hello@pouk.ai</a>
+          © Pouk AI INC ·{" "}
+          <a href="mailto:hello@pouk.ai" className="muted-link">
+            hello@pouk.ai
+          </a>
         </p>
       }
     >

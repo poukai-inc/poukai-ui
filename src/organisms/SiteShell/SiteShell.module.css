@@ -75,5 +75,9 @@
   font-size: var(--fs-meta);
 }
 
-.footer > :first-child { margin-top: 0; }
-.footer > :last-child  { margin-bottom: 0; }
+.footer > :first-child {
+  margin-top: 0;
+}
+.footer > :last-child {
+  margin-bottom: 0;
+}

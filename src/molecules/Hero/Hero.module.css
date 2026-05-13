@@ -8,7 +8,10 @@
   margin: 0;
 }
 
-.align-start { align-items: flex-start; text-align: left; }
+.align-start {
+  align-items: flex-start;
+  text-align: left;
+}
 .align-center {
   align-items: center;
   text-align: center;
@@ -27,7 +30,9 @@
 }
 
 @media (min-width: 768px) {
-  .title { margin-bottom: var(--space-8); }
+  .title {
+    margin-bottom: var(--space-8);
+  }
 }
 
 .lede {
@@ -37,7 +42,10 @@
   font-size: var(--fs-body);
 }
 
-.align-center .lede { margin-left: auto; margin-right: auto; }
+.align-center .lede {
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .cta {
   margin-top: var(--space-8);
@@ -45,5 +53,7 @@
 }
 
 @media (min-width: 768px) {
-  .cta { margin-top: var(--space-10, 2.5rem); }
+  .cta {
+    margin-top: var(--space-10, 2.5rem);
+  }
 }

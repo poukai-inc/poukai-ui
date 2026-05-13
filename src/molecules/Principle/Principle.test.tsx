@@ -38,12 +38,7 @@ test("renders arbitrary children (lists)", async ({ mount }) => {
 
 test("forwards arbitrary props to the section root", async ({ mount }) => {
   const component = await mount(
-    <Principle
-      numeral="i."
-      title="T"
-      data-testid="principle"
-      aria-labelledby="x"
-    >
+    <Principle numeral="i." title="T" data-testid="principle" aria-labelledby="x">
       <p>Body.</p>
     </Principle>,
   );

@@ -81,7 +81,11 @@ export const SiteShell = forwardRef<HTMLDivElement, SiteShellProps>(function Sit
                   <li key={r.href}>
                     <a
                       href={r.href}
-                      className={clsx(styles.navLink, "muted-link", isActive && styles.navLinkActive)}
+                      className={clsx(
+                        styles.navLink,
+                        "muted-link",
+                        isActive && styles.navLinkActive,
+                      )}
                       aria-current={isActive ? "page" : undefined}
                     >
                       {r.label}

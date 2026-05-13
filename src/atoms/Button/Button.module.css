@@ -9,7 +9,11 @@
   border: 1px solid transparent;
   border-radius: var(--radius-2, 8px);
   cursor: pointer;
-  transition: background 120ms ease, color 120ms ease, border-color 120ms ease, transform 80ms ease;
+  transition:
+    background 120ms ease,
+    color 120ms ease,
+    border-color 120ms ease,
+    transform 80ms ease;
   user-select: none;
 }
 

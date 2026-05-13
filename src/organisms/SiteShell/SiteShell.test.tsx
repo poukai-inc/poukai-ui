@@ -52,14 +52,8 @@ test("marks current route with aria-current=page", async ({ mount }) => {
       <p>content</p>
     </SiteShell>,
   );
-  await expect(component.locator("a[href='/roles']")).toHaveAttribute(
-    "aria-current",
-    "page",
-  );
-  await expect(component.locator("a[href='/why-ai']")).not.toHaveAttribute(
-    "aria-current",
-    "page",
-  );
+  await expect(component.locator("a[href='/roles']")).toHaveAttribute("aria-current", "page");
+  await expect(component.locator("a[href='/why-ai']")).not.toHaveAttribute("aria-current", "page");
 });
 
 test("renders footer slot when provided", async ({ mount }) => {

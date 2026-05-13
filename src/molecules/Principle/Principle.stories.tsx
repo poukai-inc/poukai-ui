@@ -9,9 +9,8 @@ export const Playground: Story = () => (
   <div style={{ maxWidth: "56rem", padding: "var(--space-8)" }}>
     <Principle numeral="i." title="Ship the smallest real thing.">
       <p>
-        Pilots fail because they're rehearsals. Production is the only proving
-        ground — find the smallest piece of the workflow that can run for real,
-        and run it for real.
+        Pilots fail because they're rehearsals. Production is the only proving ground — find the
+        smallest piece of the workflow that can run for real, and run it for real.
       </p>
     </Principle>
   </div>
@@ -63,8 +62,8 @@ export const ArabicNumerals: Story = () => (
   <div style={{ maxWidth: "56rem", padding: "var(--space-8)" }}>
     <Principle numeral="01." title="Free-form numerals.">
       <p>
-        The <code>numeral</code> prop is free-form — pass <code>"i."</code>,{" "}
-        <code>"01."</code>, <code>"§ 1"</code>, whatever the surface calls for.
+        The <code>numeral</code> prop is free-form — pass <code>"i."</code>, <code>"01."</code>,{" "}
+        <code>"§ 1"</code>, whatever the surface calls for.
       </p>
     </Principle>
     <Principle numeral="02." title="No prop explosion.">

@@ -6,97 +6,102 @@
 
 /* ---------- Self-hosted webfonts ---------- */
 @font-face {
-  font-family: 'Instrument Serif';
+  font-family: "Instrument Serif";
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('./fonts/InstrumentSerif-Regular.woff2') format('woff2');
+  src: url("./fonts/InstrumentSerif-Regular.woff2") format("woff2");
 }
 @font-face {
-  font-family: 'Instrument Serif';
+  font-family: "Instrument Serif";
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url('./fonts/InstrumentSerif-Italic.woff2') format('woff2');
+  src: url("./fonts/InstrumentSerif-Italic.woff2") format("woff2");
 }
 @font-face {
-  font-family: 'Geist';
+  font-family: "Geist";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url('./fonts/Geist-Variable.woff2') format('woff2-variations'),
-       url('./fonts/Geist-Variable.woff2') format('woff2');
+  src:
+    url("./fonts/Geist-Variable.woff2") format("woff2-variations"),
+    url("./fonts/Geist-Variable.woff2") format("woff2");
 }
 @font-face {
-  font-family: 'Geist';
+  font-family: "Geist";
   font-style: italic;
   font-weight: 100 900;
   font-display: swap;
-  src: url('./fonts/Geist-Italic-Variable.woff2') format('woff2-variations'),
-       url('./fonts/Geist-Italic-Variable.woff2') format('woff2');
+  src:
+    url("./fonts/Geist-Italic-Variable.woff2") format("woff2-variations"),
+    url("./fonts/Geist-Italic-Variable.woff2") format("woff2");
 }
 @font-face {
-  font-family: 'Geist Mono';
+  font-family: "Geist Mono";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url('./fonts/GeistMono-Variable.woff2') format('woff2-variations'),
-       url('./fonts/GeistMono-Variable.woff2') format('woff2');
+  src:
+    url("./fonts/GeistMono-Variable.woff2") format("woff2-variations"),
+    url("./fonts/GeistMono-Variable.woff2") format("woff2");
 }
 
 :root {
   /* ---------- Color (Apple-light) ---------- */
-  --bg:           #FFFFFF;  /* page background */
-  --surface:      #F5F5F7;  /* subtle elevation, code/quote blocks */
-  --fg:           #1D1D1F;  /* primary text, wordmark, sigil stroke */
-  --fg-muted:    #6E6E73;  /* secondary copy, footer, captions */
-  --hairline:     #D2D2D7;  /* dividers, 1px rules, borders */
-  --accent:       #0071E3;  /* status dot, link underline-on-hover, focus ring */
-  --accent-glow:  rgba(0, 113, 227, 0.18);
+  --bg: #ffffff; /* page background */
+  --surface: #f5f5f7; /* subtle elevation, code/quote blocks */
+  --fg: #1d1d1f; /* primary text, wordmark, sigil stroke */
+  --fg-muted: #6e6e73; /* secondary copy, footer, captions */
+  --hairline: #d2d2d7; /* dividers, 1px rules, borders */
+  --accent: #0071e3; /* status dot, link underline-on-hover, focus ring */
+  --accent-glow: rgba(0, 113, 227, 0.18);
 
   /* ---------- Typography ---------- */
-  --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
-  --font-sans:  'Geist', -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
-  --font-mono:  'Geist Mono', ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-sans:
+    "Geist", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Arial,
+    sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* Fluid type scale (mobile → desktop) */
-  --fs-wordmark: clamp(1.0625rem, 0.95rem + 0.6vw, 1.25rem);   /* 17–20 */
-  --fs-tagline:  clamp(2.25rem, 1.5rem + 3.5vw, 4.25rem);      /* 36–68 */
-  --fs-body:     clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);    /* 17–19 */
-  --fs-meta:     0.875rem;                                      /* 14   */
-  --fs-micro:    0.75rem;                                       /* 12   */
+  --fs-wordmark: clamp(1.0625rem, 0.95rem + 0.6vw, 1.25rem); /* 17–20 */
+  --fs-tagline: clamp(2.25rem, 1.5rem + 3.5vw, 4.25rem); /* 36–68 */
+  --fs-body: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); /* 17–19 */
+  --fs-meta: 0.875rem; /* 14   */
+  --fs-micro: 0.75rem; /* 12   */
 
   /* Display-numeral scale — for <Stat>. Serif, editorial, optical-tabular. */
-  --fs-stat:        clamp(2.75rem, 2rem + 3vw, 4.5rem);        /* 44–72 */
-  --fs-stat-large:  clamp(3.5rem, 2.25rem + 5vw, 6rem);         /* 56–96 */
-  --tracking-stat:  -0.015em;
+  --fs-stat: clamp(2.75rem, 2rem + 3vw, 4.5rem); /* 44–72 */
+  --fs-stat-large: clamp(3.5rem, 2.25rem + 5vw, 6rem); /* 56–96 */
+  --tracking-stat: -0.015em;
 
   /* ---------- Spacing (4px base) ---------- */
-  --space-1:  0.25rem;
-  --space-2:  0.5rem;
-  --space-3:  0.75rem;
-  --space-4:  1rem;
-  --space-6:  1.5rem;
-  --space-8:  2rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
   --space-12: 3rem;
   --space-16: 4rem;
   --space-24: 6rem;
   --space-32: 8rem;
 
   /* ---------- Layout ---------- */
-  --page-pad:    clamp(1.5rem, 2vw + 1rem, 3rem);
+  --page-pad: clamp(1.5rem, 2vw + 1rem, 3rem);
   --content-max: 64rem;
-  --hero-max:    38rem;
+  --hero-max: 38rem;
 
   /* ---------- Motion ---------- */
-  --easing:      cubic-bezier(0.16, 1, 0.3, 1);   /* expo-out: entrance */
-  --easing-link: cubic-bezier(0.2, 0, 0, 1);      /* link underline grow */
-  --dur-fast:    180ms;
-  --dur-mid:     240ms;
-  --dur-slow:    600ms;
+  --easing: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out: entrance */
+  --easing-link: cubic-bezier(0.2, 0, 0, 1); /* link underline grow */
+  --dur-fast: 180ms;
+  --dur-mid: 240ms;
+  --dur-slow: 600ms;
 
   /* ---------- Radii & rules ---------- */
-  --radius-1: 2px;   /* focus ring */
+  --radius-1: 2px; /* focus ring */
   --radius-2: 4px;
   --radius-3: 8px;
   --hairline-w: 1px;
@@ -107,7 +112,9 @@
    Use these by writing semantic HTML; no class plumbing needed.
    ============================================================ */
 
-html { color-scheme: light; }
+html {
+  color-scheme: light;
+}
 
 body {
   background: var(--bg);
@@ -133,9 +140,13 @@ h1 {
   margin: 0 0 var(--space-8);
 }
 @media (min-width: 768px) {
-  h1 { margin-bottom: var(--space-10, 2.5rem); }
+  h1 {
+    margin-bottom: var(--space-10, 2.5rem);
+  }
 }
-h1 em { font-style: italic; }
+h1 em {
+  font-style: italic;
+}
 
 /* H2 / H3 — Instrument Serif at smaller display sizes (editorial pages). */
 h2 {
@@ -190,9 +201,13 @@ a {
   transition: background-size var(--dur-mid) var(--easing-link);
 }
 @media (hover: hover) {
-  a:hover { background-size: 100% 1px; }
+  a:hover {
+    background-size: 100% 1px;
+  }
 }
-a:focus { outline: none; }
+a:focus {
+  outline: none;
+}
 a:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 4px;
@@ -206,7 +221,9 @@ a:focus-visible {
   transition: color var(--dur-fast) ease;
 }
 @media (hover: hover) {
-  .muted-link:hover { color: var(--fg); }
+  .muted-link:hover {
+    color: var(--fg);
+  }
 }
 
 /* Rules */
@@ -224,7 +241,9 @@ hr {
 
 /* Reduced motion — the only !important block, per the a11y exception. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;

@@ -12,12 +12,7 @@ test("renders eyebrow, title, body", async ({ mount }) => {
 
 test("renders icon slot with aria-hidden", async ({ mount }) => {
   const component = await mount(
-    <RoleCard
-      eyebrow="E"
-      title="T"
-      body="B"
-      icon={<span data-testid="icon">icon</span>}
-    />,
+    <RoleCard eyebrow="E" title="T" body="B" icon={<span data-testid="icon">icon</span>} />,
   );
   const wrapper = component.locator("[aria-hidden='true']").first();
   await expect(wrapper).toBeVisible();

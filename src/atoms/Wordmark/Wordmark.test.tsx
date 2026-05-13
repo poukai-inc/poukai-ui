@@ -32,6 +32,8 @@ test("renders inlined path geometry (no external symbol reference)", async ({ mo
   await expect(paths.first()).toBeAttached();
   const count = await paths.count();
   if (count < 6) {
-    throw new Error(`Expected the wordmark to render multiple paths (mark + letters), got ${count}.`);
+    throw new Error(
+      `Expected the wordmark to render multiple paths (mark + letters), got ${count}.`,
+    );
   }
 });

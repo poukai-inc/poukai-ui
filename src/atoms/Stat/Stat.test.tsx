@@ -22,9 +22,7 @@ test("omits source line when not provided", async ({ mount }) => {
 });
 
 test("applies end alignment", async ({ mount }) => {
-  const component = await mount(
-    <Stat value="85%" caption="of teams." align="end" />,
-  );
+  const component = await mount(<Stat value="85%" caption="of teams." align="end" />);
   await expect(component.locator("div").first()).toHaveCSS("align-items", "flex-end");
 });
 

@@ -8,8 +8,14 @@
   font-variant-numeric: tabular-nums;
 }
 
-.align-start { align-items: flex-start; text-align: left; }
-.align-end   { align-items: flex-end;   text-align: right; }
+.align-start {
+  align-items: flex-start;
+  text-align: left;
+}
+.align-end {
+  align-items: flex-end;
+  text-align: right;
+}
 
 .value {
   font-family: var(--font-serif);
@@ -21,8 +27,12 @@
   padding-bottom: 0.04em;
 }
 
-.size-md .value { font-size: var(--fs-stat); }
-.size-lg .value { font-size: var(--fs-stat-large); }
+.size-md .value {
+  font-size: var(--fs-stat);
+}
+.size-lg .value {
+  font-size: var(--fs-stat-large);
+}
 
 .caption {
   font-family: var(--font-sans);
@@ -33,7 +43,9 @@
   text-wrap: pretty;
 }
 
-.align-end .caption { margin-left: auto; }
+.align-end .caption {
+  margin-left: auto;
+}
 
 .source {
   font-family: var(--font-mono);

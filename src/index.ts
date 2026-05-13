@@ -15,23 +15,9 @@
 
 /* ---------- atoms ---------- */
 export { Wordmark, type WordmarkProps } from "./atoms/Wordmark";
-export {
-  StatusBadge,
-  type StatusBadgeProps,
-  type StatusBadgeStatus,
-} from "./atoms/StatusBadge";
-export {
-  Button,
-  type ButtonProps,
-  type ButtonVariant,
-  type ButtonSize,
-} from "./atoms/Button";
-export {
-  Stat,
-  type StatProps,
-  type StatAlign,
-  type StatSize,
-} from "./atoms/Stat";
+export { StatusBadge, type StatusBadgeProps, type StatusBadgeStatus } from "./atoms/StatusBadge";
+export { Button, type ButtonProps, type ButtonVariant, type ButtonSize } from "./atoms/Button";
+export { Stat, type StatProps, type StatAlign, type StatSize } from "./atoms/Stat";
 
 /* ---------- molecules ---------- */
 export { Hero, type HeroProps, type HeroAlign } from "./molecules/Hero";
@@ -40,8 +26,4 @@ export { Principle, type PrincipleProps } from "./molecules/Principle";
 export { FailureMode, type FailureModeProps } from "./molecules/FailureMode";
 
 /* ---------- organisms ---------- */
-export {
-  SiteShell,
-  type SiteShellProps,
-  type SiteShellRoute,
-} from "./organisms/SiteShell";
+export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";

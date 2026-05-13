@@ -36,15 +36,7 @@ const sizeClass: Record<StatSize, string> = {
  *   <Stat value="85%" caption="of teams adopting AI plateau at pilot." source="MIT Sloan, 2025" />
  */
 export const Stat = forwardRef<HTMLDivElement, StatProps>(function Stat(
-  {
-    value,
-    caption,
-    source,
-    align = "start",
-    size = "md",
-    className,
-    ...rest
-  },
+  { value, caption, source, align = "start", size = "md", className, ...rest },
   ref,
 ) {
   return (

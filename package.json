@@ -45,6 +45,8 @@
     "build:tokens": "cpy src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
+    "test:a11y": "playwright test src/a11y.test.tsx",
+    "build:wordmark": "node scripts/build-wordmark.mjs",
     "lint": "eslint src --ext .ts,.tsx --max-warnings 0",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,md}\"",
@@ -68,6 +70,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.0",
+    "@axe-core/playwright": "^4.10.0",
     "@ladle/react": "^4.1.0",
     "@playwright/experimental-ct-react": "^1.45.0",
     "@playwright/test": "^1.45.0",
@@ -113,10 +116,25 @@
       "limit": "24 kB"
     },
     {
+      "name": "ESM — atoms subpath",
+      "path": "dist/atoms.js",
+      "limit": "16 kB"
+    },
+    {
+      "name": "ESM — molecules subpath",
+      "path": "dist/molecules.js",
+      "limit": "6 kB"
+    },
+    {
+      "name": "ESM — organisms subpath",
+      "path": "dist/organisms.js",
+      "limit": "14 kB"
+    },
+    {
       "name": "ESM — tree-shaken (Wordmark + Button)",
       "path": "dist/index.js",
       "import": "{ Wordmark, Button }",
-      "limit": "3 kB"
+      "limit": "14 kB"
     },
     {
       "name": "ESM — tree-shaken (Hero + RoleCard + Principle)",

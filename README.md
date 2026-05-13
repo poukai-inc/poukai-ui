@@ -44,6 +44,22 @@ export function Hero() {
 }
 ```
 
+### Subpath imports (tree-shaking)
+
+The flat root export above is the recommended path — modern bundlers
+tree-shake it cleanly. If you want belt-and-braces, every atomic layer
+also has a subpath export:
+
+```ts
+import { Wordmark, Button } from "@poukai/ui/atoms";
+import { Hero } from "@poukai/ui/molecules";
+import { SiteShell } from "@poukai/ui/organisms";
+```
+
+Useful when a consuming surface only touches one layer (e.g. an internal
+tool that wants atoms only) — the subpath entry never pulls in code from
+other layers, even if the bundler's tree-shaker would miss it.
+
 ## Components shipped today
 
 | Layer | Name | Purpose |
@@ -115,4 +131,3 @@ git commit && git push     # CI opens the version PR
   composites use Radix primitives (`Slot`, `Dialog`, `Tabs`).
 - **No barrel re-exports in stories or tests.** Import from the component file
   directly so tree-shaking is provable.
-# poukai-ui

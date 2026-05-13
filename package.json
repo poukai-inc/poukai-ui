@@ -1,6 +1,6 @@
 {
   "name": "@poukai/ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Poukai design system — React component library, design tokens, and brand assets.",
   "license": "UNLICENSED",
   "private": true,

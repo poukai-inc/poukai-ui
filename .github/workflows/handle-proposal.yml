@@ -33,7 +33,10 @@ jobs:
       - name: Invoke Claude Code
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Draw against the Max subscription tied to the OAuth token,
+          # not the per-token API credit balance. Token is provisioned by
+          # running `/install-github-app` in a local Claude Code terminal.
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           prompt: |
             You're picking up a cross-repo proposal opened as a GitHub issue

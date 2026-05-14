@@ -38,6 +38,17 @@ jobs:
           # running `/install-github-app` in a local Claude Code terminal.
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Bash is blocked by default — explicitly allow the tools the
+          # session needs to branch, install, build, test, format, commit,
+          # push, and open the PR. File tools (Read/Edit/Write/Glob/Grep)
+          # are not gated.
+          claude_args: >-
+            --allowedTools
+            "Bash(git:*),Bash(gh:*),Bash(pnpm:*),Bash(npm:*),Bash(npx:*),Bash(node:*),Bash(ls:*),Bash(cat:*),Bash(grep:*),Bash(find:*),Bash(mkdir:*),Bash(rm:*),Bash(cp:*),Bash(mv:*),Bash(echo:*),Bash(test:*),Bash(sed:*),Bash(awk:*),Bash(head:*),Bash(tail:*),Bash(wc:*),Bash(sort:*),Bash(uniq:*),Bash(diff:*),Bash(cd:*),WebFetch,WebSearch"
+          # Stream the full session output to the workflow log so we can
+          # actually see what got blocked / what got done. Logs are only
+          # visible to repo collaborators (private repo).
+          show_full_output: true
           prompt: |
             You're picking up a cross-repo proposal opened as a GitHub issue
             on this repo (`poukai-inc/poukai-ui`). The issue is #${{ github.event.issue.number }}.

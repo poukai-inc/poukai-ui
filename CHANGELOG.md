@@ -1,4 +1,4 @@
-# @poukai/ui
+# @poukai-inc/ui
 
 ## 0.2.0
 
@@ -24,8 +24,8 @@
   In a Next.js / Vite consumer the files resolve as URL imports:
 
   ```ts
-  import faviconSvg from "@poukai/ui/brand/favicon.svg";
-  import og from "@poukai/ui/brand/og.png";
+  import faviconSvg from "@poukai-inc/ui/brand/favicon.svg";
+  import og from "@poukai-inc/ui/brand/og.png";
   ```
 
   Build pipeline: new `build:brand` script copies `src/brand/**` into
@@ -80,10 +80,10 @@
   - First entries in `src/molecules/` and `src/organisms/` — both directories
     are now real, not just reserved.
 
-  Public import paths (`@poukai/ui`) unchanged. No breaking changes.
+  Public import paths (`@poukai-inc/ui`) unchanged. No breaking changes.
 
-  This release unblocks Phase 2 of the migration plan — `Pouk-AI-INC/pouk.ai`
-  can consume `@poukai/ui@0.1.0` for the Astro site rebuild.
+  This release unblocks Phase 2 of the migration plan — `poukai-inc/pouk.ai`
+  can consume `@poukai-inc/ui@0.1.0` for the Astro site rebuild.
 
 - e8b1b83: Restructure `src/` under Atomic-Design taxonomy.
   - `src/components/Wordmark` -> `src/atoms/Wordmark`
@@ -92,7 +92,7 @@
   - New empty folders reserved for `src/molecules/` and `src/organisms/`.
   - Path aliases updated: `@atoms/*`, `@molecules/*`, `@organisms/*`.
 
-  Public import paths (`@poukai/ui`) are unchanged; this is a contributor-facing
+  Public import paths (`@poukai-inc/ui`) are unchanged; this is a contributor-facing
   move only. No API changes.
 
 ### Patch Changes

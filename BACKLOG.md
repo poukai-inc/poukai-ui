@@ -1,6 +1,6 @@
 # Backlog
 
-Living to-do for `@poukai/ui`. PRs that close an item should tick its box.
+Living to-do for `@poukai-inc/ui`. PRs that close an item should tick its box.
 Items removed when stale or migrated to an issue.
 
 **Last reviewed:** 2026-05-13
@@ -11,7 +11,7 @@ Items removed when stale or migrated to an issue.
 
 Work the rest of the chain depends on. Resolve first.
 
-- [ ] **Publish `@poukai/ui@0.1.0` to GitHub Packages.**
+- [ ] **Publish `@poukai-inc/ui@0.1.0` to GitHub Packages.**
   - State: `package.json` is at `0.0.1`; no `CHANGELOG.md`; four changesets queued
     (`atomic-restructure`, `0-1-0`, `wordmark-inline-geometry`, `dx-and-ci`).
   - The site repo can't install the package from the registry until this lands.
@@ -22,7 +22,7 @@ Work the rest of the chain depends on. Resolve first.
     - [ ] CI job is green (typecheck / lint / format / build / playwright / size).
     - [ ] `release` job has fired (only runs on `main` branch).
     - [ ] "Version Packages" PR exists (auto-opened by `changesets/action`).
-  - Acceptance: `npm view @poukai/ui@0.1.0 --registry=https://npm.pkg.github.com` returns version metadata.
+  - Acceptance: `npm view @poukai-inc/ui@0.1.0 --registry=https://npm.pkg.github.com` returns version metadata.
 
 - [ ] **Sync `packages/poukai-ui/.changeset/dx-and-ci.md` into the DS repo.**
   - The DX/CI code changes (a11y test, size budgets, wordmark regen script,
@@ -37,7 +37,7 @@ Work the rest of the chain depends on. Resolve first.
 
 Work the user is driving, where I'm a passenger.
 
-- [ ] **Phase 2 — Astro site rebuild in `Pouk-AI-INC/pouk.ai`.**
+- [ ] **Phase 2 — Astro site rebuild in `poukai-inc/pouk.ai`.**
   - Scaffolded in `apps/pouk-ai-site/` for reference; the canonical version
     lives in the site repo and is the user's to build.
   - Blocked-by: `0.1.0` publish (this repo).
@@ -59,7 +59,7 @@ Kept for ~one release as context; remove after `0.1.0` is published.
 - [x] **Phase 1.3b** — `FailureMode` molecule, `SiteShell` organism.
 - [x] **Versioning reconcile** — `package.json` reverted to `0.0.1`; changesets
       owns the bump on merge per the plan §3.3.
-- [x] **Subpath exports** — `@poukai/ui/atoms`, `/molecules`, `/organisms`.
+- [x] **Subpath exports** — `@poukai-inc/ui/atoms`, `/molecules`, `/organisms`.
 - [x] **`ROADMAP.md`** — forward-looking, shipped/next/maybe/won't.
 - [x] **Wordmark inline geometry fix** — geometry now self-contained in the
       package via `wordmark-geometry.ts`; no consumer setup needed.
@@ -123,5 +123,5 @@ the package. Not committed; ordering by likely demand.
 - New work that surfaces mid-flight: add it under 🟡 In flight or 🔵 Next,
   not 🔴 Blocking, unless it actually blocks a published artifact.
 - "Done" stays for ~one release for context, then gets pruned.
-- ROADMAP.md is for *what to ship later*; this file is for *what's in motion now*.
+- ROADMAP.md is for _what to ship later_; this file is for _what's in motion now_.
   Keep them distinct.

@@ -50,9 +50,7 @@ if (paths.length === 0) {
 
 const innerMarkup = paths
   .map((p) =>
-    p.transform
-      ? `<path d="${p.d}" transform="${p.transform}"/>`
-      : `<path d="${p.d}"/>`,
+    p.transform ? `<path d="${p.d}" transform="${p.transform}"/>` : `<path d="${p.d}"/>`,
   )
   .join("");
 
@@ -71,7 +69,7 @@ const out = `/**
  */
 export const WORDMARK_INNER_SVG = ${JSON.stringify(innerMarkup)};
 
-export const WORDMARK_VIEWBOX = "0 0 518.67 274.41";
+export const WORDMARK_VIEWBOX = "0 0 662 274";
 `;
 
 await writeFile(outFile, out, "utf8");

@@ -70,7 +70,7 @@ export const SiteShell = forwardRef<HTMLDivElement, SiteShellProps>(function Sit
     <div ref={ref} className={clsx(styles.root, className)} {...rest}>
       <header className={styles.header}>
         <a href={homeHref} className={styles.brand} aria-label="Poukai — home">
-          <Wordmark height={28} />
+          <Wordmark height={56} />
         </a>
         {routes.length > 0 ? (
           <nav className={styles.nav} aria-label={navLabel}>

@@ -1,5 +1,5 @@
 /**
- * @poukai/ui/organisms — subpath entry.
+ * @poukai-inc/ui/organisms — subpath entry.
  *
  * Page-chrome / layout-intent components. Pulls in the atoms each organism
  * uses internally (`SiteShell` composes `Wordmark`).

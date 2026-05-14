@@ -1,5 +1,5 @@
 /**
- * @poukai/ui/molecules — subpath entry.
+ * @poukai-inc/ui/molecules — subpath entry.
  *
  * Composite components that combine atoms into a self-contained unit of
  * meaning. Importing this subpath also pulls the atoms each molecule

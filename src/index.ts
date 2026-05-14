@@ -1,5 +1,5 @@
 /**
- * @poukai/ui -- Poukai design system component library.
+ * @poukai-inc/ui -- Poukai design system component library.
  *
  * Atomic-Design taxonomy:
  *   tokens/     -- single source of truth for color, type, spacing, motion
@@ -10,7 +10,7 @@
  * Templates and pages live in the consuming repo, not here.
  *
  * Consume tokens by importing the stylesheet once at your app root:
- *   import "@poukai/ui/tokens.css";
+ *   import "@poukai-inc/ui/tokens.css";
  */
 
 /* ---------- atoms ---------- */

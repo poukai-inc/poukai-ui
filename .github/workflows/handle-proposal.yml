@@ -6,7 +6,10 @@ on:
 
 jobs:
   pickup:
-    if: ${{ github.event.label.name == 'proposal:from-consumer' }}
+    # Fires when a human reviewer applies the proposal:approved label.
+    # proposal:from-consumer remains as provenance metadata (set by the
+    # consumer agent when opening the issue) but isn't part of the trigger.
+    if: ${{ github.event.label.name == 'proposal:approved' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write

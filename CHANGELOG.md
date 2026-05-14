@@ -1,5 +1,11 @@
 # @poukai-inc/ui
 
+## 0.3.1
+
+### Patch Changes
+
+- b3f854d: Re-shift POUKAI letter groups so the feather isotype renders flush-left of the full wordmark rather than overlapping the 'O' position.
+
 ## 0.3.0
 
 ### Minor Changes

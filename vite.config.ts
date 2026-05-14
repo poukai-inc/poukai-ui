@@ -1,13 +1,11 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
+import { libInjectCss } from "vite-plugin-lib-inject-css";
 import { resolve } from "node:path";
 
 export default defineConfig({
-  plugins: [
-    react(),
-    dts({ include: ["src"], rollupTypes: true }),
-  ],
+  plugins: [react(), dts({ include: ["src"], rollupTypes: true }), libInjectCss()],
   css: {
     modules: {
       // Stable, debuggable class names in dev; hashed in prod.
@@ -28,8 +26,7 @@ export default defineConfig({
       },
       name: "PoukaiUI",
       formats: ["es", "cjs"],
-      fileName: (format, entry) =>
-        `${entry}.${format === "es" ? "js" : "cjs"}`,
+      fileName: (format, entry) => `${entry}.${format === "es" ? "js" : "cjs"}`,
     },
     rollupOptions: {
       external: ["react", "react-dom", "react/jsx-runtime", "lucide-react"],
@@ -43,6 +40,6 @@ export default defineConfig({
       },
     },
     sourcemap: true,
-    cssCodeSplit: false,
+    cssCodeSplit: true,
   },
 });

@@ -3,7 +3,10 @@
   "version": "0.2.0",
   "description": "Poukai design system — React component library, design tokens, and brand assets.",
   "license": "UNLICENSED",
-  "private": true,
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
   "type": "module",
   "sideEffects": [
     "**/*.css"

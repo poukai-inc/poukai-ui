@@ -1,0 +1,83 @@
+name: Handle consumer proposal
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  pickup:
+    if: ${{ github.event.label.name == 'proposal:from-consumer' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Acknowledge
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: "Producer Claude Code session picked this up. Working on it.",
+            })
+
+      - name: Invoke Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            You're picking up a cross-repo proposal opened as a GitHub issue
+            on this repo (`poukai-inc/poukai-ui`). The issue is #${{ github.event.issue.number }}.
+
+            The issue body is a verbatim consumer-authored proposal — usually
+            from `poukai-inc/pouk.ai`. Treat it as the brief.
+
+            Operating constraints:
+
+            1. Read `.claude/agents/` in this repo. Two project-local agents are defined:
+               - `poukai-design` owns the brand contract (tokens, type, color, motion,
+                 mark geometry, per-component visual/interaction specs). Does NOT write
+                 component code.
+               - `poukai-ds-engineer` owns implementation: atoms/molecules/organisms,
+                 Ladle stories, Playwright CT tests, size budgets, changesets, releases.
+                 Does NOT make brand decisions.
+               Use them as a handoff pipeline: visual decision -> implementation.
+
+            2. If the proposal is purely visual / brand / API-shape, route through
+               `poukai-design` first to settle the call (option chosen, exact values),
+               then hand to `poukai-ds-engineer` to execute.
+               If it's a build/CI/infra/docs change with no visual dimension,
+               `poukai-ds-engineer` (or direct work) is fine.
+
+            3. Honour the proposal's `suggested_resolution` frontmatter:
+               - `patch` / `minor` / `major` => include a changeset under `.changeset/`
+                 matching that bump.
+               - `n/a` => no package release; CI-only change.
+               If frontmatter is missing or ambiguous, default to `patch` for
+               component fixes, `minor` for new exports, `n/a` for repo infra.
+
+            4. Don't auto-merge. The PR stays open for the human to review.
+
+            5. Pre-commit hooks (lint-staged) reformat staged files via Prettier
+               and will revert otherwise-OK commits with a "merge conflict" error
+               if the working tree diverges from prettier output. Run
+               `npx prettier --write <changed files>` BEFORE `git add` to sidestep this.
+
+            6. The PR body MUST include `Closes #${{ github.event.issue.number }}`
+               so merging closes the issue automatically.
+
+            7. The package is published to GitHub Packages; the npm scope must
+               match the org login (`@poukai-inc/*`). Don't try to publish to npmjs.com.
+
+            --- ISSUE BODY ---
+            ${{ github.event.issue.body }}
+            --- END ISSUE BODY ---
+
+            Now execute. Open the PR when done.

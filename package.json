@@ -46,7 +46,7 @@
   "scripts": {
     "dev": "ladle serve",
     "build": "vite build && tsc --emitDeclarationOnly && pnpm run build:tokens && pnpm run build:brand",
-    "build:tokens": "cpy src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
+    "build:tokens": "cpy --flat src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
     "build:brand": "cpy 'brand/**' dist/brand",
     "test": "playwright test -c playwright-ct.config.ts",
     "playwright:install": "playwright install chromium webkit",

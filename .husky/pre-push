@@ -1,0 +1,37 @@
+#!/usr/bin/env sh
+cd "$(dirname "$0")/.." || exit 1
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+if [ "$branch" != "main" ]; then
+  exit 0
+fi
+
+remote="origin"
+remote_branch="refs/remotes/$remote/main"
+if ! git show-ref --verify --quiet "$remote_branch"; then
+  exit 0
+fi
+
+# Fetch remote main so the local diff compares against the latest pushed state.
+git fetch "$remote" main >/dev/null 2>&1 || true
+
+changed_files="$(git diff --name-only "$remote/$branch"...HEAD)"
+if [ -z "$changed_files" ]; then
+  exit 0
+fi
+
+code_changes="$(printf '%s\n' "$changed_files" | grep -v '^\.changeset/' | grep -E '^(src/|package.json|tsconfig.json|vite.config.ts|vite.config.*|README.md|CHANGELOG.md|\.github/|\.husky/|.*\.(ts|tsx|js|jsx|css|json|md|yml|yaml))' || true)"
+if [ -z "$code_changes" ]; then
+  exit 0
+fi
+
+changeset_added="$(printf '%s\n' "$changed_files" | grep '^\.changeset/' || true)"
+if [ -n "$changeset_added" ]; then
+  exit 0
+fi
+
+echo "\nERROR: You're pushing commits to main without a Changeset entry."
+echo "Please run: pnpm changeset add"
+echo "Then commit the generated .changeset file before pushing."
+echo "This hook exists to keep release automation from skipping version bumps.\n"
+exit 1

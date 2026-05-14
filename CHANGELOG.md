@@ -1,5 +1,11 @@
 # @poukai-inc/ui
 
+## 0.2.3
+
+### Patch Changes
+
+- a51a926: Raise SiteShell brand-mark height from 28px to 56px so the wordmark reads as the page identity anchor.
+
 ## 0.2.2
 
 ### Patch Changes

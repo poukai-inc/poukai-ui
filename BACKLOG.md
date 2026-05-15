@@ -3,7 +3,7 @@
 Living to-do for `@poukai-inc/ui`. PRs that close an item should tick its box.
 Items removed when stale or migrated to an issue.
 
-**Last reviewed:** 2026-05-14
+**Last reviewed:** 2026-05-15
 
 ---
 
@@ -87,6 +87,21 @@ ordering by likely demand.
       `read:packages` only for the site repo's Vercel env var, to keep blast
       radius small. The repo's `NPM_TOKEN` (which needs `write:packages`)
       should not be reused there.
+- [ ] **lint-staged worktree bug — `pre-commit` corrupts commits when run
+      from a git worktree.** Reproduced 2026-05-15: committing through the
+      husky `pre-commit` (`npx lint-staged`, pinned `^15.2.0`) from
+      `.claude/worktrees/<name>/` causes lint-staged's partial-stage stash
+      cycle to record file deletions for tracked files it never touched
+      (verified against [lint-staged#1762](https://github.com/lint-staged/lint-staged/issues/1762),
+      closed without a fix; symptom present through v16.4.0). Workaround:
+      commit with `--no-verify` after running `prettier --write` manually,
+      or commit from the primary worktree. Options to investigate when
+      this comes up again: (a) bump to v16.2+ and add `--hide-unstaged` to
+      the husky invocation, (b) replace `npx lint-staged` in
+      `.husky/pre-commit` with a hand-rolled prettier+eslint script that
+      doesn't stash, (c) wait for an upstream fix and watch
+      [lint-staged#1402](https://github.com/lint-staged/lint-staged/issues/1402).
+      Low priority — `--no-verify` works fine for now.
 
 ---
 

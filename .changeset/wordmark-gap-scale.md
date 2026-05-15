@@ -10,4 +10,4 @@ Visual polish pass:
 
 **RoleCard grid overlap fixed.** Removed `min-height: 100%` from `.root`. CSS Grid items already stretch to the row height via the default `align-items: stretch`; the percentage height was resolving against an undefined parent context in some grid layouts and causing second-row cards to overflow into the first row.
 
-**StatusBadge `available` pulse made visible.** Keyframes amplified: scale `1 → 3` (was `1 → 2.2`), opacity starts at `1` (was `0.6`) and reaches zero at 70% rather than 100% for a clearer fade-out. Duration `2400ms → 1800ms` with `ease-out` (was `ease-in-out`). The motion now reads as a heartbeat rather than a flicker.
+**StatusBadge `available` pulse made prominent.** Keyframes: `scale(1 → 6)` (was `1 → 2.2`); `opacity` starts at `1` (was `0.6`) and reaches zero by 80%. Duration `2400ms → 1600ms` with `ease-out` (was `ease-in-out`). The pulse background is now solid `--accent` rather than `--accent-glow`. The dot itself also gains a static 2px `--accent-glow` halo so it reads as "lit" between pulses rather than going dark. The motion now reads as a heartbeat rather than a flicker.

@@ -157,3 +157,48 @@ Verification of I right edge: `1.8 × (330.371 − 327.02) + 1163.58 = 1169.61` 
 ### Forward note
 
 Future brand-mark specs should express dimensional decisions in rendered pixels at the primary consumer's actual use size, with SVG-unit derivations as a downstream calculation. Specs in SVG units alone are ambiguous because the rendered effect depends on viewBox-to-rendered-size scaling.
+
+---
+
+## Amendment — isotype scaled 1.25× for brand presence (2026-05-14)
+
+Founder review of the post-amendment lockup: the isotype-to-wordtype dominance still reads too even. Asked to scale the isotype 25% larger while leaving the wordtype scale untouched, "to provide more presence to the feather over the wording."
+
+### Revised isotype transform
+
+```
+matrix(1.704562 0 0 1.70873 ...)  →  matrix(2.130703 0 0 2.135913 ...)
+```
+
+Scale factors multiplied by 1.25. Translate (`tx=74.31`, `ty=172.56`) unchanged — scaling around the center keeps the isotype's visual center stable.
+
+New rendered isotype bounding box (in SVG coords):
+
+- Horizontal: `x: 20.31 → 126.85` (width ≈106.5, was ≈85.2)
+- Vertical: `y: 59.35 → 285.77` (height ≈226.4, was ≈181.1)
+
+### Revised viewBox: `0 0 1184 290`
+
+Height grew from 274 → 290 to fit the taller isotype with 4px bottom margin. Width grew from 1172 → 1184 to accommodate the +10.85-unit letter shift below.
+
+Aspect ratio: **~4.08:1** (was 4.28:1). The locked ratio shifts again; this is the new canonical.
+
+### Revised letter group transforms
+
+Wordtype scale unchanged at 1.8×. Each outer_tx shifts +10.85 SVG units to preserve the 120-unit gap from the new (further-right) isotype right edge:
+
+| Letter | Prior outer_tx | New outer_tx |
+|---|---|---|
+| P | 269.44 | **280.29** |
+| O | 456.64 | **467.49** |
+| U | 645.64 | **656.49** |
+| K | 825.64 | **836.49** |
+| A | 1010.60 | **1021.45** |
+| I | 1163.58 | **1174.43** |
+
+Letter `ty` unchanged at 172.56 — wordtype stays vertically centered at the same SVG-canvas position. Because the viewBox grew downward (290 vs 274), the wordtype occupies a slightly smaller fraction of the rendered height: at SiteShell's 56px, cap-height renders at `50 × (56/290) ≈ 9.65px` (was `≈10.20px`). That's a ~5% reduction in rendered wordtype size — the cost of preserving wordtype scale exactly in SVG units while making room for a bigger isotype.
+
+### Verification
+
+New I right edge: `1.8 × 3.351 + 1174.43 = 1180.46` → viewBox width 1184 ✓.
+New isotype bottom: `1.25 × 1.70873 × 53 + 172.56 = 285.77` → viewBox height 290 ✓ (4.23 margin).

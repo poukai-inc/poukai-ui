@@ -4,7 +4,13 @@
 
 Visual polish pass:
 
-**Wordmark horizontal lockup proportions revised.** Gap between isotype and wordtype widened from 24 to 120 SVG units (~25 rendered px at SiteShell's 56px height); wordtype scaled from 1× to 1.8× (cap-height ≈28px → ≈50px). `viewBox` `0 0 662 274` → `0 0 1172 274` (aspect ratio 2.4:1 → ~4.28:1). Consumers sizing the mark by container width should re-check layouts. No prop API change. Supersedes the geometry lock from ADR-0009; see ADR-0011 for the full derivation and the same-day amendment correcting the initial 40-SVG-unit gap that rendered as ~8 actual pixels.
+**Wordmark horizontal lockup proportions revised.** Three coupled changes to rebalance the mark's visual weight:
+
+- Gap between isotype and wordtype: 24 → 120 SVG units (~25 rendered px at SiteShell's 56px height).
+- Wordtype scale: 1× → 1.8× (cap-height ≈28px → ≈50px).
+- Isotype scale: 1× → 1.25× to give the feather more presence over the lettering.
+
+`viewBox` `0 0 662 274` → `0 0 1184 290` (aspect ratio 2.4:1 → ~4.08:1). Consumers sizing the mark by container width should re-check layouts. No prop API change. Supersedes the geometry lock from ADR-0009; see ADR-0011 for the full derivation, including the same-day corrections of the initial 40-SVG-unit gap and the subsequent isotype scale-up.
 
 **Wordmark inverted variant now actually inverts.** Removed the hardcoded `color: var(--fg)` on `.root` that was overriding the parent's color context. The SVG's `fill="currentColor"` now inherits from whatever color is in scope — so an inverted wrapper that sets `color: var(--bg)` actually produces a light mark on a dark background.
 

@@ -1,5 +1,12 @@
 # @poukai-inc/ui
 
+## 0.4.0
+
+### Minor Changes
+
+- e4f13cc: Add six brand assets under `brand/` for use cases beyond the horizontal `<Wordmark>` lockup: stacked lockup (SVG vector + transparent PNG), isotype-only transparent PNG, wide wordtype banner, plus avatar-sized stacked and isotype-only renders on a light-grey background. All available via the existing `@poukai-inc/ui/brand/*` subpath.
+- 072d3bd: Ship `llms.txt` — a single LLM-consumable context file (llmstxt.org convention) built from `meta/decisions/*.md` + `src/tokens/tokens.css` + the curated component surface. Available via subpath `@poukai-inc/ui/llms.txt`. Regenerated on every `pnpm build` via the new `build:llms` script.
+
 ## 0.3.2
 
 ### Patch Changes

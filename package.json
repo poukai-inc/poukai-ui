@@ -45,7 +45,7 @@
   ],
   "scripts": {
     "dev": "ladle serve",
-    "build": "vite build && tsc --emitDeclarationOnly && pnpm run build:tokens && pnpm run build:brand",
+    "build": "BUILD_TARGET=lib vite build && tsc --emitDeclarationOnly && pnpm run build:tokens && pnpm run build:brand",
     "build:tokens": "cpy --flat src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
     "build:brand": "cpy 'brand/**' dist/brand",
     "test": "playwright test -c playwright-ct.config.ts",
@@ -97,6 +97,7 @@
     "husky": "^9.1.0",
     "lint-staged": "^15.2.0",
     "lucide-react": "^0.400.0",
+    "marked": "^14.1.0",
     "postcss": "^8.4.45",
     "postcss-custom-media": "^11.0.0",
     "postcss-nesting": "^13.0.0",

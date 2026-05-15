@@ -69,7 +69,7 @@ const out = `/**
  */
 export const WORDMARK_INNER_SVG = ${JSON.stringify(innerMarkup)};
 
-export const WORDMARK_VIEWBOX = "0 0 1092 274";
+export const WORDMARK_VIEWBOX = "0 0 1172 274";
 `;
 
 await writeFile(outFile, out, "utf8");

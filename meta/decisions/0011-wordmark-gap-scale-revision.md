@@ -117,4 +117,43 @@ Patch: `0.3.1 → 0.3.2`. Pure geometry — no API change, no new exports. The a
 
 ## Note on the locked ratio
 
-ADR-0009 locked 2.4:1 as the canonical ratio. This revision supersedes that lock. The new locked ratio is **~3.98:1** (`0 0 1092 274`). Further path-level or ratio changes require Arian's approval.
+ADR-0009 locked 2.4:1 as the canonical ratio. This revision supersedes that lock. Further path-level or ratio changes require Arian's approval.
+
+---
+
+## Amendment — same-day correction (2026-05-14)
+
+The initial spec above set gap to **40 SVG units**, reasoning in SVG-canvas coordinates. Founder review in Ladle (rendered at SiteShell's 56px height) reported "I don't see the gap." Diagnosis:
+
+At a rendered height of 56px against a viewBox height of 274, the pixel-per-SVG-unit ratio is `56 / 274 ≈ 0.204`. A 40-SVG-unit gap renders as `40 × 0.204 ≈ 8 actual pixels` — visually negligible against the dominant isotype mass.
+
+The original spec was numerically sound but specified in the wrong unit space. The correct frame is *rendered pixels at primary use size*, not SVG canvas units.
+
+### Revised gap: 120 SVG units (~25 rendered px at 56px height)
+
+At SiteShell's 56px height: `120 × 0.204 ≈ 24.5 actual pixels` of gap — clearly readable as separation without disconnection.
+
+### Revised viewBox: `0 0 1172 274`
+
+Width recomputed: isotype right edge (116) + gap (120) + scaled wordtype span (≈937) + ~3 margin = **1172**.
+
+Aspect ratio: **~4.28:1** (was 3.98:1 in initial spec, 2.4:1 in ADR-0009).
+
+### Revised letter group transforms
+
+P left edge target = `isotype_right + gap = 116 + 120 = 236`. Each outer_tx shifts +80 SVG units from the initial spec.
+
+| Letter | Initial outer_tx | Final outer_tx |
+|---|---|---|
+| P | 189.44 | **269.44** |
+| O | 376.64 | **456.64** |
+| U | 565.64 | **645.64** |
+| K | 745.64 | **825.64** |
+| A | 930.60 | **1010.60** |
+| I | 1083.58 | **1163.58** |
+
+Verification of I right edge: `1.8 × (330.371 − 327.02) + 1163.58 = 1169.61` → viewBox width 1172 ✓.
+
+### Forward note
+
+Future brand-mark specs should express dimensional decisions in rendered pixels at the primary consumer's actual use size, with SVG-unit derivations as a downstream calculation. Specs in SVG units alone are ambiguous because the rendered effect depends on viewBox-to-rendered-size scaling.

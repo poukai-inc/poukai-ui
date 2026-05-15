@@ -49,8 +49,9 @@
 
 :root {
   /* ---------- Color (Apple-light) ---------- */
-  --bg: #ffffff; /* page background */
-  --surface: #f5f5f7; /* subtle elevation, code/quote blocks */
+  --bg: #fbfbfd; /* page background — never pure white; matches apple.com canvas */
+  --surface: #f5f5f7; /* recessed elevation, code/quote blocks */
+  --bg-elevated: #ffffff; /* front-most layer: popovers, sheets, dialogs */
   --fg: #1d1d1f; /* primary text, wordmark, sigil stroke */
   --fg-muted: #6e6e73; /* secondary copy, footer, captions */
   --hairline: #d2d2d7; /* dividers, 1px rules, borders */
@@ -59,9 +60,8 @@
 
   /* ---------- Typography ---------- */
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --font-sans:
-    "Geist", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Arial,
-    sans-serif;
+  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+    "Segoe UI", Arial, sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* Fluid type scale (mobile → desktop) */

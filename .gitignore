@@ -1,6 +1,7 @@
 dist
 node_modules
 .ladle/build
+build
 .turbo
 playwright-report
 playwright/.cache

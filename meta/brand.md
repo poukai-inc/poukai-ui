@@ -12,18 +12,20 @@ Pouk AI's color foundation is Apple's restrained Human Interface palette: SF sys
 
 #### Canonical light palette
 
-| Token           | Value                  | Purpose                                                       | Allowed pairings (text on this surface)                                                        | Contrast ratios verified                                                                                                                                              |
-| --------------- | ---------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--bg`          | `#FBFBFD`              | Page background. The default canvas.                          | `--fg` (primary), `--fg-muted` (secondary), `--accent` (links / focus, large text or non-text) | `--fg` on `--bg` = **16.50 : 1** (AAA); `--fg-muted` on `--bg` = **4.82 : 1** (AA normal); `--accent` on `--bg` = **4.46 : 1** (AA UI / AA large)                     |
-| `--surface`     | `#F5F5F7`              | Recessed elevation. Code blocks, quote blocks, inline keys.   | `--fg`, `--fg-muted`. Not for `--accent` text below 18px.                                      | `--fg` on `--surface` = **15.42 : 1** (AAA); `--fg-muted` on `--surface` = **4.50 : 1** (AA normal — at threshold; avoid stacking muted-on-surface for paragraphs)    |
-| `--bg-elevated` | `#FFFFFF`              | Front-most layer. Popovers, sheets, dialogs, dropdown menus.  | `--fg`, `--fg-muted`, `--accent`                                                               | `--fg` on `--bg-elevated` = **16.96 : 1** (AAA); `--fg-muted` on `--bg-elevated` = **4.95 : 1** (AA normal); `--accent` on `--bg-elevated` = **4.59 : 1** (AA normal) |
-| `--fg`          | `#1D1D1F`              | Primary text, wordmark stroke, sigil stroke.                  | On `--bg`, `--surface`, `--bg-elevated`                                                        | See above. AAA on every surface.                                                                                                                                      |
-| `--fg-muted`    | `#6E6E73`              | Secondary copy: footer, captions, leded paragraphs, metadata. | On `--bg`, `--bg-elevated`. Avoid extended runs on `--surface` (at threshold).                 | See above. AA on `--bg` and `--bg-elevated`; AA-at-threshold on `--surface`.                                                                                          |
-| `--hairline`    | `#D2D2D7`              | 1px dividers, table rules, borders.                           | Non-text; no contrast requirement for decorative rules.                                        | n/a — decorative. Reads as a true hairline on all three surfaces.                                                                                                     |
-| `--accent`      | `#0071E3`              | Status dot, link underline, focus ring, primary CTAs.         | Use for non-text UI freely. For text, prefer 17px+ or against `--bg-elevated`.                 | See above. WCAG 1.4.11 non-text contrast is satisfied on every surface (focus rings, status dots).                                                                    |
-| `--accent-glow` | `rgba(0,113,227,0.18)` | Selection background, soft accent halos.                      | Background only — never carries text.                                                          | n/a — decorative.                                                                                                                                                     |
+| Token           | Value                  | Purpose                                                      | Allowed pairings (text on this surface)                                                      | Contrast ratios verified                                                                                                                                              |
+| --------------- | ---------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--bg`          | `#FBFBFD`              | Page background. The default canvas.                         | `--fg` (primary), `--fg-muted` (secondary), `--accent` (links / focus, all text sizes at AA) | `--fg` on `--bg` = **16.29 : 1** (AAA); `--fg-muted` on `--bg` = **4.91 : 1** (AA normal); `--accent` on `--bg` = **4.54 : 1** (AA normal — at threshold)             |
+| `--surface`     | `#F5F5F7`              | Recessed elevation. Code blocks, quote blocks, inline keys.  | `--fg`, `--fg-muted`. Not for `--accent` text below 18px.                                    | `--fg` on `--surface` = **15.46 : 1** (AAA); `--fg-muted` on `--surface` = **4.66 : 1** (AA normal)                                                                   |
+| `--bg-elevated` | `#FFFFFF`              | Front-most layer. Popovers, sheets, dialogs, dropdown menus. | `--fg`, `--fg-muted`, `--accent`                                                             | `--fg` on `--bg-elevated` = **16.83 : 1** (AAA); `--fg-muted` on `--bg-elevated` = **5.07 : 1** (AA normal); `--accent` on `--bg-elevated` = **4.69 : 1** (AA normal) |
+| `--fg`          | `#1D1D1F`              | Primary text, wordmark stroke, sigil stroke.                 | On `--bg`, `--surface`, `--bg-elevated`                                                      | See above. AAA on every surface.                                                                                                                                      |
+| `--fg-muted`    | `#6E6E73`              | Secondary copy: footer, captions, lede paragraphs, metadata. | On all three surfaces.                                                                       | See above. AA normal on every surface; comfortable headroom on `--bg-elevated` (5.07 : 1), tighter on `--surface` (4.66 : 1).                                         |
+| `--hairline`    | `#D2D2D7`              | 1px dividers, table rules, borders.                          | Non-text; no contrast requirement for decorative rules.                                      | n/a — decorative. Reads as a true hairline on all three surfaces.                                                                                                     |
+| `--accent`      | `#0071E3`              | Status dot, link underline, focus ring, primary CTAs.        | Use for non-text UI freely. For text, prefer 17px+ or against `--bg-elevated`.               | See above. WCAG 1.4.11 non-text contrast is satisfied on every surface (focus rings, status dots).                                                                    |
+| `--accent-glow` | `rgba(0,113,227,0.18)` | Selection background, soft accent halos.                     | Background only — never carries text.                                                        | n/a — decorative.                                                                                                                                                     |
 
-**Elevation rhythm.** Read relative luminance left-to-right: `--surface (L≈0.905) < --bg (L≈0.971) < --bg-elevated (L≈1.000)`. The page sits between a recessed surface (for inline blocks) and an elevated surface (for overlays). This bidirectional rhythm — recess down, elevate up — is the Apple model and the reason `--surface` does not shift in this change.
+**Elevation rhythm.** Read relative luminance left-to-right: `--surface (L≈0.914) < --bg (L≈0.966) < --bg-elevated (L=1.000)`. The page sits between a recessed surface (for inline blocks) and an elevated surface (for overlays). This bidirectional rhythm — recess down, elevate up — is the Apple model and the reason `--surface` does not shift in this change.
+
+**Math.** Contrast ratios above are computed against the WCAG 2.1 sRGB linearization (`C_lin = C/12.92` for `C ≤ 0.04045`, else `((C+0.055)/1.055)^2.4`) and the `(L1 + 0.05)/(L2 + 0.05)` ratio formula. Verified independently of the brand decision.
 
 ### Typography — headline and body face, rationale, type scale, line-height.
 
@@ -73,34 +75,34 @@ _Reverse-chronological. Each entry: context, decision, rationale, alternatives c
 
 **Why `#FBFBFD` over `#FAFAFA`.** `#FBFBFD` is the exact background Apple ships on `apple.com` and across most of their marketing surfaces. It carries the faintest cool tint (B channel `0xFD` vs R/G at `0xFB`) which reads as "considered" rather than "off-white"; `#FAFAFA` is the generic Material/Tailwind neutral and is perceptibly warmer-yellower against `#F5F5F7`. The cool tint also gives more visible separation against `--bg-elevated` (`#FFFFFF`, neutral) — the elevation step reads in chroma as well as luminance, which matters at the ~3-luminance-point delta we have at the top of the ramp. Trade-off: `#FBFBFD` is closer to pure white than `#FAFAFA`, so the recess delta to `--surface` (`#F5F5F7`) is slightly more pronounced; on the page that reads as Apple-correct, not as a problem.
 
-**Why `--surface` does not shift.** The rhythm `--surface (L≈0.905) < --bg (L≈0.971) < --bg-elevated (L≈1.000)` reads cleanly with `--surface` unchanged. Shifting `--surface` (e.g. to `#F2F2F4` to "preserve the delta") would over-darken inline blocks — Apple's SF system gray 6 is `#F2F2F7`/`#F5F5F7` for a reason: code blocks and quote blocks need to recess, not announce themselves. The page change alone gives us the headroom.
+**Why `--surface` does not shift.** The rhythm `--surface (L≈0.914) < --bg (L≈0.966) < --bg-elevated (L=1.000)` reads cleanly with `--surface` unchanged. Shifting `--surface` (e.g. to `#F2F2F4` to "preserve the delta") would over-darken inline blocks — Apple's SF system gray 6 is `#F2F2F7`/`#F5F5F7` for a reason: code blocks and quote blocks need to recess, not announce themselves. The page change alone gives us the headroom.
 
 **AA / AAA contrast verification (sRGB relative luminance per WCAG 2.1):**
 
-Relative luminances:
+Relative luminances (linearization: `C_lin = C/12.92` for `C ≤ 0.04045`, else `((C+0.055)/1.055)^2.4`):
 
-- `#1D1D1F` → L ≈ 0.0119
-- `#6E6E73` → L ≈ 0.1620
-- `#0071E3` → L ≈ 0.1788
-- `#F5F5F7` → L ≈ 0.9047
-- `#FBFBFD` → L ≈ 0.9710
-- `#FFFFFF` → L = 1.0000
+- `#1D1D1F` → L ≈ 0.01238
+- `#6E6E73` → L ≈ 0.15711
+- `#0071E3` → L ≈ 0.17370
+- `#F5F5F7` → L ≈ 0.91432
+- `#FBFBFD` → L ≈ 0.96615
+- `#FFFFFF` → L = 1.00000
 
 Contrast = `(L_lighter + 0.05) / (L_darker + 0.05)`:
 
-| Pair                            | Ratio                                                             | WCAG verdict                                                                                                                 |
-| ------------------------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| `--fg` on `--bg`                | `(0.9710+0.05) / (0.0119+0.05) = 1.0210 / 0.0619` ≈ **16.50 : 1** | AAA (≥ 7) — passes for all text sizes                                                                                        |
-| `--fg` on `--surface`           | `0.9547 / 0.0619` ≈ **15.42 : 1**                                 | AAA                                                                                                                          |
-| `--fg` on `--bg-elevated`       | `1.0500 / 0.0619` ≈ **16.96 : 1**                                 | AAA                                                                                                                          |
-| `--fg-muted` on `--bg`          | `1.0210 / 0.2120` ≈ **4.82 : 1**                                  | AA normal (≥ 4.5), AA large (≥ 3). Below AAA — acceptable for muted secondary copy.                                          |
-| `--fg-muted` on `--surface`     | `0.9547 / 0.2120` ≈ **4.50 : 1**                                  | AA normal at threshold. **Avoid stacking muted on `--surface` for paragraph runs.**                                          |
-| `--fg-muted` on `--bg-elevated` | `1.0500 / 0.2120` ≈ **4.95 : 1**                                  | AA normal                                                                                                                    |
-| `--accent` on `--bg`            | `1.0210 / 0.2288` ≈ **4.46 : 1**                                  | AA large (≥ 3) and AA UI (1.4.11 ≥ 3). Below AA-normal by 0.04; safe for links and focus rings, prefer 17px+ for body links. |
-| `--accent` on `--surface`       | `0.9547 / 0.2288` ≈ **4.17 : 1**                                  | AA large / AA UI                                                                                                             |
-| `--accent` on `--bg-elevated`   | `1.0500 / 0.2288` ≈ **4.59 : 1**                                  | AA normal                                                                                                                    |
+| Pair                            | Ratio                                                                 | WCAG verdict                                                                                                              |
+| ------------------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `--fg` on `--bg`                | `(0.96615+0.05) / (0.01238+0.05) = 1.01615 / 0.06238` ≈ **16.29 : 1** | AAA (≥ 7) — passes for all text sizes                                                                                     |
+| `--fg` on `--surface`           | `0.96432 / 0.06238` ≈ **15.46 : 1**                                   | AAA                                                                                                                       |
+| `--fg` on `--bg-elevated`       | `1.05000 / 0.06238` ≈ **16.83 : 1**                                   | AAA                                                                                                                       |
+| `--fg-muted` on `--bg`          | `1.01615 / 0.20711` ≈ **4.91 : 1**                                    | AA normal (≥ 4.5). Below AAA — acceptable for muted secondary copy.                                                       |
+| `--fg-muted` on `--surface`     | `0.96432 / 0.20711` ≈ **4.66 : 1**                                    | AA normal. Tighter than `--bg`/`--bg-elevated`; long paragraph runs are fine but the headroom is smaller.                 |
+| `--fg-muted` on `--bg-elevated` | `1.05000 / 0.20711` ≈ **5.07 : 1**                                    | AA normal — comfortable headroom.                                                                                         |
+| `--accent` on `--bg`            | `1.01615 / 0.22370` ≈ **4.54 : 1**                                    | AA normal — passes at threshold. Safe for links, focus rings, and body copy at any size; prefer 17px+ when targeting AAA. |
+| `--accent` on `--surface`       | `0.96432 / 0.22370` ≈ **4.31 : 1**                                    | AA large (≥ 3) and AA UI (1.4.11 ≥ 3). Below AA-normal — keep `--accent` text on `--surface` to 18px+ (or 14px+ bold).    |
+| `--accent` on `--bg-elevated`   | `1.05000 / 0.22370` ≈ **4.69 : 1**                                    | AA normal                                                                                                                 |
 
-The `--fg-muted` on `--surface` and `--accent` on `--bg` results are tight against AA-normal — both inherited from Apple's actual palette. They are flagged in the pairings table above; consumers needing muted paragraph copy or small accent text should opt into `--bg-elevated`.
+The only sub-AA-normal text pairing in the system is `--accent` on `--surface` (4.31 : 1, below the 4.5 threshold for normal text). All other text pairings pass AA normal across all three surfaces. The `--fg-muted` row is consistently AA normal everywhere — tighter on `--surface` (4.66 : 1) than on `--bg-elevated` (5.07 : 1), so prefer the elevated surface for long muted runs when feasible, but neither is at threshold.
 
 **Proposed dark-mode direction (sketch — not shipped).**
 
@@ -151,7 +153,7 @@ The elevation rhythm inverts cleanly: in dark mode, `--bg-elevated` is _brighter
 - `src/stories/showcase/System.stories.tsx:40` hardcodes the documented `--bg` swatch as `#FFFFFF`. Update to `#FBFBFD` so the docs match runtime. (Designer doc, but stories live in engineer-owned `src/stories/**`.)
 - `src/brand/site.webmanifest` declares `"theme_color":"#ffffff"` and `"background_color":"#ffffff"`. Consider updating to `#fbfbfd` so the PWA install / browser chrome matches the page canvas. Low-priority — no current consumer.
 - The semantic-mappings block in `tokens.css` (`body { background: var(--bg); … }`) is correct as-is. No token swap needed there — the page _should_ use `--bg`, not `--bg-elevated`. Likewise `src/organisms/SiteShell/SiteShell.module.css:6` (`background: var(--bg)`) is correct: SiteShell is the page frame, not an overlay.
-- `src/atoms/Button/Button.module.css:53` uses `color: var(--bg)` for text on a `--fg`-coloured button surface. After the shift, contrast = `--bg (#FBFBFD)` on `--fg (#1D1D1F)` ≈ **16.50 : 1** (AAA, unchanged in tier). No action needed; recorded for traceability.
+- `src/atoms/Button/Button.module.css:53` uses `color: var(--bg)` for text on a `--fg`-coloured button surface. After the shift, contrast = `--bg (#FBFBFD)` on `--fg (#1D1D1F)` ≈ **16.29 : 1** (AAA, unchanged in tier). No action needed; recorded for traceability.
 - Confirm `::selection { background: var(--accent-glow); }` still reads correctly on the new `--bg`. Math says yes (the glow is alpha-blended over a near-white surface that is 1.7 luminance points darker than before — imperceptible), but eyeball it on the site once shipped.
 
 **Approval.** Arian (pending).

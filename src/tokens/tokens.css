@@ -60,8 +60,9 @@
 
   /* ---------- Typography ---------- */
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
-  --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
-    "Segoe UI", Arial, sans-serif;
+  --font-sans:
+    "Geist", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "Segoe UI", Arial,
+    sans-serif;
   --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
   /* Fluid type scale (mobile → desktop) */

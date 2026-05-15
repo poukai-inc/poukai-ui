@@ -37,11 +37,22 @@ interface Color {
 }
 
 const COLORS: Color[] = [
-  { name: "--bg", hex: "#FFFFFF", caption: "Page background. Apple-light.", dark: false },
+  {
+    name: "--bg",
+    hex: "#FBFBFD",
+    caption: "Page background. Never pure white; matches apple.com canvas.",
+    dark: false,
+  },
+  {
+    name: "--bg-elevated",
+    hex: "#FFFFFF",
+    caption: "Front-most layer: popovers, sheets, dialogs.",
+    dark: false,
+  },
   {
     name: "--surface",
     hex: "#F5F5F7",
-    caption: "Subtle elevation — cards, code, quote blocks.",
+    caption: "Recessed elevation — code blocks, quote blocks, inline keys.",
     dark: false,
   },
   { name: "--fg", hex: "#1D1D1F", caption: "Primary text, wordmark, sigil stroke.", dark: true },

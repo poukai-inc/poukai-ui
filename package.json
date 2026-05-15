@@ -38,7 +38,8 @@
     "./tokens.css": "./dist/tokens.css",
     "./fonts/*": "./dist/fonts/*",
     "./brand/*": "./dist/brand/*",
-    "./llms.txt": "./dist/llms.txt"
+    "./llms.txt": "./dist/llms.txt",
+    "./llms-full.txt": "./dist/llms-full.txt"
   },
   "files": [
     "dist",

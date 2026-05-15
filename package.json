@@ -37,7 +37,8 @@
     },
     "./tokens.css": "./dist/tokens.css",
     "./fonts/*": "./dist/fonts/*",
-    "./brand/*": "./dist/brand/*"
+    "./brand/*": "./dist/brand/*",
+    "./llms.txt": "./dist/llms.txt"
   },
   "files": [
     "dist",
@@ -45,9 +46,10 @@
   ],
   "scripts": {
     "dev": "ladle serve",
-    "build": "BUILD_TARGET=lib vite build && tsc --emitDeclarationOnly && pnpm run build:tokens && pnpm run build:brand",
+    "build": "BUILD_TARGET=lib vite build && tsc --emitDeclarationOnly && pnpm run build:tokens && pnpm run build:brand && pnpm run build:llms",
     "build:tokens": "cpy --flat src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
     "build:brand": "cpy 'brand/**' dist/brand",
+    "build:llms": "node scripts/build-llms-txt.mjs",
     "test": "playwright test -c playwright-ct.config.ts",
     "playwright:install": "playwright install chromium webkit",
     "test:ui": "playwright test -c playwright-ct.config.ts --ui",

@@ -1,0 +1,253 @@
+/* ============================================================
+   System / Reference — showcase pieces
+   Local-only styles. Tokens only; pieces aren't reusable.
+   Mirrors prototype/poukai-system.css (.pk-* classes), camelCased
+   for CSS Modules.
+   ============================================================ */
+
+/* ---------- Spec card chrome ---------- */
+.spec {
+  background: var(--bg);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-3);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  font-family: var(--font-sans);
+  color: var(--fg);
+  height: 100%;
+  box-sizing: border-box;
+}
+.specBare {
+  border: 0;
+  padding: 0;
+}
+.specCenter {
+  align-items: center;
+  justify-content: center;
+}
+.specSurface {
+  background: var(--surface);
+}
+/* Re-define --fg / --fg-muted on dark cards so cascaded atoms invert. */
+.specDark {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: transparent;
+  --fg: #ffffff;
+  --fg-muted: rgba(255, 255, 255, 0.62);
+}
+.specCaption {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin: 0;
+}
+
+/* ---------- Swatch ---------- */
+.swatch {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.swatchChip {
+  flex: 1 1 auto;
+  min-height: 120px;
+  border-radius: var(--radius-3);
+  border: var(--hairline-w) solid var(--hairline);
+}
+.swatchMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-top: var(--space-3);
+  gap: var(--space-3);
+}
+.swatchName {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  color: var(--fg);
+}
+.swatchHex {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.swatchCaption {
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+  margin: var(--space-1) 0 0;
+  line-height: 1.4;
+}
+
+/* ---------- TypeSpec ---------- */
+.typeSpec {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.typeSpecSample {
+  padding-bottom: 0.08em;
+}
+.typeSpecRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-4);
+  border-top: var(--hairline-w) solid var(--hairline);
+  padding-top: var(--space-3);
+  margin-top: var(--space-3);
+}
+.typeSpecName {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.typeSpecValue {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+}
+.typeSpecStack {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* ---------- Token-grid table (TypeScale + Durations) ---------- */
+.tokenGrid {
+  display: grid;
+  grid-template-columns: max-content 1fr max-content;
+  column-gap: var(--space-6);
+  row-gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+}
+.tokenGridName {
+  color: var(--fg);
+  letter-spacing: 0.02em;
+}
+.tokenGridDesc {
+  color: var(--fg-muted);
+}
+.tokenGridValue {
+  color: var(--fg-muted);
+  text-align: right;
+}
+
+/* ---------- SpacingScale ---------- */
+.spaceRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+}
+.spaceRowName {
+  width: 6rem;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.spaceRowBar {
+  height: 8px;
+  background: var(--fg);
+  border-radius: 1px;
+}
+.spaceRowPx {
+  margin-left: auto;
+}
+
+/* ---------- EasingCard ---------- */
+.easingCurve {
+  display: block;
+  background: var(--surface);
+  border-radius: var(--radius-2);
+  width: 100%;
+  height: 120px;
+}
+.easingCaption {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+}
+
+/* ---------- RadiiSpec ---------- */
+.radiusRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+}
+.radiusChip {
+  width: 64px;
+  height: 64px;
+  background: var(--fg);
+  flex-shrink: 0;
+}
+.radiusChipBar {
+  width: 64px;
+  height: 1px;
+  background: var(--fg);
+  flex-shrink: 0;
+}
+.radiusMeta {
+  flex: 1;
+}
+.radiusName {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  color: var(--fg);
+}
+.radiusUse {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+}
+.radiusPx {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+}
+
+/* ---------- LayoutSpec ---------- */
+.layoutColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1;
+}
+.layoutBar {
+  background: var(--surface);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-2);
+}
+.layoutBarHatched {
+  position: relative;
+  height: 20px;
+}
+.layoutBarHatched::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(45deg, var(--hairline) 0 1px, transparent 1px 6px);
+  opacity: 0.5;
+}
+.layoutBarSolid {
+  height: 36px;
+}
+.layoutBarHero {
+  background: var(--fg);
+  border-radius: var(--radius-2);
+  height: 36px;
+  width: 60%;
+}

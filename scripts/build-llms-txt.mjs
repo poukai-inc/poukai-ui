@@ -36,6 +36,11 @@ const tokensCss = await readFile(resolve(pkgRoot, "src/tokens/tokens.css"), "utf
 const decisionsDir = resolve(pkgRoot, "meta/decisions");
 const decisionFiles = (await readdir(decisionsDir)).filter((f) => f.endsWith(".md")).sort();
 
+const brandDir = resolve(pkgRoot, "brand");
+const brandFiles = (await readdir(brandDir))
+  .filter((f) => /\.(svg|png|jpg|jpeg|webp)$/i.test(f))
+  .sort();
+
 /* ─── Parsers ─────────────────────────────────────────────── */
 
 // Tokens — pull every `--var: value;` from the :root block, with optional
@@ -163,6 +168,18 @@ const MOLECULES = [
   },
 ];
 
+// One-liner descriptions for brand assets. Unknown files fall through with
+// no caption — keep this table in sync when new assets ship under brand/.
+const BRAND_DESCRIPTIONS = {
+  "poukai-logo.svg": "Horizontal POUKAI lockup. Vector source for `<Wordmark>`.",
+  "lockup-stacked.svg": "Stacked lockup (isotype above wordtype). Vector source.",
+  "lockup-stacked.png": "Stacked lockup. Transparent raster.",
+  "isotype.png": "Isotype only. Transparent raster — tight avatar slots.",
+  "banner.png": "Wide wordtype banner — social headers, repo banners.",
+  "avatar-lockup.png": "Stacked lockup on a light-grey square — profile slots.",
+  "avatar-isotype.png": "Isotype on a light-grey square — profile slots.",
+};
+
 const ORGANISMS = [
   {
     name: "SiteShell",
@@ -237,6 +254,18 @@ for (const t of tokens) {
 }
 lines.push("");
 
+lines.push("## Brand assets");
+lines.push("");
+lines.push(
+  `Brand artwork shipped under \`@poukai-inc/ui/brand/*\`. ${brandFiles.length} files: vector source for the wordmark and the stacked lockup, plus rasterised variants for use cases the \`<Wordmark>\` component doesn't cover (avatars, banners, transparent isotype).`,
+);
+lines.push("");
+for (const f of brandFiles) {
+  const desc = BRAND_DESCRIPTIONS[f];
+  lines.push(`- \`@poukai-inc/ui/brand/${f}\`${desc ? ` — ${desc}` : ""}`);
+}
+lines.push("");
+
 lines.push("## Architecture decisions");
 lines.push("");
 lines.push(
@@ -285,5 +314,5 @@ await writeFile(outFile, out, "utf8");
 console.log(
   `Wrote ${outFile}\n  ${out.length} bytes · ${tokens.length} tokens · ${adrs.length} ADRs · ${
     ATOMS.length + MOLECULES.length + ORGANISMS.length
-  } components`,
+  } components · ${brandFiles.length} brand assets`,
 );

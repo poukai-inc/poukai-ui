@@ -19,6 +19,7 @@ import { RoleCardSingle, RoleCardGrid } from "./pieces/RoleCardGrid";
 import { PrincipleList } from "./pieces/PrincipleList";
 import { FailureModeList } from "./pieces/FailureModeList";
 import { SiteShellFull } from "./pieces/SiteShellFull";
+import { BrandAssets } from "./pieces/BrandAssets";
 
 import showcase from "./Showcase.module.css";
 
@@ -196,39 +197,42 @@ function BrandSection() {
       id="brand"
       eyebrow="01"
       title="Brand"
-      subtitle="Wordmark — full lockup, inherits currentColor. Geometry inlined from brand/poukai-logo.svg."
+      subtitle="The horizontal Wordmark drives the SiteShell header; the stacked lockup, isotype, banner, and avatar variants ship as static assets for surfaces the component doesn't cover."
     >
-      <div style={{ ...gridStyle, gridTemplateColumns: "repeat(2, 1fr)" }}>
-        <div className={showcase.spec}>
+      <div style={{ ...gridStyle, gridTemplateColumns: "1fr" }}>
+        <div style={{ ...gridStyle, gridTemplateColumns: "repeat(2, 1fr)" }}>
+          <div className={showcase.spec}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "var(--space-8)",
+                justifyContent: "center",
+                flex: 1,
+              }}
+            >
+              {[20, 48, 88].map((h) => (
+                <div
+                  key={h}
+                  style={{ display: "flex", alignItems: "flex-end", gap: "var(--space-6)" }}
+                >
+                  <Wordmark height={h} />
+                  <span className="meta">
+                    h={h}
+                    {h === 20 ? " · header" : h === 88 ? " · hero" : ""}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
           <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "var(--space-8)",
-              justifyContent: "center",
-              flex: 1,
-            }}
+            className={[showcase.spec, showcase.specDark, showcase.specCenter].join(" ")}
+            style={{ minHeight: "20rem" }}
           >
-            {[20, 48, 88].map((h) => (
-              <div
-                key={h}
-                style={{ display: "flex", alignItems: "flex-end", gap: "var(--space-6)" }}
-              >
-                <Wordmark height={h} />
-                <span className="meta">
-                  h={h}
-                  {h === 20 ? " · header" : h === 88 ? " · hero" : ""}
-                </span>
-              </div>
-            ))}
+            <Wordmark height={88} />
           </div>
         </div>
-        <div
-          className={[showcase.spec, showcase.specDark, showcase.specCenter].join(" ")}
-          style={{ minHeight: "20rem" }}
-        >
-          <Wordmark height={88} />
-        </div>
+        <BrandAssets />
       </div>
     </Section>
   );

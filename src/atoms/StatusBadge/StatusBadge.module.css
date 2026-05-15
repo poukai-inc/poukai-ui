@@ -18,6 +18,8 @@
 
 .dot[data-status="available"] {
   background: var(--accent);
+  /* Static halo so the badge reads as "lit" between pulses. */
+  box-shadow: 0 0 0 2px var(--accent-glow);
 }
 
 .dot[data-status="idle"] {
@@ -33,7 +35,7 @@
   inset: 0;
   border-radius: 50%;
   background: var(--accent-glow);
-  animation: poukai-pulse 2400ms ease-in-out infinite;
+  animation: poukai-pulse 1800ms ease-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -45,10 +47,13 @@
 @keyframes poukai-pulse {
   0% {
     transform: scale(1);
-    opacity: 0.6;
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 0;
   }
   100% {
-    transform: scale(2.2);
+    transform: scale(4);
     opacity: 0;
   }
 }

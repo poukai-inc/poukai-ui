@@ -6,8 +6,12 @@
   border: var(--hairline-w) solid var(--hairline);
   border-radius: var(--radius-3);
   color: var(--fg);
-  /* Allow the card to stretch in a CSS grid track, but never below content. */
-  min-height: 100%;
+  /*
+   * No min-height: CSS Grid items stretch to the row height by default
+   * (align-items: stretch). A percentage min-height here was resolving
+   * against an undefined parent height in some grid contexts and causing
+   * second-row cards to overflow into the first row.
+   */
   /* Hairline footer rule for `hiredBy` — pinned to the bottom of the card. */
 }
 

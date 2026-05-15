@@ -1,6 +1,11 @@
 .root {
   display: inline-flex;
-  color: var(--fg, currentColor);
+  /*
+   * No explicit color here — the SVG uses fill="currentColor" so the mark
+   * inherits whatever color is in scope. The default cascades from --fg
+   * via body; the inverted variant works because the parent sets
+   * color: var(--bg) and that inherits down through .root.
+   */
 }
 
 .svg {

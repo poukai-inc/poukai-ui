@@ -14,7 +14,7 @@ export interface WordmarkProps extends ComponentPropsWithoutRef<"span"> {
  * Full POUKAI wordmark + isotype lockup. Inherits color via `currentColor`.
  *
  * Geometry is inlined from `wordmark-geometry.ts` (generated from
- * `brand/poukai-logo.svg`). Self-contained — no `<symbol>` sprite required
+ * `src/atoms/Wordmark/poukai-logo.svg`). Self-contained — no `<symbol>` sprite required
  * from the consumer.
  *
  * The mark is purely decorative (`aria-hidden`); a visually-hidden label

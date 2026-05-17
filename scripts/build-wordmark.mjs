@@ -3,7 +3,7 @@
  * scripts/build-wordmark.mjs
  *
  * Regenerate `src/atoms/Wordmark/wordmark-geometry.ts` from
- * `brand/poukai-logo.svg`.
+ * `src/atoms/Wordmark/poukai-logo.svg`.
  *
  * The source SVG carries verbose per-path styling (stroke, fill colour,
  * dash array, opacity, miter limit, …) inherited from the design-tool
@@ -15,7 +15,7 @@
  * Usage:
  *   pnpm build:wordmark
  *
- * Run whenever `brand/poukai-logo.svg` changes. The output is committed
+ * Run whenever `src/atoms/Wordmark/poukai-logo.svg` changes. The output is committed
  * (it's source code, not a build artifact) so consumers don't need to run
  * this themselves.
  */
@@ -25,7 +25,7 @@ import { dirname, resolve } from "node:path";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const pkgRoot = resolve(here, "..");
-const sourceSvg = resolve(pkgRoot, "brand/poukai-logo.svg");
+const sourceSvg = resolve(pkgRoot, "src/atoms/Wordmark/poukai-logo.svg");
 const outFile = resolve(pkgRoot, "src/atoms/Wordmark/wordmark-geometry.ts");
 
 const raw = await readFile(sourceSvg, "utf8");
@@ -57,7 +57,7 @@ const innerMarkup = paths
 const out = `/**
  * Inlined Wordmark geometry.
  *
- * Auto-generated from \`brand/poukai-logo.svg\` by \`scripts/build-wordmark.mjs\`.
+ * Auto-generated from \`src/atoms/Wordmark/poukai-logo.svg\` by \`scripts/build-wordmark.mjs\`.
  * Do not hand-edit. To update: edit the source SVG and run \`pnpm build:wordmark\`.
  *
  * Verbose per-path styling (stroke, fill colours, dash arrays, opacity) was

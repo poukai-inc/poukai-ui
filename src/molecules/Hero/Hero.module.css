@@ -57,3 +57,7 @@
     margin-top: var(--space-10, 2.5rem);
   }
 }
+
+.size-intimate .title {
+  font-size: var(--fs-tagline-intimate);
+}

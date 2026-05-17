@@ -1,1 +1,1 @@
-export { Hero, type HeroProps, type HeroAlign } from "./Hero";
+export { Hero, type HeroProps, type HeroAlign, type HeroSize } from "./Hero";

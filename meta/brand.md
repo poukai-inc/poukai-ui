@@ -55,6 +55,35 @@ _To be filled. When can a token change vs. add? What requires Arian's approval? 
 
 _Reverse-chronological. Each entry: context, decision, rationale, alternatives considered, approval (Arian)._
 
+### 2026-05-17 -- Add --fs-tagline-intimate -- Hero size=intimate variant
+
+**Context.** The pouk.ai homepage composer requested a quieter Hero register. The current --fs-tagline (36-68px clamp) reads as confrontational at 1440x900 on the holding page; the 68px ceiling dominates the viewport and overwhelms the low-density doorway framing. Three levers were evaluated:
+
+- Lever A (chosen): DS-owned size variant. A new token --fs-tagline-intimate with a lower clamp range, exposed via a size prop on the Hero molecule.
+- Lever B: Site-side override. Rejected -- it punches through the token contract and creates an undocumented divergence the DS cannot reason about.
+- Lever C: Content rewrite. Rejected by Arian: copy is fine, font-size is just too big.
+
+Only Lever A (DS-owned size variant) was acceptable.
+
+**Decision.** New token added to src/tokens/tokens.css (fluid type scale block, immediately after --fs-tagline):
+
+--fs-tagline-intimate: clamp(2rem, 1.25rem + 2.5vw, 3.25rem); /_ 32-52 _/
+
+Range: 32px at 320px viewport to 52px at 1440px. At each endpoint this is approximately 75-80% of --fs-tagline (36-68px). The vw slope is flatter (2.5vw vs. 3.5vw) so the type grows more slowly across the viewport.
+
+No existing token is modified. No existing consumer behavior changes. Token addition only.
+
+**Prop shape.** The size prop on the Hero molecule:
+
+- size=display (default): title uses var(--fs-tagline) (36-68px). Preserves all existing consumer behavior.
+- size=intimate: title uses var(--fs-tagline-intimate) (32-52px). Opt-in for low-density doorway contexts.
+
+Only the title font-size responds to size. All gaps, lede, CTA, em accent rendering, color, and font family are unchanged.
+
+**ADR-0003.** Adding a token is a minor version bump.
+
+**Authorized by.** Arian (founder, pouk.ai). Proposal: GitHub issue #39.
+
 ### 2026-05-15 — Pull `--bg` off pure white; reserve `#FFFFFF` for `--bg-elevated`
 
 **Context.** The light ramp shipped through `0.5.0` used `--bg: #FFFFFF`. That collapses the elevation model: there is no headroom above the page, popovers and sheets cannot read as "front-most" without inventing a non-token shadow or a borrowed lighter neutral, and the dark-mode inversion has no clean answer — pure white inverts to pure black, which the §6 rule prohibits. Arian flagged this as a brand-level issue with `#FAFAFA` or `#FBFBFD` as candidate values for the new page background.

@@ -68,6 +68,7 @@
   /* Fluid type scale (mobile → desktop) */
   --fs-wordmark: clamp(1.0625rem, 0.95rem + 0.6vw, 1.25rem); /* 17–20 */
   --fs-tagline: clamp(2.25rem, 1.5rem + 3.5vw, 4.25rem); /* 36–68 */
+  --fs-tagline-intimate: clamp(2rem, 1.25rem + 2.5vw, 3.25rem); /* 32–52 */
   --fs-body: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); /* 17–19 */
   --fs-meta: 0.875rem; /* 14   */
   --fs-micro: 0.75rem; /* 12   */

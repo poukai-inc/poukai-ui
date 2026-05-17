@@ -1,5 +1,5 @@
 import type { Story, StoryDefault } from "@ladle/react";
-import { Hero, type HeroAlign } from "./Hero";
+import { Hero, type HeroAlign, type HeroSize } from "./Hero";
 import { StatusBadge } from "../../atoms/StatusBadge";
 import { Button } from "../../atoms/Button";
 
@@ -7,10 +7,16 @@ export default {
   title: "Components / Hero",
   args: {
     align: "start",
+    size: "display",
   },
   argTypes: {
     align: {
       options: ["start", "center"] satisfies HeroAlign[],
+      control: { type: "radio" },
+    },
+    size: {
+      header: "size",
+      options: ["display", "intimate"] satisfies HeroSize[],
       control: { type: "radio" },
     },
   },
@@ -25,9 +31,10 @@ const sampleTitle = (
 const sampleLede =
   "We work alongside founders and platform teams to close the gap between pilot and production — small, senior engagements, no juniors, no theatre.";
 
-export const Playground: Story<{ align: HeroAlign }> = ({ align }) => (
+export const Playground: Story<{ align: HeroAlign; size: HeroSize }> = ({ align, size }) => (
   <Hero
     align={align}
+    size={size}
     status={<StatusBadge status="available">Taking conversations for Q3.</StatusBadge>}
     title={sampleTitle}
     lede={sampleLede}
@@ -85,4 +92,12 @@ export const ShortHeadline: Story = () => (
       </Button>
     }
   />
+);
+
+export const SizeDisplay: Story = () => (
+  <Hero size="display" title={sampleTitle} lede={sampleLede} />
+);
+
+export const SizeIntimate: Story = () => (
+  <Hero size="intimate" title={sampleTitle} lede={sampleLede} />
 );

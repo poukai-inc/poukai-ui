@@ -3,29 +3,37 @@ import clsx from "clsx";
 import styles from "./Hero.module.css";
 
 export type HeroAlign = "start" | "center";
+export type HeroSize = "display" | "intimate";
 
 export interface HeroProps extends Omit<ComponentPropsWithoutRef<"section">, "title"> {
-  /** The display headline — usually an `<h1>` or plain text. Rendered inside an `<h1>`. */
+  /** The display headline — usually an h1 or plain text. Rendered inside an h1. */
   title: ReactNode;
-  /** Sub-headline / standfirst. Rendered inside a `<p class="lede">`. */
+  /** Sub-headline / standfirst. Rendered inside a p.lede. */
   lede: ReactNode;
-  /**
-   * Slot above the title — typically a `<StatusBadge>`. Slot-in only;
-   * the Hero never imports atoms itself, so consumers stay in control of
-   * what appears here.
-   */
+  /** Slot above the title — typically a StatusBadge. */
   status?: ReactNode;
-  /** Slot beneath the lede — typically a `<Button>` or `<a>`. */
+  /** Slot beneath the lede — typically a Button or anchor. */
   cta?: ReactNode;
-  /** Horizontal alignment of the column. Defaults to `"start"`. */
+  /** Horizontal alignment of the column. Defaults to start. */
   align?: HeroAlign;
-  /** Render `title` inside a different element (e.g. `<h2>`). Defaults to `<h1>`. */
+  /** Render title inside a different element. Defaults to h1. */
   titleAs?: "h1" | "h2";
+  /**
+   * Title font-size register. display (default) uses --fs-tagline (36-68 px).
+   * intimate uses --fs-tagline-intimate (32-52 px) — quieter register for
+   * low-density doorway pages. All other rhythm, color, and font-family are unchanged.
+   */
+  size?: HeroSize;
 }
 
 const alignClass: Record<HeroAlign, string> = {
   start: styles.alignStart!,
   center: styles.alignCenter!,
+};
+
+const sizeClass: Record<HeroSize, string | undefined> = {
+  display: undefined,
+  intimate: styles.sizeIntimate!,
 };
 
 /**
@@ -44,12 +52,26 @@ const alignClass: Record<HeroAlign, string> = {
  *   />
  */
 export const Hero = forwardRef<HTMLElement, HeroProps>(function Hero(
-  { title, lede, status, cta, align = "start", titleAs = "h1", className, ...rest },
+  {
+    title,
+    lede,
+    status,
+    cta,
+    align = "start",
+    size = "display",
+    titleAs = "h1",
+    className,
+    ...rest
+  },
   ref,
 ) {
   const Title = titleAs;
   return (
-    <section ref={ref} className={clsx(styles.root, alignClass[align], className)} {...rest}>
+    <section
+      ref={ref}
+      className={clsx(styles.root, alignClass[align], sizeClass[size], className)}
+      {...rest}
+    >
       {status ? <div className={styles.status}>{status}</div> : null}
       <Title className={styles.title}>{title}</Title>
       <p className={clsx(styles.lede, "lede")}>{lede}</p>
@@ -57,3 +79,5 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(function Hero(
     </section>
   );
 });
+
+Hero.displayName = "Hero";

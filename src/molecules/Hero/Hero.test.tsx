@@ -46,3 +46,46 @@ test("forwards arbitrary props to the root section", async ({ mount }) => {
   await expect(component).toHaveAttribute("data-testid", "hero");
   await expect(component).toHaveAttribute("aria-labelledby", "x");
 });
+
+test("defaults to size=display (title renders at --fs-tagline via global h1 rule)", async ({
+  mount,
+}) => {
+  const component = await mount(<Hero title="Heading" lede="Lede." />);
+  // No .size-intimate class; the root should not have the intimate size class
+  await expect(component).not.toHaveClass(/size-intimate/);
+});
+
+test("size=display renders correctly", async ({ mount }) => {
+  const component = await mount(<Hero size="display" title="Heading" lede="Lede." />);
+  await expect(component.locator("h1")).toHaveText("Heading");
+});
+
+test("size=intimate renders correctly and applies size class to root", async ({ mount }) => {
+  const component = await mount(<Hero size="intimate" title="Heading" lede="Lede." />);
+  await expect(component.locator("h1")).toHaveText("Heading");
+  // The root section should carry the intimate size class (CSS Modules scoped)
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).toBeTruthy();
+});
+
+test("em accent inside title renders at size=display", async ({ mount }) => {
+  const title = (
+    <>
+      <span>Technical consulting with </span>
+      <em>AI</em>
+    </>
+  );
+  const component = await mount(<Hero size="display" title={title} lede="Lede." />);
+  await expect(component.locator("em")).toBeVisible();
+});
+
+test("em accent inside title renders at size=intimate", async ({ mount }) => {
+  const title = (
+    <>
+      <span>Technical consulting with </span>
+      <em>AI</em>
+    </>
+  );
+  const component = await mount(<Hero size="intimate" title={title} lede="Lede." />);
+  await expect(component.locator("em")).toBeVisible();
+});

@@ -49,7 +49,7 @@
     "dev": "ladle serve",
     "build": "BUILD_TARGET=lib vite build && tsc --emitDeclarationOnly && pnpm run build:tokens && pnpm run build:brand && pnpm run build:llms",
     "build:tokens": "cpy --flat src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
-    "build:brand": "cpy 'brand/**' dist/brand",
+    "build:brand": "cpy 'src/brand/**' dist/brand",
     "build:llms": "node scripts/build-llms-txt.mjs",
     "test": "playwright test -c playwright-ct.config.ts",
     "playwright:install": "playwright install chromium webkit",

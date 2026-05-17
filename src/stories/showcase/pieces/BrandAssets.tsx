@@ -1,9 +1,9 @@
-import avatarIsotypeSrc from "../../../../brand/avatar-isotype.png";
-import avatarLockupSrc from "../../../../brand/avatar-lockup.png";
-import bannerSrc from "../../../../brand/banner.png";
-import isotypeSrc from "../../../../brand/isotype.png";
-import lockupStackedPngSrc from "../../../../brand/lockup-stacked.png";
-import lockupStackedSvgSrc from "../../../../brand/lockup-stacked.svg";
+import avatarIsotypeSrc from "../../../brand/avatar-isotype.png";
+import avatarLockupSrc from "../../../brand/avatar-lockup.png";
+import bannerSrc from "../../../brand/banner.png";
+import isotypeSrc from "../../../brand/isotype.png";
+import lockupStackedPngSrc from "../../../brand/lockup-stacked.png";
+import lockupStackedSvgSrc from "../../../brand/lockup-stacked.svg";
 import styles from "../Showcase.module.css";
 
 interface Asset {

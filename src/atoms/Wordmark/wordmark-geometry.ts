@@ -1,7 +1,7 @@
 /**
  * Inlined Wordmark geometry.
  *
- * Auto-generated from `brand/poukai-logo.svg` by `scripts/build-wordmark.mjs`.
+ * Auto-generated from `src/atoms/Wordmark/poukai-logo.svg` by `scripts/build-wordmark.mjs`.
  * Do not hand-edit. To update: edit the source SVG and run `pnpm build:wordmark`.
  *
  * Verbose per-path styling (stroke, fill colours, dash arrays, opacity) was

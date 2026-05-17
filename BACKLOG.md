@@ -3,7 +3,7 @@
 Living to-do for `@poukai-inc/ui`. PRs that close an item should tick its box.
 Items removed when stale or migrated to an issue.
 
-**Last reviewed:** 2026-05-15
+**Last reviewed:** 2026-05-17
 
 ---
 
@@ -41,7 +41,10 @@ Kept for ~one release as context, then pruned.
   - Required renaming the GitHub org `Pouk-AI-INC` → `poukai-inc` and
     the package scope `@poukai/ui` → `@poukai-inc/ui` (GitHub Packages
     enforces npm-scope == owner-login).
-  - Ships favicon set + OG image as runtime brand assets via `./brand/*`.
+  - Ships stacked lockup, isotype, banner, and avatars as runtime brand
+    assets via `./brand/*`. (Favicon + OG image placeholders that lived in
+    `src/brand/` at this release were never wired to the build; dropped in
+    a 0.6.x reorg — they were never part of the published surface.)
 - [x] **`0.1.0`** — Phase 1 of the migration plan: atomic restructure
       (`atoms/` / `molecules/` / `organisms/`), eight components, a11y CI
       gate, per-subpath size budgets, inline Wordmark geometry, subpath
@@ -59,10 +62,12 @@ ordering by likely demand.
       `meta/backlog.md` in the brand repo.
 - [ ] **Re-evaluate Lucide icon picks** — Hammer / Bot / BookOpen / Sparkles.
       Done quickly inside `roles.astro`; just needs founder sign-off.
-- [ ] **Replace placeholder `favicon.svg`** with the real isotype geometry
-      exported from `brand/`.
-- [ ] **Source / commission `og.png`.** Until then, falls back to `banner.png`.
-      Tracked in migration plan §7 open Qs.
+- [ ] **PWA + OG assets** — favicon set (svg + 16/32/192/512 + apple-touch),
+      `site.webmanifest`, and a real `og.png` (1200×630). Placeholders that
+      previously sat in `src/brand/` were dropped in the 0.6.x reorg since
+      nothing in-tree consumed them. Site repo will need them; author fresh
+      in `src/brand/` if they should ship via `./brand/*`, or keep them in
+      the site repo if they're truly site-only.
 - [ ] **Ladle showcase deploy.** `pnpm showcase:build` already produces a
       static site; deploying to GitHub Pages on every release gives the site
       team a stable reference URL. Not in the plan but cheap.
@@ -79,7 +84,6 @@ ordering by likely demand.
 
 ## ⚪ Parked / open questions
 
-- [ ] **`og.png` source.** Migration plan §7. Banner.png is the fallback.
 - [ ] **CHANGELOG bootstrap.** Currently auto-created by `changesets/action`
       on the first Version Packages merge. If we want a cleaner first-PR
       diff, pre-commit an empty `CHANGELOG.md`. Low priority.

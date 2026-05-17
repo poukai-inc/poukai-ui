@@ -1,5 +1,13 @@
 # @poukai-inc/ui
 
+## 0.7.1
+
+### Patch Changes
+
+- f555833: Hero: compress vertical rhythm at size=intimate
+
+  At size="intimate", status→title gap shrinks to --space-3 (12px) and title→lede gap shrinks to --space-4/--space-6 (mobile/desktop). Resolves disproportionate spacing flagged in live audit. No API change; display variant is unchanged.
+
 ## 0.7.0
 
 ### Minor Changes

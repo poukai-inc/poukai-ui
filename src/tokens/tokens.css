@@ -80,6 +80,11 @@
     1.75rem + 4vw,
     5.5rem
   ); /* 48–88. Editorial display, at most once per page. Not a heading replacement. */
+  --fs-statement: clamp(
+    1.75rem,
+    1.25rem + 2vw,
+    2.75rem
+  ); /* 28–44. Italic-serif editorial Statement block; sits between h2 and --fs-tagline-intimate. */
   --fs-body: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem); /* 17–19 */
   --fs-meta: 0.875rem; /* 14   */
   --fs-micro: 0.75rem; /* 12   */
@@ -108,6 +113,7 @@
      this token. Canonical usage: width: var(--content-max-bleed); margin-inline: calc(50% - 50vw) */
   --content-max-bleed: 100vw;
   --hero-max: 38rem;
+  --hero-illustration-max: 25rem; /* Hero two-column layout: max-width for the illustration column above 720px. */
 
   /* ---------- Button height ladder ----------
      Four rungs. Hand-tuned, not interpolated. See meta/design/Button.md §3.

@@ -101,6 +101,8 @@
   --dur-fast: 180ms;
   --dur-mid: 240ms;
   --dur-slow: 600ms;
+  --dur-hero-title-rise: 700ms; /* title slot in Hero entrance stagger — 100ms longer than siblings for visual emphasis */
+  --dur-stagger-step: 150ms; /* base step for staggered entrance sequences; multiply by slot index (0–3) */
 
   /* ---------- Radii & rules ---------- */
   --radius-1: 2px; /* focus ring */

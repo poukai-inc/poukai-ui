@@ -72,3 +72,77 @@
     margin-bottom: var(--space-6);
   }
 }
+
+/* ============================================================
+   Entrance animation — entrance="stagger"
+   CSS-only, JS-free staggered reveal on page load.
+   ============================================================ */
+
+@keyframes rise-8 {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rise-12 {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.entrance-stagger .status {
+  animation-name: rise-8;
+  animation-duration: var(--dur-slow);
+  animation-delay: 0ms;
+  animation-timing-function: var(--easing);
+  animation-fill-mode: both;
+}
+
+.entrance-stagger .title {
+  animation-name: rise-12;
+  animation-duration: var(--dur-hero-title-rise);
+  animation-delay: calc(var(--dur-stagger-step) * 1);
+  animation-timing-function: var(--easing);
+  animation-fill-mode: both;
+}
+
+.entrance-stagger .lede {
+  animation-name: rise-8;
+  animation-duration: var(--dur-slow);
+  animation-delay: calc(var(--dur-stagger-step) * 2);
+  animation-timing-function: var(--easing);
+  animation-fill-mode: both;
+}
+
+.entrance-stagger .cta {
+  animation-name: rise-8;
+  animation-duration: var(--dur-slow);
+  animation-delay: calc(var(--dur-stagger-step) * 3);
+  animation-timing-function: var(--easing);
+  animation-fill-mode: both;
+}
+
+/* Reduced-motion override.
+   tokens.css sets animation-duration: 0.01ms !important globally, but does NOT
+   clear animation-delay or animation-fill-mode. With fill-mode: both and a
+   450ms delay on .cta, reduced-motion users would see the CTA at opacity: 0
+   for 450ms before snapping visible. animation: none clears everything —
+   delay, fill-mode, name, duration — in one declaration. */
+@media (prefers-reduced-motion: reduce) {
+  .entrance-stagger .status,
+  .entrance-stagger .title,
+  .entrance-stagger .lede,
+  .entrance-stagger .cta {
+    animation: none;
+  }
+}

@@ -20,7 +20,13 @@ export { Button, type ButtonProps, type ButtonVariant, type ButtonSize } from ".
 export { Stat, type StatProps, type StatAlign, type StatSize } from "./atoms/Stat";
 
 /* ---------- molecules ---------- */
-export { Hero, type HeroProps, type HeroAlign, type HeroSize } from "./molecules/Hero";
+export {
+  Hero,
+  type HeroProps,
+  type HeroAlign,
+  type HeroSize,
+  type HeroEntrance,
+} from "./molecules/Hero";
 export { RoleCard, type RoleCardProps } from "./molecules/RoleCard";
 export { Principle, type PrincipleProps } from "./molecules/Principle";
 export { FailureMode, type FailureModeProps } from "./molecules/FailureMode";

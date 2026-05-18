@@ -4,6 +4,7 @@ import styles from "./Hero.module.css";
 
 export type HeroAlign = "start" | "center";
 export type HeroSize = "display" | "intimate";
+export type HeroEntrance = "stagger";
 
 export interface HeroProps extends Omit<ComponentPropsWithoutRef<"section">, "title"> {
   /** The display headline — usually an h1 or plain text. Rendered inside an h1. */
@@ -24,6 +25,14 @@ export interface HeroProps extends Omit<ComponentPropsWithoutRef<"section">, "ti
    * low-density doorway pages. At `intimate`, vertical gaps between status, title, and lede also compress proportionally.
    */
   size?: HeroSize;
+  /**
+   * Opt-in CSS-only staggered entrance animation. When set to "stagger",
+   * status, title, lede, and CTA animate in with a staggered top-down rise
+   * (8–12px translateY + fade). Zero JS, no IntersectionObserver.
+   * Default (undefined) preserves static behavior — no regression for existing consumers.
+   * Accessibility: animation is fully disabled under prefers-reduced-motion: reduce.
+   */
+  entrance?: HeroEntrance;
 }
 
 const alignClass: Record<HeroAlign, string> = {
@@ -34,6 +43,10 @@ const alignClass: Record<HeroAlign, string> = {
 const sizeClass: Record<HeroSize, string | undefined> = {
   display: undefined,
   intimate: styles.sizeIntimate!,
+};
+
+const entranceClass: Record<HeroEntrance, string> = {
+  stagger: styles.entranceStagger!,
 };
 
 /**
@@ -60,6 +73,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(function Hero(
     align = "start",
     size = "display",
     titleAs = "h1",
+    entrance,
     className,
     ...rest
   },
@@ -69,7 +83,13 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(function Hero(
   return (
     <section
       ref={ref}
-      className={clsx(styles.root, alignClass[align], sizeClass[size], className)}
+      className={clsx(
+        styles.root,
+        alignClass[align],
+        sizeClass[size],
+        entrance != null ? entranceClass[entrance] : undefined,
+        className,
+      )}
       {...rest}
     >
       {status ? <div className={styles.status}>{status}</div> : null}

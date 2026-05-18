@@ -55,6 +55,33 @@ _To be filled. When can a token change vs. add? What requires Arian's approval? 
 
 _Reverse-chronological. Each entry: context, decision, rationale, alternatives considered, approval (Arian)._
 
+### 2026-05-18 — Hero entrance animation tokens (issue #47)
+
+**Context.** GitHub issue #47 requests an `entrance="stagger"` prop on the Hero molecule — a CSS-only staggered reveal on page load. Four slots (status, title, lede, cta) animate in with a 150ms inter-slot delay. All animation values must be expressed via `var(--token)` references; no raw ms values allowed in Hero.module.css. Two token strategy decisions required sign-off before the spec could be finalized.
+
+**Decision 1 — Title duration: add `--dur-hero-title-rise: 700ms`.**
+
+The title slot uses a 700ms rise vs. 600ms for all other slots. The 100ms distinction is semantically earned: the title is the sole Instrument Serif display moment per page, the largest and heaviest element in the Hero. A slightly longer rise gives it the visual weight its scale deserves.
+
+Alternative considered: use `--dur-slow` (600ms) for all four slots — drop the 100ms title distinction. Rejected because the distinction has a real reason and losing it would be a quality concession, not a simplification. Redefining `--dur-slow` to 700ms was also considered and rejected — `--dur-slow` is a system-level semantic token; bending it to fit a single component's need is a different kind of contract violation. A component-scoped token is the honest answer.
+
+**Decision 2 — Stagger delays: add `--dur-stagger-step: 150ms`.**
+
+The four delay values (0ms, 150ms, 300ms, 450ms) are multiples of a 150ms step. Two options were evaluated:
+
+- Option A (chosen): add `--dur-stagger-step: 150ms`; the engineer derives per-slot delays via `calc(var(--dur-stagger-step) * N)`.
+- Option B: add four per-slot tokens (`--delay-hero-status: 0ms`, `--delay-hero-title: 150ms`, etc.).
+
+Option B was rejected because it bakes Hero's slot structure into the motion token namespace. Any future molecule wanting the same stagger rhythm (a stat grid, a card list) could not reuse the value — it would be locked inside Hero-named tokens. Option A is composable by design: the step is the concept; the multiplication is arithmetic that belongs in CSS.
+
+**Decision 3 — Easing: use existing `--easing` (expo-out entrance).** No new token. The expo-out curve is semantically correct for entrance animations.
+
+**Decision 4 — Translation distances: keep as literal values inside keyframes.** The 8px and 12px rise distances are visual-motion micro-distances — not layout measurements, no reuse surface. They live inside `@keyframes rise-8` / `@keyframes rise-12` in Hero.module.css.
+
+**Decision 5 — Reduced-motion handling.** `tokens.css` suppresses `animation-duration` globally but not `animation-delay` or `animation-fill-mode`. With `fill-mode: both` and up to a 450ms delay, a reduced-motion user would see slots remain hidden for nearly half a second before snapping visible. The spec requires `animation: none` (not merely short duration) scoped to `.entrance-stagger` slot children inside a `prefers-reduced-motion: reduce` block in Hero.module.css.
+
+**Authorized by.** Arian (founder, pouk.ai). Reference: GitHub issue #47.
+
 ### 2026-05-17 -- Add --fs-tagline-intimate -- Hero size=intimate variant
 
 **Context.** The pouk.ai homepage composer requested a quieter Hero register. The current --fs-tagline (36-68px clamp) reads as confrontational at 1440x900 on the holding page; the 68px ceiling dominates the viewport and overwhelms the low-density doorway framing. Three levers were evaluated:

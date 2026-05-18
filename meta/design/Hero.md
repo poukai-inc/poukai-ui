@@ -3,7 +3,7 @@
 **Atomic layer**: molecule
 **Status**: Approved
 **Author**: poukai-design
-**Last updated**: 2026-05-17
+**Last updated**: 2026-05-18
 **Implements proposal**: GitHub issue #39
 
 ---
@@ -35,6 +35,10 @@ The text column is capped at --hero-max (38rem / 608px) on all viewport widths.
 - --hero-max — maximum width of the text column (38rem / 608px). Never overridden with a wider value.
 - --fs-body — lede font-size.
 - --fg-muted — lede color.
+- --easing — animation-timing-function for entrance animations (expo-out). Added 2026-05-18.
+- --dur-slow — animation-duration for status, lede, and cta slots in entrance stagger (600ms). Added 2026-05-18.
+- --dur-hero-title-rise — animation-duration for title slot in entrance stagger (700ms). Added 2026-05-18.
+- --dur-stagger-step — base delay increment for entrance stagger sequences (150ms). Added 2026-05-18.
 
 ## 4. Layout and rhythm
 
@@ -79,7 +83,75 @@ Static. No interactive states on the container or title. Slots delegate to their
 
 ## 6. Motion
 
-None — static component. Motion owned by slotted components.
+### Default (entrance={undefined})
+
+No animation. Static component. Motion owned by slotted components. All existing consumers are unaffected.
+
+### entrance="stagger"
+
+A CSS-only, JS-free staggered reveal on page load. Four slots animate in sequence: status, title, lede, cta. Each slot rises from a slight vertical offset while fading in from opacity 0.
+
+**Keyframe definitions (defined in Hero.module.css):**
+
+```css
+@keyframes rise-8 {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes rise-12 {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+```
+
+The 8px and 12px translation values are visual-motion micro-distances, not layout tokens. They live inside the keyframe definitions and are not exposed as tokens. The title uses rise-12 (12px) because it is the largest and heaviest element; the extra 4px of rise gives it the lift its scale earns. All other slots use rise-8 (8px).
+
+**Per-slot animation values:**
+
+| Slot   | Keyframe | Duration                           | Delay                                      | Rise |
+| ------ | -------- | ---------------------------------- | ------------------------------------------ | ---- |
+| status | rise-8   | var(--dur-slow) — 600ms            | 0ms                                        | 8px  |
+| title  | rise-12  | var(--dur-hero-title-rise) — 700ms | calc(var(--dur-stagger-step) \* 1) — 150ms | 12px |
+| lede   | rise-8   | var(--dur-slow) — 600ms            | calc(var(--dur-stagger-step) \* 2) — 300ms | 8px  |
+| cta    | rise-8   | var(--dur-slow) — 600ms            | calc(var(--dur-stagger-step) \* 3) — 450ms | 8px  |
+
+**All slots share:**
+
+- animation-timing-function: var(--easing) — expo-out curve, semantically correct for entrances
+- animation-fill-mode: both — required. Ensures slots start at opacity:0 during their delay window and hold at opacity:1 after the animation ends. Without fill-mode:both, slots flash to their natural visible state before animating.
+
+**No JS. No IntersectionObserver. No hooks.** The animation fires once on page load via CSS @keyframes attached to the `.entrance-stagger` modifier class and its slot children.
+
+### Reduced-motion handling
+
+`tokens.css` already suppresses `animation-duration` to 0.01ms globally under `prefers-reduced-motion: reduce`. However, this does NOT suppress `animation-delay` or `animation-fill-mode`. With `fill-mode: both` active and a 450ms delay, the cta slot would remain at `opacity: 0` for 450ms before snapping visible — a severe UX failure for reduced-motion users.
+
+**The engineer must add an explicit override in Hero.module.css:**
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  .entrance-stagger .status,
+  .entrance-stagger .title,
+  .entrance-stagger .lede,
+  .entrance-stagger .cta {
+    animation: none;
+  }
+}
+```
+
+`animation: none` is the only reliable way to clear `animation-delay` and `animation-fill-mode` simultaneously — `animation-duration: 0.01ms` from the global token block is insufficient here.
 
 ## 7. Accessibility
 
@@ -87,6 +159,8 @@ None — static component. Motion owned by slotted components.
 - em spans inside title are semantically correct; no aria-label workaround needed.
 - Contrast: --fg on --bg = 16.29:1 (AAA). Both size values pass — 32px = 24pt, above WCAG large-text threshold.
 - size is a visual change only. Heading semantics, tab-order, and ARIA are unchanged.
+- entrance="stagger" is a visual enhancement only. No ARIA additions are needed — the content is in the DOM from the first paint; only its visibility is deferred. Screen readers receive the content immediately regardless of animation state.
+- Reduced-motion: the component CSS module must apply `animation: none` to all slot children of `.entrance-stagger` under `prefers-reduced-motion: reduce` (see §6). The global `animation-duration: 0.01ms !important` from tokens.css is insufficient because it does not clear `animation-delay` or `animation-fill-mode: both`, leaving delayed slots hidden for up to 450ms.
 
 ## 8. Prop intent
 
@@ -95,6 +169,8 @@ None — static component. Motion owned by slotted components.
 - The size prop is opt-in; every existing consumer without the prop gets display unchanged.
 - Consumers must be able to pass status, title (including em spans), lede, and CTA slots.
 - Consumers must be able to choose align=start (default) or align=center.
+- Consumers must be able to opt into a staggered entrance animation by passing entrance="stagger". The default (entrance={undefined}) preserves current static behavior with no animation — zero regression for existing consumers.
+- The entrance prop is independent of size and align. All three are orthogonal axes.
 
 ## 9. Composition rules
 
@@ -105,8 +181,8 @@ None — static component. Motion owned by slotted components.
 ## 10. Out of scope
 
 - Dark-mode token overrides (tokens resolve correctly when dark-mode overrides land in tokens.css).
-- Animated title entrance.
 - More than two size values (YAGNI; add on demand).
 - Background or surface variants (Hero always sits on --bg).
 - Responsive align switching.
+- Note: "Animated title entrance" was listed as out of scope in the original spec. This restriction was lifted in revision 2026-05-18 (GitHub issue #47). The entrance="stagger" variant is now in scope and fully specified in §6 above.
 - Note: the original #39 spec locked vertical rhythm as invariant across both size values. That lock was explicitly reversed after a live audit with Arian on 2026-05-17 (GitHub issue #44). The status→title and title→lede gaps now scale with size as documented in Section 4.

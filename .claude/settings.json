@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit(src/tokens/tokens.css)",
+      "Write(src/tokens/tokens.css)",
+      "Edit(meta/design/Hero.md)",
+      "Write(meta/design/Hero.md)",
+      "Edit(meta/brand.md)",
+      "Write(meta/brand.md)",
+      "Edit(src/molecules/Hero/Hero.tsx)",
+      "Edit(src/molecules/Hero/Hero.module.css)",
+      "Edit(src/molecules/Hero/Hero.stories.tsx)",
+      "Edit(src/molecules/Hero/Hero.test.tsx)",
+      "Write(.changeset/*.md)"
+    ]
+  }
+}

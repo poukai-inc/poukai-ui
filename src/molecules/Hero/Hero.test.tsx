@@ -111,3 +111,58 @@ test("size=intimate applies intimate size class to root for rhythm scoping", asy
   const rootClass = await component.getAttribute("class");
   expect(rootClass).toMatch(/sizeIntimate|size-intimate/);
 });
+
+test("entrance not set renders no entrance class on root", async ({ mount }) => {
+  const component = await mount(<Hero title="Heading" lede="Lede." />);
+  await expect(component).not.toHaveClass(/entrance/);
+});
+
+test('entrance="stagger" applies entrance class to root section', async ({ mount }) => {
+  const component = await mount(<Hero entrance="stagger" title="Heading" lede="Lede." />);
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).toMatch(/entranceStagger|entrance-stagger/);
+});
+
+test('entrance="stagger" is orthogonal to size="intimate" — both classes present on root', async ({
+  mount,
+}) => {
+  const component = await mount(
+    <Hero size="intimate" entrance="stagger" title="Heading" lede="Lede." />,
+  );
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).toMatch(/sizeIntimate|size-intimate/);
+  expect(rootClass).toMatch(/entranceStagger|entrance-stagger/);
+});
+
+test('entrance="stagger" is orthogonal to align="center" — both classes present on root', async ({
+  mount,
+}) => {
+  const component = await mount(
+    <Hero align="center" entrance="stagger" title="Heading" lede="Lede." />,
+  );
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).toMatch(/alignCenter|align-center/);
+  expect(rootClass).toMatch(/entranceStagger|entrance-stagger/);
+});
+
+test('entrance="stagger" — status, title, lede, and cta render with correct content', async ({
+  mount,
+}) => {
+  const component = await mount(
+    <Hero
+      entrance="stagger"
+      status={<span data-testid="status-inner">Available</span>}
+      title="Stagger heading"
+      lede="Stagger lede."
+      cta={
+        <a data-testid="cta-inner" href="#">
+          Contact
+        </a>
+      }
+    />,
+  );
+  await expect(component.locator("h1")).toHaveText("Stagger heading");
+  await expect(component.locator("p.lede")).toHaveText("Stagger lede.");
+  await expect(component.locator("[data-testid='status-inner']")).toBeVisible();
+  await expect(component.locator("[data-testid='cta-inner']")).toBeVisible();
+});

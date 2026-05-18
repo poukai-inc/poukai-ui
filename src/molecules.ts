@@ -10,3 +10,4 @@ export { Hero, type HeroProps, type HeroAlign } from "./molecules/Hero";
 export { RoleCard, type RoleCardProps } from "./molecules/RoleCard";
 export { Principle, type PrincipleProps } from "./molecules/Principle";
 export { FailureMode, type FailureModeProps } from "./molecules/FailureMode";
+export { Portrait, type PortraitProps, type AspectRatio } from "./molecules/Portrait";

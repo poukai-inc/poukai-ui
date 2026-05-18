@@ -30,6 +30,7 @@ export {
 export { RoleCard, type RoleCardProps } from "./molecules/RoleCard";
 export { Principle, type PrincipleProps } from "./molecules/Principle";
 export { FailureMode, type FailureModeProps } from "./molecules/FailureMode";
+export { Statement, type StatementProps } from "./molecules/Statement";
 
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";

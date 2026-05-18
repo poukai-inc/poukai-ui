@@ -9,6 +9,7 @@ import { Hero } from "./molecules/Hero";
 import { RoleCard } from "./molecules/RoleCard";
 import { Principle } from "./molecules/Principle";
 import { FailureMode } from "./molecules/FailureMode";
+import { Statement } from "./molecules/Statement";
 import { SiteShell } from "./organisms/SiteShell";
 
 /**
@@ -127,6 +128,21 @@ test("a11y — Principle", async ({ mount, page }) => {
     <Principle numeral="i." title="Ship the smallest real thing.">
       <p>Pilots fail because they're rehearsals.</p>
     </Principle>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Statement (full variant)", async ({ mount, page }) => {
+  await mount(
+    <Statement
+      hairline
+      statement={
+        <>
+          Custom AI builds. <em>Automations.</em> Advisory engagements.
+        </>
+      }
+      supporting="For teams who'd rather ship than speculate."
+    />,
   );
   await expectAxeClean(page);
 });

@@ -1,0 +1,31 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+}
+
+.hairline {
+  border-top: var(--hairline-w) solid var(--hairline);
+  padding-top: var(--space-12);
+}
+
+.statement {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-statement);
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: var(--fg);
+  margin: 0;
+  padding-bottom: 0.04em;
+  text-wrap: balance;
+}
+
+.supporting {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin: 0;
+}

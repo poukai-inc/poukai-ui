@@ -119,11 +119,12 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 
 ### Hero
 - One per page. Do NOT nest Hero inside another Hero.
-- status slot: StatusBadge or equivalent only.
+- status slot: StatusBadge or equivalent only (default variant only; not available in no-title variant).
 - lede: 1-3 sentences at most.
 - align="center": standalone landing contexts only.
 - size="display" (default): title uses `--fs-tagline` (36-68px). Default for all product, marketing, and feature pages.
 - size="intimate": title uses `--fs-tagline-intimate` (32-52px). Opt-in for low-density doorways (homepages, principle lists) where a quieter register suits the context. All other Hero rhythm (gaps, lede, CTA, color, font family, em accent) is unchanged.
+- variant="no-title": renders eyebrow + lede only — no heading element of any level. Use only when the page's `<h1>` lives in body content. The molecule does not emit an `<h1>`; the consumer must. Eyebrow is rendered at `--fs-micro` (12px), uppercase, `letter-spacing: 0.04em`, `--fg-muted`. The `title` and `status` props are excluded from this variant's type signature. `align`, `entrance`, and `cta` remain available.
 
 ### RoleCard
 - Eyebrow format: "Role 01", "Role 02" — Title Case "Role", zero-padded two-digit numeral.
@@ -164,6 +165,7 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - **Do not use `--bg-elevated` as the page background.** It is for overlays only. The page is always `--bg`.
 - **Do not hardcode `#FFFFFF` for page background or content sections.** `#FFFFFF` is reserved for `--bg-elevated`. Use `--bg` (`#FBFBFD`) for the page.
 - **Do not collapse the elevation rhythm.** `--surface`, `--surface-section`, `--bg`, and `--bg-elevated` are four distinct steps. Skipping or reversing them (e.g. using `--bg-elevated` where `--bg` belongs, or using `--surface` as a section divider) is a brand-level error. Use `--surface-section` for section bands; never substitute `--surface` for that role.
+- **Do not use `variant="no-title"` without placing an `<h1>` in body content.** The molecule emits no heading element; the consumer is solely responsible. A page with `variant="no-title"` Hero and no `<h1>` anywhere is an accessibility violation (WCAG 2.4.6, axe-core `page-has-heading-one`).
 
 ---
 

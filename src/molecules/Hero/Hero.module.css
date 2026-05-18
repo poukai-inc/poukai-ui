@@ -74,6 +74,19 @@
 }
 
 /* ============================================================
+   variant="no-title" — eyebrow + lede doorway, no heading.
+   ============================================================ */
+
+.eyebrow {
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 400;
+  margin: 0 0 var(--space-2);
+}
+
+/* ============================================================
    Entrance animation — entrance="stagger"
    CSS-only, JS-free staggered reveal on page load.
    ============================================================ */
@@ -132,17 +145,39 @@
   animation-fill-mode: both;
 }
 
+/* Eyebrow slot (variant="no-title") — slot index 0, same as status in default. */
+.entrance-stagger .eyebrow {
+  animation-name: rise-8;
+  animation-duration: var(--dur-slow);
+  animation-delay: 0ms;
+  animation-timing-function: var(--easing);
+  animation-fill-mode: both;
+}
+
+/* In the no-title variant the title slot is absent, so lede and cta step
+   forward by one delay increment. */
+.variant-no-title.entrance-stagger .lede {
+  animation-delay: calc(var(--dur-stagger-step) * 1);
+}
+
+.variant-no-title.entrance-stagger .cta {
+  animation-delay: calc(var(--dur-stagger-step) * 2);
+}
+
 /* Reduced-motion override.
    tokens.css sets animation-duration: 0.01ms !important globally, but does NOT
    clear animation-delay or animation-fill-mode. With fill-mode: both and a
    450ms delay on .cta, reduced-motion users would see the CTA at opacity: 0
    for 450ms before snapping visible. animation: none clears everything —
-   delay, fill-mode, name, duration — in one declaration. */
+   delay, fill-mode, name, duration — in one declaration.
+   .eyebrow covers the no-title variant; it has no effect in the default variant
+   where no .eyebrow element is present. */
 @media (prefers-reduced-motion: reduce) {
   .entrance-stagger .status,
   .entrance-stagger .title,
   .entrance-stagger .lede,
-  .entrance-stagger .cta {
+  .entrance-stagger .cta,
+  .entrance-stagger .eyebrow {
     animation: none;
   }
 }

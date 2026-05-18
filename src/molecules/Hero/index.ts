@@ -1,1 +1,10 @@
-export { Hero, type HeroProps, type HeroAlign, type HeroSize, type HeroEntrance } from "./Hero";
+export {
+  Hero,
+  type HeroProps,
+  type HeroDefaultProps,
+  type HeroNoTitleProps,
+  type HeroAlign,
+  type HeroSize,
+  type HeroEntrance,
+  type HeroVariant,
+} from "./Hero";

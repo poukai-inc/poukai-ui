@@ -2,6 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Hero, type HeroAlign, type HeroEntrance, type HeroSize } from "./Hero";
 import { StatusBadge } from "../../atoms/StatusBadge";
 import { Button } from "../../atoms/Button";
+import { SiteShell } from "../../organisms/SiteShell";
 
 export default {
   title: "Components / Hero",
@@ -143,4 +144,55 @@ export const EntranceStaggerIntimate: Story = () => (
 
 export const EntranceStaggerTextOnly: Story = () => (
   <Hero entrance="stagger" title={sampleTitle} lede={sampleLede} />
+);
+
+export const EditorialDoorwayNoTitle: Story = () => (
+  <Hero
+    variant="no-title"
+    eyebrow="About"
+    lede="One to two sentences setting up the page. Context for what follows — not a summary of everything below."
+  />
+);
+
+export const EditorialDoorwayNoTitleWithCta: Story = () => (
+  <Hero
+    variant="no-title"
+    eyebrow="About"
+    lede="One to two sentences setting up the page. Context for what follows — not a summary of everything below."
+    cta={
+      <Button asChild>
+        <a href="mailto:hello@pouk.ai">Get in touch</a>
+      </Button>
+    }
+  />
+);
+
+export const EditorialDoorwayNoTitleWithSiteShell: Story = () => (
+  <SiteShell
+    currentRoute="/about"
+    routes={[
+      { href: "/why-ai", label: "Why AI" },
+      { href: "/roles", label: "Roles" },
+      { href: "/about", label: "About" },
+    ]}
+    footer={
+      <p>
+        © Pouk AI INC ·{" "}
+        <a href="mailto:hello@pouk.ai" className="muted-link">
+          hello@pouk.ai
+        </a>
+      </p>
+    }
+  >
+    <Hero
+      variant="no-title"
+      eyebrow="About"
+      lede="One to two sentences setting up the page. Context for what follows — not a summary of everything below."
+    />
+    <h1>About Pouk AI</h1>
+    <p>
+      Body content follows the doorway band. The page&apos;s <code>&lt;h1&gt;</code> lives here, not
+      in the Hero.
+    </p>
+  </SiteShell>
 );

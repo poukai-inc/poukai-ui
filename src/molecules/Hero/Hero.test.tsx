@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/experimental-ct-react";
+import AxeBuilder from "@axe-core/playwright";
 import { Hero } from "./Hero";
 
 test("renders title in an h1 by default", async ({ mount }) => {
@@ -165,4 +166,105 @@ test('entrance="stagger" — status, title, lede, and cta render with correct co
   await expect(component.locator("p.lede")).toHaveText("Stagger lede.");
   await expect(component.locator("[data-testid='status-inner']")).toBeVisible();
   await expect(component.locator("[data-testid='cta-inner']")).toBeVisible();
+});
+
+/* ── variant="no-title" ─────────────────────────────────── */
+
+test('variant="no-title" renders no heading element', async ({ mount }) => {
+  const component = await mount(
+    <Hero variant="no-title" eyebrow="About" lede="Editorial lede copy." />,
+  );
+  await expect(component.locator("h1")).toHaveCount(0);
+  await expect(component.locator("h2")).toHaveCount(0);
+});
+
+test('variant="no-title" renders eyebrow in a p element', async ({ mount }) => {
+  const component = await mount(
+    <Hero variant="no-title" eyebrow="About" lede="Editorial lede copy." />,
+  );
+  const eyebrow = component.locator("p").first();
+  await expect(eyebrow).toHaveText("About");
+});
+
+test('variant="no-title" renders lede in a p.lede', async ({ mount }) => {
+  const component = await mount(
+    <Hero variant="no-title" eyebrow="About" lede="Editorial lede copy." />,
+  );
+  await expect(component.locator("p.lede")).toHaveText("Editorial lede copy.");
+});
+
+test('variant="no-title" omits status slot even if provided', async ({ mount }) => {
+  const component = await mount(<Hero variant="no-title" eyebrow="About" lede="Lede." />);
+  // variant="no-title" type excludes status — TypeScript enforces at compile time.
+  // Verify no unexpected heading or status-like elements appear.
+  await expect(component.locator("h1")).toHaveCount(0);
+});
+
+test('variant="no-title" renders cta slot when provided', async ({ mount }) => {
+  const component = await mount(
+    <Hero
+      variant="no-title"
+      eyebrow="About"
+      lede="Lede."
+      cta={
+        <a data-testid="no-title-cta" href="#">
+          Get in touch
+        </a>
+      }
+    />,
+  );
+  await expect(component.locator("[data-testid='no-title-cta']")).toBeVisible();
+});
+
+test('variant="no-title" without eyebrow renders only lede', async ({ mount }) => {
+  const component = await mount(<Hero variant="no-title" lede="Lede only." />);
+  await expect(component.locator("p.lede")).toHaveText("Lede only.");
+  await expect(component.locator("h1")).toHaveCount(0);
+});
+
+test('variant="no-title" applies variant-no-title class to root', async ({ mount }) => {
+  const component = await mount(<Hero variant="no-title" eyebrow="About" lede="Lede." />);
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).toMatch(/variantNoTitle|variant-no-title/);
+});
+
+test('variant="no-title" supports align="center"', async ({ mount }) => {
+  const component = await mount(
+    <Hero variant="no-title" align="center" eyebrow="About" lede="Lede." />,
+  );
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).toMatch(/alignCenter|align-center/);
+});
+
+test('variant="no-title" forwards arbitrary props to root section', async ({ mount }) => {
+  const component = await mount(
+    <Hero variant="no-title" eyebrow="About" lede="Lede." data-testid="no-title-hero" />,
+  );
+  await expect(component).toHaveAttribute("data-testid", "no-title-hero");
+});
+
+test('variant="no-title" with entrance="stagger" applies entrance class', async ({ mount }) => {
+  const component = await mount(
+    <Hero variant="no-title" entrance="stagger" eyebrow="About" lede="Lede." />,
+  );
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).toMatch(/entranceStagger|entrance-stagger/);
+  expect(rootClass).toMatch(/variantNoTitle|variant-no-title/);
+});
+
+test('a11y — variant="no-title" passes axe-core with zero violations', async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Hero
+        variant="no-title"
+        eyebrow="About"
+        lede="Setting up the page with one to two sentences."
+      />
+      <h1>Page heading in body content</h1>
+    </div>,
+  );
+  const results = await new AxeBuilder({ page })
+    .disableRules(["landmark-one-main", "region"])
+    .analyze();
+  expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
 });

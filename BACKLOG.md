@@ -3,14 +3,19 @@
 Living to-do for `@poukai-inc/ui`. PRs that close an item should tick its box.
 Items removed when stale or migrated to an issue.
 
-**Last reviewed:** 2026-05-17
+**Last reviewed:** 2026-05-18
 
 ---
 
 ## 🔴 Blocking
 
-Nothing right now — `0.2.1` is published to GitHub Packages and the registry
-path works end-to-end for consumers.
+Real bugs in published `0.15.0` surfaced by the 2026-05-18 consistency audit.
+
+- [x] **Define `--fs-statement` in `src/tokens/tokens.css`.**
+      Added as `clamp(1.75rem, 1.25rem + 2vw, 2.75rem)` (28–44px) — italic-serif
+      editorial Statement block; sits between h2 and `--fs-tagline-intimate`.
+- [x] **Define `--hero-illustration-max` in `src/tokens/tokens.css`.**
+      Added as `25rem` per `CHANGELOG.md:7` stated intent.
 
 ---
 
@@ -79,6 +84,128 @@ ordering by likely demand.
       `apps/pouk-ai-site/README.md`.
 - [ ] **Phase 4 cutover** — run the parity matrix from migration plan §6.1,
       then DNS swap on Vercel. Last step.
+
+---
+
+## 🟠 Consistency audit (2026-05-18)
+
+Sourced from a four-lane OMC review: component API, token contract,
+build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
+
+### High — consumer-visible or contract-breaking
+
+- [ ] **Export `Statement` from `src/molecules.ts` subpath barrel.**
+      Currently only reachable via root `@poukai-inc/ui`; `import { Statement }
+    from "@poukai-inc/ui/molecules"` fails.
+- [ ] **Widen Hero type re-exports in `src/molecules.ts`** to include
+      `HeroSize`, `HeroEntrance`, `HeroBleed`, `HeroVariant`, `HeroDefaultProps`,
+      `HeroNoTitleProps` (currently only `HeroProps` + `HeroAlign`).
+- [ ] **Add `Portrait` and `Statement` to `scripts/build-llms-txt.mjs`
+      `COMPONENTS.molecules`** so the generated `dist/llms.txt` lists all
+      shipped components (currently undercounts 9 vs 11).
+- [ ] **Add `### Portrait` and `### Statement` sections to
+      `meta/llms-full.txt`** with usage rules + constraints. Both shipped in
+      `0.10.0` / `0.13.0` and are absent from the authoritative LLM contract.
+- [ ] **Add `Portrait` and `Statement` rows to the "Components shipped today"
+      table in `README.md:55`.**
+- [ ] **Replace hardcoded transition values in `src/atoms/Button/Button.module.css:13`**
+      (`120ms`, `80ms`, raw `ease`) with `var(--dur-fast)` and `var(--easing)`.
+- [ ] **Tokenize StatusBadge pulse duration.**
+      `src/atoms/StatusBadge/StatusBadge.module.css:38` hardcodes
+      `1800ms ease-out`; add `--dur-pulse` or reuse an existing duration token.
+- [ ] **Tokenize the repeated card-title clamp.**
+      `clamp(1.5rem, 1.15rem + 1.2vw, 2rem)` is duplicated in `RoleCard.module.css:44`,
+      `Principle.module.css:51`, `FailureMode.module.css:28`. Add e.g.
+      `--fs-card-title` to the type scale so changes propagate.
+- [ ] **Define `--space-10: 2.5rem`** (or drop the phantom). Used with
+      `var(--space-10, 2.5rem)` fallback in `tokens.css:171`, `Hero.module.css:57`,
+      `FailureMode.module.css:5`; scale currently jumps `--space-8 → --space-12`.
+- [ ] **Add per-variant assertions to `src/atoms/Button/Button.test.tsx`.**
+      Tests never verify which `variant` (primary/secondary/ghost) class is
+      applied.
+- [ ] **Backfill `StatusBadge` tests.** Only 2 tests today; `idle`/`closed`
+      statuses never mounted; pulse-halo CSS regression (from `0.3.2`) is
+      unguarded.
+- [ ] **Extend `scripts/check-llms-tokens-sync.mjs` to assert each
+      `src/{atoms,molecules,organisms}/*` has a matching `### ComponentName`
+      heading in `meta/llms-full.txt`** — current CI gate only checks color
+      tokens, so new components ship undocumented (Portrait/Statement proof).
+
+### Medium — API + token + docs polish
+
+- [ ] **Root barrel `src/index.ts:23` Hero type completeness** — add
+      `HeroVariant`, `HeroDefaultProps`, `HeroNoTitleProps` to match
+      `Hero/index.ts`.
+- [ ] **Fix wrong fallback in `src/atoms/Button/Button.module.css:10`.**
+      `var(--radius-2, 8px)` — `--radius-2` is `4px`; fallback would silently
+      shift radius if the token vanished.
+- [ ] **Add `displayName` to all `forwardRef` components.** Currently set on
+      Hero/Statement/Portrait only; missing on Button, Stat, StatusBadge,
+      Wordmark, FailureMode, Principle, RoleCard, SiteShell.
+- [ ] **Document polymorphic-prop conventions.** Three patterns coexist
+      undocumented: `asChild` (Button via Radix Slot), `as` (Statement root
+      swap), `titleAs` (Hero child-slot swap). Codify in `meta/brand.md` or
+      a CONTRIBUTING note.
+- [ ] **Add `args` / `argTypes` to story default exports** for FailureMode,
+      Portrait, Principle, RoleCard, Statement, SiteShell — currently only
+      Button/Stat/StatusBadge/Hero expose Playground knobs.
+- [ ] **Decide Wordmark story namespace.** `"Brand / Wordmark"` vs
+      `"Components / *"` for the other ten. Either document the split or
+      unify under `Components/`.
+- [ ] **Spread axe-core coverage.** Inline `AxeBuilder` exists in
+      Hero/Portrait/Statement tests only; either standardize on the central
+      `src/a11y.test.tsx` or add inline scans everywhere — current pattern is
+      asymmetric.
+- [ ] **Add `Portrait` to the centralized `src/a11y.test.tsx` gate.**
+- [ ] **Reconcile letter-spacing.** Canonical `.micro` uses `0.04em`; RoleCard
+      eyebrow uses `0.06em`, FailureMode index uses `0.08em`. Pick or tokenize.
+- [ ] **Reconcile responsive breakpoint.** Hero uses `720px` while the rest of
+      the repo (Principle grid, tokens.css h1) uses `768px`. Tokenize
+      breakpoints or align Hero.
+- [ ] **Tokenize / document Button paddings.** `Button.module.css:34,40,46,52`
+      hardcodes four px-pair values. Brand decision says padding stays in the
+      spec, not in tokens — link the spec from the file or move to tokens.
+- [ ] **Tokenize StatusBadge dot dimensions (`8px`) and RoleCard icon box
+      (`44px`)** or reference the existing `--btn-h-md` token where it lines up.
+- [ ] **Document `illustration` slot in `meta/llms-full.txt` Hero section.**
+      Added `0.15.0`, missing from the constraints list.
+- [ ] **Prune stale `ROADMAP.md` "Shipped" block.** Stuck at `0.1.0`; misses
+      14 releases including Statement (`0.10.0`), Portrait (`0.13.0`),
+      illustration slot (`0.15.0`).
+- [ ] **Prune stale `BACKLOG.md` "Done" entries** (currently references
+      `0.2.1` / `0.2.0` only — handled as part of this audit pass; remove
+      this item once the historical Done block is rewritten).
+- [ ] **Decide on `@radix-ui/react-dialog` dependency.** No Dialog component
+      ships; ROADMAP says "maybe / no current need". Drop or wire up.
+- [ ] **Reconcile sequential-marker prop names.** `FailureMode.index` +
+      `indexLabel` vs `Principle.numeral` for the same concept.
+- [ ] **Make the Portrait dev-mode-guard test non-vacuous.** Current test
+      passes trivially under `NODE_ENV=test` without exercising the guard.
+
+### Low — hygiene + future-proofing
+
+- [ ] **Move `lede` (`Hero.tsx:136`) and `muted-link` (`SiteShell.tsx:86`)
+      global classes into their respective CSS Modules** — only places where
+      a global utility leaks into component JSX.
+- [ ] **Fix `.ladle/config.mjs` `defaultStory: "showcase-overview--index"`** —
+      route doesn't exist (`System.stories.tsx` exports `All`), so `pnpm dev`
+      lands on 404.
+- [ ] **Resolve orphaned tokens** — `--fs-wordmark`, `--space-32`, `--fs-display`
+      defined but unreferenced. Drop or wire up (`--fs-wordmark` likely
+      intended for the Wordmark atom, which uses a `height` prop instead).
+- [ ] **Pick one body line-height.** `1.6` (Principle/FailureMode) vs `1.55`
+      (RoleCard/global body) — either reconcile or tokenize as
+      `--lh-body-tight` / `--lh-body-relaxed`.
+- [ ] **Fill `meta/brand.md` Typography / Spacing / Motion / Brand-mark
+      sections** (currently `_To be filled._` stubs) — the token contract is
+      enforced in code but the rationale is undocumented.
+- [ ] **Author missing design specs under `meta/design/`** for Wordmark,
+      StatusBadge, Stat, RoleCard, Principle, FailureMode, Statement, SiteShell
+      (specs exist for Button, Hero, Portrait only).
+- [ ] **Decide on Firefox CT coverage.** `playwright-ct.config.ts` runs only
+      Chromium + WebKit; add Firefox or document the omission.
+- [ ] **Tokenize line-height + letter-spacing scales** to stop the per-file
+      drift identified above (`--lh-*`, `--tracking-*`).
 
 ---
 

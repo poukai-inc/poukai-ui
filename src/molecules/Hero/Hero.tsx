@@ -5,6 +5,7 @@ import styles from "./Hero.module.css";
 export type HeroAlign = "start" | "center";
 export type HeroSize = "display" | "intimate";
 export type HeroEntrance = "stagger";
+export type HeroBleed = "none" | "full";
 export type HeroVariant = "default" | "no-title";
 
 type HeroShared = Omit<ComponentPropsWithoutRef<"section">, "title"> & {
@@ -28,6 +29,13 @@ type HeroShared = Omit<ComponentPropsWithoutRef<"section">, "title"> & {
    * Accessibility: animation is fully disabled under prefers-reduced-motion: reduce.
    */
   entrance?: HeroEntrance;
+  /**
+   * Extend the Hero section to full viewport width. When "full", the root section
+   * bleeds to 100vw via margin-inline trick and an inner wrapper re-establishes
+   * the content column centered at --content-max.
+   * Default "none" preserves existing behavior with no structural change.
+   */
+  bleed?: HeroBleed;
 };
 
 export type HeroDefaultProps = HeroShared & {
@@ -72,6 +80,11 @@ const entranceClass: Record<HeroEntrance, string> = {
   stagger: styles.entranceStagger!,
 };
 
+const bleedClass: Record<HeroBleed, string | undefined> = {
+  none: undefined,
+  full: styles.bleedFull!,
+};
+
 /**
  * Editorial hero block. Two modes:
  * - Default: Status / Title (h1) / Lede / CTA — the primary display moment per page.
@@ -96,6 +109,7 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(function Hero(
     align = "start",
     size = "display",
     entrance,
+    bleed = "none",
     className,
     variant,
     title,
@@ -107,6 +121,13 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(function Hero(
   ref,
 ) {
   if (variant === "no-title") {
+    const noTitleContent = (
+      <>
+        {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
+        <p className={clsx(styles.lede, "lede")}>{lede}</p>
+        {cta ? <div className={styles.cta}>{cta}</div> : null}
+      </>
+    );
     return (
       <section
         ref={ref}
@@ -114,19 +135,26 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(function Hero(
           styles.root,
           styles.variantNoTitle,
           alignClass[align],
+          bleedClass[bleed],
           entrance != null ? entranceClass[entrance] : undefined,
           className,
         )}
         {...rest}
       >
-        {eyebrow ? <p className={styles.eyebrow}>{eyebrow}</p> : null}
-        <p className={clsx(styles.lede, "lede")}>{lede}</p>
-        {cta ? <div className={styles.cta}>{cta}</div> : null}
+        {bleed === "full" ? <div className={styles.inner}>{noTitleContent}</div> : noTitleContent}
       </section>
     );
   }
 
   const Title = titleAs;
+  const defaultContent = (
+    <>
+      {status ? <div className={styles.status}>{status}</div> : null}
+      <Title className={styles.title}>{title}</Title>
+      <p className={clsx(styles.lede, "lede")}>{lede}</p>
+      {cta ? <div className={styles.cta}>{cta}</div> : null}
+    </>
+  );
   return (
     <section
       ref={ref}
@@ -134,15 +162,13 @@ export const Hero = forwardRef<HTMLElement, HeroProps>(function Hero(
         styles.root,
         alignClass[align],
         sizeClass[size],
+        bleedClass[bleed],
         entrance != null ? entranceClass[entrance] : undefined,
         className,
       )}
       {...rest}
     >
-      {status ? <div className={styles.status}>{status}</div> : null}
-      <Title className={styles.title}>{title}</Title>
-      <p className={clsx(styles.lede, "lede")}>{lede}</p>
-      {cta ? <div className={styles.cta}>{cta}</div> : null}
+      {bleed === "full" ? <div className={styles.inner}>{defaultContent}</div> : defaultContent}
     </section>
   );
 });

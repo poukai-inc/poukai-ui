@@ -7,4 +7,5 @@ export {
   type HeroSize,
   type HeroEntrance,
   type HeroVariant,
+  type HeroBleed,
 } from "./Hero";

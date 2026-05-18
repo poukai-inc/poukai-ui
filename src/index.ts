@@ -26,6 +26,7 @@ export {
   type HeroAlign,
   type HeroSize,
   type HeroEntrance,
+  type HeroBleed,
 } from "./molecules/Hero";
 export { RoleCard, type RoleCardProps } from "./molecules/RoleCard";
 export { Principle, type PrincipleProps } from "./molecules/Principle";

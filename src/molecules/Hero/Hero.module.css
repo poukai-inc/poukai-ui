@@ -181,3 +181,29 @@
     animation: none;
   }
 }
+
+/* ============================================================
+   bleed="full" — viewport-width surface
+   ============================================================ */
+
+.bleed-full {
+  width: var(--content-max-bleed);
+  margin-inline: calc(50% - 50vw);
+  max-width: none; /* override the --hero-max on .root */
+}
+
+.bleed-full .inner {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+  display: flex;
+  flex-direction: column;
+}
+
+.bleed-full.align-center .inner {
+  align-items: center;
+}
+
+.bleed-full.align-start .inner {
+  align-items: flex-start;
+}

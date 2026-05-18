@@ -268,3 +268,53 @@ test('a11y — variant="no-title" passes axe-core with zero violations', async (
     .analyze();
   expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
 });
+
+/* ── bleed prop ─────────────────────────────────────────── */
+
+test('bleed="none" (default) — no bleed class on root', async ({ mount }) => {
+  const component = await mount(<Hero title="Heading" lede="Lede." />);
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).not.toMatch(/bleedFull|bleed-full/);
+});
+
+test('bleed="full" — applies bleed class to root section', async ({ mount }) => {
+  const component = await mount(<Hero bleed="full" title="Heading" lede="Lede." />);
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).toMatch(/bleedFull|bleed-full/);
+});
+
+test('bleed="full" wraps children in inner div', async ({ mount }) => {
+  const component = await mount(<Hero bleed="full" title="Heading" lede="Lede." />);
+  // Inner wrapper div should be present inside the section
+  await expect(component.locator("div").first()).toBeVisible();
+});
+
+test('bleed="full" — h1 title still renders inside bleed section', async ({ mount }) => {
+  const component = await mount(<Hero bleed="full" title="Bleed heading" lede="Lede." />);
+  await expect(component.locator("h1")).toHaveText("Bleed heading");
+});
+
+test('bleed="full" is orthogonal to align="center"', async ({ mount }) => {
+  const component = await mount(<Hero bleed="full" align="center" title="Heading" lede="Lede." />);
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).toMatch(/bleedFull|bleed-full/);
+  expect(rootClass).toMatch(/alignCenter|align-center/);
+});
+
+test('bleed="full" with variant="no-title" applies bleed class', async ({ mount }) => {
+  const component = await mount(
+    <Hero bleed="full" variant="no-title" eyebrow="About" lede="Lede." />,
+  );
+  const rootClass = await component.getAttribute("class");
+  expect(rootClass).toMatch(/bleedFull|bleed-full/);
+});
+
+test('a11y — bleed="full" passes axe-core with zero violations', async ({ mount, page }) => {
+  await mount(
+    <Hero bleed="full" title="Full-bleed hero" lede="A lede paragraph for the bleed test." />,
+  );
+  const results = await new AxeBuilder({ page })
+    .disableRules(["landmark-one-main", "region"])
+    .analyze();
+  expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
+});

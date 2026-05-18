@@ -1,5 +1,5 @@
 import type { Story, StoryDefault } from "@ladle/react";
-import { Hero, type HeroAlign, type HeroEntrance, type HeroSize } from "./Hero";
+import { Hero, type HeroAlign, type HeroBleed, type HeroEntrance, type HeroSize } from "./Hero";
 import { StatusBadge } from "../../atoms/StatusBadge";
 import { Button } from "../../atoms/Button";
 import { SiteShell } from "../../organisms/SiteShell";
@@ -10,6 +10,7 @@ export default {
     align: "start",
     size: "display",
     entrance: undefined,
+    bleed: "none",
   },
   argTypes: {
     align: {
@@ -23,6 +24,10 @@ export default {
     },
     entrance: {
       options: [undefined, "stagger"] satisfies (HeroEntrance | undefined)[],
+      control: { type: "radio" },
+    },
+    bleed: {
+      options: ["none", "full"] satisfies HeroBleed[],
       control: { type: "radio" },
     },
   },
@@ -164,6 +169,29 @@ export const EditorialDoorwayNoTitleWithCta: Story = () => (
         <a href="mailto:hello@pouk.ai">Get in touch</a>
       </Button>
     }
+  />
+);
+
+export const BleedFull: Story = () => (
+  <Hero
+    bleed="full"
+    title={sampleTitle}
+    lede={sampleLede}
+    status={<StatusBadge status="available">Taking conversations for Q3.</StatusBadge>}
+    cta={
+      <Button asChild>
+        <a href="mailto:hello@pouk.ai">hello@pouk.ai</a>
+      </Button>
+    }
+  />
+);
+
+export const BleedFullNoTitle: Story = () => (
+  <Hero
+    bleed="full"
+    variant="no-title"
+    eyebrow="About"
+    lede="Portrait band doorway — full-bleed surface, content centered inside."
   />
 );
 

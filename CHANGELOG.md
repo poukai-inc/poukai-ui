@@ -1,5 +1,14 @@
 # @poukai-inc/ui
 
+## 0.13.0
+
+### Minor Changes
+
+- 5071580: Add `Portrait` molecule — editorial photography primitive with AVIF/WebP/JPEG `<picture>` fallback chain, srcset generation, CLS-safe aspect-ratio, and enforced non-empty alt contract (WCAG 1.1.1).
+- d6acfab: Add warm accent token tier: `--bg-warm-accent`, `--fg-on-warm`, `--fg-on-warm-muted`.
+
+  Saturated orange-vermillion editorial band tokens for the `/about` portrait section. Value is locked post-ship — the portrait asset is graded to match `--bg-warm-accent` (#C0452C). Restraint rules documented in `meta/brand.md` and `meta/llms-full.txt`. Contrast verified: `--fg-on-warm` 4.72 : 1 (AA), `--fg-on-warm-muted` 3.91 : 1 (AA-large, display/heading >= 24px).
+
 ## 0.12.0
 
 ### Minor Changes

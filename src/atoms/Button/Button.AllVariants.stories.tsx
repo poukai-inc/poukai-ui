@@ -6,7 +6,7 @@ export default {
 } satisfies StoryDefault;
 
 const variants: ButtonVariant[] = ["primary", "secondary", "ghost"];
-const sizes: ButtonSize[] = ["sm", "md", "lg"];
+const sizes: ButtonSize[] = ["sm", "compact", "md", "lg"];
 
 /**
  * Every variant × size combination on one canvas.

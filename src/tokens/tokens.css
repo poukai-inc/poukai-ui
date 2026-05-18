@@ -95,6 +95,15 @@
   --content-max: 64rem;
   --hero-max: 38rem;
 
+  /* ---------- Button height ladder ----------
+     Four rungs. Hand-tuned, not interpolated. See meta/design/Button.md §3.
+     Consumed by src/atoms/Button/Button.module.css; available to any future
+     primitive (form fields, segmented controls) that needs to align. */
+  --btn-h-sm: 32px;
+  --btn-h-compact: 40px;
+  --btn-h-md: 44px;
+  --btn-h-lg: 52px;
+
   /* ---------- Motion ---------- */
   --easing: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out: entrance */
   --easing-link: cubic-bezier(0.2, 0, 0, 1); /* link underline grow */

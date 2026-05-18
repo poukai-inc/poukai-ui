@@ -77,6 +77,17 @@ All motion is gated by `prefers-reduced-motion: reduce` via a `:root !important`
 - `--radius-3: 8px` — RoleCard container.
 - `--hairline-w: 1px` — Universal border width. NEVER use 2px or more for decorative borders.
 
+### Button height ladder
+
+The `<Button>` height ladder is part of the brand contract. Four named rungs, hand-tuned, not interpolated.
+
+- `--btn-h-sm: 32px` — `size="sm"` min-height. Minor inline action.
+- `--btn-h-compact: 40px` — `size="compact"` min-height. Editorial CTA — quieter than the page default. Apple's "Compact" rung.
+- `--btn-h-md: 44px` — `size="md"` min-height. Page-default CTA. The only rung that passes WCAG 2.5.5 AAA at threshold.
+- `--btn-h-lg: 52px` — `size="lg"` min-height. Loud CTA.
+
+Padding and font-size stay hand-tuned per size (no separate padding-token scale). Consumed by `src/atoms/Button/Button.module.css`; available to any future primitive (form fields, segmented controls) that needs to align to the same height ladder.
+
 ---
 
 ## Component recommended usages
@@ -96,7 +107,8 @@ All motion is gated by `prefers-reduced-motion: reduce` via a `:root !important`
 ### Button
 - Maximum one variant="primary" per visual section.
 - Labels always sentence-case, never ALL CAPS.
-- Min heights: size="sm" 32px, size="md" 44px, size="lg" 52px.
+- Min heights: size="sm" 32px, size="compact" 40px, size="md" 44px, size="lg" 52px. Default is size="md".
+- size="compact" is the editorial CTA — quieter than md, louder than sm. WCAG 2.5.5 AAA tap target (44px) requires md or lg; sm and compact are AA tiers.
 - Use asChild with an <a> element for link-styled buttons. Do NOT nest a <button> inside Button with asChild.
 
 ### Stat

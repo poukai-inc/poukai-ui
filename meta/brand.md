@@ -111,6 +111,63 @@ Only the title font-size responds to size. All gaps, lede, CTA, em accent render
 
 **Authorized by.** Arian (founder, pouk.ai). Proposal: GitHub issue #39.
 
+### 2026-05-17 — Name the `<Button>` height ladder as tokens; introduce `compact` tier at 40px
+
+**Context.** The pouk.ai site team filed [poukai-ui#42](https://github.com/poukai-inc/poukai-ui/issues/42) (mirrored to `meta/proposals/button-size-compact.md`) asking for an intermediate `<Button>` size between `sm` (32px) and `md` (44px), recommended ~38px. The gap surfaced during a 2026-05-17 audit of the home Hero CTA: `md` reads too heavy against `<Hero size="display">`, `sm` reads too small. The proposal asked, in passing, whether the new tier should add a token (`--btn-h-compact`) or stay computed.
+
+**Principle.** Button heights are part of the brand contract, not implementation detail. The `<Button>` height ladder anchors the perceived weight of every CTA on every page and will inform the height ladder of future form-control primitives (`<Input>`, segmented controls) when they ship. Hard-coded literals in `Button.module.css` are accidental tokens; naming them surfaces them in `tokens.css` and in the package's `llms-full.txt` export, where consumers (and the consumers' agents) can read the contract.
+
+**Decision.** Introduce four new tokens covering the full button-height ladder:
+
+| Token             | Value  | Status                             |
+| ----------------- | ------ | ---------------------------------- |
+| `--btn-h-sm`      | `32px` | New — formalises existing literal. |
+| `--btn-h-compact` | `40px` | New tier.                          |
+| `--btn-h-md`      | `44px` | New — formalises existing literal. |
+| `--btn-h-lg`      | `52px` | New — formalises existing literal. |
+
+The new tokens live in `:root` in `src/tokens/tokens.css` alongside the existing spacing scale. They are not aliased to spacing tokens (`--space-*`) because button heights and spacing share a base unit but not a semantic register — `--btn-h-compact` is "the height of a compact button", not "10 × `--space-1`".
+
+Padding, font-size, and icon-size guidance per button size stay in the Button spec (`meta/design/Button.md`), not in tokens. Only the height ladder is tokenized.
+
+**Why 40px for `compact`, not the consumer's 38px.**
+
+1. **Apple ladder.** Apple's button-height ladder on macOS is 28 / 32 / 40 / 44 / 52. There is an exact 40px rung — the "medium" toolbar / control register. `compact` lands on the established rung rather than between rungs. Per §6 ("Apple's restrained Human Interface register is the primary reference"), bias toward existing rungs.
+2. **Grid alignment.** The DS spacing scale is 4px-based. 40 is on the grid; 38 is not. Off-grid heights ripple into any layout that aligns buttons with `--space-*`-spaced siblings (forms, header chrome, side-by-side button rows).
+3. **Asymmetric gap is intentional.** `sm(32) → compact(40) → md(44)` gives gaps of 8 and 4. `compact` is closer to `md` than to `sm`, by design: the consumer's use case is "the CTA where `md` reads too heavy," which means `compact` is "`md` minus one notch of weight," not "`sm` plus one notch of size." The ladder structure encodes the intent.
+4. **Body type fits.** `compact` carries `--fs-body` (17–19px fluid). At 40px height with 9 / 16 padding, the line-box centers cleanly against the body type's optical center. At 38px the same body type starts to crowd the height.
+
+**Why name the full ladder, not just `--btn-h-compact`.** Surfacing only the new tier as a token while leaving `32 / 44 / 52` as literals creates an asymmetric contract — one rung is a brand-level decision, three are accidental. Either all four rungs are part of the brand contract or none are. They are.
+
+**AA / AAA tap-target posture.**
+
+- WCAG 2.5.8 AA (24 × 24): `sm` 32 passes, `compact` 40 passes, `md` 44 passes, `lg` 52 passes.
+- WCAG 2.5.5 AAA (44 × 44): `sm` 32 fails, `compact` 40 fails, `md` 44 passes at threshold, `lg` 52 passes.
+
+`compact` shares the AA-only posture with `sm`. The proposal accepts this trade-off; consumers requiring strict AAA on a given surface must use `md` or `lg`.
+
+**Alternatives considered.**
+
+1. **38px (consumer-recommended).** Rejected. Off-grid, not on the Apple rung, crowds body type. Defended in §3 of the proposal file.
+2. **36px.** Rejected — too close to `sm` (4px gap) to register as a distinct rung; would read as "a slightly tall `sm`" rather than "a quieter `md`."
+3. **42px.** Rejected — only 2px below `md`, no perceptible weight difference. Would not solve the surfaced problem.
+4. **Computed value (no token).** Rejected. Inconsistent with the rest of the brand contract; surfaces the rung only inside `Button.module.css` where no other primitive can see it.
+5. **Single new token only (`--btn-h-compact`), keep `32 / 44 / 52` as literals.** Rejected — asymmetric contract. See "Why name the full ladder."
+6. **Rename `--btn-h-*` to `--control-h-*` (anticipating form fields).** Rejected as premature. When `<Input>` lands and clearly wants the same ladder, we revisit — at that point the rename is mechanical and an additive deprecation is cheap. Avoid speculative abstraction.
+
+**Naming the rung `compact` (vs `sm-plus`, `intermediate`, `tight`, `cozy`).** `compact` is a register-name — it describes the feel of the rung. `sm-plus` is a position-name — it leaks the API gap and dates badly (what happens if we ever add a true `sm-plus`?). `intermediate` is sterile. `tight` and `cozy` are Material-adjacent vocabulary that does not fit the Apple-aligned register. `compact` is also the word Apple uses for its compact sidebar and compact UI density modes; the vocabulary is on-brand.
+
+**Approval.** `poukai-design` decision; Arian to ratify on review.
+
+**Follow-ups for `poukai-ds-engineer` (not actioned by this change).**
+
+- Add `"compact"` to the `ButtonSize` union in `src/atoms/Button/Button.tsx`; extend the `sizeClass` map.
+- Refactor `src/atoms/Button/Button.module.css` to consume the four `--btn-h-*` tokens (replace inline `32px` / `44px` / `52px` with `var(--btn-h-sm)` etc.) and add `.size-compact` with the values specified in `meta/design/Button.md` §4.
+- Add the four tokens to `src/tokens/tokens.css` under a new `--- Button heights ---` subhead in `:root`.
+- Add `compact` to `Button.AllVariants.stories.tsx`, `Button.stories.tsx`, and `Button.test.tsx`.
+- Changeset: minor bump. The new size is additive, default is unchanged (`md`), zero regression for existing consumers. Engineer may bundle with the in-flight `<Hero size>` / `<Hero illustration>` minors ([poukai-ui#39](https://github.com/poukai-inc/poukai-ui/issues/39), [poukai-ui#40](https://github.com/poukai-inc/poukai-ui/issues/40)) or ship standalone.
+- Consider whether `meta/design/foundations.md` should reference the button-height ladder once that file is filled in. (Currently the foundations doc is a stub — see "To be filled" sections in this file.)
+
 ### 2026-05-15 — Pull `--bg` off pure white; reserve `#FFFFFF` for `--bg-elevated`
 
 **Context.** The light ramp shipped through `0.5.0` used `--bg: #FFFFFF`. That collapses the elevation model: there is no headroom above the page, popovers and sheets cannot read as "front-most" without inventing a non-token shadow or a borrowed lighter neutral, and the dark-mode inversion has no clean answer — pure white inverts to pure black, which the §6 rule prohibits. Arian flagged this as a brand-level issue with `#FAFAFA` or `#FBFBFD` as candidate values for the new page background.

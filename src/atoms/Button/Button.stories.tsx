@@ -11,7 +11,7 @@ export default {
       defaultValue: "primary",
     },
     size: {
-      options: ["sm", "md", "lg"] satisfies ButtonSize[],
+      options: ["sm", "compact", "md", "lg"] satisfies ButtonSize[],
       control: { type: "radio" },
       defaultValue: "md",
     },
@@ -30,7 +30,7 @@ export const Playground: Story<{
 
 export const VariantsAndSizes: Story = () => {
   const variants: ButtonVariant[] = ["primary", "secondary", "ghost"];
-  const sizes: ButtonSize[] = ["sm", "md", "lg"];
+  const sizes: ButtonSize[] = ["sm", "compact", "md", "lg"];
   return (
     <table style={{ borderCollapse: "collapse" }}>
       <tbody>
@@ -60,6 +60,8 @@ export const VariantsAndSizes: Story = () => {
     </table>
   );
 };
+
+export const Compact: Story = () => <Button size="compact">Get in touch</Button>;
 
 export const AsLink: Story = () => (
   <Button asChild>

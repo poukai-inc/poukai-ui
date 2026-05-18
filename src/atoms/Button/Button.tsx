@@ -4,7 +4,7 @@ import clsx from "clsx";
 import styles from "./Button.module.css";
 
 export type ButtonVariant = "primary" | "secondary" | "ghost";
-export type ButtonSize = "sm" | "md" | "lg";
+export type ButtonSize = "sm" | "compact" | "md" | "lg";
 
 export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
   variant?: ButtonVariant;
@@ -21,6 +21,7 @@ const variantClass: Record<ButtonVariant, string> = {
 
 const sizeClass: Record<ButtonSize, string> = {
   sm: styles.sizeSm!,
+  compact: styles.sizeCompact!,
   md: styles.sizeMd!,
   lg: styles.sizeLg!,
 };

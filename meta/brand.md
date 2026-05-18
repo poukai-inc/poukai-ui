@@ -12,18 +12,19 @@ Pouk AI's color foundation is Apple's restrained Human Interface palette: SF sys
 
 #### Canonical light palette
 
-| Token           | Value                  | Purpose                                                      | Allowed pairings (text on this surface)                                                      | Contrast ratios verified                                                                                                                                              |
-| --------------- | ---------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--bg`          | `#FBFBFD`              | Page background. The default canvas.                         | `--fg` (primary), `--fg-muted` (secondary), `--accent` (links / focus, all text sizes at AA) | `--fg` on `--bg` = **16.29 : 1** (AAA); `--fg-muted` on `--bg` = **4.91 : 1** (AA normal); `--accent` on `--bg` = **4.54 : 1** (AA normal — at threshold)             |
-| `--surface`     | `#F5F5F7`              | Recessed elevation. Code blocks, quote blocks, inline keys.  | `--fg`, `--fg-muted`. Not for `--accent` text below 18px.                                    | `--fg` on `--surface` = **15.46 : 1** (AAA); `--fg-muted` on `--surface` = **4.66 : 1** (AA normal)                                                                   |
-| `--bg-elevated` | `#FFFFFF`              | Front-most layer. Popovers, sheets, dialogs, dropdown menus. | `--fg`, `--fg-muted`, `--accent`                                                             | `--fg` on `--bg-elevated` = **16.83 : 1** (AAA); `--fg-muted` on `--bg-elevated` = **5.07 : 1** (AA normal); `--accent` on `--bg-elevated` = **4.69 : 1** (AA normal) |
-| `--fg`          | `#1D1D1F`              | Primary text, wordmark stroke, sigil stroke.                 | On `--bg`, `--surface`, `--bg-elevated`                                                      | See above. AAA on every surface.                                                                                                                                      |
-| `--fg-muted`    | `#6E6E73`              | Secondary copy: footer, captions, lede paragraphs, metadata. | On all three surfaces.                                                                       | See above. AA normal on every surface; comfortable headroom on `--bg-elevated` (5.07 : 1), tighter on `--surface` (4.66 : 1).                                         |
-| `--hairline`    | `#D2D2D7`              | 1px dividers, table rules, borders.                          | Non-text; no contrast requirement for decorative rules.                                      | n/a — decorative. Reads as a true hairline on all three surfaces.                                                                                                     |
-| `--accent`      | `#0071E3`              | Status dot, link underline, focus ring, primary CTAs.        | Use for non-text UI freely. For text, prefer 17px+ or against `--bg-elevated`.               | See above. WCAG 1.4.11 non-text contrast is satisfied on every surface (focus rings, status dots).                                                                    |
-| `--accent-glow` | `rgba(0,113,227,0.18)` | Selection background, soft accent halos.                     | Background only — never carries text.                                                        | n/a — decorative.                                                                                                                                                     |
+| Token               | Value                  | Purpose                                                                                                                                              | Allowed pairings (text on this surface)                                                      | Contrast ratios verified                                                                                                                                                                                                        |
+| ------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--bg`              | `#FBFBFD`              | Page background. The default canvas.                                                                                                                 | `--fg` (primary), `--fg-muted` (secondary), `--accent` (links / focus, all text sizes at AA) | `--fg` on `--bg` = **16.29 : 1** (AAA); `--fg-muted` on `--bg` = **4.91 : 1** (AA normal); `--accent` on `--bg` = **4.54 : 1** (AA normal — at threshold)                                                                       |
+| `--surface`         | `#F5F5F7`              | Recessed elevation. Code blocks, quote blocks, inline keys.                                                                                          | `--fg`, `--fg-muted`. Not for `--accent` text below 18px.                                    | `--fg` on `--surface` = **15.46 : 1** (AAA); `--fg-muted` on `--surface` = **4.66 : 1** (AA normal)                                                                                                                             |
+| `--surface-section` | `#F8F8FA`              | Page-section recessed background. Full-width alternating section bands on editorial pages only. Subtler than `--surface`. NEVER for inline elements. | `--fg`, `--fg-muted`. Keep `--accent` text at 18px+ on this surface.                         | `--fg` on `--surface-section` = **15.87 : 1** (AAA); `--fg-muted` on `--surface-section` = **4.78 : 1** (AA normal); `--accent` on `--surface-section` = **4.42 : 1** (AA large/UI ✓; below AA-normal — keep accent text 18px+) |
+| `--bg-elevated`     | `#FFFFFF`              | Front-most layer. Popovers, sheets, dialogs, dropdown menus.                                                                                         | `--fg`, `--fg-muted`, `--accent`                                                             | `--fg` on `--bg-elevated` = **16.83 : 1** (AAA); `--fg-muted` on `--bg-elevated` = **5.07 : 1** (AA normal); `--accent` on `--bg-elevated` = **4.69 : 1** (AA normal)                                                           |
+| `--fg`              | `#1D1D1F`              | Primary text, wordmark stroke, sigil stroke.                                                                                                         | On `--bg`, `--surface`, `--bg-elevated`                                                      | See above. AAA on every surface.                                                                                                                                                                                                |
+| `--fg-muted`        | `#6E6E73`              | Secondary copy: footer, captions, lede paragraphs, metadata.                                                                                         | On all three surfaces.                                                                       | See above. AA normal on every surface; comfortable headroom on `--bg-elevated` (5.07 : 1), tighter on `--surface` (4.66 : 1).                                                                                                   |
+| `--hairline`        | `#D2D2D7`              | 1px dividers, table rules, borders.                                                                                                                  | Non-text; no contrast requirement for decorative rules.                                      | n/a — decorative. Reads as a true hairline on all three surfaces.                                                                                                                                                               |
+| `--accent`          | `#0071E3`              | Status dot, link underline, focus ring, primary CTAs.                                                                                                | Use for non-text UI freely. For text, prefer 17px+ or against `--bg-elevated`.               | See above. WCAG 1.4.11 non-text contrast is satisfied on every surface (focus rings, status dots).                                                                                                                              |
+| `--accent-glow`     | `rgba(0,113,227,0.18)` | Selection background, soft accent halos.                                                                                                             | Background only — never carries text.                                                        | n/a — decorative.                                                                                                                                                                                                               |
 
-**Elevation rhythm.** Read relative luminance left-to-right: `--surface (L≈0.914) < --bg (L≈0.966) < --bg-elevated (L=1.000)`. The page sits between a recessed surface (for inline blocks) and an elevated surface (for overlays). This bidirectional rhythm — recess down, elevate up — is the Apple model and the reason `--surface` does not shift in this change.
+**Elevation rhythm.** Four steps, low to high: `--surface (L≈0.914) < --surface-section (L≈0.940) < --bg (L≈0.966) < --bg-elevated (L=1.000)`. The page sits between recessed surfaces (for inline blocks and section bands) and an elevated surface (for overlays). This bidirectional rhythm — recess down, elevate up — is the Apple model. `--surface` stays its role (inline code/quote blocks, card fills). `--surface-section` is the dedicated tier for full-width alternating section bands; it is semantically distinct from `--surface` and not interchangeable with it.
 
 **Math.** Contrast ratios above are computed against the WCAG 2.1 sRGB linearization (`C_lin = C/12.92` for `C ≤ 0.04045`, else `((C+0.055)/1.055)^2.4`) and the `(L1 + 0.05)/(L2 + 0.05)` ratio formula. Verified independently of the brand decision.
 
@@ -54,6 +55,50 @@ _To be filled. When can a token change vs. add? What requires Arian's approval? 
 ## Decision history
 
 _Reverse-chronological. Each entry: context, decision, rationale, alternatives considered, approval (Arian)._
+
+### 2026-05-18 — Add `--surface-section` — fourth elevation tier for page-section rhythm (issue #53)
+
+**Context.** GitHub issue #53 requests a new surface token to enable sectional surface rhythm on editorial pages — specifically alternating background bands for the `/about` v2 Direction B layout and future editorial pages. The existing token `--surface` (#F5F5F7) cannot serve this role for two reasons: (1) it is semantically defined as a recessed inline element surface (code blocks, quote blocks, card fills) and the token spec explicitly includes a NEVER rule against using it as a section divider; (2) at L≈0.914, it recesses too deeply from the page canvas (#FBFBFD, L≈0.966) to read as a composed section band — it would announce itself as a distinct block rather than as a subtle rhythm step, disrupting the reading flow of editorial pages.
+
+**Decision.** New token:
+
+```css
+--surface-section: #f8f8fa; /* page-section recessed background — subtle band rhythm for editorial pages */
+```
+
+**Value rationale.** `#F8F8FA` sits exactly halfway between `--bg` (#FBFBFD) and `--surface` (#F5F5F7) in each RGB channel (R: 248 = (251+245)/2; G: 248 = (251+245)/2; B: 250 = (253+247)/2). This precision is intentional:
+
+- The halfway position preserves the cool tilt of the palette (B channel remains higher than R/G, matching the Apple cool-neutral lineage).
+- The delta from `--bg` to `--surface-section` is perceptibly distinct at a glance without being as deep as `--surface`. It reads as "composed" not "banded" — consistent with the Apple aesthetic where section separation is implied, never shouted.
+- At L≈0.9398, `--surface-section` occupies the gap cleanly: `--surface (L≈0.914) < --surface-section (L≈0.940) < --bg (L≈0.966)`.
+
+**Why the four-step rhythm is additive, not a collapse.** The addition of `--surface-section` does not change `--surface`. The two tokens serve different semantic registers:
+
+- `--surface` (#F5F5F7): inline recessed elements (code blocks, quote blocks, card fills). Its existing role, its existing value, its existing NEVER-as-section-divider rule — all unchanged.
+- `--surface-section` (#F8F8FA): full-width alternating section bands on editorial pages. A new semantic. Not interchangeable with `--surface`.
+
+Merging these into a single token would either over-darken section bands (using `--surface`'s deeper value) or under-recess inline elements (using `--surface-section`'s lighter value). Both failures are brand-level errors. The four-step ladder is the honest answer.
+
+**Usage rule.** Use `--surface-section` for full-width alternating section bands only. Maximum 5 alternating bands per page. Never use for inline elements (code blocks, card fills, quote blocks) — those continue to use `--surface`. Never stack `--surface-section` directly adjacent to `--surface` on the same page.
+
+**Contrast verification (WCAG 2.1 sRGB, L of `#F8F8FA` ≈ 0.9398):**
+
+| Pair                                                     | Ratio         | WCAG verdict                                                                                                      |
+| -------------------------------------------------------- | ------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `--fg` (#1D1D1F, L≈0.01238) on `--surface-section`       | **15.87 : 1** | AAA ✓                                                                                                             |
+| `--fg-muted` (#6E6E73, L≈0.15711) on `--surface-section` | **4.78 : 1**  | AA normal ✓                                                                                                       |
+| `--accent` (#0071E3, L≈0.17370) on `--surface-section`   | **4.42 : 1**  | AA large/UI (1.4.11) ✓; below AA-normal — keep accent text 18px+ on this surface (same constraint as `--surface`) |
+
+All text pairings pass AA normal except `--accent` at small sizes — same constraint as `--surface` and `--bg`. No regression.
+
+**Alternatives considered.**
+
+- **(A) Use `--surface` (#F5F5F7) as the section divider.** Rejected. The NEVER rule in the token spec exists for a good reason: `--surface` recesses too deeply (L≈0.914 vs. page L≈0.966 is a 52-luminance-point drop). On a content-rich editorial page, that creates jarring band transitions that interrupt reading rhythm rather than composing it. The semantic mismatch is equally disqualifying: consumers following the spec contract would not expect `--surface` on a full-width section background.
+- **(B) No token — let consumers set their own background value.** Rejected. Collapses the brand contract. If section background values proliferate outside `tokens.css`, the palette drifts and the elevation model becomes unverifiable. The token is the contract; the contract must express this use case.
+
+**Authorization.** Arian (founder, pouk.ai) — pending; filed via issue #53.
+
+---
 
 ### 2026-05-18 — Hero entrance animation tokens (issue #47)
 

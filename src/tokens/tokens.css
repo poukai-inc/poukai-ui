@@ -51,6 +51,7 @@
   /* ---------- Color (Apple-light) ---------- */
   --bg: #fbfbfd; /* page background — never pure white; matches apple.com canvas */
   --surface: #f5f5f7; /* recessed elevation, code/quote blocks */
+  --surface-section: #f8f8fa; /* page-section recessed background — subtle band rhythm for editorial pages */
   --bg-elevated: #ffffff; /* front-most layer: popovers, sheets, dialogs */
   --fg: #1d1d1f; /* primary text, wordmark, sigil stroke */
   --fg-muted: #6e6e73; /* secondary copy, footer, captions */

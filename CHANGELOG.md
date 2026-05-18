@@ -1,5 +1,12 @@
 # @poukai-inc/ui
 
+## 0.10.0
+
+### Minor Changes
+
+- b23ba8f: feat(Statement): add Statement molecule — editorial statement block with optional supporting line, hairline, and blockquote semantics
+- 282e889: Add `--surface-section` token (`#F8F8FA`) — a fourth elevation tier for full-width alternating section bands on editorial pages. Positioned between `--surface` (#F5F5F7) and `--bg` (#FBFBFD). Additive; all existing consumers unaffected.
+
 ## 0.9.0
 
 ### Minor Changes

@@ -3,7 +3,7 @@
 Living to-do for `@poukai-inc/ui`. PRs that close an item should tick its box.
 Items removed when stale or migrated to an issue.
 
-**Last reviewed:** 2026-05-19
+**Last reviewed:** 2026-05-19 (lint-staged worktree bug fixed same day)
 
 ---
 
@@ -227,21 +227,26 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
       `read:packages` only for the site repo's Vercel env var, to keep blast
       radius small. The repo's `NPM_TOKEN` (which needs `write:packages`)
       should not be reused there.
-- [ ] **lint-staged worktree bug — `pre-commit` corrupts commits when run
-      from a git worktree.** Reproduced 2026-05-15: committing through the
-      husky `pre-commit` (`npx lint-staged`, pinned `^15.2.0`) from
-      `.claude/worktrees/<name>/` causes lint-staged's partial-stage stash
-      cycle to record file deletions for tracked files it never touched
-      (verified against [lint-staged#1762](https://github.com/lint-staged/lint-staged/issues/1762),
-      closed without a fix; symptom present through v16.4.0). Workaround:
-      commit with `--no-verify` after running `prettier --write` manually,
-      or commit from the primary worktree. Options to investigate when
-      this comes up again: (a) bump to v16.2+ and add `--hide-unstaged` to
-      the husky invocation, (b) replace `npx lint-staged` in
-      `.husky/pre-commit` with a hand-rolled prettier+eslint script that
-      doesn't stash, (c) wait for an upstream fix and watch
-      [lint-staged#1402](https://github.com/lint-staged/lint-staged/issues/1402).
-      Low priority — `--no-verify` works fine for now.
+- [x] **lint-staged worktree bug — `pre-commit` corrupts commits when run
+      from a git worktree.** Fixed by two coordinated changes:
+      (1) Replaced `npx lint-staged` with a hand-rolled
+      `scripts/pre-commit.mjs` that lists staged files via
+      `git diff --cached --diff-filter=ACMR`, runs `eslint --fix` +
+      `prettier --write` against them, and re-stages the originally-staged
+      paths. No stash cycle = no phantom deletions. The `lint-staged`
+      devDep and its config block are gone from `package.json`; the
+      pattern groups are encoded directly in the script. Trade-off
+      documented in the script header: lints the whole file, not just the
+      staged hunks, which matches the standard pre-commit behavior outside
+      lint-staged and is safe across worktrees.
+      (2) Made `.husky/pre-commit` worktree-aware by `cd`-ing to
+      `git rev-parse --show-toplevel` instead of `$(dirname "$0")/..`.
+      Husky pins `core.hooksPath` to the main repo's `.husky/_/`, so
+      `$0` always resolves to the main worktree even when committing
+      from a secondary worktree — without this change, the hook would
+      `cd` into the wrong tree and `scripts/pre-commit.mjs` would resolve
+      to the wrong branch's content. The new `git rev-parse` form makes
+      the hook follow whichever worktree triggered the commit.
 
 ---
 

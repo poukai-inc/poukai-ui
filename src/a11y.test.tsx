@@ -7,6 +7,7 @@ import { Button } from "./atoms/Button";
 import { Stat } from "./atoms/Stat";
 import { Eyebrow } from "./atoms/Eyebrow";
 import { EmailLink } from "./atoms/EmailLink";
+import { Tag } from "./atoms/Tag";
 import { Hero } from "./molecules/Hero";
 import { RoleCard } from "./molecules/RoleCard";
 import { Principle } from "./molecules/Principle";
@@ -18,7 +19,12 @@ import { LinkCard } from "./molecules/LinkCard";
 import { TeamCard } from "./molecules/TeamCard";
 import { Portrait } from "./molecules/Portrait";
 import { FeatureCard } from "./molecules/FeatureCard";
+import { FieldNote } from "./molecules/FieldNote";
+import { Quote } from "./molecules/Quote";
+import { Avatar } from "./atoms/Avatar";
 import { SiteShell } from "./organisms/SiteShell";
+import { Footer } from "./organisms/Footer";
+import { Dialog, DialogBasic } from "./organisms/Dialog";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -111,6 +117,50 @@ test("a11y — Eyebrow (all variants)", async ({ mount, page }) => {
       <Eyebrow variant="numbered" numeral="FM-03">
         Failure Mode
       </Eyebrow>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Tag (both tones, with and without icon)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Tag>Engineering</Tag>
+      <Tag tone="muted">Draft</Tag>
+      <Tag
+        icon={
+          <svg width={12} height={12} aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" fill="currentColor" />
+          </svg>
+        }
+      >
+        Featured
+      </Tag>
+      <Tag
+        tone="muted"
+        icon={
+          <svg width={12} height={12} aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" fill="currentColor" />
+          </svg>
+        }
+      >
+        Optional
+      </Tag>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Avatar (image+alt, initials+name, empty+name)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Avatar
+        mode="image"
+        src="https://picsum.photos/seed/a11y-av/80/80"
+        alt="Test person — a11y scan"
+      />
+      <Avatar mode="initials" initials="AZ" name="Arian Zargaran" />
+      <Avatar name="Unknown person" />
     </div>,
   );
   await expectAxeClean(page);
@@ -222,6 +272,63 @@ test("a11y — Pull (as='aside', sans variant)", async ({ mount, page }) => {
     <Pull as="aside" variant="sans" attribution="— from §3, Engineering culture">
       The smallest real deployment teaches more than six months of staging.
     </Pull>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FieldNote (body only, no label)", async ({ mount, page }) => {
+  await mount(
+    <FieldNote>
+      In 2024 we ran the same prompt across three model families and saw consistent degradation
+      after context exceeded 16k tokens.
+    </FieldNote>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FieldNote (with label)", async ({ mount, page }) => {
+  await mount(
+    <FieldNote label="Note">
+      These numbers reflect Q4 2023 benchmarks. The 2024 evals are in progress and results may
+      differ.
+    </FieldNote>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FieldNote (with inline link)", async ({ mount, page }) => {
+  await mount(
+    <FieldNote label="Note">
+      The latency figures come from our <a href="/methodology">public methodology doc</a>, updated
+      monthly.
+    </FieldNote>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Quote (full: quote, name, role, avatar img)", async ({ mount, page }) => {
+  await mount(
+    <Quote
+      quote="We went from weeks to hours. The tooling handled what we used to staff an entire team for."
+      name="Sarah Chen"
+      role="VP Engineering, Meridian Labs"
+      avatar={
+        <img
+          src="https://picsum.photos/seed/sarah-a11y-gate/40/40"
+          alt=""
+          width={40}
+          height={40}
+          style={{ borderRadius: "50%", display: "block" }}
+        />
+      }
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Quote (no avatar, no role)", async ({ mount, page }) => {
+  await mount(
+    <Quote quote="The feedback loop closed in days, not quarters." name="Tomás Rivera" />,
   );
   await expectAxeClean(page);
 });
@@ -347,6 +454,82 @@ test("a11y — FeatureCard (as='li' inside ul)", async ({ mount, page }) => {
 });
 
 /* ---------- organisms ---------- */
+
+test("a11y — Footer (as=div, with links)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Footer
+        copyright="© Pouk AI INC 2026"
+        email="hello@pouk.ai"
+        links={[
+          { href: "/privacy", label: "Privacy" },
+          { href: "/terms", label: "Terms" },
+          { href: "https://github.com/poukai-inc", label: "GitHub ↗", external: true },
+        ]}
+      />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Dialog (compound API, open)", async ({ mount, page }) => {
+  await mount(
+    <Dialog.Root defaultOpen>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>Accessible dialog</Dialog.Title>
+          <Dialog.Description>
+            This dialog has a title and description for screen readers.
+          </Dialog.Description>
+          <p>Body content.</p>
+          <Dialog.Close asChild>
+            <Button variant="ghost">Close</Button>
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Footer (as=footer, standalone, no links)", async ({ mount, page }) => {
+  await mount(<Footer as="footer" copyright="© Pouk AI INC 2026" email="hello@pouk.ai" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Footer (as=footer, with custom emailLabel)", async ({ mount, page }) => {
+  await mount(
+    <Footer
+      as="footer"
+      copyright="© Pouk AI INC 2026"
+      email="hello@pouk.ai"
+      emailLabel="Contact"
+      links={[{ href: "/privacy", label: "Privacy" }]}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — DialogBasic (open, all slots)", async ({ mount, page }) => {
+  await mount(
+    <DialogBasic
+      open={true}
+      onOpenChange={() => {}}
+      title="A11y central gate dialog"
+      description="This dialog is rendered open for the axe scan."
+      footer={
+        <>
+          <Button variant="ghost">Cancel</Button>
+          <Button variant="primary">Confirm</Button>
+        </>
+      }
+    >
+      <p>Body content for the accessibility gate scan.</p>
+    </DialogBasic>,
+  );
+  await expectAxeClean(page);
+});
 
 test("a11y — SiteShell (full chrome)", async ({ mount, page }) => {
   await mount(

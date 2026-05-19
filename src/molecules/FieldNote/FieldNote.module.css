@@ -1,0 +1,80 @@
+/* ============================================================
+   FieldNote — inline technical-aside molecule
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Reset UA margin/padding — the spec-defined values below are
+     the sole source of truth. Browsers apply default margin to
+     <aside>; zero it here so the left rule and padding-inline-start
+     render correctly at every reset baseline. */
+  margin: 0;
+  padding: 0;
+
+  /* Block margin: breathing room above + below adjacent paragraphs.
+     Smaller than Pull's --space-8 (32px) — FieldNote is a minor inline
+     pause; Pull is a major editorial pause. */
+  margin-block: var(--space-6);
+
+  /* Container max-width — matches the article text column cap used by
+     Hero, Pull, and Section header blocks. FieldNote must not exceed
+     the measure of the body text it is embedded in. */
+  max-width: var(--hero-max);
+
+  /* Left rule: 1px — the minimum viable spatial signal. One step below
+     Pull's 3px editorial accent; reads as "quiet aside" not "editorial
+     accent." Color uses --hairline (neutral, within DS vocabulary).
+     --hairline-w is the canonical 1px value. */
+  border-inline-start: var(--hairline-w) solid var(--hairline);
+
+  /* Distance from the left rule to the body text.
+     Tighter than Pull's --space-4 (16px) — reinforces the smaller,
+     quieter character of this component. */
+  padding-inline-start: var(--space-3);
+
+  /* border-inline-start and padding-inline-start are CSS logical properties —
+     RTL-correct by default. No additional RTL work needed. */
+}
+
+/* ---------- Label (optional) ---------- */
+
+/* Rendered only when the label prop is provided. Borrows the Eyebrow
+   typographic register without the Eyebrow atom's compositional overhead. */
+.label {
+  /* Zero out default <p> margins — spacing is owned by this module. */
+  margin: 0 0 var(--space-1);
+  padding: 0;
+
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-eyebrow);
+  /* Tight — label is a single line, not a block header. */
+  line-height: var(--lh-meta);
+}
+
+/* ---------- Body ---------- */
+
+/* The aside body text. Stays in the body register: same font-size as
+   surrounding prose, full-weight color (not muted — FieldNote is real
+   content placed parenthetically). */
+.body {
+  /* Zero out default <p> bottom margin — the container's margin-block and
+     padding-inline-start own all spacing. The global p { margin: 0 0 var(--space-4) }
+     is reset inside FieldNote's scope. */
+  margin: 0;
+  padding: 0;
+
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-style: normal;
+  /* 1.55: the global body value (tokens.css body rule). FieldNote is a
+     body-register component; it inherits the global line-height, not
+     component-local drift values. Inline value, not a token — BACKLOG item
+     to tokenize --lh-body is a migration target. Matches how Pull
+     specifies its own 1.45 inline. */
+  line-height: 1.55;
+  color: var(--fg);
+}

@@ -1,0 +1,111 @@
+/* ============================================================
+   Quote — attributed customer testimonial molecule
+   ============================================================ */
+
+/* ---------- Root <figure> ---------- */
+
+.root {
+  /* Remove default UA margin on <figure>. The component's margin-block
+     below is the sole source of vertical spacing. */
+  margin: 0;
+  padding: 0;
+
+  /* Breathing room from surrounding content. Matches Pull's block margin —
+     they are in the same scale family. */
+  margin-block: var(--space-8);
+
+  /* Matches the prose column cap used by Pull, Hero, Section, and FieldNote.
+     Quote lives in the same column register. */
+  max-width: var(--hero-max);
+}
+
+/* ---------- <blockquote> body ---------- */
+
+.blockquote {
+  /* Remove default UA margin: 1em 40px on <blockquote>. All spacing is
+     owned by the figure. */
+  margin: 0;
+  padding: 0;
+
+  /* --fs-pull (20–26px fluid): presence above body prose without reaching
+     heading scale. Reuse of Pull's body size — both are quoted-content
+     primitives at elevated scale. See spec §3 for rationale. */
+  font-size: var(--fs-pull);
+
+  /* Geist. The typographic differentiator from Pull (Instrument Serif italic)
+     and Statement. A consumer or reviewer can tell Quote from Pull at a glance
+     without reading the attribution. */
+  font-family: var(--font-sans);
+
+  /* Roman weight. Not italic — italic is Pull/Statement territory. The visual
+     elevation comes from size (--fs-pull vs --fs-body), not style. */
+  font-weight: 400;
+  font-style: normal;
+
+  /* Slightly tighter than global body (1.55) because the larger size provides
+     optical spacing. Inline value — not a new token. Consistent with Pull's
+     body line-height at this scale. */
+  line-height: 1.45;
+
+  color: var(--fg);
+}
+
+/* ---------- <figcaption> ---------- */
+
+.figcaption {
+  /* Gap between blockquote body and attribution. */
+  margin-top: var(--space-4);
+
+  /* Horizontal flex container: avatar (optional) + name/role column. */
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+
+  /* Space above figcaption content, combined with the hairline rule below,
+     creates a clean break between quoted content and attribution. */
+  padding-top: var(--space-4);
+
+  /* 1px hairline rule above the attribution row. Quiet visual boundary —
+     not the 3px editorial weight used by Pull's left rule, which would be
+     too heavy here. Always on — use className to suppress if needed. */
+  border-top: var(--hairline-w) solid var(--hairline);
+}
+
+/* ---------- Avatar slot ---------- */
+
+.avatarSlot {
+  /* Pass-through wrapper — no sizing, shape, or overflow applied.
+     The consumer is responsible for rendering a correctly-sized element.
+     Convention: 40×40px, border-radius: 50% (see QuoteProps.avatar JSDoc). */
+  flex-shrink: 0;
+}
+
+/* ---------- Name / role column ---------- */
+
+.nameRole {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* ---------- Name ---------- */
+
+.name {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  line-height: var(--lh-meta);
+  color: var(--fg);
+}
+
+/* ---------- Role ---------- */
+
+.role {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 400;
+  line-height: var(--lh-meta);
+  color: var(--fg-muted);
+}

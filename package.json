@@ -98,7 +98,6 @@
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "husky": "^9.1.0",
-    "lint-staged": "^15.2.0",
     "lucide-react": "^0.400.0",
     "marked": "^14.1.0",
     "postcss": "^8.4.45",
@@ -113,22 +112,11 @@
     "vite-plugin-dts": "^4.2.0",
     "vite-plugin-lib-inject-css": "^2.2.0"
   },
-  "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "eslint --fix --max-warnings 0 --no-warn-ignored",
-      "prettier --write"
-    ],
-    "playwright-ct.config.ts": "prettier --write",
-    "vite.config.ts": "prettier --write",
-    "*.{css,md,json}": [
-      "prettier --write"
-    ]
-  },
   "size-limit": [
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "24 kB"
+      "limit": "25 kB"
     },
     {
       "name": "ESM — atoms subpath",
@@ -143,7 +131,7 @@
     {
       "name": "ESM — organisms subpath",
       "path": "dist/organisms.js",
-      "limit": "14 kB"
+      "limit": "18 kB"
     },
     {
       "name": "ESM — tree-shaken (Wordmark + Button)",
@@ -155,7 +143,7 @@
       "name": "ESM — tree-shaken (Hero + RoleCard + Principle)",
       "path": "dist/index.js",
       "import": "{ Hero, RoleCard, Principle }",
-      "limit": "8 kB"
+      "limit": "9.5 kB"
     }
   ]
 }

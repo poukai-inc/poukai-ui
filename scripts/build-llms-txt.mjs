@@ -36,7 +36,7 @@ await copyFile(resolve(pkgRoot, "meta/llms-full.txt"), outFull);
 /* ─── dist/llms.txt — short auto-generated index ──────────── */
 
 const COMPONENTS = {
-  atoms: ["Wordmark", "StatusBadge", "Button", "Stat", "Eyebrow", "EmailLink"],
+  atoms: ["Wordmark", "StatusBadge", "Button", "Stat", "Eyebrow", "EmailLink", "Tag", "Avatar"],
   molecules: [
     "Hero",
     "RoleCard",
@@ -49,8 +49,10 @@ const COMPONENTS = {
     "LinkCard",
     "TeamCard",
     "FeatureCard",
+    "FieldNote",
+    "Quote",
   ],
-  organisms: ["SiteShell"],
+  organisms: ["SiteShell", "Footer", "Dialog", "DialogBasic"],
 };
 
 const exportKeys = Object.keys(pkg.exports ?? {});

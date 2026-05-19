@@ -197,6 +197,29 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - Do NOT compose `<EmailLink>` inside `<Button>` — they are sibling affordances with different registers.
 - Do NOT pass `href` — it is always computed from `email`. The prop is excluded at the TypeScript level.
 
+### Tag
+- Inline categorical pill atom. Communicates type, category, topic, or metadata classification of adjacent content. Answers "what kind of thing is this?" inline with content flow: inside a card, in a topic list, beside a title, or inside a sentence.
+- Root element: `<span>`. Non-polymorphic — no `as` prop. Always `<span>`. Tags are inline categorical labels; they do not need heading, list-item, or block semantics.
+- `children` (required ReactNode) — the visible label text. Typically a plain string (one to three words). ReactNode accepted for rare inline `<strong>` emphasis, but a plain string is the idiomatic usage.
+- `tone` (`"default"` | `"muted"`, default `"default"`) — visual tone. Two tones only; no colored semantic tones.
+  - `"default"` — `background-color: var(--surface)` (#F5F5F7), `color: var(--fg)` (#1D1D1F), no border. Primary categorical register. Use in cards and topic lists.
+  - `"muted"` — `background-color: transparent`, `color: var(--fg-muted)` (#6E6E73), `border: var(--hairline-w) solid var(--hairline)` (1px #D2D2D7). Secondary or receding register. Use for draft labels, optional tags, or where the tag must not compete with primary content.
+- `icon` (optional ReactNode) — optional leading icon slot. When present, root shifts from `display: inline` to `display: inline-flex` with `align-items: center` and `gap: var(--space-2)` (8px). When absent, root is plain `display: inline`. Recommended icon size: 12px (proportional inside a 14px-text pill). Pass `aria-hidden="true"` on all decorative icons — the DS does not enforce this at the type level, but it is the required consumer contract.
+- Typography: `--font-sans` (Geist), `--fs-meta` (14px fixed), `font-weight: 400`, `line-height: var(--lh-meta)` (1.2), `letter-spacing: normal` (no tracking — Tags are mixed-case; tracking is for uppercase labels like Eyebrow).
+- Geometry: `border-radius: 999px` (pill — a geometric constant, not a brand token; documented in Tag.module.css). `padding-block: var(--space-1)` (4px). `padding-inline: var(--space-2)` (8px). `box-sizing: border-box` — ensures muted tone's 1px border is absorbed inside the padding box; pill dimensions are identical across both tones.
+- `white-space: nowrap` — Tags never wrap internally. If a list of Tags wraps at narrow viewports, the parent flex container owns that.
+- No states, no motion, no transitions. Tag is a non-interactive static label. No `:hover`, `:focus`, `:active`, or `[disabled]` rules.
+- Tokens consumed: `--fs-meta`, `--font-sans`, `--fg`, `--fg-muted`, `--surface`, `--hairline`, `--hairline-w`, `--space-1`, `--space-2`, `--lh-meta`. No new tokens introduced.
+- Contrast: `"default"` tone `--fg` on `--surface` = 15.46:1 (AAA). `"muted"` tone `--fg-muted` on `--bg` = 4.91:1 (AA normal at 14px — passes WCAG 2.1 4.5:1 threshold). Muted border is decorative; no contrast requirement under §1.4.11.
+- Composition: use in any inline or flex context. Multiple Tags in a row: parent flex container with `gap: var(--space-2)` and `flex-wrap: wrap`. Inside prose `<p>`: natural inline flow. No self-margin — consumer owns spacing.
+- Tag is NOT `<Eyebrow>` (Eyebrow is block-level, uppercase, tracked, always above content). Tag is NOT `<StatusBadge>` (StatusBadge encodes liveness state with a colored dot). Tag is NOT a button (no onClick, no hover/focus states authored by the DS).
+- Do NOT add colored semantic tones (`"success"`, `"warning"`, `"danger"`, `"accent"`). Any future colored tone requires a brand-level decision-log entry and Arian's explicit sign-off.
+- Do NOT add a close button, `onRemove`, or `onClick` — that is a future `TagButton` primitive with its own spec.
+- Do NOT make Tag polymorphic. The root is always `<span>`.
+- Do NOT use Tag to signal liveness — use `<StatusBadge>`.
+- Do NOT use Tag as a heading or section label — use `<Eyebrow>`.
+- Do NOT add `text-overflow: ellipsis` or truncation. Tags are always short strings by design.
+
 ### Section
 - Canonical page-section wrapper molecule. Owns the vertical rhythm around a section's header block (eyebrow + title + lede) and exposes a children slot for section body content.
 - No visual surface — no background, border, or shadow in default configuration. Structural scaffolding only.
@@ -299,10 +322,370 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - Do NOT pass `titleAs="h1"` — a feature tile is never a page heading. The prop type excludes it.
 - Do NOT compose FeatureCard with RoleCard in the same grid. RoleCard carries sequencing semantics that conflict with FeatureCard's peer-item register.
 
+### FieldNote
+- Inline technical-aside molecule. A short parenthetical callout — a sentence or two — that sits inline with body copy and provides a factual clarification, caveat, or data footnote without interrupting reading flow.
+- Root element: `<aside>`. Not polymorphic — there is no `as` prop. `<aside>` is the semantically correct element for tangentially related content (HTML spec). When nested inside `<article>` or `<section>`, `<aside>` degrades from a `complementary` landmark to a generic container — this is the correct behavior for multiple per-page inline asides (avoids landmark pollution).
+- `label` (optional string) — renders a single `<p>` above the body text in the Eyebrow typographic register (`--fs-meta` 14px, `--fg-muted`, `text-transform: uppercase`, `--tracking-eyebrow` 0.06em letter-spacing, `--lh-meta` 1.2 line-height). When absent, no label element is rendered. Default: `undefined`. Example values: `"Note"`, `"Caveat"`, `"Aside"`, `"Data point"`. Do NOT default to `"Note"` — the left rule is the signal; the label is for when type of aside is load-bearing information.
+- `children` (required ReactNode) — the body text. Rendered inside a `<p className="body">`. Accepts inline marks only: `<strong>`, `<em>`, `<a>`. No block-level children — no `<h2>`, `<ul>`, `<p>`, `<div>`, `<table>`. Editorial constraint; not type-enforced.
+- Left rule: `border-inline-start: var(--hairline-w) solid var(--hairline)`. Always present. 1px — quieter than Pull's 3px editorial accent. Decorative; no contrast requirement applies.
+- `padding-inline-start: var(--space-3)` (12px) — tighter than Pull's `--space-4` (16px). Reinforces FieldNote's subsidiary character.
+- `margin-block: var(--space-6)` (24px) — less than Pull's `--space-8` (32px). FieldNote is a minor inline pause; Pull is a major editorial pause.
+- `max-width: var(--hero-max)` (38rem / 608px) — matches the prose column cap used by Pull, Hero, and Section header blocks.
+- Body typography: `--fs-body` (17–19px fluid), `--font-sans` (Geist), `font-style: normal`, `line-height: 1.55` (global body value, inline — BACKLOG migration target when `--lh-body` is tokenized), `color: var(--fg)`. FieldNote body is real content, not a caption — full-weight color, not muted.
+- Inline links inside `children` inherit the global `<a>` two-layer underline rule from `tokens.css`. At rest: 1px `--hairline` underline. On hover: 1px `--accent` underline grows over it via `background-size` transition (`--dur-mid`, `--easing-link`). On `:focus-visible`: `outline: 2px solid var(--accent)`, `outline-offset: 4px`, `border-radius: var(--radius-1)`. No override in FieldNote's CSS scope — global rule is correct and must NOT be suppressed.
+- No states, no motion, no entrance animation. Static typography.
+- No color variants (`variant="warning"` etc.) — excluded at the brand level. Colored callouts are a different component. This exclusion requires explicit founder sign-off to change.
+- No icon slot. Icons imply status severity; FieldNote is plain text only.
+- No multi-paragraph body. Single-paragraph aside. For multiple paragraphs, use Section with `size="tight"`.
+- Tokens consumed: `--hairline-w`, `--hairline`, `--space-3`, `--space-1`, `--space-6`, `--fs-body`, `--fs-meta`, `--fg`, `--fg-muted`, `--font-sans`, `--tracking-eyebrow`, `--lh-meta`, `--hero-max`. No new tokens introduced.
+- Contrast: body `--fg` (#1D1D1F) on `--bg` (#FBFBFD) = 16.29:1 (AAA). Label `--fg-muted` (#6E6E73) on `--bg` (#FBFBFD) = 4.91:1 (AA normal ✓ at 14px).
+- Do NOT use FieldNote for content that has a title, an index, or more than two sentences of structured prose — use `<FailureMode>` or `<Section>`.
+- Do NOT nest FieldNote inside `<Pull>`. They operate at different typographic scales.
+- Do NOT place FieldNote inside `<Hero>`. Hero owns the page display moment.
+- Do NOT pass block-level elements as `children`. No `<h2>`, `<ul>`, `<table>`, `<div>`. Inline marks only.
+- Do NOT add an `as` prop. Root is always `<aside>`.
+- Do NOT add color variants. Tonally neutral by brand decision.
+
+```tsx
+// Plain body — no label (left rule is the signal):
+<FieldNote>
+  In 2024 we ran the same prompt across three model families and saw consistent
+  degradation after context exceeded 16k tokens.
+</FieldNote>
+
+// With label — when type of aside is load-bearing:
+<FieldNote label="Caveat">
+  These numbers reflect Q4 2023 benchmarks. The 2024 evals are in progress
+  and results may differ.
+</FieldNote>
+
+// With inline link in body:
+<FieldNote label="Note">
+  The latency figures come from our{" "}
+  <a href="/methodology">public methodology doc</a>, updated monthly.
+</FieldNote>
+```
+
+### Quote
+- Attributed customer testimonial molecule. A short prose block (1–4 sentences) from a named person, with optional role/title and optional avatar slot. Primary surface: customer story pages and social-proof sections.
+- Root element: `<figure>`. Not polymorphic — `<figure>` is the single correct semantic root for attributed quotations per HTML5. Inside: `<blockquote>` for the quoted body, `<figcaption>` for the attribution row. This structure correctly associates the attribution with the quote at the HTML semantic level — no extra ARIA needed.
+- Distinct from `<Pull>` (unattributed editorial pull-quote, Instrument Serif italic, left rule) and `<Statement>` (brand assertion, once per page, no attribution). Quote is sans-serif roman — identifiable at a glance from Pull/Statement without reading the attribution.
+- `quote` (required ReactNode) — the quoted body text. Accepts inline marks (`<em>`, `<strong>`) for emphasis within the passage. No block-level children — no headings, lists, nested paragraphs. Rendered as direct child of `<blockquote>`.
+- `name` (required string) — the attributed person's name. Plain string; `font-weight: 500`, `--fg`, `--fs-meta` (14px).
+- `role` (optional string) — the person's role or title. Plain string. Example: `"VP Engineering, Acme Corp"`. `font-weight: 400`, `--fg-muted`, `--fs-meta`. When omitted, no role element is rendered.
+- `avatar` (optional ReactNode) — avatar slot. Accepts any ReactNode: `<img>`, a third-party Avatar, a `<div>` with initials. The DS does not ship an Avatar atom. When present, rendered as the leftmost element of the attribution row; when absent, the name/role column sits flush. Convention: size to 40×40px and clip to circle (`border-radius: 50%`). DS does not enforce sizing or shape. If passing `<img>`, set `alt=""` (decorative) — the `name` is the text alternative.
+- Layout: stacked. Body above, attribution row below. No sidebar layout. Stacked degrades cleanly when avatar is absent.
+- `<blockquote>` body typography: `--fs-pull` (20–26px fluid), `--font-sans` (Geist), `font-weight: 400`, `font-style: normal`, `line-height: 1.45`, `color: var(--fg)`. `--fs-pull` reuses Pull's scale — both are quoted-content primitives at elevated size. The typographic differentiator is register (sans roman vs. serif italic), not size.
+- `<figcaption>` layout: `display: flex`, `align-items: center`, `gap: var(--space-3)` (12px avatar-to-name column). `margin-top: var(--space-4)` (16px) from blockquote. `padding-top: var(--space-4)` (16px) above content. `border-top: var(--hairline-w) solid var(--hairline)` — always present; use `className` to suppress if needed.
+- Name/role column: `display: flex`, `flex-direction: column`, `gap: var(--space-1)` (4px).
+- `max-width: var(--hero-max)` (38rem / 608px) — matches the prose column cap used by Pull, Hero, Section, and FieldNote.
+- `margin-block: var(--space-8)` (32px) — matches Pull's block margin. Remove default UA `margin` on `<figure>`.
+- `className` merges via `clsx`. `forwardRef` to the `<figure>` root. `displayName = "Quote"`. Full `ComponentPropsWithoutRef<"figure">` spread (id, data-*, aria-*, event handlers).
+- No cite prop in v1 — customer story quotes rarely have a URL source; deferred to later revision.
+- No showRule prop — hairline rule is always on. Use className override to suppress.
+- No avatar shape wrapper — DS does not enforce sizing; consumer responsibility.
+- No variant, no size, no as prop.
+- Tokens consumed: `--fs-pull`, `--fs-meta`, `--font-sans`, `--fg`, `--fg-muted`, `--hairline`, `--hairline-w`, `--space-1`, `--space-3`, `--space-4`, `--space-8`, `--lh-meta`, `--hero-max`. No new tokens introduced.
+- Contrast: body/name `--fg` (#1D1D1F) on `--bg` (#FBFBFD) = 16.29:1 (AAA). Role `--fg-muted` (#6E6E73) on `--bg` (#FBFBFD) = 4.91:1 (AA normal ✓ at 14px). Hairline is decorative.
+- Do NOT use Quote for unattributed text — use `<Pull>` if there is no named person.
+- Do NOT place Quote inside `<Hero>`. Hero owns the page display moment.
+- Do NOT use both Pull and Quote for the same person's words on the same page — pick the register.
+- Do NOT render Quote on a `--bg-warm-accent` band — palette interaction is untested.
+- Do NOT add a `cite` prop, `showRule` prop, avatar container wrapper, or `as` polymorphism without founder sign-off.
+- Do NOT pass block-level elements as `quote`. Inline marks only.
+
+```tsx
+// Full Quote — avatar, name, role:
+<Quote
+  quote="We went from weeks to hours. The tooling handled what we used to staff an entire team for."
+  name="Sarah Chen"
+  role="VP Engineering, Meridian Labs"
+  avatar={
+    <img
+      src="https://cdn.example.com/avatars/sarah-chen.jpg"
+      alt=""
+      width={40}
+      height={40}
+      style={{ borderRadius: "50%", display: "block" }}
+    />
+  }
+/>
+
+// Without avatar:
+<Quote
+  quote="The accuracy improvements were immediate and measurable."
+  name="James Okonkwo"
+  role="Head of Data, Fieldwork AI"
+/>
+
+// Name only — no role, no avatar:
+<Quote quote="Exactly what we needed. Nothing we didn't." name="Priya Mehta" />
+
+// Inline emphasis in quote body:
+<Quote
+  quote={<>We went from <em>weeks</em> to hours.</>}
+  name="Sarah Chen"
+  role="VP Engineering, Meridian Labs"
+/>
+```
+
+### Avatar
+- Atom for person/entity identity display. Three modes via discriminated union on `mode` prop.
+- `mode="image"` — renders `<img loading="lazy">` with `src` (required) and optional `alt`. `loading` is hardcoded to `"lazy"` — no escape hatch. No `onError` fallback — broken image falls back to browser default; consumers who need a fallback wrap in their own state.
+- `mode="initials"` — renders 1–2 character text label inside the avatar shape. Consumer is responsible for the initials string — Avatar does NOT derive initials from a name.
+- `mode="empty"` (default when `mode` is omitted) — blank placeholder, no inner content.
+- `size` (`"sm"` | `"md"` | `"lg"`, default `"md"`) — fixed pixel dimensions: sm=24px, md=32px, lg=40px. These are inline px values in the CSS module (no tokens). Initials font scales proportionally: sm=10px, md=12px, lg=14px.
+- `shape` (`"circle"` | `"square"`, default `"circle"`) — circle uses `border-radius: 50%`; square uses `--radius-2` (4px). Inline `border-radius: 50%` in CSS module (no token).
+- Hairline ring: `box-shadow: 0 0 0 1px var(--hairline)` — avoids layout shift versus a CSS `border`. Uses `--hairline` token.
+- Background: `--surface`. Text color: `--fg-muted`. Font: `--font-sans`, weight 500.
+- `name` (optional string) — accessible name for the avatar as a whole. Required in initials and empty modes for a11y. In image mode: required when `alt` is omitted. Produces `role="img"` + `aria-label` on the root `<span>`.
+- In image mode with `alt` provided, the `<img>` carries the label and the root span does NOT receive `role="img"` (avoids double-labelling).
+- Root is always `<span>`. Non-polymorphic. Ref forwarded to root span. `...rest` spread to root element.
+- Tokens consumed: `--surface` (background), `--fg-muted` (text + initials color), `--hairline` (ring), `--font-sans` (font family), `--radius-2` (square shape).
+- Do NOT add `onError` fallback — stateless atom. Consumers own error handling.
+- Do NOT pass `loading` — hardcoded `"lazy"` on internal `<img>`. No prop escape hatch.
+- Do NOT derive initials from a name string — pass initials explicitly via `initials` prop.
+- Do NOT add group/stack composition at this layer — consumer-side concern.
+- Do NOT make Avatar polymorphic — root is always `<span>`.
+- Do NOT use Avatar for decorative brand imagery — use `<Portrait>` for editorial photography.
+
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.
 - Emits plain <a href> tags — framework-router consumers intercept at app level.
 - navLabel (default: "Primary") is the aria-label for the nav element.
+
+### Footer
+- Canonical site-footer content block. Composes copyright + email (via `<EmailLink variant="muted">`) + optional secondary link row.
+- Does NOT own the hairline rule or outer padding when slotted into SiteShell — SiteShell's `.footer` CSS provides those. When used standalone (`as="footer"`), Footer adds `border-top: var(--hairline-w) solid var(--hairline)` and `padding: var(--space-8) var(--page-pad)` via the `[data-standalone="true"]` selector.
+- `as` prop (`"div"` | `"footer"`, default `"div"`) — controls the root element. Default `"div"` is correct when Footer is the child of SiteShell's `footer` slot (SiteShell already wraps in `<footer>` — nesting two `<footer>` elements degrades the inner one to a generic container per ARIA spec). Pass `as="footer"` for standalone surfaces without SiteShell.
+- `copyright` (required string) — full copyright string including `©` and year. e.g. `"© Pouk AI INC 2026"`. DS never auto-inserts `new Date().getFullYear()`. A dev-mode `console.error` fires on empty string.
+- `email` (required string) — email address passed to `<EmailLink variant="muted">`. Footer owns no `mailto:` logic.
+- `emailLabel` (optional string) — visible label override for EmailLink. When omitted, defaults to the raw email address as visible text (e.g. `hello@pouk.ai`). Pass `"Contact"` for space-constrained contexts.
+- `links` (optional `FooterLink[]`) — secondary nav links. Each item: `{ href: string; label: string; external?: boolean }`. When `external: true`, link gets `target="_blank" rel="noopener noreferrer"`. When absent or empty array, no `<nav>` is emitted.
+- `linksLabel` (optional string, default `"Footer"`) — `aria-label` for the `<nav>`. Required for SR landmark disambiguation when multiple `<nav>` elements exist on the page (header nav + footer nav).
+- Layout: flex row (`justify-content: space-between`) at ≥ 768px. Below 768px: flex column, left-aligned, `--space-4` (16px) gap between rows.
+- Left group: copyright `<span>` + `·` separator (`aria-hidden="true"`) + `<EmailLink variant="muted">`. Gap between items: `--space-2` (8px).
+- Right group (optional): `<nav aria-label>` wrapping `<ul>` of `<li><a class="muted-link">` items. Gap between links: `--space-2` (8px). Link color: `--fg-muted` at rest, `--fg` on hover (via `.muted-link` global from `tokens.css`).
+- Tokens consumed: `--fg-muted`, `--fg`, `--font-sans`, `--fs-meta`, `--lh-meta`, `--space-2`, `--space-4`, `--space-8`, `--page-pad`, `--hairline-w`, `--hairline`, `--dur-fast`, `--accent`, `--radius-1`.
+- No new tokens introduced. No dark-mode per-component overrides needed — tokens flip cleanly via the global block in `tokens.css`.
+- `className` pass-through available via `React.HTMLAttributes<HTMLElement>` spread. Footer has no margin of its own.
+- Do NOT nest Footer inside another Footer.
+- Do NOT use `as="footer"` inside SiteShell — this produces nested `<footer>` landmarks, which is semantically invalid. Use the default `as="div"`.
+- Do NOT add a router abstraction. Footer emits plain `<a href>`.
+- Do NOT pass `external: true` without providing a meaningful label that communicates external destination (e.g. `"GitHub ↗"`).
+- Do NOT use Footer for multi-column layout (Products / Company / Legal grid) — that is a separate organism pattern.
+- Do NOT add the wordmark inside Footer — use a custom composition outside the DS if needed.
+- Accessible name: two `<nav>` on page (header + footer) must each have distinct `aria-label`. Default `"Footer"` satisfies this; override via `linksLabel` if convention differs.
+
+```tsx
+// Inside SiteShell (canonical):
+<SiteShell
+  routes={[{ href: "/why-ai", label: "Why AI" }]}
+  footer={
+    <Footer
+      copyright="© Pouk AI INC 2026"
+      email="hello@pouk.ai"
+      links={[
+        { href: "/privacy", label: "Privacy" },
+        { href: "/terms", label: "Terms" },
+        { href: "https://github.com/poukai-inc", label: "GitHub ↗", external: true },
+      ]}
+    />
+  }
+>
+  {children}
+</SiteShell>
+
+// Standalone:
+<Footer
+  as="footer"
+  copyright="© Pouk AI INC 2026"
+  email="hello@pouk.ai"
+  links={[{ href: "/privacy", label: "Privacy" }]}
+/>
+```
+
+### Dialog
+
+Modal overlay primitive. Always modal (`modal: true`). Wraps `@radix-ui/react-dialog` — all focus-trap, ARIA roles, and keyboard handling are delegated to Radix. The DS adds brand styling only.
+
+**Compound subcomponents**
+
+| Subcomponent        | Role                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------- |
+| `Dialog.Root`       | State controller. Props: `open`, `defaultOpen`, `onOpenChange`, `modal` (always true), `children`. |
+| `Dialog.Trigger`    | Element that opens the dialog. Use `asChild` to pass a `<Button>`.                               |
+| `Dialog.Portal`     | Renders overlay + content outside the DOM tree (into `document.body` by default). See SSR note below. |
+| `Dialog.Overlay`    | Backdrop scrim. DS-styled: `rgb(0 0 0 / 0.4)`, animates on `data-state`. Pass `forceMount` for CSS-only exit animations. |
+| `Dialog.Content`    | Modal panel. Primary styled surface. Props: `forceMount`, `onOpenAutoFocus`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onPointerDownOutside`, `onInteractOutside`, `className`. |
+| `Dialog.Title`      | Required accessible title. Radix warns if absent. Styled at `1.125rem / weight 500` by default. |
+| `Dialog.Description`| Optional accessible description. Styled at `--fs-meta` / `--fg-muted`.                          |
+| `Dialog.Close`      | Button that closes the dialog. Use `asChild` to render as `<Button>` or icon button.             |
+
+**`DialogBasic` convenience wrapper**
+
+Covers the 90% case: single-panel dialog with title, optional description, body, and built-in X close button.
+
+| Prop           | Type                        | Default   | Description                                                             |
+| -------------- | --------------------------- | --------- | ----------------------------------------------------------------------- |
+| `open`         | `boolean?`                  | —         | Controlled open state. Pair with `onOpenChange`.                        |
+| `onOpenChange` | `(open: boolean) => void?`  | —         | Controlled open state handler.                                          |
+| `title`        | `string`                    | required  | Dialog title. Required. Renders as `Dialog.Title`.                      |
+| `description`  | `string?`                   | —         | Optional description. When present, adds a hairline rule below title.   |
+| `children`     | `ReactNode`                 | required  | Body content.                                                           |
+| `footer`       | `ReactNode?`                | —         | Optional right-aligned footer (typically Cancel + Confirm buttons).     |
+| `closeLabel`   | `string?`                   | `"Close"` | Accessible label for the built-in X close button. Override for locale.  |
+| `className`    | `string?`                   | —         | Forwarded to `Dialog.Content`. Standard layout-override escape hatch.   |
+
+**Tokens consumed**
+
+| Token          | Role                                               |
+| -------------- | -------------------------------------------------- |
+| `--bg-elevated`| Content panel background (front-most elevation)    |
+| `--fg`         | Title and body text                                |
+| `--fg-muted`   | Description text and close button icon             |
+| `--hairline`   | Panel border + title/body divider rule             |
+| `--hairline-w` | Hairline stroke weight (1px)                       |
+| `--accent`     | Focus ring on close button and interactive elements|
+| `--radius-3`   | Content panel corner radius (8px)                  |
+| `--radius-1`   | Focus ring border-radius (2px)                     |
+| `--space-2`    | Description margin-top                             |
+| `--space-3`    | Footer button gap                                  |
+| `--space-4`    | Body padding-top; divider margin-top               |
+| `--space-6`    | Panel horizontal padding; footer margin-top        |
+| `--space-8`    | Panel top padding                                  |
+| `--font-sans`  | All text in the dialog                             |
+| `--fs-body`    | Body content text                                  |
+| `--fs-meta`    | Description text                                   |
+| `--dur-fast`   | Open/close transition duration (180ms)             |
+| `--easing`     | Entrance easing (expo-out)                         |
+| `--page-pad`   | Panel width calculation (subtracted from 100vw)    |
+| `--surface`    | Close button hover background                      |
+
+**SSR / portal container note.** By default Radix portals content into `document.body`. Consumers using Next.js App Router or SSR strict mode who need to target a specific DOM node (e.g. `<div id="portal-root">` outside `<main>`) can pass `container` via `Dialog.Portal` props: `<Dialog.Portal container={portalRootRef.current}>`. No code-level handling is required in the DS — the prop passes through to Radix directly.
+
+**JSX usage examples**
+
+```jsx
+// (a) Controlled open state — DialogBasic
+import { useState } from "react";
+import { DialogBasic, Button } from "@poukai-inc/ui";
+
+function WaitlistSignup() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Join waitlist</Button>
+      <DialogBasic
+        open={open}
+        onOpenChange={setOpen}
+        title="Join the waitlist"
+        description="We'll reach out as soon as your spot is ready."
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="primary" type="submit" form="waitlist-form">Submit</Button>
+          </>
+        }
+      >
+        <form id="waitlist-form">
+          <label htmlFor="email">Email address</label>
+          <input id="email" type="email" name="email" autoComplete="email" />
+        </form>
+      </DialogBasic>
+    </>
+  );
+}
+
+// (b) Uncontrolled via Dialog.Trigger — compound API
+import { Dialog, Button } from "@poukai-inc/ui";
+
+function InfoOverlay() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <Button variant="ghost">Learn more</Button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>About pouk.ai</Dialog.Title>
+          <Dialog.Description>
+            pouk.ai gives operators access to enterprise-grade AI tooling.
+          </Dialog.Description>
+          <p>Founded in 2025, pouk.ai builds the infrastructure layer for AI operators.</p>
+          <Dialog.Close asChild>
+            <Button variant="ghost">Close</Button>
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
+// (c) Form inside Dialog — onOpenAutoFocus override
+import { useRef } from "react";
+import { Dialog, Button } from "@poukai-inc/ui";
+
+function SettingsDialog({ open, onOpenChange }) {
+  const firstFieldRef = useRef(null);
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+            firstFieldRef.current?.focus();
+          }}
+        >
+          <Dialog.Title>Notification settings</Dialog.Title>
+          <form>
+            <input ref={firstFieldRef} id="notify-email" type="checkbox" name="notify-email" />
+          </form>
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: "var(--space-3)", marginTop: "var(--space-6)" }}>
+            <Dialog.Close asChild><Button variant="ghost">Cancel</Button></Dialog.Close>
+            <Button variant="primary" type="submit">Save</Button>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
+// (d) Confirmation dialog — Cancel + Confirm pattern
+// Note: variant="primary" is used for the destructive action until variant="danger" ships.
+import { DialogBasic, Button } from "@poukai-inc/ui";
+
+function DeleteConfirmation({ open, onOpenChange, onConfirm }) {
+  return (
+    <DialogBasic
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Delete this project?"
+      description="This action cannot be undone. All data will be permanently removed."
+      footer={
+        <>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="primary" onClick={() => { onConfirm(); onOpenChange(false); }}>
+            Delete project
+          </Button>
+        </>
+      }
+    >
+      {null}
+    </DialogBasic>
+  );
+}
+```
+
+- Dialog is always modal. Non-blocking overlays → future `Popover` primitive.
+- `Dialog.Title` is required — Radix warns if absent. Use `position: absolute; clip: rect(0,0,0,0)` visually-hidden styles for untitled designs; do NOT omit the element.
+- Do NOT set `modal={false}` — excluded from the DS. Use the raw Radix primitive if absolutely required.
+- Do NOT add `--scrim` or `--shadow-dialog` tokens. The scrim value (`rgb(0 0 0 / 0.4)`) is intentionally inline (not a theme variable). No drop shadow — `--bg-elevated` on `--bg` reads as elevated via background value difference.
+- Do NOT nest a Dialog inside another Dialog.
+- Do NOT add `role="alertdialog"` unless the action is truly irreversible with no non-destructive dismiss path — a future `AlertDialog` variant will handle that register.
+- `className` on `Dialog.Content` and `DialogBasic` is the sanctioned escape hatch for layout overrides (e.g. wider panels). No "wide" size variant ships in v1.
 
 ---
 

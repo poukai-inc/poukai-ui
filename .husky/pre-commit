@@ -1,3 +1,9 @@
 #!/usr/bin/env sh
-cd "$(dirname "$0")/.." || exit 1
-npx lint-staged
+# Resolve to the active worktree, not the dispatcher's path.
+# Husky pins `core.hooksPath` to the main repo's `.husky/_/`, which is shared
+# across worktrees. Using `git rev-parse --show-toplevel` makes the hook run
+# against whichever worktree triggered the commit — required for the
+# scripts/pre-commit.mjs path to resolve to the correct branch's tree.
+top="$(git rev-parse --show-toplevel)" || exit 1
+cd "$top" || exit 1
+node scripts/pre-commit.mjs

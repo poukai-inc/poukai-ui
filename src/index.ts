@@ -20,6 +20,18 @@ export { Button, type ButtonProps, type ButtonVariant, type ButtonSize } from ".
 export { Stat, type StatProps, type StatAlign, type StatSize } from "./atoms/Stat";
 export { Eyebrow, type EyebrowProps, type EyebrowVariant } from "./atoms/Eyebrow";
 export { EmailLink, type EmailLinkProps, type EmailLinkVariant } from "./atoms/EmailLink";
+export { Tag, type TagProps } from "./atoms/Tag";
+export {
+  Avatar,
+  type AvatarProps,
+  type AvatarSize,
+  type AvatarShape,
+  type AvatarImageProps,
+  type AvatarInitialsProps,
+  type AvatarEmptyProps,
+  type AvatarModeProps,
+  type AvatarBaseProps,
+} from "./atoms/Avatar";
 
 /* ---------- molecules ---------- */
 export {
@@ -43,6 +55,22 @@ export { Pull, type PullProps } from "./molecules/Pull";
 export { LinkCard, type LinkCardProps, type LinkCardVariant } from "./molecules/LinkCard";
 export { TeamCard, type TeamCardProps } from "./molecules/TeamCard";
 export { FeatureCard, type FeatureCardProps } from "./molecules/FeatureCard";
+export { FieldNote, type FieldNoteProps } from "./molecules/FieldNote";
+export { Quote, type QuoteProps } from "./molecules/Quote";
 
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
+export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
+export {
+  Dialog,
+  DialogBasic,
+  type DialogRootProps,
+  type DialogTriggerProps,
+  type DialogPortalProps,
+  type DialogOverlayProps,
+  type DialogContentProps,
+  type DialogTitleProps,
+  type DialogDescriptionProps,
+  type DialogCloseProps,
+  type DialogBasicProps,
+} from "./organisms/Dialog";

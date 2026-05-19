@@ -1,0 +1,75 @@
+/* Avatar — token contract
+   Sizes use inline px values (per founder call: no new tokens).
+   Initials font sizes are inline px (10/12/14) per founder call.
+   Hairline ring via box-shadow to avoid layout shift.
+*/
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--fg-muted);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1;
+  /* Hairline ring — box-shadow avoids layout shift vs. border */
+  box-shadow: 0 0 0 1px var(--hairline);
+  /* Prevent tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
+  /* Vertical rhythm anchor */
+  vertical-align: middle;
+}
+
+/* --- Sizes --- */
+.size-sm {
+  width: 24px;
+  height: 24px;
+  font-size: 10px;
+}
+
+.size-md {
+  width: 32px;
+  height: 32px;
+  font-size: 12px;
+}
+
+.size-lg {
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+}
+
+/* --- Shapes --- */
+.shape-circle {
+  border-radius: 50%;
+}
+
+.shape-square {
+  border-radius: var(--radius-2);
+}
+
+/* --- Image --- */
+.img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Inherit the parent's shape clipping */
+  border-radius: inherit;
+}
+
+/* --- Initials --- */
+.initials {
+  /* Inherits font-size from .sizeSm / .sizeMd / .sizeLg on the root */
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+  color: var(--fg-muted);
+  letter-spacing: 0.02em;
+  user-select: none;
+  line-height: 1;
+}

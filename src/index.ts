@@ -61,3 +61,16 @@ export { Quote, type QuoteProps } from "./molecules/Quote";
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
+export {
+  Dialog,
+  DialogBasic,
+  type DialogRootProps,
+  type DialogTriggerProps,
+  type DialogPortalProps,
+  type DialogOverlayProps,
+  type DialogContentProps,
+  type DialogTitleProps,
+  type DialogDescriptionProps,
+  type DialogCloseProps,
+  type DialogBasicProps,
+} from "./organisms/Dialog";

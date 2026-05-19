@@ -1,0 +1,184 @@
+/* ============================================================
+   Dialog — DS-styled modal overlay.
+   Token contract: meta/design/Dialog.md §3
+   All values reference CSS custom properties from tokens.css.
+   The scrim color rgb(0 0 0 / 0.4) is intentionally inline —
+   see spec §6 for the rationale (not a brand-variable value).
+   ============================================================ */
+
+/* ─── Overlay ─────────────────────────────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.4);
+  z-index: 100;
+}
+
+.overlay[data-state="open"] {
+  animation: overlayIn var(--dur-fast) ease forwards;
+}
+
+.overlay[data-state="closed"] {
+  animation: overlayOut var(--dur-fast) ease forwards;
+}
+
+@keyframes overlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes overlayOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ─── Content panel ───────────────────────────────────────── */
+
+.content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(28rem, calc(100vw - var(--page-pad) * 2));
+  max-height: min(85vh, 640px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-3);
+  padding: var(--space-8) var(--space-6) var(--space-6);
+  z-index: 101;
+  /* Radix sets focus on Content on open; suppress the default outline.
+     Focus ring is not needed on the panel container — only on interactive
+     elements inside it. */
+  outline: none;
+  /* iOS safe-area: avoid overlap with home indicator */
+  padding-bottom: max(var(--space-6), env(safe-area-inset-bottom));
+}
+
+.content[data-state="open"] {
+  animation: contentIn var(--dur-fast) var(--easing) forwards;
+}
+
+.content[data-state="closed"] {
+  animation: contentOut var(--dur-fast) ease forwards;
+}
+
+@keyframes contentIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes contentOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.96);
+  }
+}
+
+/* ─── Title ───────────────────────────────────────────────── */
+
+.title {
+  font-family: var(--font-sans);
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--fg);
+  margin: 0;
+}
+
+/* ─── Description ─────────────────────────────────────────── */
+
+.description {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+  line-height: 1.55;
+  margin: var(--space-2) 0 0;
+}
+
+/* ─── DialogBasic internal structure ──────────────────────── */
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.headerText {
+  flex: 1;
+  min-width: 0;
+}
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--fg-muted);
+  border-radius: var(--radius-1);
+  transition:
+    color var(--dur-fast) ease,
+    background var(--dur-fast) ease;
+}
+
+.closeButton:hover {
+  color: var(--fg);
+  background: var(--surface);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}
+
+/* Hairline rule between title band and body — visible only when
+   description is present (data-has-description attribute). */
+.divider {
+  border: 0;
+  border-top: var(--hairline-w) solid var(--hairline);
+  margin: var(--space-4) 0 0;
+}
+
+.body {
+  padding-top: var(--space-4);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  color: var(--fg);
+  line-height: 1.55;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}

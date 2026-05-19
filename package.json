@@ -131,7 +131,7 @@
     {
       "name": "ESM — organisms subpath",
       "path": "dist/organisms.js",
-      "limit": "14 kB"
+      "limit": "18 kB"
     },
     {
       "name": "ESM — tree-shaken (Wordmark + Button)",
@@ -143,7 +143,7 @@
       "name": "ESM — tree-shaken (Hero + RoleCard + Principle)",
       "path": "dist/index.js",
       "import": "{ Hero, RoleCard, Principle }",
-      "limit": "8.5 kB"
+      "limit": "9 kB"
     }
   ]
 }

@@ -24,6 +24,7 @@ import { Quote } from "./molecules/Quote";
 import { Avatar } from "./atoms/Avatar";
 import { SiteShell } from "./organisms/SiteShell";
 import { Footer } from "./organisms/Footer";
+import { Dialog, DialogBasic } from "./organisms/Dialog";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -471,6 +472,27 @@ test("a11y — Footer (as=div, with links)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — Dialog (compound API, open)", async ({ mount, page }) => {
+  await mount(
+    <Dialog.Root defaultOpen>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>Accessible dialog</Dialog.Title>
+          <Dialog.Description>
+            This dialog has a title and description for screen readers.
+          </Dialog.Description>
+          <p>Body content.</p>
+          <Dialog.Close asChild>
+            <Button variant="ghost">Close</Button>
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — Footer (as=footer, standalone, no links)", async ({ mount, page }) => {
   await mount(<Footer as="footer" copyright="© Pouk AI INC 2026" email="hello@pouk.ai" />);
   await expectAxeClean(page);
@@ -485,6 +507,26 @@ test("a11y — Footer (as=footer, with custom emailLabel)", async ({ mount, page
       emailLabel="Contact"
       links={[{ href: "/privacy", label: "Privacy" }]}
     />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — DialogBasic (open, all slots)", async ({ mount, page }) => {
+  await mount(
+    <DialogBasic
+      open={true}
+      onOpenChange={() => {}}
+      title="A11y central gate dialog"
+      description="This dialog is rendered open for the axe scan."
+      footer={
+        <>
+          <Button variant="ghost">Cancel</Button>
+          <Button variant="primary">Confirm</Button>
+        </>
+      }
+    >
+      <p>Body content for the accessibility gate scan.</p>
+    </DialogBasic>,
   );
   await expectAxeClean(page);
 });

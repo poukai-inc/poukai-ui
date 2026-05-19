@@ -505,6 +505,188 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 />
 ```
 
+### Dialog
+
+Modal overlay primitive. Always modal (`modal: true`). Wraps `@radix-ui/react-dialog` — all focus-trap, ARIA roles, and keyboard handling are delegated to Radix. The DS adds brand styling only.
+
+**Compound subcomponents**
+
+| Subcomponent        | Role                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------- |
+| `Dialog.Root`       | State controller. Props: `open`, `defaultOpen`, `onOpenChange`, `modal` (always true), `children`. |
+| `Dialog.Trigger`    | Element that opens the dialog. Use `asChild` to pass a `<Button>`.                               |
+| `Dialog.Portal`     | Renders overlay + content outside the DOM tree (into `document.body` by default). See SSR note below. |
+| `Dialog.Overlay`    | Backdrop scrim. DS-styled: `rgb(0 0 0 / 0.4)`, animates on `data-state`. Pass `forceMount` for CSS-only exit animations. |
+| `Dialog.Content`    | Modal panel. Primary styled surface. Props: `forceMount`, `onOpenAutoFocus`, `onCloseAutoFocus`, `onEscapeKeyDown`, `onPointerDownOutside`, `onInteractOutside`, `className`. |
+| `Dialog.Title`      | Required accessible title. Radix warns if absent. Styled at `1.125rem / weight 500` by default. |
+| `Dialog.Description`| Optional accessible description. Styled at `--fs-meta` / `--fg-muted`.                          |
+| `Dialog.Close`      | Button that closes the dialog. Use `asChild` to render as `<Button>` or icon button.             |
+
+**`DialogBasic` convenience wrapper**
+
+Covers the 90% case: single-panel dialog with title, optional description, body, and built-in X close button.
+
+| Prop           | Type                        | Default   | Description                                                             |
+| -------------- | --------------------------- | --------- | ----------------------------------------------------------------------- |
+| `open`         | `boolean?`                  | —         | Controlled open state. Pair with `onOpenChange`.                        |
+| `onOpenChange` | `(open: boolean) => void?`  | —         | Controlled open state handler.                                          |
+| `title`        | `string`                    | required  | Dialog title. Required. Renders as `Dialog.Title`.                      |
+| `description`  | `string?`                   | —         | Optional description. When present, adds a hairline rule below title.   |
+| `children`     | `ReactNode`                 | required  | Body content.                                                           |
+| `footer`       | `ReactNode?`                | —         | Optional right-aligned footer (typically Cancel + Confirm buttons).     |
+| `closeLabel`   | `string?`                   | `"Close"` | Accessible label for the built-in X close button. Override for locale.  |
+| `className`    | `string?`                   | —         | Forwarded to `Dialog.Content`. Standard layout-override escape hatch.   |
+
+**Tokens consumed**
+
+| Token          | Role                                               |
+| -------------- | -------------------------------------------------- |
+| `--bg-elevated`| Content panel background (front-most elevation)    |
+| `--fg`         | Title and body text                                |
+| `--fg-muted`   | Description text and close button icon             |
+| `--hairline`   | Panel border + title/body divider rule             |
+| `--hairline-w` | Hairline stroke weight (1px)                       |
+| `--accent`     | Focus ring on close button and interactive elements|
+| `--radius-3`   | Content panel corner radius (8px)                  |
+| `--radius-1`   | Focus ring border-radius (2px)                     |
+| `--space-2`    | Description margin-top                             |
+| `--space-3`    | Footer button gap                                  |
+| `--space-4`    | Body padding-top; divider margin-top               |
+| `--space-6`    | Panel horizontal padding; footer margin-top        |
+| `--space-8`    | Panel top padding                                  |
+| `--font-sans`  | All text in the dialog                             |
+| `--fs-body`    | Body content text                                  |
+| `--fs-meta`    | Description text                                   |
+| `--dur-fast`   | Open/close transition duration (180ms)             |
+| `--easing`     | Entrance easing (expo-out)                         |
+| `--page-pad`   | Panel width calculation (subtracted from 100vw)    |
+| `--surface`    | Close button hover background                      |
+
+**SSR / portal container note.** By default Radix portals content into `document.body`. Consumers using Next.js App Router or SSR strict mode who need to target a specific DOM node (e.g. `<div id="portal-root">` outside `<main>`) can pass `container` via `Dialog.Portal` props: `<Dialog.Portal container={portalRootRef.current}>`. No code-level handling is required in the DS — the prop passes through to Radix directly.
+
+**JSX usage examples**
+
+```jsx
+// (a) Controlled open state — DialogBasic
+import { useState } from "react";
+import { DialogBasic, Button } from "@poukai-inc/ui";
+
+function WaitlistSignup() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Join waitlist</Button>
+      <DialogBasic
+        open={open}
+        onOpenChange={setOpen}
+        title="Join the waitlist"
+        description="We'll reach out as soon as your spot is ready."
+        footer={
+          <>
+            <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+            <Button variant="primary" type="submit" form="waitlist-form">Submit</Button>
+          </>
+        }
+      >
+        <form id="waitlist-form">
+          <label htmlFor="email">Email address</label>
+          <input id="email" type="email" name="email" autoComplete="email" />
+        </form>
+      </DialogBasic>
+    </>
+  );
+}
+
+// (b) Uncontrolled via Dialog.Trigger — compound API
+import { Dialog, Button } from "@poukai-inc/ui";
+
+function InfoOverlay() {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>
+        <Button variant="ghost">Learn more</Button>
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content>
+          <Dialog.Title>About pouk.ai</Dialog.Title>
+          <Dialog.Description>
+            pouk.ai gives operators access to enterprise-grade AI tooling.
+          </Dialog.Description>
+          <p>Founded in 2025, pouk.ai builds the infrastructure layer for AI operators.</p>
+          <Dialog.Close asChild>
+            <Button variant="ghost">Close</Button>
+          </Dialog.Close>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
+// (c) Form inside Dialog — onOpenAutoFocus override
+import { useRef } from "react";
+import { Dialog, Button } from "@poukai-inc/ui";
+
+function SettingsDialog({ open, onOpenChange }) {
+  const firstFieldRef = useRef(null);
+  return (
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content
+          onOpenAutoFocus={(e) => {
+            e.preventDefault();
+            firstFieldRef.current?.focus();
+          }}
+        >
+          <Dialog.Title>Notification settings</Dialog.Title>
+          <form>
+            <input ref={firstFieldRef} id="notify-email" type="checkbox" name="notify-email" />
+          </form>
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: "var(--space-3)", marginTop: "var(--space-6)" }}>
+            <Dialog.Close asChild><Button variant="ghost">Cancel</Button></Dialog.Close>
+            <Button variant="primary" type="submit">Save</Button>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}
+
+// (d) Confirmation dialog — Cancel + Confirm pattern
+// Note: variant="primary" is used for the destructive action until variant="danger" ships.
+import { DialogBasic, Button } from "@poukai-inc/ui";
+
+function DeleteConfirmation({ open, onOpenChange, onConfirm }) {
+  return (
+    <DialogBasic
+      open={open}
+      onOpenChange={onOpenChange}
+      title="Delete this project?"
+      description="This action cannot be undone. All data will be permanently removed."
+      footer={
+        <>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>Cancel</Button>
+          <Button variant="primary" onClick={() => { onConfirm(); onOpenChange(false); }}>
+            Delete project
+          </Button>
+        </>
+      }
+    >
+      {null}
+    </DialogBasic>
+  );
+}
+```
+
+- Dialog is always modal. Non-blocking overlays → future `Popover` primitive.
+- `Dialog.Title` is required — Radix warns if absent. Use `position: absolute; clip: rect(0,0,0,0)` visually-hidden styles for untitled designs; do NOT omit the element.
+- Do NOT set `modal={false}` — excluded from the DS. Use the raw Radix primitive if absolutely required.
+- Do NOT add `--scrim` or `--shadow-dialog` tokens. The scrim value (`rgb(0 0 0 / 0.4)`) is intentionally inline (not a theme variable). No drop shadow — `--bg-elevated` on `--bg` reads as elevated via background value difference.
+- Do NOT nest a Dialog inside another Dialog.
+- Do NOT add `role="alertdialog"` unless the action is truly irreversible with no non-destructive dismiss path — a future `AlertDialog` variant will handle that register.
+- `className` on `Dialog.Content` and `DialogBasic` is the sanctioned escape hatch for layout overrides (e.g. wider panels). No "wide" size variant ships in v1.
+
 ---
 
 ## Anti-patterns

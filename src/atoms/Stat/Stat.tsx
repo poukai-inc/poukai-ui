@@ -51,3 +51,5 @@ export const Stat = forwardRef<HTMLDivElement, StatProps>(function Stat(
     </div>
   );
 });
+
+Stat.displayName = "Stat";

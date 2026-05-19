@@ -38,12 +38,15 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--fs-tagline-intimate: clamp(2rem, 1.25rem + 2.5vw, 3.25rem)` (32-52px) — Hero title at `size="intimate"`. Use only inside the Hero molecule. Never use directly on `h1` outside Hero context.
 - `--fs-display: clamp(3rem, 1.75rem + 4vw, 5.5rem)` (48-88px) — Editorial display rung above `--fs-tagline`. AT MOST ONCE PER PAGE. NOT a heading replacement (the semantic `<h1>` stays on `--fs-tagline` via `<Hero>`). Reserved for editorial display moments where the page opens on a single statement and the Hero pattern is being deliberately replaced — not augmented. Sits 8px below `--fs-stat-large` (96px) so numerals stay loudest.
 - `--fs-statement: clamp(1.75rem, 1.25rem + 2vw, 2.75rem)` (28-44px) — Italic-serif editorial Statement block. Sits between `h2` and `--fs-tagline-intimate`. Used only by the `<Statement>` molecule; not a heading replacement and does not emit any heading element.
+- `--fs-pull: clamp(1.25rem, 1rem + 1vw, 1.625rem)` (20-26px) — Inline editorial pull-quote accent. Above `--fs-body`, below `--fs-statement`. Used only by the `<Pull>` molecule. Fills the gap between body and Statement; a distinct semantic rung with reuse potential for future inline callout components. No `size` variant — one scale carries.
 - `--fs-body: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem)` (17-19px) — Primary reading size.
 - `--fs-meta: 0.875rem` (14px) — Secondary text: captions, nav labels, badge text, hiredBy lines.
 - `--fs-micro: 0.75rem` (12px) — Uppercase labels only. Always paired with letter-spacing: 0.04em and text-transform: uppercase.
 - `--fs-stat: clamp(2.75rem, 2rem + 3vw, 4.5rem)` (44-72px) — Stat numeral at size="md".
 - `--fs-stat-large: clamp(3.5rem, 2.25rem + 5vw, 6rem)` (56-96px) — Stat numeral at size="lg". One per section at most.
 - `--tracking-stat: -0.015em` — Negative letter-spacing for display numerals in Stat only.
+- `--tracking-eyebrow: 0.06em` — Canonical letter-spacing for all Eyebrow labels. The single resolved value across the three previously-divergent inline usages (RoleCard: 0.06em, FailureMode: 0.08em, .micro: 0.04em). At `--fs-meta` (14px) = 0.84px per letter — enough to communicate uppercase structure without tipping airy. See design spec `meta/design/Eyebrow.md §3` for rationale.
+- `--lh-meta: 1.2` — Line-height for meta/eyebrow-scale text. First named line-height token in the system, scoped to the meta register. Matches the value already used on `h2`, `h3`, and `.numeral` throughout the token file. A full `--lh-*` ramp is deferred to a foundations pass.
 - `--fs-card-title: clamp(1.5rem, 1.15rem + 1.2vw, 2rem)` (24-32px) — Card-title rung. Shared by `<RoleCard>`, `<Principle>`, `<FailureMode>` titles. Always rendered in `--font-serif`, `font-weight: 400`. Do NOT use as a heading-level replacement; the title element semantics still come from the consuming page.
 
 ### Spacing (4px base grid)
@@ -164,6 +167,72 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - `width` is the canonical source-image width in px — drives the srcset divisors (1, 1.5, 2.34375, 3.75) and the `width`/`height` HTML attrs. Pass the full source resolution, not the display size.
 - `loading` defaults to `"lazy"`; use `"eager"` for above-the-fold portraits. `fetchPriority` defaults to `"auto"`; pair `loading="eager"` with `fetchPriority="high"` for the LCP image. `sizes` defaults to `"100vw"`. `objectPosition` defaults to `"center"`.
 - `src` accepts either a string URL or an object shaped like Astro's `ImageMetadata` (`.src` is extracted). Do NOT pass `import.meta` imports without unwrapping.
+
+### Eyebrow
+- Canonical micro-label atom. Uppercase, tracked (`--tracking-eyebrow: 0.06em`), `--font-sans`, `--fs-meta` (14px), weight 500, `--lh-meta` (1.2).
+- `variant="muted"` (default) — color `--fg-muted`. Standard section/category/role label register.
+- `variant="solid"` — color `--fg`. Full contrast when the label needs more weight.
+- `variant="numbered"` — color `--fg-muted` + activates the inline numeral slot (inline-flex, baseline-aligned, `--space-2` gap). Use with `numeral` prop.
+- `numeral` prop (string, optional) — rendered in a leading `<span>` with `font-variant-numeric: tabular-nums`. e.g. `numeral="FM-03"`, `numeral="01 ·"`.
+- `as` prop — polymorphic root element, defaults to `<span>`. Valid values: `span`, `p`, `div`, `dt`, `h2`, `h3`, `h4`, `h5`, `h6`, `li`. Use `as="h2"` when heading semantics are required at eyebrow scale.
+- `margin: 0` — Eyebrow owns no margin. The consuming molecule owns spacing between Eyebrow and its sibling title.
+- Resolves the drift between `RoleCard.eyebrow` (mono, 12px, 0.06em), `FailureMode.index` (sans, 14px, 0.08em), and `.micro` utility (sans, 12px, 0.04em). Migration to consuming molecules is a follow-up PR.
+- Do NOT use `--accent` on Eyebrow — it is a label, not a link or status indicator.
+- Do NOT add truncation or overflow clipping — the DS does not manage Eyebrow overflow.
+
+### EmailLink
+- Canonical `mailto:` affordance atom. Not a button — it opens a mail client, it does not commit to an outcome. Choose `<EmailLink>` over `<Button asChild><a href="mailto:…">` when the contact register is "reach out" rather than "commit to action."
+- `email` (required string) — The email address. Component always computes `href="mailto:${email}"`. Consumers NEVER pass `href` directly — it is excluded from the prop interface via `Omit<AnchorHTMLAttributes, 'href'>`.
+- `label` (optional string) — Visible link text. Defaults to the `email` string when omitted. When provided, `label` is the accessible name; the email is the href target only.
+- `icon` (optional ReactNode) — Leading icon slot. When present, root shifts to `inline-flex` with `align-items: center` and `gap: --space-2`. When absent, root is a plain inline anchor. Use 14px icons in `--fs-meta` contexts, 16px in `--fs-body` contexts. Pass `aria-hidden="true"` on decorative icons.
+- `qualifier` (optional string) — Trailing role qualifier rendered as ` (qualifier)` in a muted `<span>` inside the anchor. Pass the bare name/role without parentheses. e.g. `qualifier="Arian"` renders "founder@pouk.ai (Arian)".
+- `variant="default"` (default) — `color: --fg`, hover → `--accent`. Use on `--bg` or `--surface` contexts.
+- `variant="muted"` — `color: --fg-muted`, hover → `--fg`. For footer, caption, secondary-copy contexts. Matches existing `.muted-link` treatment in `SiteShell`.
+- `text-decoration: underline` is always on — intentional brand override of the global animated grow-underline on `<a>`. A `mailto:` affordance is not navigational; a persistent underline is the correct signal. `text-decoration-thickness: 1px`, `text-underline-offset: 2px`.
+- Focus ring: `outline: 2px solid --accent`, `outline-offset: 4px` (link convention — matches global `a:focus-visible`, NOT Button's 2px offset). `border-radius: --radius-1`.
+- `:visited` — no distinct treatment (brand decision; visited state creates false scent on contact links).
+- `:active` — no `translateY` (link, not button).
+- No margin on root — consumer owns spacing.
+- Do NOT use `<EmailLink>` for `tel:` or `sms:` protocols — those get their own atoms.
+- Do NOT compose `<EmailLink>` inside `<Button>` — they are sibling affordances with different registers.
+- Do NOT pass `href` — it is always computed from `email`. The prop is excluded at the TypeScript level.
+
+### Section
+- Canonical page-section wrapper molecule. Owns the vertical rhythm around a section's header block (eyebrow + title + lede) and exposes a children slot for section body content.
+- No visual surface — no background, border, or shadow in default configuration. Structural scaffolding only.
+- `as` prop (default `"section"`) — polymorphic root element. Valid values: `"section"` | `"article"` | `"aside"` | `"div"`. `"section"` is a region landmark when titled; `"article"` for independently distributable content; `"aside"` for tangential content; `"div"` when a landmark would be noise.
+- `eyebrow` (optional `string | ReactNode`) — String values are automatically wrapped in `<Eyebrow>` with default props (`variant="muted"`). ReactNode values are rendered as-is. Never wraps a ReactNode in a second Eyebrow. Always routes through the `<Eyebrow>` atom for consistency.
+- `title` (optional `ReactNode`) — rendered as the element named by `titleAs`. When present, wires `aria-labelledby` on the root for landmark elements.
+- `titleAs` (optional `"h1" | "h2" | "h3"`, default `"h2"`) — heading level for the title element. Default is `h2` (page subdivisions below a Hero which owns the h1). Pass `"h1"` when Section is at the top of a page without a Hero; `"h3"` for nested subdivision contexts.
+- `lede` (optional `ReactNode`) — supporting copy below the title. String values are wrapped in `<p className="lede">` (applies `color: var(--fg-muted)` and `max-width: 36rem` via the existing `.lede` class in `tokens.css`). ReactNode values are rendered as-is.
+- `size` (`"default"` | `"tight"`, default `"default"`) — block padding variant. `"default"` = `--space-16` (64px) top + bottom; `"tight"` = `--space-12` (48px) top + bottom.
+- `children` — section body content. Section applies no styling to children — no max-width, no typography. The body is the consumer's space.
+- **Empty header guard**: if `eyebrow`, `title`, and `lede` are all absent, the header wrapper div is not rendered.
+- **`aria-labelledby` wiring**: when `title` is present and `as` is a landmark element (`"section"` / `"article"` / `"aside"`), the title element receives an auto-generated `id` (via `useId()`) and the root receives `aria-labelledby`. Skipped for `as="div"`.
+- Header block max-width: `var(--hero-max)` (38rem). Children slot has no max-width.
+- Header gaps: eyebrow→title `--space-2` (8px); title→lede `--space-4` (16px). Header→children gap: `--space-12` (48px).
+- Global `h2` bottom margin is zeroed in Section's CSS scope (`margin: 0` on `.title`) — Section's flex layout controls spacing instead.
+- No `bleed` prop. No `align` prop. Both excluded from spec — structural wrapper, not visual band.
+- Do NOT nest Section inside Section. Would double block padding and break vertical rhythm.
+- Do NOT use Section as a card, callout, or decorative container. It carries no visual surface.
+- Do NOT add `aria-labelledby` manually when a title is provided — Section wires it automatically for landmark elements.
+
+### Pull
+- Inline editorial pull-quote molecule. Lives inside long-form prose between paragraphs. NOT a page-level molecule (unlike Hero or Statement).
+- Root element: `<blockquote>` by default (correct HTML for quoted material). Use `as="aside"` only when Pull is an extracted editorial accent that is not a literal quotation from an external source.
+- `variant="serif"` (default) — Instrument Serif italic at `--fs-pull` (20–26px fluid). Use for editorial long-form content, article pages, customer stories.
+- `variant="sans"` — Geist roman at `--fs-pull`. Use for technical or operator-grade content where Instrument Serif feels mismatched.
+- `--fs-pull: clamp(1.25rem, 1rem + 1vw, 1.625rem)` (20–26px) — the only scale. No `size` prop. A `large` variant was explicitly rejected; the page-level editorial scale is `<Statement>`.
+- Left rule: `border-inline-start: 3px solid var(--hairline)`. 3px is a brand-locked constant (not `--hairline-w`). Decorative typographic punctuation, not a layout divider.
+- `padding-inline-start: var(--space-4)` (16px) — distance from rule to body text.
+- `margin-block: var(--space-8)` (32px) — breathing room above + below. Adjacent `<p>` margin-bottom adds 48px total gap (non-collapsing). This is correct editorial rhythm at --fs-pull scale.
+- `max-width: var(--hero-max)` (38rem) — matches the article text column. Pull never exceeds prose measure.
+- `cite` prop — URL mapped to HTML `cite` attribute on `<blockquote>`. Machine-readable only. SILENTLY IGNORED when `as="aside"` (not a valid attribute on aside).
+- `attribution` prop (optional ReactNode) — visible trailing attribution line. Renders as `<footer>` inside `<blockquote>` (per HTML5 spec; scoped, not contentinfo landmark). Renders as `<p>` inside `<aside>`. Always `--fs-meta`, `--fg-muted`, italic regardless of variant.
+- No decorative `"` quote glyph — the left rule is the typographic punctuation.
+- Do NOT place Pull inside a `<Hero>`. Do NOT stack Pull with `<Statement>` on the same surface. Do NOT use Pull for person identity attribution — use `<Quote>` (once shipped).
+- Multiple Pulls per page are permitted. More than 3 is an editorial judgment, not a DS constraint.
+- Screen reader: `<blockquote>` is announced as a quotation; `<aside>` adds a complementary landmark — avoid `as="aside"` in articles with multiple Pulls (landmark noise).
 
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.

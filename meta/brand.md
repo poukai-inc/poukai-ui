@@ -59,6 +59,124 @@ _To be filled. When can a token change vs. add? What requires Arian's approval? 
 
 _Reverse-chronological. Each entry: context, decision, rationale, alternatives considered, approval (Arian)._
 
+### 2026-05-19 — Pull molecule: introduce `--fs-pull: clamp(1.25rem, 1rem + 1vw, 1.625rem)`
+
+**Context.** The `<Pull>` molecule spec (`meta/design/Pull.md`) introduces an inline editorial pull-quote primitive. Pull requires a font-size token between `--fs-body` (17–19px) and `--fs-statement` (28–44px). The gap between those two rungs is large: `--fs-body` tops at 19px; `--fs-statement` floors at 28px. A pull-quote at `--fs-body` would not read as an accent against the surrounding prose. A pull-quote at `--fs-statement`'s lower bound (28px) would be indistinguishable from the Statement molecule at its quietest register and uncomfortably close to heading scale. A named rung at 20–26px is the correct answer.
+
+**Decision — `--fs-pull: clamp(1.25rem, 1rem + 1vw, 1.625rem)`.**
+
+The token sits immediately above `--fs-body` in `tokens.css`, reading 20px at 320px viewport and 26px at approximately 960px viewport. The floor-to-ceiling delta (6px) is deliberately restrained — Pull grows with the viewport but stays in the same register at all widths.
+
+| Token       | Value                                  | Range   |
+| ----------- | -------------------------------------- | ------- |
+| `--fs-pull` | `clamp(1.25rem, 1rem + 1vw, 1.625rem)` | 20–26px |
+
+**Position in the ramp.** The updated ramp order in the vicinity of the new token:
+
+```
+--fs-statement  clamp(1.75rem, 1.25rem + 2vw, 2.75rem)   28–44px
+--fs-pull       clamp(1.25rem, 1rem + 1vw, 1.625rem)      20–26px  ← new
+--fs-body       clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem) 17–19px
+```
+
+**Why a named token rather than an inline `clamp()` in Pull's CSS module.**
+
+The BACKLOG explicitly calls for tokenizing the type scale. A semantic component such as Pull has a named typographic register — "pull-quote body text" is a distinct role, no different from `--fs-meta` (attribution text) or `--fs-card-title` (card heading). Inlining a `clamp()` in a CSS module makes that value invisible to consumers, to `llms-full.txt`, and to any future component that wants to render at the same scale (e.g. a future `FieldNote` callout or a `Highlight` inline accent). The token surfaces the contract.
+
+**Why `--fs-pull` and not `--fs-body-lg` or `--fs-large`.**
+
+Semantic names, not size names. `--fs-pull` communicates the role (editorial pull-quote body); `--fs-body-lg` communicates a positional relationship to `--fs-body` (which could change). The naming convention in this system is role-scoped: `--fs-tagline`, `--fs-statement`, `--fs-meta`, `--fs-card-title` — none of these are named by size relationship. `--fs-pull` follows that convention.
+
+**Left rule: 3px.** The Pull spec specifies `border-inline-start: 3px solid var(--hairline)`. This is heavier than the 1px `--hairline-w` dividers used for rules and borders elsewhere. The distinction is intentional: Pull's left border is typographic punctuation — it must register visually against a body-text column — whereas dividers are spatial separators. `3px` reads as "editorial mark"; `1px` would read as "separator," which is the wrong semantic. No new border-width token is introduced; `3px` is hardcoded in Pull's CSS module as a component-specific value with no reuse surface.
+
+**Decorative quote mark decision.** Pull does not render a decorative `"` glyph via `::before`. The left rule serves as visual punctuation. Adding a large display quote mark would push Pull toward a decorative register at odds with the Apple-restrained aesthetic: Apple's editorial pullout patterns on `apple.com` and in its editorial design use ruled indentation, not large decorative glyphs. This decision is part of the Pull spec and is logged here for permanence — future proposals to add a quote glyph are brand-level changes requiring this entry's rationale to be revisited.
+
+**`--fs-pull` vs. `--fs-statement` distinction preserved.** At maximum viewport (≥960px), `--fs-pull` reaches 26px and `--fs-statement` floors at 28px. There is a 2px overlap zone — a brief range of viewport widths where the two tokens are the same size. This is acceptable because Pull and Statement are never used on the same typographic surface at the same moment: Pull is inline in prose; Statement is a standalone page-level block. Readers do not see them side by side, so the overlap does not create perceptible ambiguity. Were they used side by side, the serif-italic treatment and left-rule context of Pull would still distinguish it from Statement's centered, standalone presentation.
+
+**Alternatives considered.**
+
+- **Use `--fs-statement` for Pull.** Rejected. At 28–44px, this registers as a heading, not an inline accent. At its smallest (28px on mobile), it already sits above the global `h2`'s mobile size (~28px) — Pull at that scale would disrupt rather than accent the prose.
+- **Use `--fs-body` with weight or color differentiation only.** Rejected. The editorial effect of a pull-quote is size-based — the passage must be visibly larger than the surrounding prose to slow the eye. Color and weight alone cannot achieve this at `--fs-body` scale.
+- **Inline `clamp()` in Pull.module.css without a token.** Rejected. Invisible to consumers, invisible to `llms-full.txt`, no reuse path. See "Why a named token" above.
+- **`clamp(1.125rem, 1rem + 0.75vw, 1.5rem)` (18–24px).** Considered as a tighter range. Rejected: 18px at mobile is only 1px above the top of `--fs-body` (17px) and would not read as a distinct register at the smallest viewports. The chosen floor of 20px (1.25rem) guarantees a minimum 1px step above `--fs-body`'s ceiling of 19px.
+- **`clamp(1.375rem, 1.1rem + 1.1vw, 1.75rem)` (22–28px).** Considered as a slightly larger range. Rejected: the 28px ceiling collides with `--fs-statement`'s floor (28px), creating a zero-gap overlap at large viewports. The chosen 26px ceiling leaves a 2px gap, which is narrow but preserves the rung distinction.
+
+**Token placement in `tokens.css`.** The token lives in the fluid type-scale block inside `:root`, immediately above `--fs-body`:
+
+```css
+--fs-pull: clamp(
+  1.25rem,
+  1rem + 1vw,
+  1.625rem
+); /* 20–26. Inline editorial pull-quote accent; above body, below --fs-statement. */
+```
+
+**Authorization.** `poukai-design` decision (additive token; no existing consumer behavior changes). Arian to ratify on review. Reference: `meta/design/Pull.md`.
+
+**Follow-ups for `poukai-ds-engineer`.**
+
+- `--fs-pull: clamp(1.25rem, 1rem + 1vw, 1.625rem)` is now in `src/tokens/tokens.css`, fluid type-scale block, immediately above `--fs-body`. No further token work needed.
+- Implement `src/molecules/Pull/` per `meta/design/Pull.md`. Components: `Pull.tsx`, `Pull.module.css`.
+- Export `Pull` from `src/molecules.ts` and `src/index.ts`.
+- Add `Pull` to `scripts/build-llms-txt.mjs` `COMPONENTS.molecules` and add a `### Pull` section to `meta/llms-full.txt` documenting `--fs-pull`, `variant`, `as` polymorphism, and the `attribution` slot.
+- Ship the story matrix from `meta/design/Pull.md §12`.
+- Changeset: minor bump (new molecule, new token, additive).
+
+---
+
+### 2026-05-19 — Eyebrow atom: introduce `--tracking-eyebrow: 0.06em` and `--lh-meta: 1.2`
+
+**Context.** The `<Eyebrow>` atom spec (`meta/design/Eyebrow.md`) reconciles three divergent letter-spacing values used for the same micro-label pattern across `RoleCard` (`.eyebrow`, `0.06em`), `FailureMode` (`.index`, `0.08em`), and the global `.micro` utility (`0.04em`). It also introduces the system's first named line-height token, scoped to the meta/eyebrow register. Both tokens are new additions; no existing token is modified.
+
+**Decision — `--tracking-eyebrow: 0.06em`.**
+
+The three in-use values were each authored independently without a system rationale. The decision is to normalize to a single canonical value and retire the per-component divergence.
+
+`0.06em` is chosen over `0.04em` and `0.08em` for the following reasons:
+
+- `0.04em` (`.micro` global utility) is the correct tracking for lowercase meta text (footer copy, captions). Uppercase Eyebrow text needs more air between glyphs to avoid the letter block reading as a dense shape — `0.04em` is visually tight on all-caps labels at `--fs-meta`.
+- `0.08em` (`FailureMode.index`) was the widest value, authored for a reference-index register ("FM-03"). It is marginally more airy than `0.06em` but the difference at 14px is within one perceptual step and does not constitute a semantically distinct register. Maintaining a second tracking token for that one context would add friction without earning it.
+- `0.06em` is already in use on the highest-visibility eyebrow surface (RoleCard), matches Apple's measured uppercase micro-label tracking on `apple.com` (approximately `0.05–0.07em`), and reads as "considered open" rather than "airy" or "tight".
+
+The `.micro` global utility (`0.04em`) is not modified. It serves a different register (lowercase meta text) and is not interchangeable with `--tracking-eyebrow`. Both coexist.
+
+`--tracking-stat: -0.015em` (existing, for `<Stat>` display numerals) is not modified. The tracking token namespace is semantic-role-scoped: `--tracking-eyebrow` joins `--tracking-stat` as a distinct role.
+
+**Decision — `--lh-meta: 1.2`.**
+
+No line-height tokens existed before this entry. The BACKLOG "Tokenize line-height + letter-spacing scales" item calls out the drift. This spec introduces the first line-height token, narrow-purpose for the meta/eyebrow register. The value `1.2` reflects what the system already uses at the meta-text scale (`h2`, `h3`, `.numeral` in Principle). A full `--lh-*` ramp is deferred to the foundations pass.
+
+**Token placement in `tokens.css`.**
+
+Both tokens belong in the Typography section of `:root`, after the existing `--tracking-stat` line:
+
+```css
+--tracking-eyebrow: 0.06em; /* canonical tracking for uppercase eyebrow / micro-label text */
+--lh-meta: 1.2; /* line-height for meta-scale text (eyebrow, labels) */
+```
+
+**Alternatives considered.**
+
+- **Keep all three values and tokenize as `--tracking-eyebrow-tight / -mid / -loose`.** Rejected. Three named variants of what is semantically the same concept (an uppercase micro-label) is a false taxonomy. The system gains nothing from three rungs here. If a genuinely distinct register surfaces, a second token can be added then with a real rationale.
+- **Adopt `0.04em` as canonical (collapse to the `.micro` value).** Rejected. At 14px uppercase, `0.04em` is perceptibly under-tracked for all-caps labels — the letters read as a dense block, not a discrete label. The `.micro` class was authored for lowercase usage; its tracking is not appropriate for uppercase.
+- **Adopt `0.08em` as canonical.** Rejected. Marginally wider than `0.06em` without a distinct semantic register to justify the second token. The FailureMode index does not need to be perceptibly wider than every other eyebrow in the system.
+- **No `--lh-meta` token; keep `1.2` as an inline literal in Eyebrow.module.css.** Rejected. The BACKLOG item explicitly calls for tokenizing line-height scales; introducing a new component without also introducing its line-height token would continue the pattern this spec is meant to fix.
+
+**Authorization.** `poukai-design` decision (additive tokens, no existing consumer behavior changes). Arian to ratify on review. Reference: `meta/design/Eyebrow.md`.
+
+**Follow-ups for `poukai-ds-engineer`.**
+
+- Add `--tracking-eyebrow: 0.06em` and `--lh-meta: 1.2` to `src/tokens/tokens.css`, Typography section, after `--tracking-stat`.
+- Implement `src/atoms/Eyebrow/` per `meta/design/Eyebrow.md`.
+- Export `Eyebrow` from `src/atoms.ts` and `src/index.ts`.
+- Add `Eyebrow` to `scripts/build-llms-txt.mjs` `COMPONENTS.atoms` and add a `### Eyebrow` section to `meta/llms-full.txt`.
+- Ship the story matrix from `meta/design/Eyebrow.md §9`.
+- **Separate follow-up PR** — migrate `RoleCard`, `FailureMode` to consume `<Eyebrow>` per migration notes in the spec. Do not bundle with the atom ship.
+- **Separate follow-up PR** — add `--bp-md: 768px` to `tokens.css` Layout section and update `meta/brand.md` with its decision-log entry. Migrate Hero's `720px` breakpoint to `var(--bp-md)`.
+- Changeset: minor bump (new atom, new tokens, additive).
+
+---
+
 ### 2026-05-18 — Add `--content-max-bleed: 100vw` — full-bleed layout permission token (issue #57)
 
 **Context.** The `/about` v2 portrait band requires a surface that extends edge-to-edge across the viewport. Prior to this change, the DS had no mechanism for opting a section out of the `--content-max: 64rem` column constraint. Site-side consumers were either constrained to `64rem` or would need to hardcode viewport-width values outside the token contract — both failures of the brand contract.

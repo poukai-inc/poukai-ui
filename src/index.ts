@@ -18,6 +18,8 @@ export { Wordmark, type WordmarkProps } from "./atoms/Wordmark";
 export { StatusBadge, type StatusBadgeProps, type StatusBadgeStatus } from "./atoms/StatusBadge";
 export { Button, type ButtonProps, type ButtonVariant, type ButtonSize } from "./atoms/Button";
 export { Stat, type StatProps, type StatAlign, type StatSize } from "./atoms/Stat";
+export { Eyebrow, type EyebrowProps, type EyebrowVariant } from "./atoms/Eyebrow";
+export { EmailLink, type EmailLinkProps, type EmailLinkVariant } from "./atoms/EmailLink";
 
 /* ---------- molecules ---------- */
 export {
@@ -36,6 +38,8 @@ export { Principle, type PrincipleProps } from "./molecules/Principle";
 export { FailureMode, type FailureModeProps } from "./molecules/FailureMode";
 export { Statement, type StatementProps } from "./molecules/Statement";
 export { Portrait, type PortraitProps, type AspectRatio } from "./molecules/Portrait";
+export { Section, type SectionProps } from "./molecules/Section";
+export { Pull, type PullProps } from "./molecules/Pull";
 
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";

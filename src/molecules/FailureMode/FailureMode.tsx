@@ -45,3 +45,5 @@ export const FailureMode = forwardRef<HTMLElement, FailureModeProps>(function Fa
     </section>
   );
 });
+
+FailureMode.displayName = "FailureMode";

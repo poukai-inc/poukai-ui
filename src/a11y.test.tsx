@@ -5,11 +5,15 @@ import { Wordmark } from "./atoms/Wordmark";
 import { StatusBadge } from "./atoms/StatusBadge";
 import { Button } from "./atoms/Button";
 import { Stat } from "./atoms/Stat";
+import { Eyebrow } from "./atoms/Eyebrow";
+import { EmailLink } from "./atoms/EmailLink";
 import { Hero } from "./molecules/Hero";
 import { RoleCard } from "./molecules/RoleCard";
 import { Principle } from "./molecules/Principle";
 import { FailureMode } from "./molecules/FailureMode";
 import { Statement } from "./molecules/Statement";
+import { Section } from "./molecules/Section";
+import { Pull } from "./molecules/Pull";
 import { SiteShell } from "./organisms/SiteShell";
 
 /**
@@ -84,6 +88,30 @@ test("a11y — Stat", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — EmailLink (variants)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <EmailLink email="hello@pouk.ai" />
+      <EmailLink email="hello@pouk.ai" variant="muted" />
+      <EmailLink email="founder@pouk.ai" qualifier="Arian" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Eyebrow (all variants)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Eyebrow variant="muted">Role 01</Eyebrow>
+      <Eyebrow variant="solid">Engineering</Eyebrow>
+      <Eyebrow variant="numbered" numeral="FM-03">
+        Failure Mode
+      </Eyebrow>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- molecules ---------- */
 
 test("a11y — Hero (with status + cta)", async ({ mount, page }) => {
@@ -152,6 +180,44 @@ test("a11y — FailureMode", async ({ mount, page }) => {
     <FailureMode index={1} title="The chatbot-on-top-of-RAG plateau.">
       <p>Most teams stop here. The demo dazzles; the production loop never closes.</p>
     </FailureMode>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Section (full header + children)", async ({ mount, page }) => {
+  await mount(
+    <Section
+      eyebrow="01 · Approach"
+      title="The rules we ship by."
+      lede="Supporting copy that gives the reader the gist."
+    >
+      <p>Body content.</p>
+    </Section>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Section (as='article')", async ({ mount, page }) => {
+  await mount(
+    <Section as="article" title="Press mention" lede="Independently distributable content." />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Pull (default blockquote, serif, with attribution)", async ({ mount, page }) => {
+  await mount(
+    <Pull attribution="— from §3, Engineering culture">
+      The smallest real deployment teaches more than six months of staging.
+    </Pull>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Pull (as='aside', sans variant)", async ({ mount, page }) => {
+  await mount(
+    <Pull as="aside" variant="sans" attribution="— from §3, Engineering culture">
+      The smallest real deployment teaches more than six months of staging.
+    </Pull>,
   );
   await expectAxeClean(page);
 });

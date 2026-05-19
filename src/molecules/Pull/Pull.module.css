@@ -1,0 +1,78 @@
+/* ============================================================
+   Pull — inline editorial pull-quote molecule
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Reset user-agent blockquote margin/padding — the spec-defined values
+     below are the sole source of truth. UA styles for <blockquote> include
+     margin: 1em 40px and sometimes padding; zero them here so the left rule
+     and padding-inline-start render correctly at every reset baseline. */
+  margin: 0;
+  padding: 0;
+
+  /* Block margin: breathing room above + below adjacent paragraphs.
+     Note: when Pull sits between two <p> elements, the gap between each
+     <p>'s margin-bottom (--space-4) and Pull's margin-block-start is additive
+     (no CSS margin collapse — different block context). This yields 48px
+     (16 + 32) above/below. Verified in the InArticleRhythm story — the gap
+     reads as natural editorial breathing room at the --fs-pull register.
+     Consumers can override margin-block-start/end via className if needed. */
+  margin-block: var(--space-8);
+
+  /* Container max-width — matches the article text column cap used by Hero
+     and Section. Pull must not exceed the prose measure. */
+  max-width: var(--hero-max);
+
+  /* Left-flush with the body column. The left rule provides the visual
+     offset from prose; no symmetric inset. */
+  margin-inline-start: 0;
+
+  /* Left rule: 3px — visually heavier than the 1px --hairline-w dividers
+     used elsewhere. Pull is a typographic accent, not a divider; it needs
+     more mass. Color uses --hairline to stay neutral and within DS vocabulary.
+     3px is a hardcoded brand decision per spec §2 / meta/brand.md. */
+  border-inline-start: 3px solid var(--hairline);
+
+  /* Distance from the left rule to the body text */
+  padding-inline-start: var(--space-4);
+
+  /* Body text — serif variant (default) */
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-pull);
+  /* Line-height 1.45: slightly tighter than body (1.55) because the larger
+     type size provides its own optical spacing. Inline value, not a token —
+     1.45 is a proportional multiplier at this scale with no semantic role
+     that would warrant naming. */
+  line-height: 1.45;
+  color: var(--fg);
+}
+
+/* ---------- Sans variant ---------- */
+
+/* Geist roman at weight 400. Technical / operator-grade register.
+   Accent by size alone; no italic slant. */
+.variantSans {
+  font-family: var(--font-sans);
+  font-style: normal;
+}
+
+/* ---------- Attribution ---------- */
+
+.attribution {
+  /* Tight coupling to body text — reads as trailing context, not a separate block */
+  margin-top: var(--space-2);
+  /* Zero out any default <footer> or <p> margins */
+  margin-bottom: 0;
+  margin-inline: 0;
+  padding: 0;
+
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-style: italic;
+  /* Both variants: attribution is always italic — citation register, not body */
+  color: var(--fg-muted);
+  line-height: var(--lh-meta);
+}

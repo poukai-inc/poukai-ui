@@ -1,0 +1,102 @@
+/* ============================================================
+   EmailLink — canonical mailto: affordance atom
+   ============================================================ */
+
+.root {
+  /* Color — default variant */
+  color: var(--fg);
+
+  /* Typography — inherit everything from context; this atom does not override */
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+
+  /* Underline — always on. This is an intentional, documented brand override
+     of the global `a` animated grow-underline. A mailto: affordance is not
+     navigational; a persistent underline signals "external action" correctly.
+     See design spec §4 for full rationale. */
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 60%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+
+  /* Motion — color transitions; underline-color follows currentColor implicitly */
+  transition: color var(--dur-fast) var(--easing-link);
+
+  /* Layout — inline by default; inline-flex toggled via .withIcon */
+  display: inline;
+
+  /* No margin — the consumer owns spacing */
+  margin: 0;
+}
+
+/* Activate inline-flex when an icon slot is present */
+.withIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ---------- Variants ---------- */
+
+.muted {
+  color: var(--fg-muted);
+}
+
+/* ---------- States ---------- */
+
+/* Visited: no distinct treatment (brand decision — see spec §6) */
+.root:visited {
+  color: var(--fg);
+}
+
+.muted:visited {
+  color: var(--fg-muted);
+}
+
+/* Hover */
+.root:hover {
+  color: var(--accent);
+}
+
+.muted:hover {
+  color: var(--fg);
+}
+
+/* Active — same as hover; no translateY (link, not button) */
+.root:active {
+  color: var(--accent);
+}
+
+.muted:active {
+  color: var(--fg);
+}
+
+/* Focus-visible — 2px solid accent outline, 4px offset (link convention,
+   matches global a:focus-visible in tokens.css; NOT Button's 2px offset).
+   Per spec §13 item 5: EmailLink is a link, not a button → 4px offset. */
+.root:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}
+
+/* ---------- Slots ---------- */
+
+.icon {
+  /* Icon inherits color from the anchor via currentColor */
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.label {
+  /* Text slot — inherits all typographic properties from .root */
+}
+
+.qualifier {
+  /* Trailing role qualifier — muted register at the same font size */
+  color: var(--fg-muted);
+  /* Explicitly inherit transition so the color doesn't lag on hover */
+  transition: inherit;
+}

@@ -27,3 +27,5 @@ export const StatusBadge = forwardRef<HTMLParagraphElement, StatusBadgeProps>(fu
     </p>
   );
 });
+
+StatusBadge.displayName = "StatusBadge";

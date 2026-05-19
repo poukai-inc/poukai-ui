@@ -1,0 +1,45 @@
+/* ============================================================
+   Eyebrow — canonical micro-label atom
+   ============================================================ */
+
+.root {
+  /* Typography */
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  line-height: var(--lh-meta);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+
+  /* Layout — inline by default; no margin (consumer owns spacing) */
+  display: inline;
+  margin: 0;
+}
+
+/* Activate inline-flex when a numeral slot is present */
+.withNumeral {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+/* ---------- Color variants ---------- */
+
+.variantMuted {
+  color: var(--fg-muted);
+}
+
+.variantSolid {
+  color: var(--fg);
+}
+
+/* ---------- Slots ---------- */
+
+.text {
+  /* Text slot — inherits all typographic properties from .root */
+}
+
+.numeral {
+  /* Numeric characters align correctly in indexed lists */
+  font-variant-numeric: tabular-nums;
+}

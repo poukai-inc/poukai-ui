@@ -57,3 +57,5 @@ export const RoleCard = forwardRef<HTMLElement, RoleCardProps>(function RoleCard
     </article>
   );
 });
+
+RoleCard.displayName = "RoleCard";

@@ -64,19 +64,23 @@ other layers, even if the bundler's tree-shaker would miss it.
 
 ## Components shipped today
 
-| Layer    | Name          | Purpose                                                     |
-| -------- | ------------- | ----------------------------------------------------------- |
-| atom     | `Wordmark`    | Full POUKAI lockup, inherits `currentColor`                 |
-| atom     | `StatusBadge` | Availability dot + caption (available / idle / closed)      |
-| atom     | `Button`      | Primary / secondary / ghost; `asChild` via Radix Slot       |
-| atom     | `Stat`        | Display numeral + caption + optional source line            |
-| molecule | `Hero`        | Status / title / lede / CTA — editorial vertical rhythm     |
-| molecule | `RoleCard`    | Icon + eyebrow + title + body + hired-by; card recipe       |
-| molecule | `Principle`   | Margin numeral + title + body; editorial layout             |
-| molecule | `FailureMode` | Numbered failure-mode block (`/why-ai`)                     |
-| molecule | `Statement`   | Italic-serif editorial statement + optional supporting line |
-| molecule | `Portrait`    | Editorial photography (AVIF/WebP/JPEG, srcset, CLS-safe)    |
-| organism | `SiteShell`   | Top nav + main slot + hairline footer; no router awareness  |
+| Layer    | Name          | Purpose                                                                             |
+| -------- | ------------- | ----------------------------------------------------------------------------------- |
+| atom     | `Wordmark`    | Full POUKAI lockup, inherits `currentColor`                                         |
+| atom     | `StatusBadge` | Availability dot + caption (available / idle / closed)                              |
+| atom     | `Button`      | Primary / secondary / ghost; `asChild` via Radix Slot                               |
+| atom     | `Stat`        | Display numeral + caption + optional source line                                    |
+| atom     | `Eyebrow`     | Canonical micro-label: uppercase, tracked, sans-serif                               |
+| atom     | `EmailLink`   | Canonical `mailto:` affordance with icon + qualifier slots                          |
+| molecule | `Hero`        | Status / title / lede / CTA — editorial vertical rhythm                             |
+| molecule | `RoleCard`    | Icon + eyebrow + title + body + hired-by; card recipe                               |
+| molecule | `Principle`   | Margin numeral + title + body; editorial layout                                     |
+| molecule | `FailureMode` | Numbered failure-mode block (`/why-ai`)                                             |
+| molecule | `Statement`   | Italic-serif editorial statement + optional supporting line                         |
+| molecule | `Portrait`    | Editorial photography (AVIF/WebP/JPEG, srcset, CLS-safe)                            |
+| molecule | `Section`     | Canonical page-section wrapper: eyebrow + title + lede + children slot              |
+| molecule | `Pull`        | Inline editorial pull-quote accent; left-ruled, fluid 20–26px, serif italic or sans |
+| organism | `SiteShell`   | Top nav + main slot + hairline footer; no router awareness                          |
 
 More to come — see `ROADMAP.md`.
 

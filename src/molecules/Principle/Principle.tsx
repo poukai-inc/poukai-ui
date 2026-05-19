@@ -41,3 +41,5 @@ export const Principle = forwardRef<HTMLElement, PrincipleProps>(function Princi
     </section>
   );
 });
+
+Principle.displayName = "Principle";

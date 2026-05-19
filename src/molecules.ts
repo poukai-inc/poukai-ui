@@ -22,3 +22,5 @@ export { Principle, type PrincipleProps } from "./molecules/Principle";
 export { FailureMode, type FailureModeProps } from "./molecules/FailureMode";
 export { Statement, type StatementProps } from "./molecules/Statement";
 export { Portrait, type PortraitProps, type AspectRatio } from "./molecules/Portrait";
+export { Section, type SectionProps } from "./molecules/Section";
+export { Pull, type PullProps } from "./molecules/Pull";

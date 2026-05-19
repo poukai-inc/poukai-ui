@@ -104,3 +104,5 @@ export const SiteShell = forwardRef<HTMLDivElement, SiteShellProps>(function Sit
     </div>
   );
 });
+
+SiteShell.displayName = "SiteShell";

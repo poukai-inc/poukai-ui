@@ -1,0 +1,65 @@
+/* ============================================================
+   Section — canonical page-section wrapper molecule
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Block padding — default: --space-16 (64px) top + bottom */
+  padding-block: var(--space-16);
+  /* Section is structural; no background, no border, no shadow */
+  display: block;
+}
+
+/* Tight variant — --space-12 (48px) top + bottom */
+.sizeTight {
+  padding-block: var(--space-12);
+}
+
+/* ---------- Header block ---------- */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  /* Gaps are applied via margin-top on each child (values are non-uniform) */
+  max-width: var(--hero-max);
+}
+
+/* Eyebrow slot — no top margin; always the first item in the header */
+.eyebrowSlot {
+  margin-top: 0;
+}
+
+/* Title — --space-2 (8px) below the eyebrow */
+.title {
+  /* Zero out the global h2/h3 bottom margin that would double-stack inside
+     Section's flex-column layout (spec Open Q 6) */
+  margin: 0;
+  margin-top: var(--space-2);
+}
+
+/* When title is the first child (no eyebrow), remove its top margin */
+.header > .title:first-child {
+  margin-top: 0;
+}
+
+/* Lede — --space-4 (16px) below the title.
+   Applied via the .lede utility from tokens.css when Section wraps a string.
+   For ReactNode ledes the consumer supplies their own element; Section does
+   not apply extra margin to arbitrary children in the header block. */
+.lede {
+  margin-top: var(--space-4);
+  /* Zero bottom margin — Section controls the gap below the header block */
+  margin-bottom: 0;
+}
+
+/* ---------- Body (children slot) ---------- */
+
+.body {
+  /* No max-width — children own their own layout */
+}
+
+/* Gap from the header block to the children: --space-12 (48px) */
+.bodyWithHeader {
+  margin-top: var(--space-12);
+}

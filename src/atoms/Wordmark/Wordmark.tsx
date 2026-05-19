@@ -40,3 +40,5 @@ export const Wordmark = forwardRef<HTMLSpanElement, WordmarkProps>(function Word
     </span>
   );
 });
+
+Wordmark.displayName = "Wordmark";

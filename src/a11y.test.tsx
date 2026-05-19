@@ -19,6 +19,7 @@ import { TeamCard } from "./molecules/TeamCard";
 import { Portrait } from "./molecules/Portrait";
 import { FeatureCard } from "./molecules/FeatureCard";
 import { SiteShell } from "./organisms/SiteShell";
+import { Footer } from "./organisms/Footer";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -347,6 +348,41 @@ test("a11y — FeatureCard (as='li' inside ul)", async ({ mount, page }) => {
 });
 
 /* ---------- organisms ---------- */
+
+test("a11y — Footer (as=div, with links)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Footer
+        copyright="© Pouk AI INC 2026"
+        email="hello@pouk.ai"
+        links={[
+          { href: "/privacy", label: "Privacy" },
+          { href: "/terms", label: "Terms" },
+          { href: "https://github.com/poukai-inc", label: "GitHub ↗", external: true },
+        ]}
+      />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Footer (as=footer, standalone, no links)", async ({ mount, page }) => {
+  await mount(<Footer as="footer" copyright="© Pouk AI INC 2026" email="hello@pouk.ai" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Footer (as=footer, with custom emailLabel)", async ({ mount, page }) => {
+  await mount(
+    <Footer
+      as="footer"
+      copyright="© Pouk AI INC 2026"
+      email="hello@pouk.ai"
+      emailLabel="Contact"
+      links={[{ href: "/privacy", label: "Privacy" }]}
+    />,
+  );
+  await expectAxeClean(page);
+});
 
 test("a11y — SiteShell (full chrome)", async ({ mount, page }) => {
   await mount(

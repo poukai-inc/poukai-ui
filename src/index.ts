@@ -46,3 +46,4 @@ export { FeatureCard, type FeatureCardProps } from "./molecules/FeatureCard";
 
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
+export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";

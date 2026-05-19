@@ -304,6 +304,57 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - Emits plain <a href> tags — framework-router consumers intercept at app level.
 - navLabel (default: "Primary") is the aria-label for the nav element.
 
+### Footer
+- Canonical site-footer content block. Composes copyright + email (via `<EmailLink variant="muted">`) + optional secondary link row.
+- Does NOT own the hairline rule or outer padding when slotted into SiteShell — SiteShell's `.footer` CSS provides those. When used standalone (`as="footer"`), Footer adds `border-top: var(--hairline-w) solid var(--hairline)` and `padding: var(--space-8) var(--page-pad)` via the `[data-standalone="true"]` selector.
+- `as` prop (`"div"` | `"footer"`, default `"div"`) — controls the root element. Default `"div"` is correct when Footer is the child of SiteShell's `footer` slot (SiteShell already wraps in `<footer>` — nesting two `<footer>` elements degrades the inner one to a generic container per ARIA spec). Pass `as="footer"` for standalone surfaces without SiteShell.
+- `copyright` (required string) — full copyright string including `©` and year. e.g. `"© Pouk AI INC 2026"`. DS never auto-inserts `new Date().getFullYear()`. A dev-mode `console.error` fires on empty string.
+- `email` (required string) — email address passed to `<EmailLink variant="muted">`. Footer owns no `mailto:` logic.
+- `emailLabel` (optional string) — visible label override for EmailLink. When omitted, defaults to the raw email address as visible text (e.g. `hello@pouk.ai`). Pass `"Contact"` for space-constrained contexts.
+- `links` (optional `FooterLink[]`) — secondary nav links. Each item: `{ href: string; label: string; external?: boolean }`. When `external: true`, link gets `target="_blank" rel="noopener noreferrer"`. When absent or empty array, no `<nav>` is emitted.
+- `linksLabel` (optional string, default `"Footer"`) — `aria-label` for the `<nav>`. Required for SR landmark disambiguation when multiple `<nav>` elements exist on the page (header nav + footer nav).
+- Layout: flex row (`justify-content: space-between`) at ≥ 768px. Below 768px: flex column, left-aligned, `--space-4` (16px) gap between rows.
+- Left group: copyright `<span>` + `·` separator (`aria-hidden="true"`) + `<EmailLink variant="muted">`. Gap between items: `--space-2` (8px).
+- Right group (optional): `<nav aria-label>` wrapping `<ul>` of `<li><a class="muted-link">` items. Gap between links: `--space-2` (8px). Link color: `--fg-muted` at rest, `--fg` on hover (via `.muted-link` global from `tokens.css`).
+- Tokens consumed: `--fg-muted`, `--fg`, `--font-sans`, `--fs-meta`, `--lh-meta`, `--space-2`, `--space-4`, `--space-8`, `--page-pad`, `--hairline-w`, `--hairline`, `--dur-fast`, `--accent`, `--radius-1`.
+- No new tokens introduced. No dark-mode per-component overrides needed — tokens flip cleanly via the global block in `tokens.css`.
+- `className` pass-through available via `React.HTMLAttributes<HTMLElement>` spread. Footer has no margin of its own.
+- Do NOT nest Footer inside another Footer.
+- Do NOT use `as="footer"` inside SiteShell — this produces nested `<footer>` landmarks, which is semantically invalid. Use the default `as="div"`.
+- Do NOT add a router abstraction. Footer emits plain `<a href>`.
+- Do NOT pass `external: true` without providing a meaningful label that communicates external destination (e.g. `"GitHub ↗"`).
+- Do NOT use Footer for multi-column layout (Products / Company / Legal grid) — that is a separate organism pattern.
+- Do NOT add the wordmark inside Footer — use a custom composition outside the DS if needed.
+- Accessible name: two `<nav>` on page (header + footer) must each have distinct `aria-label`. Default `"Footer"` satisfies this; override via `linksLabel` if convention differs.
+
+```tsx
+// Inside SiteShell (canonical):
+<SiteShell
+  routes={[{ href: "/why-ai", label: "Why AI" }]}
+  footer={
+    <Footer
+      copyright="© Pouk AI INC 2026"
+      email="hello@pouk.ai"
+      links={[
+        { href: "/privacy", label: "Privacy" },
+        { href: "/terms", label: "Terms" },
+        { href: "https://github.com/poukai-inc", label: "GitHub ↗", external: true },
+      ]}
+    />
+  }
+>
+  {children}
+</SiteShell>
+
+// Standalone:
+<Footer
+  as="footer"
+  copyright="© Pouk AI INC 2026"
+  email="hello@pouk.ai"
+  links={[{ href: "/privacy", label: "Privacy" }]}
+/>
+```
+
 ---
 
 ## Anti-patterns

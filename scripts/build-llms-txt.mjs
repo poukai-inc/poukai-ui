@@ -50,7 +50,7 @@ const COMPONENTS = {
     "TeamCard",
     "FeatureCard",
   ],
-  organisms: ["SiteShell"],
+  organisms: ["SiteShell", "Footer"],
 };
 
 const exportKeys = Object.keys(pkg.exports ?? {});

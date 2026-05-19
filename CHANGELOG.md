@@ -1,5 +1,100 @@
 # @poukai-inc/ui
 
+## 0.18.0
+
+### Minor Changes
+
+- 942e06c: feat(Avatar): add Avatar atom
+
+  New `<Avatar>` atom supporting three modes via discriminated union:
+  - `mode="image"` — renders `<img loading="lazy">` with `src` and optional `alt`
+  - `mode="initials"` — renders 1–2 character text label
+  - `mode="empty"` (default) — blank placeholder
+
+  Props: `size` (sm/md/lg → 24/32/40px), `shape` (circle/square), `name` (accessible label).
+
+  A11y: `name` prop produces `role="img"` + `aria-label` on the root span for initials and
+  empty modes, and for image mode when `alt` is omitted. Image with `alt` is self-labelling.
+
+  Stateless by design — no `onError` fallback, no `imgLoading` prop, no initials derivation.
+
+- 6e3facd: Add `Dialog` organism — compound modal overlay built on `@radix-ui/react-dialog`.
+
+  Exports:
+  - `Dialog` namespace: `Dialog.Root`, `Dialog.Trigger`, `Dialog.Portal`, `Dialog.Overlay`, `Dialog.Content`, `Dialog.Title`, `Dialog.Description`, `Dialog.Close`
+  - `DialogBasic` — convenience wrapper with built-in X close button (lucide `X`), title, optional description, body slot, and optional footer action row
+
+  Token contract: `--bg-elevated`, `--fg`, `--fg-muted`, `--hairline`, `--hairline-w`, `--accent`, `--radius-3`, `--radius-1`, `--space-2`–`--space-8`, `--font-sans`, `--fs-body`, `--fs-meta`, `--dur-fast`, `--easing`, `--page-pad`, `--surface`.
+
+  All accessibility plumbing (focus trap, `aria-modal`, `aria-labelledby`, ESC dismiss, return focus) delegated to Radix. DS adds brand styling only.
+
+  Available via `@poukai-inc/ui`, `@poukai-inc/ui/organisms`.
+
+- bbd0329: feat: add FieldNote molecule
+
+  Adds `<FieldNote>` — the canonical inline technical-aside primitive for long-form prose surfaces.
+
+  A short parenthetical callout (a sentence or two) that sits inline with body copy and provides a factual clarification, caveat, or data footnote without interrupting reading flow. Renders as `<aside>` with a 1px left hairline rule (`--hairline-w solid --hairline`), `--space-3` (12px) inset, and `--space-6` (24px) block margin.
+
+  Optional `label` prop (string) renders a single `<p>` above the body text in the Eyebrow typographic register (`--fs-meta`, `--fg-muted`, uppercase, `--tracking-eyebrow`). Defaults to `undefined` — the left rule is the primary signal.
+
+  Distinct from `<Pull>` (3px rule, 20–26px serif-italic, editorial accent) and `<FailureMode>` (section-level, titled, indexed). FieldNote is body-register: `--fs-body` (17–19px), Geist roman, 1px rule.
+
+  New exports: `FieldNote`, `FieldNoteProps`.
+
+  No new tokens introduced. No breaking changes.
+
+- 421cdf5: feat: add Footer organism
+
+  Adds `<Footer>` — the canonical site-footer content block for pouk.ai surfaces.
+
+  Composes copyright string + `<EmailLink variant="muted">` + an optional secondary `<nav>` link row. The `as` prop (`"div"` | `"footer"`, default `"div"`) prevents the double-`<footer>` landmark problem when Footer is slotted into SiteShell's `footer` prop. When `as="footer"` (standalone), Footer applies its own hairline rule and padding mirroring SiteShell's `.footer` CSS.
+
+  New exports: `Footer`, `FooterProps`, `FooterLink`.
+
+  No new tokens introduced. No breaking changes.
+
+- 77b13d8: feat: add Quote molecule
+
+  Adds `<Quote>` — the canonical attributed customer testimonial block.
+
+  A short prose body (1–4 sentences) from a named person, rendered at `--fs-pull` (20–26px fluid) in Geist sans-serif roman weight — the typographic differentiator from `<Pull>` (Instrument Serif italic) and `<Statement>`. Consumers can tell Quote from Pull at a glance without reading the attribution.
+
+  Root element is `<figure>` with `<blockquote>` for the quoted body and `<figcaption>` for the attribution row — the HTML5-recommended structure for attributed quotations. No extra ARIA required; the semantic structure does the work.
+
+  Props:
+  - `quote` (required ReactNode) — quoted body text; accepts inline `<em>`/`<strong>`; no block-level children.
+  - `name` (required string) — attributed person's name; `font-weight: 500`, `--fg`, `--fs-meta`.
+  - `role` (optional string) — role or title; `font-weight: 400`, `--fg-muted`, `--fs-meta`. Omit to suppress.
+  - `avatar` (optional ReactNode) — leftmost element of the attribution row; accepts any ReactNode. DS does not ship an Avatar atom. Convention: 40×40px, `border-radius: 50%` (documented in JSDoc; not enforced).
+
+  Hairline rule (`border-top: var(--hairline-w) solid var(--hairline)`) above `<figcaption>` is always on. Use `className` to suppress if needed.
+
+  New exports: `Quote`, `QuoteProps`.
+
+  No new tokens introduced. No breaking changes.
+
+- ce0de62: feat: add Tag atom
+
+  Adds `<Tag>` — the system's canonical inline categorical pill.
+
+  A compact label that communicates type, category, topic, or metadata classification of adjacent content. Answers "what kind of thing is this?" inline with content flow: inside a card, in a topic list, beside a title, or inside a sentence.
+
+  Root element is `<span>` (non-polymorphic). Non-interactive — no hover, focus, active, or disabled states. `forwardRef<HTMLSpanElement, TagProps>` with `...rest` spread.
+
+  Props:
+  - `children` (required ReactNode) — label text; plain string is idiomatic; ReactNode accepted for rare inline `<strong>` emphasis.
+  - `tone` (`"default"` | `"muted"`, default `"default"`) — two tones only. `"default"`: `--surface` fill, `--fg` text, no border. `"muted"`: transparent background, `--hairline` border (1px), `--fg-muted` text.
+  - `icon` (optional ReactNode) — optional leading icon slot. When present, root shifts to `inline-flex` for optical alignment. Recommended icon size: 12px (JSDoc guidance; not type-enforced). Pass `aria-hidden="true"` on decorative icons.
+
+  Typography: `--font-sans`, `--fs-meta` (14px fixed), `font-weight: 400`, `line-height: var(--lh-meta)` (1.2), `letter-spacing: normal`. Geometry: `border-radius: 999px` (pill constant per spec §3), `padding-block: var(--space-1)`, `padding-inline: var(--space-2)`, `box-sizing: border-box`.
+
+  Contrast: `"default"` 15.46:1 AAA. `"muted"` 4.91:1 AA normal at 14px — passes WCAG 2.1 4.5:1 threshold.
+
+  New exports: `Tag`, `TagProps`.
+
+  No new tokens introduced. No breaking changes.
+
 ## 0.17.0
 
 ### Minor Changes

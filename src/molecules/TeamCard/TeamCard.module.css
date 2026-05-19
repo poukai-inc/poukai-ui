@@ -1,0 +1,146 @@
+/* ============================================================
+   TeamCard — canonical person tile molecule
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* No padding, no border, no background — content tile, not chrome tile.
+     The consumer's grid owns the column gutter; TeamCard owns only the
+     internal vertical rhythm between its slots. */
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Stacked layout (default) ---------- */
+
+/* Eyebrow slot — sits above portrait in stacked layout.
+   Gap below eyebrow: --space-3 (12px), controlled by portrait slot margin-top. */
+.eyebrowSlot {
+  margin-top: 0;
+}
+
+/* Portrait slot — fills the card column width in stacked layout. */
+.portraitSlot {
+  width: 100%;
+  /* Gap: eyebrow → portrait (--space-3, 12px) when eyebrow present is handled
+     by the eyebrowSlot + margin-top here when the eyebrow slot exists.
+     Without eyebrow, portrait is the first child so margin-top is 0.
+     We use a sibling selector so the gap only fires when eyebrow precedes it. */
+  margin-top: 0;
+}
+
+.eyebrowSlot + .portraitSlot {
+  margin-top: var(--space-3);
+}
+
+/* Text block — flex column holding name, role, bio, contact. */
+.textBlock {
+  display: flex;
+  flex-direction: column;
+  /* Gap: portrait → name (--space-4, 16px) */
+  margin-top: var(--space-4);
+}
+
+/* ---------- Name ---------- */
+
+/* Zero out global h2/h3/h4 margin that would double-stack inside TeamCard's
+   flex-column layout (spec open question 5 — same fix as Section §title). */
+.name {
+  margin: 0;
+}
+
+/* ---------- Role ---------- */
+
+.role {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+  font-weight: 400;
+  line-height: var(--lh-meta);
+  margin: 0;
+  /* Gap: name → role (--space-2, 8px) */
+  margin-top: var(--space-2);
+}
+
+/* ---------- Bio ---------- */
+
+.bio {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  color: var(--fg);
+  line-height: 1.55;
+  margin: 0;
+  /* Gap: role → bio (--space-4, 16px) */
+  margin-top: var(--space-4);
+}
+
+/* ---------- Contact ---------- */
+
+.contact {
+  /* Gap: bio → contact (--space-8, 32px) when bio is present;
+     role → contact (--space-8, 32px) when bio is absent.
+     Both cases use --space-8 per the spec gap table. */
+  margin-top: var(--space-8);
+}
+
+/* When bio is absent, contact follows role. The gap between role and contact
+   is still --space-8 (32px) per the spec §4 stacked gap table. The .contact
+   margin-top value covers both cases uniformly. */
+
+/* ---------- Horizontal layout ---------- */
+
+.horizontal {
+  flex-direction: row;
+  /* Gap: portrait ↔ text block (--space-6, 24px) */
+  gap: var(--space-6);
+  align-items: flex-start;
+}
+
+/* Portrait slot — fixed 5rem width in horizontal layout, non-compressible. */
+.horizontal .portraitSlot {
+  width: 5rem;
+  flex-shrink: 0;
+  /* Override the stacked margin-top; layout gap handles spacing. */
+  margin-top: 0;
+}
+
+/* Text block — fills remaining width; eyebrow sits above name inside text block
+   in horizontal layout. */
+.horizontal .textBlock {
+  /* Override the stacked margin-top; layout gap handles spacing. */
+  margin-top: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+/* In horizontal layout eyebrow is rendered inside textBlock (above name).
+   Remove the top margin that was set for the stacked eyebrow+portrait sibling. */
+.horizontal .eyebrowSlot {
+  margin-top: 0;
+}
+
+/* Eyebrow → name gap in horizontal layout — eyebrow slot inside text block. */
+.horizontal .eyebrowSlot + .name {
+  margin-top: var(--space-2);
+}
+
+/* ---------- Responsive collapse: horizontal → stacked below 768px ---------- */
+
+/* The --bp-md token is pending. Until it ships, 768px is the correct literal
+   breakpoint value (consistent with Section, Eyebrow, and Principle specs). */
+@media (max-width: 767px) {
+  .horizontal {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .horizontal .portraitSlot {
+    width: 100%;
+    flex-shrink: unset;
+  }
+
+  .horizontal .textBlock {
+    margin-top: var(--space-4);
+  }
+}

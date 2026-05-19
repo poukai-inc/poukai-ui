@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Pull } from "./Pull";
 
 export default {
-  title: "Components / Pull",
+  title: "Components / Pull / All Variants",
 } satisfies StoryDefault;
 
 /** AllVariants — design matrix: serif/sans × with/without attribution, stacked vertically. */

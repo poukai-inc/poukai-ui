@@ -46,6 +46,9 @@ const COMPONENTS = {
     "Portrait",
     "Section",
     "Pull",
+    "LinkCard",
+    "TeamCard",
+    "FeatureCard",
   ],
   organisms: ["SiteShell"],
 };

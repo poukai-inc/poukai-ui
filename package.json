@@ -138,7 +138,7 @@
     {
       "name": "ESM — molecules subpath",
       "path": "dist/molecules.js",
-      "limit": "6 kB"
+      "limit": "9 kB"
     },
     {
       "name": "ESM — organisms subpath",

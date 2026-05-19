@@ -24,7 +24,7 @@ const PlaceholderIcon = () => (
 );
 
 export default {
-  title: "Components / RoleCard",
+  title: "Components / Cards / RoleCard",
 } satisfies StoryDefault;
 
 export const Playground: Story = () => (

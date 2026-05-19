@@ -59,6 +59,50 @@ _To be filled. When can a token change vs. add? What requires Arian's approval? 
 
 _Reverse-chronological. Each entry: context, decision, rationale, alternatives considered, approval (Arian)._
 
+### 2026-05-19 — Link resting-state discoverability: two-layer underline (hairline at rest, accent grows on hover)
+
+**Context.** The global `<a>` rule had zero resting-state affordance: `color: inherit`, `text-decoration: none`, and a `background-size: 0% 1px` gradient that was fully invisible until hover. User feedback: links need a visible resting signal for discoverability — a user should be able to identify a link without triggering a hover. The constraint is that `--accent` (`#0071E3`) is the system's signal color for interactivity and focus only, and the brand rule explicitly forbids using it as body text color. Any resting-state treatment must not repurpose accent as a text tint.
+
+**Decision — two-layer gradient underline.**
+
+The global `a` rule now carries two `background-image` layers:
+
+- **Layer 1 (top): accent grow layer.** `linear-gradient(var(--accent), var(--accent))`, starts at `background-size: 0% 1px`. On hover: grows to `100% 1px` via the existing `--easing-link` / `--dur-mid` transition. This is the "you are targeting this" confirmation signal — identical animation to the previous rule.
+- **Layer 2 (bottom): hairline static layer.** `linear-gradient(var(--hairline), var(--hairline))`, always at `background-size: 100% 1px`. This is the resting discoverability signal — a 1px `#D2D2D7` underline visible at all times, identical in weight to a divider rule.
+
+On hover the accent layer grows over the hairline layer — the hairline is visually eclipsed once the accent reaches full width. The `transition` property applies to `background-size` and covers both layers via the comma-separated shorthand, but since the hairline layer is always `100% 1px` it produces no perceptible animation — only the accent layer visibly animates.
+
+This preserves every existing behavior (focus ring, `--easing-link`, `--dur-mid`, `padding-bottom: 2px`, `color: inherit`) and introduces no new token.
+
+**Why this approach over the three candidates.**
+
+- **Candidate 1 (persistent underline + color swap on hover)** as originally framed would require either a non-animatable `background-image` swap (jarring) or a registered `@property` for the gradient color (complex, limited support). The two-layer approach achieves the same visual outcome — hairline underline at rest, accent underline on hover — without needing `background-image` to be transitionable. The accent layer growing over the static hairline layer is perceptually equivalent to a color swap from the user's perspective.
+
+- **Candidate 2 (resting `color: var(--accent)` text tint)** was rejected. It directly violates the `--accent`-is-signal-only rule as written: "NEVER use as body text color." Making a carve-out for "link text is interactive by definition" would erode the rule's clarity. The Apple/Stripe pattern this candidate references actually uses a dedicated system link blue token that is explicitly scoped for link text — it is not the same token as the focus/interactive accent. Since the system has one accent token and no dedicated link-text-color token, the carve-out would pollute the accent role. Candidate 2 also changes text color, which affects `--fg-muted`-colored links (nav, footer) in an undesirable way — those contexts are intentionally muted.
+
+- **Candidate 3 (separate persistent underline + animated grow above it)** is structurally what was implemented. The framing here is that this IS the chosen approach, not a distinct candidate — the two-layer CSS technique is the implementation of the "always-visible + grow-on-hover" pattern.
+
+**`--accent`-signal-only rule interaction.** The resting hairline underline uses `--hairline` (`#D2D2D7`), not `--accent`. The `--accent` color appears only on hover (animated) and on focus-visible (ring). The signal rule is fully preserved: `--accent` is never visible in a resting state. The hairline underline is decorative-quality — it reads as "this is a link" not "this is interactive right now." The semantic distinction holds.
+
+**Cascade effect on existing components.**
+
+All components that already suppress `background-image` via `background-image: none` continue to work correctly. The two-layer rule in the global `a` selector is overridden by any `background-image: none` declaration with equal or higher specificity. Verified:
+
+- **LinkCard** (`src/molecules/LinkCard/LinkCard.module.css`): suppresses via `background-image: none; padding-bottom: 0` on both the card root and the `.title` element. Class specificity beats the element selector. No change required. The card's hover signal remains border-color → `--accent` only.
+- **SiteShell Wordmark** (`src/organisms/SiteShell/SiteShell.module.css`): suppresses via `background-image: none; padding-bottom: 0` on `.brand`. No change required.
+- **`.muted-link`** (`tokens.css`): suppresses via `background-image: none`. No change required. Footer/nav links retain their `color` transition only.
+- **EmailLink**: inherits the global `a` rule with no override. It now gains the hairline resting underline. This is correct — EmailLink is a body-copy inline link and benefits from the resting affordance. The `variant="muted"` EmailLink will show a `--hairline` underline at rest over its `--fg-muted` text color — the contrast of `--hairline` (`#D2D2D7`) against `--bg` (`#FBFBFD`) is decorative/non-text and passes WCAG 1.4.11 for non-text contrast (the underline is a UI component boundary, not informational text).
+
+**`padding-bottom: 2px` unchanged.** The clearance space below the text baseline that keeps the underline from clipping descenders is preserved. The hairline layer sits at `background-position: 0 100%` — it rests at the bottom of the padding-box, which is 2px below the text baseline after `padding-bottom: 2px`. No optical adjustment needed.
+
+**`:visited` treatment.** No distinct treatment. Consistent with the existing EmailLink brand decision: visited state creates false scent, particularly on contact and navigation links. The hairline underline does not change this decision.
+
+**Authorization.** `poukai-design` decision. The change is an evolution of the global `a` rule (not a new token, not a color change) — additive behavior using an existing token (`--hairline`). Arian to ratify on review.
+
+**Follow-ups for `poukai-ds-engineer`.** None required for component code — the two-layer rule is purely in `tokens.css` and cascades correctly to all existing components via the verified suppressions above. No changeset needed for this entry alone; bundle with the next minor bump.
+
+---
+
 ### 2026-05-19 — Pull molecule: introduce `--fs-pull: clamp(1.25rem, 1rem + 1vw, 1.625rem)`
 
 **Context.** The `<Pull>` molecule spec (`meta/design/Pull.md`) introduces an inline editorial pull-quote primitive. Pull requires a font-size token between `--fs-body` (17–19px) and `--fs-statement` (28–44px). The gap between those two rungs is large: `--fs-body` tops at 19px; `--fs-statement` floors at 28px. A pull-quote at `--fs-body` would not read as an accent against the surrounding prose. A pull-quote at `--fs-statement`'s lower bound (28px) would be indistinguishable from the Statement molecule at its quietest register and uncomfortably close to heading scale. A named rung at 20–26px is the correct answer.

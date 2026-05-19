@@ -1,0 +1,104 @@
+/* ============================================================
+   FeatureCard — feature tile molecule
+   ============================================================
+
+   Layout model: flex column, start-aligned. Gap stack:
+     icon → eyebrow (or title):  --space-6  (24px)
+     eyebrow → title:            --space-2  (8px)   via gap on eyebrowSlot
+     title → body:               --space-3  (12px)  via gap on bodySlot
+     body → footer:              --space-6  (24px)  via gap on footer
+
+   Global h3 bottom margin (0 0 --space-2) and global p bottom margin
+   (0 0 --space-4) both double-stack with flex gap. Both are zeroed here.
+
+   Footer flex alignment (spec Q3, option B — composition guidance):
+   FeatureCard carries NO internal flex spacer. If the consumer needs all
+   cards in a grid row to share aligned footers, apply:
+     - align-items: stretch on the grid container
+     - height: 100%  on the FeatureCard root (via className)
+     - display: flex; flex-direction: column  on the root
+     - margin-top: auto  on the footer wrapper in consumer surface CSS
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* Padding applied on all four sides in both variants (spec §4).
+     In the default (transparent) variant this creates a consistent internal
+     gutter; in the bordered variant it insets content from the visible edge.
+     A single value prevents layout shift when switching variants at runtime. */
+  padding: var(--space-6);
+  color: var(--fg);
+}
+
+/* ---------- Bordered variant ---------- */
+
+.variantBordered {
+  background: var(--surface);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-3);
+}
+
+/* ---------- Icon slot ---------- */
+
+.icon {
+  /* Inline-flex so the icon's intrinsic size governs the wrapper dimensions.
+     color: currentColor lets the icon inherit the card's --fg. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: currentColor;
+  /* Gap icon → first content zone (eyebrow or title): --space-6 (24px). */
+  margin-bottom: var(--space-6);
+  flex-shrink: 0;
+}
+
+/* ---------- Eyebrow slot ---------- */
+
+.eyebrowSlot {
+  /* Gap eyebrow → title: --space-2 (8px). */
+  margin-bottom: var(--space-2);
+}
+
+/* ---------- Title ---------- */
+
+.title {
+  /* Zero out the global h2/h3/h4 bottom margin (0 0 --space-2) that would
+     double-stack with flex gap inside FeatureCard's flex-column scope
+     (spec §13.Q5 — same fix as Section, Principle, TeamCard). */
+  margin: 0;
+  /* Gap title → body: --space-3 (12px). */
+  margin-bottom: var(--space-3);
+}
+
+/* ---------- Body slot ---------- */
+
+.bodySlot {
+  color: var(--fg-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+}
+
+/* Zero the global <p> bottom margin (0 0 --space-4) that double-stacks
+   with flex gap when body is a string (spec §13.Q4). */
+.body {
+  margin: 0;
+  color: var(--fg-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: 1.55;
+}
+
+/* ---------- Footer slot ---------- */
+
+.footer {
+  /* Gap body → footer: --space-6 (24px). */
+  margin-top: var(--space-6);
+  color: var(--fg-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+}

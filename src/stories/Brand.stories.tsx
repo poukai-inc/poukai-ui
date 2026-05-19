@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Story, StoryDefault } from "@ladle/react";
 import { Wordmark } from "../atoms/Wordmark";
+import lockupStackedSvg from "../brand/lockup-stacked.svg";
 
 export default {
   title: "Showcase / Brand",
@@ -130,6 +131,33 @@ export const Default: Story = () => (
             <Wordmark height={56} />
           </div>
         </div>
+      </div>
+    </div>
+
+    {/* Stacked lockup */}
+    <div style={sectionStyle}>
+      <p style={labelStyle}>Stacked lockup</p>
+      <p style={{ color: "var(--fg-muted)", marginBottom: "var(--space-8)", maxWidth: "44ch" }}>
+        Feather isotype above the POUKAI lettering. Use as avatar, app icon source, or social
+        profile image. Light-mode raster — bundled at <code>./brand/lockup-stacked.svg</code> and{" "}
+        <code>./brand/lockup-stacked.png</code>.
+      </p>
+      <div
+        style={{
+          background: "var(--bg)",
+          border: "1px solid var(--hairline)",
+          borderRadius: "var(--radius-3)",
+          padding: "var(--space-8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <img
+          src={lockupStackedSvg}
+          alt="Poukai stacked lockup — feather isotype above POUKAI lettering"
+          style={{ height: "160px", width: "auto", display: "block" }}
+        />
       </div>
     </div>
 

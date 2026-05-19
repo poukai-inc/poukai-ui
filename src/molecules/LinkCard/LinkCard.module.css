@@ -1,0 +1,173 @@
+/* ============================================================
+   LinkCard — interactive card molecule
+   ============================================================ */
+
+/* ---------- Visually-hidden utility (sr-only) ----------
+   Not yet in tokens.css — shipped here per spec Q3 pre-resolution.
+   Standard pattern: content hidden from viewport, available to AT. */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Flex column — content stack */
+  display: flex;
+  flex-direction: column;
+
+  /* Suppress global <a> underline animation (background-image grow on hover).
+     The card's sole hover signal is border-color → --accent.
+     background-image: none beats the global a selector via class specificity.
+     padding-bottom: 0 undoes the 2px underline clearance from tokens.css a rule. */
+  background-image: none;
+  padding-bottom: 0;
+
+  /* Interaction */
+  cursor: pointer;
+
+  /* Shared transitions — hover + press */
+  transition:
+    border-color var(--dur-mid) var(--easing-link),
+    transform var(--dur-press) var(--easing);
+
+  /* Positioning context for the absolutely-placed icon slot */
+  position: relative;
+}
+
+/* ---------- Default variant ---------- */
+
+.variantDefault {
+  background: var(--surface);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-3);
+  padding: var(--space-8);
+}
+
+@media (hover: hover) {
+  .variantDefault:hover {
+    border-color: var(--accent);
+  }
+}
+
+.variantDefault:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-3);
+}
+
+.variantDefault:active {
+  transform: translateY(1px);
+}
+
+/* ---------- Quiet variant ---------- */
+
+.variantQuiet {
+  background: var(--bg);
+  border: none;
+  border-top: var(--hairline-w) solid var(--hairline);
+  border-radius: 0;
+  /* Block padding retained; inline collapsed to flush with page column edge */
+  padding-block: var(--space-4);
+  padding-inline: 0;
+}
+
+@media (hover: hover) {
+  .variantQuiet:hover {
+    border-top-color: var(--accent);
+  }
+}
+
+.variantQuiet:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  /* No radius — quiet variant has no bounding box shape */
+  border-radius: 0;
+}
+
+.variantQuiet:active {
+  transform: translateY(1px);
+}
+
+/* ---------- Icon slot ---------- */
+
+/* Absolutely positioned top-right, within the card's padding box.
+   pointer-events: none — the card root is the sole click target. */
+.iconSlot {
+  position: absolute;
+  top: var(--space-8);
+  right: var(--space-8);
+  pointer-events: none;
+  color: var(--fg);
+  display: flex;
+  align-items: center;
+}
+
+/* ---------- Header block (eyebrow + title) ---------- */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.eyebrowSlot {
+  /* Eyebrow sits above title; gap is on the header flex container */
+}
+
+/* ---------- Title ---------- */
+
+/* Overrides the global h3 rule which sets font-size: 1.125rem and
+   margin: 0 0 var(--space-2). Inside LinkCard's flex column, gap
+   controls spacing — element margin is zeroed. */
+.title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-card-title);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--fg);
+  margin: 0;
+  /* Suppress any descendant underline from global <a> rule */
+  background-image: none;
+  padding-bottom: 0;
+}
+
+/* ---------- Body ---------- */
+
+/* Gap from header → body is title → body gap */
+.body {
+  margin-top: var(--space-4);
+  font-size: var(--fs-body);
+  color: var(--fg-muted);
+  line-height: 1.55;
+}
+
+/* Suppress any <p> bottom-margin the global rule adds inside the card body */
+.body p {
+  margin-bottom: 0;
+}
+
+/* ---------- Spacer ---------- */
+
+/* Flex spacer pushes footer to card bottom in uniform-height grid rows */
+.spacer {
+  flex: 1;
+}
+
+/* ---------- Footer ---------- */
+
+/* Gap from body → footer; defaults to muted register */
+.footer {
+  margin-top: var(--space-6);
+  color: var(--fg-muted);
+  font-size: var(--fs-meta);
+}

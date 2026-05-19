@@ -19,7 +19,7 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--fg: #1d1d1f` — Primary text, wordmark fill, sigil stroke, and the `primary` button background (inverts: `--fg` fill, `--bg` text). The only color allowed for body paragraph text. NEVER use decoratively as a background wash.
 - `--fg-muted: #6e6e73` — Secondary text: captions, footer copy, eyebrow labels, lede paragraphs, hiredBy lines, Stat provenance. NEVER use for primary calls to action. NEVER use as a disabled-state substitute.
 - `--hairline: #d2d2d7` — Dividers, 1px rules, borders. Always applied as a border/border-top/border-bottom, NEVER as a background. Never render thicker than `--hairline-w: 1px`.
-- `--accent: #0071e3` — The brand’s single accent. Roles: status dot fill, link underline-on-hover, focus rings. NEVER use as a surface fill, body text color, or button background. It is a signal color: interactivity and focus only.
+- `--accent: #0071e3` — The brand’s single accent. Roles: status dot fill, link underline-on-hover (the accent layer grows over the resting hairline underline), focus rings. NEVER use as a surface fill, body text color, or button background. It is a signal color: interactivity and focus only. `--accent` is NEVER visible in a resting state — it appears only on hover (animated underline) and on focus-visible (ring).
 - `--accent-glow: rgba(0, 113, 227, 0.18)` — Transparent halo for the available status dot and `::selection`. NEVER use as a container fill or hover state. Never stack it.
 - `--bg-warm-accent: #c0452c` — Editorial warm-accent band background (full-bleed orange). Restraint rules in `meta/brand.md`: at most one warm band per page; never adjacent to another `--bg-warm-accent` band. NEVER use for inline elements or component fills.
 - `--fg-on-warm: #fdf5f0` — Primary text on warm bands. Warm-tinted near-white. The only text color permitted as primary copy over `--bg-warm-accent`. NEVER use over `--bg`.
@@ -188,7 +188,7 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - `qualifier` (optional string) — Trailing role qualifier rendered as ` (qualifier)` in a muted `<span>` inside the anchor. Pass the bare name/role without parentheses. e.g. `qualifier="Arian"` renders "founder@pouk.ai (Arian)".
 - `variant="default"` (default) — `color: --fg`, hover → `--accent`. Use on `--bg` or `--surface` contexts.
 - `variant="muted"` — `color: --fg-muted`, hover → `--fg`. For footer, caption, secondary-copy contexts. Matches existing `.muted-link` treatment in `SiteShell`.
-- `text-decoration: underline` is always on — intentional brand override of the global animated grow-underline on `<a>`. A `mailto:` affordance is not navigational; a persistent underline is the correct signal. `text-decoration-thickness: 1px`, `text-underline-offset: 2px`.
+- Underline inherits the global `a` two-layer underline rule in `tokens.css`. At rest: a 1px `--hairline` underline is always visible (resting discoverability signal). On hover: a 1px `--accent` underline grows left-to-right over the hairline layer via `background-size` transition (`--dur-mid`, `--easing-link`). `<EmailLink>` is a link — same affordance as every other navigational anchor. No underline override.
 - Focus ring: `outline: 2px solid --accent`, `outline-offset: 4px` (link convention — matches global `a:focus-visible`, NOT Button's 2px offset). `border-radius: --radius-1`.
 - `:visited` — no distinct treatment (brand decision; visited state creates false scent on contact links).
 - `:active` — no `translateY` (link, not button).
@@ -233,6 +233,71 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - Do NOT place Pull inside a `<Hero>`. Do NOT stack Pull with `<Statement>` on the same surface. Do NOT use Pull for person identity attribution — use `<Quote>` (once shipped).
 - Multiple Pulls per page are permitted. More than 3 is an editorial judgment, not a DS constraint.
 - Screen reader: `<blockquote>` is announced as a quotation; `<aside>` adds a complementary landmark — avoid `as="aside"` in articles with multiple Pulls (landmark noise).
+
+### LinkCard
+- Canonical interactive card primitive. The entire card surface is a single click target (`<a>` root). Use for navigational index pages (`/work`, `/posts`, `/case-studies`) where each grid item routes to a destination.
+- Root element: `<a>` by default. When `asChild={true}`, root becomes a Radix `Slot` — pass a framework router `<Link>` as the child. Identical to the `Button` `asChild` pattern.
+- `href` is required when `asChild` is false. A runtime `console.error` fires in development if `href` is absent and `asChild` is false.
+- Do NOT pass both `href` and `asChild={true}`. When `asChild` is true the child element owns the href.
+- `variant="default"` (default) — `--surface` background, `1px solid --hairline` border, `--radius-3` (8px) corners, `--space-8` (32px) inset padding all sides. Use in grid contexts.
+- `variant="quiet"` — `--bg` background (no fill), hairline rule top only (`border-top: 1px solid --hairline`), no radius, padding-block `--space-4`, padding-inline `0`. Use in dense vertical list contexts.
+- Hover: `border-color` shifts to `--accent`. Transition: `border-color var(--dur-mid) var(--easing-link)`. For quiet variant, `border-top-color` shifts.
+- `:focus-visible`: `outline: 2px solid var(--accent); outline-offset: 4px`. Default variant adds `border-radius: --radius-3` on the outline to match card shape. Quiet variant: `border-radius: 0`.
+- `:active`: `transform: translateY(1px)` at `--dur-press` (80ms). Both variants. Tactile press response matching `<Button>`.
+- `eyebrow` (optional `string | ReactNode`) — String → auto-wrapped in `<Eyebrow variant="muted">`. ReactNode → pass-through (consumer owns configuration). Same discriminant as `<Section>`: `typeof eyebrow === 'string'`.
+- `title` (required `ReactNode`) — primary content and accessible name anchor. Renders as `titleAs` element. Typography: `--fs-card-title` (24–32px fluid), `--font-sans`, weight 500, `line-height: 1.3`, `letter-spacing: -0.005em`. Margin zeroed inside LinkCard flex scope (overrides global h3 margin).
+- `titleAs` (`"h2" | "h3" | "h4"`, default `"h3"`) — heading element. Default `h3` is correct when page has `<h1>` (Hero) and `<h2>` (Section above the grid). Pass `"h2"` when no preceding h2 exists.
+- `body` (optional `ReactNode`) — string → wrapped in `<p>`; ReactNode → pass-through. `--fs-body`, `--fg-muted`, `line-height: 1.55`.
+- `footer` (optional `ReactNode`) — pushed to card bottom via flex spacer (`flex: 1`). Defaults to `--fg-muted` color, `--fs-meta` font size. ReactNode pass-through; consumer content can override.
+- `icon` (optional `ReactNode`) — absolutely positioned at `top: --space-8; right: --space-8` within card padding box. `pointer-events: none`. Consumer-supplied. Conventional: `<ArrowUpRight size={16} />` from `lucide-react` for external links.
+- `external` — when true: adds `target="_blank"`, `rel="noopener noreferrer"`, and appends a visually-hidden `<span>(opens in new tab)</span>` for screen readers. Does NOT auto-inject an icon — pass via `icon` slot.
+- Global `<a>` underline animation (`background-image` grow) is suppressed on the card root via `background-image: none; padding-bottom: 0`. The card's sole hover signal is the border-color shift.
+- **No nested interactive elements.** A `<button>` or `<a>` inside a LinkCard is a WCAG failure (nested interactivity). Footer tags and inline labels must be non-interactive (`<span>`, plain text). This is documented as a hard constraint, not a component-level enforcement.
+- Accessible name is derived from text content — eyebrow + title + body all contribute. Body copy should be meaningful, not boilerplate ("Click to learn more" produces a poor accessible name).
+- In a CSS Grid context: set `align-items: stretch` on the grid container and `height: 100%` on the LinkCard root so all cards in a row share the same height. The footer flex spacer then aligns footers to the same baseline.
+- Do NOT mix `variant="default"` and `variant="quiet"` in the same grid — incoherent visual rhythm.
+- Do NOT put `<Button>` or any interactive element inside a LinkCard.
+- Do NOT use LinkCard for non-navigational content. Use `RoleCard` (structural, no click target) for role descriptions.
+
+### TeamCard
+- Canonical person tile molecule. Renders a single team member as a brand object: portrait + name + role + optional bio + optional contact affordance. Operator-grade register — practitioner credential, not a social media card.
+- Root element: `<article>` by default (correct HTML for a self-contained, independently distributable content item). Polymorphic via `as` prop: `"article"` | `"section"` | `"div"`.
+- `aria-labelledby` is wired automatically from the root landmark element to the name heading's `id` (via `useId()`). Skipped when `as="div"` — a `<div>` carries no landmark role.
+- `portrait` (required `ReactNode`) — pass a fully-configured `<Portrait>` instance. TeamCard does NOT accept `portraitSrc` — Portrait's API is authoritative for `src`, `alt`, `aspect`, `width`, and `sizes`. Never pass a raw `<img>`.
+- `name` (required `ReactNode`) — person's name. Rendered as the element specified by `nameAs`. Default `nameAs="h3"` is correct inside a `<Section>` (h2) on a page with a Hero (h1). Override to `"h2"` for standalone person pages; `"h4"` for deeply nested contexts.
+- `role` (required `ReactNode`) — short role/title descriptor. Rendered as `<p>` at `--fs-meta` (14px), `color: var(--fg-muted)`. No uppercase treatment — role is read at prose speed.
+- `bio` (optional `ReactNode`) — supporting prose paragraph. Rendered as `<p>` at `--fs-body`, `color: var(--fg)`, `line-height: 1.55`. When absent, no empty element is emitted.
+- `contact` (optional `ReactNode`) — any contact affordance. Standard usage: `<EmailLink email="…" variant="muted" />`. Slot is untyped — LinkedIn links, GitHub handles, etc. work without spec changes. TeamCard provides no interaction states; the inner component owns them.
+- `eyebrow` (optional `string | ReactNode`) — string values are automatically wrapped in `<Eyebrow variant="muted">`. ReactNode values are rendered as-is (escape hatch). Never double-wraps a ReactNode. In grids, prefer placing the eyebrow in the Section header rather than repeating it on every card.
+- `layout` (`"stacked"` | `"horizontal"`, default `"stacked"`) — portrait-text spatial relationship. `"stacked"`: portrait above, text below (grid-context default). `"horizontal"`: portrait left at fixed `5rem` width, text block right with `--space-6` gap; collapses to stacked below 768px.
+- **No padding, no border, no background.** TeamCard is a content tile, not a chrome tile. The consumer's grid owns the column gutter. If a surface variant is needed, use `className` override at the consumer layer — it is not a DS variant.
+- Gap stack (stacked layout): eyebrow→portrait `--space-3` (12px), portrait→name `--space-4` (16px), name→role `--space-2` (8px), role→bio `--space-4` (16px), bio→contact `--space-8` (32px), role→contact (no bio) `--space-8` (32px).
+- Contrast: name heading `--fg` on `--bg` = 16.29:1 (AAA). Role `--fg-muted` on `--bg` = 4.91:1 (AA normal at 14px). Bio `--fg` on `--bg` = 16.29:1 (AAA).
+- Do NOT pass `portraitSrc` — the prop does not exist. Portrait's API is authoritative.
+- Do NOT make TeamCard interactive (`href`, `onClick`). It is not a link. Consumer wraps in `<a>` or `<Link>` if needed and owns that interaction pattern.
+- Do NOT nest TeamCard inside Hero. Hero is the page h1 moment; heading-level conflict results.
+- Do NOT compose TeamCard with RoleCard. They are sibling molecules with distinct semantics (person vs. function).
+
+### FeatureCard
+- Canonical structural feature-grid tile. Use for capability, service, or feature grids where items are peers (not a numbered sequence) and none of the tiles are navigational destinations.
+- `as` prop (default `"article"`) — polymorphic root element. Valid values: `"article"` | `"section"` | `"div"` | `"li"`. Use `"li"` inside a `<ul>` feature list; `"section"` when region landmark semantics are required; `"div"` when landmark semantics would be noise. Consumer is responsible for wrapping `as="li"` FeatureCards in a `<ul>`.
+- `icon` (optional ReactNode) — decorative icon. FeatureCard wraps it in `<span aria-hidden="true">`. Sets `color: currentColor` on the wrapper so the icon inherits `--fg`. Recommended icon sizes: `size={24}` or `size={32}` from lucide-react. Consumer still passes `aria-hidden="true"` on the icon node for clarity, but the wrapper guarantees screen readers skip it regardless.
+- `eyebrow` (optional `string | ReactNode`) — String → auto-wrapped in `<Eyebrow variant="muted">`. ReactNode → rendered as-is (no double-wrap). Same string-convention as Section, LinkCard, and TeamCard.
+- `title` (required ReactNode) — feature name. Rendered as the element named by `titleAs`. `"h1"` is intentionally excluded — a feature tile is never a page heading.
+- `titleAs` (optional `"h2" | "h3" | "h4"`, default `"h3"`) — heading level. `"h3"` is correct for a grid of tiles under a `<Section>` (h2) on a page with a `<Hero>` (h1).
+- `body` (required ReactNode) — feature description. String → wrapped in `<p style="margin:0">` (suppresses global `p` bottom-margin double-stack inside flex column). ReactNode → rendered as-is.
+- `footer` (optional ReactNode) — rendered inside a wrapper div with default `color: var(--fg-muted)` and `font-size: var(--fs-meta)`. When absent, no element is emitted and no gap is created.
+- `variant` (`"default"` | `"bordered"`, default `"default"`) — `"default"` is transparent, no border, no radius. `"bordered"` adds `--surface` background, `1px solid --hairline` border, `--radius-3` corners.
+- Padding: `--space-6` (24px) on all four sides in both variants — single value prevents layout shift when switching variants at runtime.
+- Gap stack: icon→eyebrow/title `--space-6` (24px); eyebrow→title `--space-2` (8px); title→body `--space-3` (12px); body→footer `--space-6` (24px).
+- `aria-labelledby` wired on `article` and `section` roots to the title's auto-generated id (via `useId()`). Omitted for `div` and `li` — neither carries a landmark role.
+- No internal flex spacer. Footer alignment in a grid requires composition: `align-items: stretch` on the grid, `height: 100%` on the card root, `margin-top: auto` on the footer wrapper in consumer surface CSS.
+- No states, no hover, no interactivity. FeatureCard is structural only. For an interactive tile, use `<LinkCard>`.
+- Do NOT mix `default` and `bordered` variants in the same grid — incoherent visual rhythm.
+- Do NOT use FeatureCard for navigational tiles — use `<LinkCard>`.
+- Do NOT use FeatureCard for sequenced/numbered items — use `<Principle>` or `<FailureMode>`.
+- Do NOT pass `titleAs="h1"` — a feature tile is never a page heading. The prop type excludes it.
+- Do NOT compose FeatureCard with RoleCard in the same grid. RoleCard carries sequencing semantics that conflict with FeatureCard's peer-item register.
 
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.

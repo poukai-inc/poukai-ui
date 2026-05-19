@@ -11,17 +11,16 @@
   font-size: inherit;
   font-weight: inherit;
 
-  /* Underline — always on. This is an intentional, documented brand override
-     of the global `a` animated grow-underline. A mailto: affordance is not
-     navigational; a persistent underline signals "external action" correctly.
-     See design spec §4 for full rationale. */
-  text-decoration: underline;
-  text-decoration-color: color-mix(in srgb, currentColor 60%, transparent);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 2px;
+  /* Underline: inherits the global `a` grow-left-to-right animation from
+     tokens.css (background-image gradient + background-size transition).
+     EmailLink is a link, same affordance signal as every other navigational
+     anchor — consistent with the rest of the brand. */
 
-  /* Motion — color transitions; underline-color follows currentColor implicitly */
-  transition: color var(--dur-fast) var(--easing-link);
+  /* Motion — extend the global background-size transition with a color
+     transition for the hover color shift. */
+  transition:
+    color var(--dur-fast) var(--easing-link),
+    background-size var(--dur-mid) var(--easing-link);
 
   /* Layout — inline by default; inline-flex toggled via .withIcon */
   display: inline;

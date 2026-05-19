@@ -1,11 +1,9 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { createRequire } from "node:module";
 import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const require = createRequire(import.meta.url);
 
 const compat = new FlatCompat({
   baseDirectory: __dirname,
@@ -13,4 +11,31 @@ const compat = new FlatCompat({
 });
 
 /** @type {import("eslint").Linter.Config[]} */
-export default [...compat.config(require("./.eslintrc.cjs"))];
+export default [
+  ...compat.config({
+    root: true,
+    parser: "@typescript-eslint/parser",
+    parserOptions: {
+      ecmaVersion: 2022,
+      sourceType: "module",
+      ecmaFeatures: { jsx: true },
+      project: "./tsconfig.json",
+    },
+    plugins: ["@typescript-eslint", "react", "react-hooks", "jsx-a11y"],
+    extends: [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended",
+      "plugin:react/jsx-runtime",
+      "plugin:react-hooks/recommended",
+      "plugin:jsx-a11y/recommended",
+    ],
+    settings: { react: { version: "18" } },
+    rules: {
+      "react/prop-types": "off",
+      "@typescript-eslint/consistent-type-imports": ["error", { prefer: "type-imports" }],
+      "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    },
+    ignorePatterns: ["dist", "node_modules", ".ladle", "**/*.test.tsx", "**/*.stories.tsx"],
+  }),
+];

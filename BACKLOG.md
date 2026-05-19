@@ -189,6 +189,10 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
 
 ### Low — hygiene + future-proofing
 
+- [x] **Dedupe ESLint config.** Inlined the rule set into `eslint.config.mjs`
+      and removed `.eslintrc.cjs` so the project has a single ESLint source of
+      truth (still routed through `FlatCompat` for the legacy plugin shapes;
+      zero behavior change).
 - [ ] **Move `lede` (`Hero.tsx:136`) and `muted-link` (`SiteShell.tsx:86`)
       global classes into their respective CSS Modules** — only places where
       a global utility leaks into component JSX.

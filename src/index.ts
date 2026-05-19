@@ -20,6 +20,7 @@ export { Button, type ButtonProps, type ButtonVariant, type ButtonSize } from ".
 export { Stat, type StatProps, type StatAlign, type StatSize } from "./atoms/Stat";
 export { Eyebrow, type EyebrowProps, type EyebrowVariant } from "./atoms/Eyebrow";
 export { EmailLink, type EmailLinkProps, type EmailLinkVariant } from "./atoms/EmailLink";
+export { Tag, type TagProps } from "./atoms/Tag";
 
 /* ---------- molecules ---------- */
 export {

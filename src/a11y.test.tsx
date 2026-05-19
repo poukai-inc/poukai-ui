@@ -7,6 +7,7 @@ import { Button } from "./atoms/Button";
 import { Stat } from "./atoms/Stat";
 import { Eyebrow } from "./atoms/Eyebrow";
 import { EmailLink } from "./atoms/EmailLink";
+import { Tag } from "./atoms/Tag";
 import { Hero } from "./molecules/Hero";
 import { RoleCard } from "./molecules/RoleCard";
 import { Principle } from "./molecules/Principle";
@@ -114,6 +115,35 @@ test("a11y — Eyebrow (all variants)", async ({ mount, page }) => {
       <Eyebrow variant="numbered" numeral="FM-03">
         Failure Mode
       </Eyebrow>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Tag (both tones, with and without icon)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Tag>Engineering</Tag>
+      <Tag tone="muted">Draft</Tag>
+      <Tag
+        icon={
+          <svg width={12} height={12} aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" fill="currentColor" />
+          </svg>
+        }
+      >
+        Featured
+      </Tag>
+      <Tag
+        tone="muted"
+        icon={
+          <svg width={12} height={12} aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="10" fill="currentColor" />
+          </svg>
+        }
+      >
+        Optional
+      </Tag>
     </div>,
   );
   await expectAxeClean(page);

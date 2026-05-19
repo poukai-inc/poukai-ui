@@ -197,6 +197,29 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - Do NOT compose `<EmailLink>` inside `<Button>` — they are sibling affordances with different registers.
 - Do NOT pass `href` — it is always computed from `email`. The prop is excluded at the TypeScript level.
 
+### Tag
+- Inline categorical pill atom. Communicates type, category, topic, or metadata classification of adjacent content. Answers "what kind of thing is this?" inline with content flow: inside a card, in a topic list, beside a title, or inside a sentence.
+- Root element: `<span>`. Non-polymorphic — no `as` prop. Always `<span>`. Tags are inline categorical labels; they do not need heading, list-item, or block semantics.
+- `children` (required ReactNode) — the visible label text. Typically a plain string (one to three words). ReactNode accepted for rare inline `<strong>` emphasis, but a plain string is the idiomatic usage.
+- `tone` (`"default"` | `"muted"`, default `"default"`) — visual tone. Two tones only; no colored semantic tones.
+  - `"default"` — `background-color: var(--surface)` (#F5F5F7), `color: var(--fg)` (#1D1D1F), no border. Primary categorical register. Use in cards and topic lists.
+  - `"muted"` — `background-color: transparent`, `color: var(--fg-muted)` (#6E6E73), `border: var(--hairline-w) solid var(--hairline)` (1px #D2D2D7). Secondary or receding register. Use for draft labels, optional tags, or where the tag must not compete with primary content.
+- `icon` (optional ReactNode) — optional leading icon slot. When present, root shifts from `display: inline` to `display: inline-flex` with `align-items: center` and `gap: var(--space-2)` (8px). When absent, root is plain `display: inline`. Recommended icon size: 12px (proportional inside a 14px-text pill). Pass `aria-hidden="true"` on all decorative icons — the DS does not enforce this at the type level, but it is the required consumer contract.
+- Typography: `--font-sans` (Geist), `--fs-meta` (14px fixed), `font-weight: 400`, `line-height: var(--lh-meta)` (1.2), `letter-spacing: normal` (no tracking — Tags are mixed-case; tracking is for uppercase labels like Eyebrow).
+- Geometry: `border-radius: 999px` (pill — a geometric constant, not a brand token; documented in Tag.module.css). `padding-block: var(--space-1)` (4px). `padding-inline: var(--space-2)` (8px). `box-sizing: border-box` — ensures muted tone's 1px border is absorbed inside the padding box; pill dimensions are identical across both tones.
+- `white-space: nowrap` — Tags never wrap internally. If a list of Tags wraps at narrow viewports, the parent flex container owns that.
+- No states, no motion, no transitions. Tag is a non-interactive static label. No `:hover`, `:focus`, `:active`, or `[disabled]` rules.
+- Tokens consumed: `--fs-meta`, `--font-sans`, `--fg`, `--fg-muted`, `--surface`, `--hairline`, `--hairline-w`, `--space-1`, `--space-2`, `--lh-meta`. No new tokens introduced.
+- Contrast: `"default"` tone `--fg` on `--surface` = 15.46:1 (AAA). `"muted"` tone `--fg-muted` on `--bg` = 4.91:1 (AA normal at 14px — passes WCAG 2.1 4.5:1 threshold). Muted border is decorative; no contrast requirement under §1.4.11.
+- Composition: use in any inline or flex context. Multiple Tags in a row: parent flex container with `gap: var(--space-2)` and `flex-wrap: wrap`. Inside prose `<p>`: natural inline flow. No self-margin — consumer owns spacing.
+- Tag is NOT `<Eyebrow>` (Eyebrow is block-level, uppercase, tracked, always above content). Tag is NOT `<StatusBadge>` (StatusBadge encodes liveness state with a colored dot). Tag is NOT a button (no onClick, no hover/focus states authored by the DS).
+- Do NOT add colored semantic tones (`"success"`, `"warning"`, `"danger"`, `"accent"`). Any future colored tone requires a brand-level decision-log entry and Arian's explicit sign-off.
+- Do NOT add a close button, `onRemove`, or `onClick` — that is a future `TagButton` primitive with its own spec.
+- Do NOT make Tag polymorphic. The root is always `<span>`.
+- Do NOT use Tag to signal liveness — use `<StatusBadge>`.
+- Do NOT use Tag as a heading or section label — use `<Eyebrow>`.
+- Do NOT add `text-overflow: ellipsis` or truncation. Tags are always short strings by design.
+
 ### Section
 - Canonical page-section wrapper molecule. Owns the vertical rhythm around a section's header block (eyebrow + title + lede) and exposes a children slot for section body content.
 - No visual surface — no background, border, or shadow in default configuration. Structural scaffolding only.

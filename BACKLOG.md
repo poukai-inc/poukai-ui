@@ -3,7 +3,7 @@
 Living to-do for `@poukai-inc/ui`. PRs that close an item should tick its box.
 Items removed when stale or migrated to an issue.
 
-**Last reviewed:** 2026-05-18
+**Last reviewed:** 2026-05-19
 
 ---
 
@@ -23,14 +23,11 @@ Real bugs in published `0.15.0` surfaced by the 2026-05-18 consistency audit.
 
 Work the user is driving, where I'm a passenger.
 
-- [ ] **Phase 2 — Astro site rebuild in `poukai-inc/pouk.ai`.**
-  - Scaffolded in `apps/pouk-ai-site/` for reference; the canonical version
-    lives in the site repo and is the user's to build.
-  - Reference materials in the scaffold:
-    - `BaseLayout.astro` — head/meta/JSON-LD/font-preload contract
-    - `src/content/{roles,principles,failure-modes}.json` — draft copy,
-      replace with canonical text from `meta/backlog.md` before launch
-    - Four `pages/*.astro` files using `SiteShell` + the molecules
+- [ ] **Phase 2 — Astro site rebuild.** Lives in `poukai-inc/pouk.ai`, not
+      here. Tracked from this repo only so consumer-facing gaps surface against
+      the published package surface. (The earlier `apps/pouk-ai-site/` scaffold
+      reference is gone — it never landed in this repo's git history; the site
+      repo is canonical.)
 
 ---
 
@@ -96,18 +93,22 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
 
 - [ ] **Export `Statement` from `src/molecules.ts` subpath barrel.**
       Currently only reachable via root `@poukai-inc/ui`; `import { Statement }
-    from "@poukai-inc/ui/molecules"` fails.
+  from "@poukai-inc/ui/molecules"` fails.
 - [ ] **Widen Hero type re-exports in `src/molecules.ts`** to include
       `HeroSize`, `HeroEntrance`, `HeroBleed`, `HeroVariant`, `HeroDefaultProps`,
       `HeroNoTitleProps` (currently only `HeroProps` + `HeroAlign`).
-- [ ] **Add `Portrait` and `Statement` to `scripts/build-llms-txt.mjs`
+- [x] **Add `Portrait` and `Statement` to `scripts/build-llms-txt.mjs`
       `COMPONENTS.molecules`** so the generated `dist/llms.txt` lists all
-      shipped components (currently undercounts 9 vs 11).
-- [ ] **Add `### Portrait` and `### Statement` sections to
-      `meta/llms-full.txt`** with usage rules + constraints. Both shipped in
-      `0.10.0` / `0.13.0` and are absent from the authoritative LLM contract.
-- [ ] **Add `Portrait` and `Statement` rows to the "Components shipped today"
-      table in `README.md:55`.**
+      shipped components. Also fixed a pre-existing path-emission bug
+      (`@poukai-inc/ui./atoms` → `@poukai-inc/ui/atoms`).
+- [x] **Add `### Portrait` and `### Statement` sections to
+      `meta/llms-full.txt`**, plus the `--fs-statement` typography token,
+      `--hero-illustration-max` layout token, the Hero `illustration` slot,
+      and the three previously-undocumented warm-accent color tokens
+      (`--bg-warm-accent`, `--fg-on-warm`, `--fg-on-warm-muted`) surfaced by
+      the extended sync check.
+- [x] **Add `Portrait` and `Statement` rows to the "Components shipped today"
+      table in `README.md`.**
 - [ ] **Replace hardcoded transition values in `src/atoms/Button/Button.module.css:13`**
       (`120ms`, `80ms`, raw `ease`) with `var(--dur-fast)` and `var(--easing)`.
 - [ ] **Tokenize StatusBadge pulse duration.**
@@ -126,10 +127,11 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
 - [ ] **Backfill `StatusBadge` tests.** Only 2 tests today; `idle`/`closed`
       statuses never mounted; pulse-halo CSS regression (from `0.3.2`) is
       unguarded.
-- [ ] **Extend `scripts/check-llms-tokens-sync.mjs` to assert each
+- [x] **Extend `scripts/check-llms-tokens-sync.mjs` to assert each
       `src/{atoms,molecules,organisms}/*` has a matching `### ComponentName`
-      heading in `meta/llms-full.txt`** — current CI gate only checks color
-      tokens, so new components ship undocumented (Portrait/Statement proof).
+      heading in `meta/llms-full.txt`.** Now passes for 11 colors + 11
+      components; new components without a doc section will fail CI before
+      shipping.
 
 ### Medium — API + token + docs polish
 

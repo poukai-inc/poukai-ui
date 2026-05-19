@@ -3,7 +3,7 @@
 Living to-do for `@poukai-inc/ui`. PRs that close an item should tick its box.
 Items removed when stale or migrated to an issue.
 
-**Last reviewed:** 2026-05-18
+**Last reviewed:** 2026-05-19
 
 ---
 
@@ -23,14 +23,11 @@ Real bugs in published `0.15.0` surfaced by the 2026-05-18 consistency audit.
 
 Work the user is driving, where I'm a passenger.
 
-- [ ] **Phase 2 — Astro site rebuild in `poukai-inc/pouk.ai`.**
-  - Scaffolded in `apps/pouk-ai-site/` for reference; the canonical version
-    lives in the site repo and is the user's to build.
-  - Reference materials in the scaffold:
-    - `BaseLayout.astro` — head/meta/JSON-LD/font-preload contract
-    - `src/content/{roles,principles,failure-modes}.json` — draft copy,
-      replace with canonical text from `meta/backlog.md` before launch
-    - Four `pages/*.astro` files using `SiteShell` + the molecules
+- [ ] **Phase 2 — Astro site rebuild.** Lives in `poukai-inc/pouk.ai`, not
+      here. Tracked from this repo only so consumer-facing gaps surface against
+      the published package surface. (The earlier `apps/pouk-ai-site/` scaffold
+      reference is gone — it never landed in this repo's git history; the site
+      repo is canonical.)
 
 ---
 
@@ -94,51 +91,59 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
 
 ### High — consumer-visible or contract-breaking
 
-- [ ] **Export `Statement` from `src/molecules.ts` subpath barrel.**
-      Currently only reachable via root `@poukai-inc/ui`; `import { Statement }
-    from "@poukai-inc/ui/molecules"` fails.
-- [ ] **Widen Hero type re-exports in `src/molecules.ts`** to include
-      `HeroSize`, `HeroEntrance`, `HeroBleed`, `HeroVariant`, `HeroDefaultProps`,
-      `HeroNoTitleProps` (currently only `HeroProps` + `HeroAlign`).
-- [ ] **Add `Portrait` and `Statement` to `scripts/build-llms-txt.mjs`
+- [x] **Export `Statement` from `src/molecules.ts` subpath barrel.**
+      Now reachable via `@poukai-inc/ui/molecules`.
+- [x] **Widen Hero type re-exports in `src/molecules.ts`** to include the full
+      union: `HeroSize`, `HeroEntrance`, `HeroBleed`, `HeroVariant`,
+      `HeroDefaultProps`, `HeroNoTitleProps`. Root barrel widened to match
+      (closes the matching Medium item).
+- [x] **Add `Portrait` and `Statement` to `scripts/build-llms-txt.mjs`
       `COMPONENTS.molecules`** so the generated `dist/llms.txt` lists all
-      shipped components (currently undercounts 9 vs 11).
-- [ ] **Add `### Portrait` and `### Statement` sections to
-      `meta/llms-full.txt`** with usage rules + constraints. Both shipped in
-      `0.10.0` / `0.13.0` and are absent from the authoritative LLM contract.
-- [ ] **Add `Portrait` and `Statement` rows to the "Components shipped today"
-      table in `README.md:55`.**
-- [ ] **Replace hardcoded transition values in `src/atoms/Button/Button.module.css:13`**
-      (`120ms`, `80ms`, raw `ease`) with `var(--dur-fast)` and `var(--easing)`.
-- [ ] **Tokenize StatusBadge pulse duration.**
-      `src/atoms/StatusBadge/StatusBadge.module.css:38` hardcodes
-      `1800ms ease-out`; add `--dur-pulse` or reuse an existing duration token.
-- [ ] **Tokenize the repeated card-title clamp.**
-      `clamp(1.5rem, 1.15rem + 1.2vw, 2rem)` is duplicated in `RoleCard.module.css:44`,
-      `Principle.module.css:51`, `FailureMode.module.css:28`. Add e.g.
-      `--fs-card-title` to the type scale so changes propagate.
-- [ ] **Define `--space-10: 2.5rem`** (or drop the phantom). Used with
-      `var(--space-10, 2.5rem)` fallback in `tokens.css:171`, `Hero.module.css:57`,
-      `FailureMode.module.css:5`; scale currently jumps `--space-8 → --space-12`.
-- [ ] **Add per-variant assertions to `src/atoms/Button/Button.test.tsx`.**
-      Tests never verify which `variant` (primary/secondary/ghost) class is
-      applied.
-- [ ] **Backfill `StatusBadge` tests.** Only 2 tests today; `idle`/`closed`
-      statuses never mounted; pulse-halo CSS regression (from `0.3.2`) is
-      unguarded.
-- [ ] **Extend `scripts/check-llms-tokens-sync.mjs` to assert each
+      shipped components. Also fixed a pre-existing path-emission bug
+      (`@poukai-inc/ui./atoms` → `@poukai-inc/ui/atoms`).
+- [x] **Add `### Portrait` and `### Statement` sections to
+      `meta/llms-full.txt`**, plus the `--fs-statement` typography token,
+      `--hero-illustration-max` layout token, the Hero `illustration` slot,
+      and the three previously-undocumented warm-accent color tokens
+      (`--bg-warm-accent`, `--fg-on-warm`, `--fg-on-warm-muted`) surfaced by
+      the extended sync check.
+- [x] **Add `Portrait` and `Statement` rows to the "Components shipped today"
+      table in `README.md`.**
+- [x] **Replace hardcoded transition values in `src/atoms/Button/Button.module.css`**.
+      Color/background/border use `var(--dur-fast) var(--easing)`; transform uses
+      the new `--dur-press: 80ms` token so the click feedback stays tactile
+      without lying about durations.
+- [x] **Tokenize StatusBadge pulse duration.** Added `--dur-pulse: 1800ms`
+      and switched `StatusBadge.module.css` to consume it.
+- [x] **Tokenize the repeated card-title clamp.** Added
+      `--fs-card-title: clamp(1.5rem, 1.15rem + 1.2vw, 2rem)` and replaced the
+      duplicated value in `RoleCard`, `Principle`, `FailureMode` titles.
+- [x] **Define `--space-10: 2.5rem`.** Added to the spacing scale between
+      `--space-8` and `--space-12`. Existing `var(--space-10, 2.5rem)` fallback
+      uses (Hero CTA margin, FailureMode top padding, h1 desktop margin) now
+      resolve through the real token. Fallbacks left in place; trivial follow-up
+      to remove them.
+- [x] **Add per-variant assertions to `src/atoms/Button/Button.test.tsx`.**
+      All three variants (primary default, secondary, ghost) and the missing
+      sizes (sm/lg) now have class + min-height assertions. Added className
+      merge + arbitrary-prop forwarding tests.
+- [x] **Backfill `StatusBadge` tests.** Adds idle status coverage, default-status
+      coverage, dot `aria-hidden` assertion, pulse-element count guard, and a
+      CSS regression guard on `animation-duration: 1.8s` + `animation-iteration-count: infinite`.
+      Plus className merge + arbitrary-prop forwarding tests.
+- [x] **Extend `scripts/check-llms-tokens-sync.mjs` to assert each
       `src/{atoms,molecules,organisms}/*` has a matching `### ComponentName`
-      heading in `meta/llms-full.txt`** — current CI gate only checks color
-      tokens, so new components ship undocumented (Portrait/Statement proof).
+      heading in `meta/llms-full.txt`.** Now passes for 11 colors + 11
+      components; new components without a doc section will fail CI before
+      shipping.
 
 ### Medium — API + token + docs polish
 
-- [ ] **Root barrel `src/index.ts:23` Hero type completeness** — add
-      `HeroVariant`, `HeroDefaultProps`, `HeroNoTitleProps` to match
-      `Hero/index.ts`.
-- [ ] **Fix wrong fallback in `src/atoms/Button/Button.module.css:10`.**
-      `var(--radius-2, 8px)` — `--radius-2` is `4px`; fallback would silently
-      shift radius if the token vanished.
+- [x] **Root barrel `src/index.ts` Hero type completeness** — `HeroVariant`,
+      `HeroDefaultProps`, `HeroNoTitleProps` now exported alongside the rest.
+- [x] **Fix wrong fallback in `src/atoms/Button/Button.module.css`.**
+      Replaced `var(--radius-2, 8px)` with `var(--radius-2)` so the token is
+      authoritative; the wrong 8px fallback is gone.
 - [ ] **Add `displayName` to all `forwardRef` components.** Currently set on
       Hero/Statement/Portrait only; missing on Button, Stat, StatusBadge,
       Wordmark, FailureMode, Principle, RoleCard, SiteShell.

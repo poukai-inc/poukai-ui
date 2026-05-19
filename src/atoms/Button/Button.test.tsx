@@ -43,3 +43,53 @@ test('size="compact" min-height resolves to 40px', async ({ mount }) => {
   const component = await mount(<Button size="compact">Compact</Button>);
   await expect(component).toHaveCSS("min-height", "40px");
 });
+
+test('size="sm" applies the size-sm class and 32px min-height', async ({ mount }) => {
+  const component = await mount(<Button size="sm">Small</Button>);
+  const className = await component.getAttribute("class");
+  expect(className).toMatch(/size-sm/);
+  await expect(component).toHaveCSS("min-height", "32px");
+});
+
+test('size="lg" applies the size-lg class and 52px min-height', async ({ mount }) => {
+  const component = await mount(<Button size="lg">Large</Button>);
+  const className = await component.getAttribute("class");
+  expect(className).toMatch(/size-lg/);
+  await expect(component).toHaveCSS("min-height", "52px");
+});
+
+test('variant="primary" (default) applies the variant-primary class', async ({ mount }) => {
+  const component = await mount(<Button>Default primary</Button>);
+  const className = await component.getAttribute("class");
+  expect(className).toMatch(/variant-primary/);
+});
+
+test('variant="secondary" applies the variant-secondary class', async ({ mount }) => {
+  const component = await mount(<Button variant="secondary">Secondary</Button>);
+  const className = await component.getAttribute("class");
+  expect(className).toMatch(/variant-secondary/);
+});
+
+test('variant="ghost" applies the variant-ghost class', async ({ mount }) => {
+  const component = await mount(<Button variant="ghost">Ghost</Button>);
+  const className = await component.getAttribute("class");
+  expect(className).toMatch(/variant-ghost/);
+});
+
+test("merges a consumer-provided className with internal classes", async ({ mount }) => {
+  const component = await mount(<Button className="custom-x">X</Button>);
+  const className = await component.getAttribute("class");
+  expect(className).toMatch(/variant-primary/);
+  expect(className).toMatch(/size-md/);
+  expect(className).toMatch(/custom-x/);
+});
+
+test("forwards arbitrary data-* and aria-* props to the root", async ({ mount }) => {
+  const component = await mount(
+    <Button data-testid="cta" aria-label="Send message">
+      Send
+    </Button>,
+  );
+  await expect(component).toHaveAttribute("data-testid", "cta");
+  await expect(component).toHaveAttribute("aria-label", "Send message");
+});

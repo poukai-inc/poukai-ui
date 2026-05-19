@@ -6,8 +6,19 @@
  * actually uses internally (Hero / RoleCard / Principle / FailureMode
  * currently use none — they rely on caller-provided slots).
  */
-export { Hero, type HeroProps, type HeroAlign } from "./molecules/Hero";
+export {
+  Hero,
+  type HeroProps,
+  type HeroDefaultProps,
+  type HeroNoTitleProps,
+  type HeroAlign,
+  type HeroSize,
+  type HeroEntrance,
+  type HeroVariant,
+  type HeroBleed,
+} from "./molecules/Hero";
 export { RoleCard, type RoleCardProps } from "./molecules/RoleCard";
 export { Principle, type PrincipleProps } from "./molecules/Principle";
 export { FailureMode, type FailureModeProps } from "./molecules/FailureMode";
+export { Statement, type StatementProps } from "./molecules/Statement";
 export { Portrait, type PortraitProps, type AspectRatio } from "./molecules/Portrait";

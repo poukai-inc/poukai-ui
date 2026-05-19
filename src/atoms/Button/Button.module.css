@@ -7,13 +7,13 @@
   font-weight: 500;
   text-decoration: none;
   border: 1px solid transparent;
-  border-radius: var(--radius-2, 8px);
+  border-radius: var(--radius-2);
   cursor: pointer;
   transition:
-    background 120ms ease,
-    color 120ms ease,
-    border-color 120ms ease,
-    transform 80ms ease;
+    background var(--dur-fast) var(--easing),
+    color var(--dur-fast) var(--easing),
+    border-color var(--dur-fast) var(--easing),
+    transform var(--dur-press) var(--easing);
   user-select: none;
 }
 

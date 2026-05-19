@@ -21,6 +21,9 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--hairline: #d2d2d7` — Dividers, 1px rules, borders. Always applied as a border/border-top/border-bottom, NEVER as a background. Never render thicker than `--hairline-w: 1px`.
 - `--accent: #0071e3` — The brand’s single accent. Roles: status dot fill, link underline-on-hover, focus rings. NEVER use as a surface fill, body text color, or button background. It is a signal color: interactivity and focus only.
 - `--accent-glow: rgba(0, 113, 227, 0.18)` — Transparent halo for the available status dot and `::selection`. NEVER use as a container fill or hover state. Never stack it.
+- `--bg-warm-accent: #c0452c` — Editorial warm-accent band background (full-bleed orange). Restraint rules in `meta/brand.md`: at most one warm band per page; never adjacent to another `--bg-warm-accent` band. NEVER use for inline elements or component fills.
+- `--fg-on-warm: #fdf5f0` — Primary text on warm bands. Warm-tinted near-white. The only text color permitted as primary copy over `--bg-warm-accent`. NEVER use over `--bg`.
+- `--fg-on-warm-muted: #f5ddd0` — Supporting text on warm bands. Use sparingly; see `meta/brand.md` for the contrast ceiling. NEVER use as primary copy.
 
 **Elevation rhythm.** Four steps, low to high: `--surface (#F5F5F7) < --surface-section (#F8F8FA) < --bg (#FBFBFD) < --bg-elevated (#FFFFFF)`. Use `--surface` for recessed inline elements (code blocks, quote blocks, card fills). Use `--surface-section` for full-width alternating section bands on editorial pages — this is the only tier permitted as a section divider. Use `--bg` for the page canvas and page-level content. Use `--bg-elevated` for overlays that must read as front-most. Never skip steps. Never use `--surface` as a section divider.
 
@@ -34,12 +37,14 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--fs-tagline: clamp(2.25rem, 1.5rem + 3.5vw, 4.25rem)` (36-68px) — The h1 display scale. Used exactly once per page for the Hero title.
 - `--fs-tagline-intimate: clamp(2rem, 1.25rem + 2.5vw, 3.25rem)` (32-52px) — Hero title at `size="intimate"`. Use only inside the Hero molecule. Never use directly on `h1` outside Hero context.
 - `--fs-display: clamp(3rem, 1.75rem + 4vw, 5.5rem)` (48-88px) — Editorial display rung above `--fs-tagline`. AT MOST ONCE PER PAGE. NOT a heading replacement (the semantic `<h1>` stays on `--fs-tagline` via `<Hero>`). Reserved for editorial display moments where the page opens on a single statement and the Hero pattern is being deliberately replaced — not augmented. Sits 8px below `--fs-stat-large` (96px) so numerals stay loudest.
+- `--fs-statement: clamp(1.75rem, 1.25rem + 2vw, 2.75rem)` (28-44px) — Italic-serif editorial Statement block. Sits between `h2` and `--fs-tagline-intimate`. Used only by the `<Statement>` molecule; not a heading replacement and does not emit any heading element.
 - `--fs-body: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem)` (17-19px) — Primary reading size.
 - `--fs-meta: 0.875rem` (14px) — Secondary text: captions, nav labels, badge text, hiredBy lines.
 - `--fs-micro: 0.75rem` (12px) — Uppercase labels only. Always paired with letter-spacing: 0.04em and text-transform: uppercase.
 - `--fs-stat: clamp(2.75rem, 2rem + 3vw, 4.5rem)` (44-72px) — Stat numeral at size="md".
 - `--fs-stat-large: clamp(3.5rem, 2.25rem + 5vw, 6rem)` (56-96px) — Stat numeral at size="lg". One per section at most.
 - `--tracking-stat: -0.015em` — Negative letter-spacing for display numerals in Stat only.
+- `--fs-card-title: clamp(1.5rem, 1.15rem + 1.2vw, 2rem)` (24-32px) — Card-title rung. Shared by `<RoleCard>`, `<Principle>`, `<FailureMode>` titles. Always rendered in `--font-serif`, `font-weight: 400`. Do NOT use as a heading-level replacement; the title element semantics still come from the consuming page.
 
 ### Spacing (4px base grid)
 
@@ -49,26 +54,30 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--space-4`: 1rem (16px) — Body paragraph margin, card internal rhythm
 - `--space-6`: 1.5rem (24px) — Hero status-to-title, nav gap, card padding tier
 - `--space-8`: 2rem (32px) — Hero title-to-lede, Principle padding
+- `--space-10`: 2.5rem (40px) — Editorial bump above `--space-8` (h1 desktop bottom margin, Hero CTA desktop top margin, FailureMode top padding)
 - `--space-12`: 3rem (48px) — Principle desktop padding, main content top
 - `--space-16`: 4rem (64px) — Large section gaps
 - `--space-24`: 6rem (96px) — Main content bottom padding
 - `--space-32`: 8rem (128px) — Maximum editorial breathing room
 
-Gaps between tokens (--space-5, --space-7, etc.) do not exist. NEVER use raw pixel values.
+Other gaps in the scale (--space-5, --space-7, --space-9, --space-11, etc.) do not exist. NEVER use raw pixel values.
 
 ### Layout
 
 - `--page-pad: clamp(1.5rem, 2vw + 1rem, 3rem)` — Horizontal padding for SiteShell header/footer. The only token that governs the outer page edge.
 - `--content-max: 64rem` (1024px) — Maximum width of the main content column. NEVER exceed in the main column layout.
 - `--hero-max: 38rem` (608px) — Maximum width of the Hero text column. Applies at all widths. NEVER override with a wider value.
+- `--hero-illustration-max: 25rem` (400px) — Maximum width of the Hero illustration column when the `illustration` slot is active. Applies above the 720px breakpoint; the illustration column is hidden below that.
 
 ### Motion
 
 - `--easing: cubic-bezier(0.16, 1, 0.3, 1)` — Expo-out for entrance animations.
 - `--easing-link: cubic-bezier(0.2, 0, 0, 1)` — Link underline grow animation.
+- `--dur-press: 80ms` — Tactile click/press feedback (button `:active` transform, immediate-response interactions). Deliberately shorter than `--dur-fast` so the press lands without lag.
 - `--dur-fast: 180ms` — Micro-interactions.
 - `--dur-mid: 240ms` — Standard transition.
 - `--dur-slow: 600ms` — Entrance animations.
+- `--dur-pulse: 1800ms` — `<StatusBadge status="available">` halo pulse (intentionally slow + meditative, paired with `ease-out`).
 
 All motion is gated by `prefers-reduced-motion: reduce` via a `:root !important` block. This block is the ONLY permitted use of `!important` in the codebase.
 
@@ -126,6 +135,7 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - size="display" (default): title uses `--fs-tagline` (36-68px). Default for all product, marketing, and feature pages.
 - size="intimate": title uses `--fs-tagline-intimate` (32-52px). Opt-in for low-density doorways (homepages, principle lists) where a quieter register suits the context. All other Hero rhythm (gaps, lede, CTA, color, font family, em accent) is unchanged.
 - variant="no-title": renders eyebrow + lede only — no heading element of any level. Use only when the page's `<h1>` lives in body content. The molecule does not emit an `<h1>`; the consumer must. Eyebrow is rendered at `--fs-micro` (12px), uppercase, `letter-spacing: 0.04em`, `--fg-muted`. The `title` and `status` props are excluded from this variant's type signature. `align`, `entrance`, and `cta` remain available.
+- illustration: optional ReactNode slot. When provided, Hero switches to a two-column layout above 720px (text left, illustration right); the illustration column hides below that breakpoint. Capped at `--hero-illustration-max` (25rem). When `entrance="stagger"` is active, the illustration is the fifth stagger slot (index 4, 600ms delay). If decorative, the consumer must pass `aria-hidden="true"` or use `alt=""` on inner imagery. The Hero molecule does not enforce decorative-vs-meaningful semantics on the slot — the consumer owns that decision.
 
 ### RoleCard
 - Eyebrow format: "Role 01", "Role 02" — Title Case "Role", zero-padded two-digit numeral.
@@ -139,6 +149,21 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 ### FailureMode
 - index is typed number, auto-formats as zero-padded ("01"). Do NOT pass as string.
 - Index span is aria-hidden. Titles should be declarative noun phrases.
+
+### Statement
+- Editorial italic-serif block at `--fs-statement` (28-44px), `line-height: 1.2`, `letter-spacing: -0.005em`, `text-wrap: balance`. Not a heading element; emits no `<h1>`–`<h6>`.
+- `statement` prop is required ReactNode, rendered inside a `<p>`. `supporting` is an optional second `<p>` at `--fs-body` in `--fg-muted`.
+- `as="p"` (default) renders the root as a `<div>` wrapping the two paragraphs. `as="blockquote"` renders the root as `<blockquote>` — use this only when quoting an attributed external source.
+- `hairline={true}` adds a decorative 1px top rule plus `--space-12` padding-top. Default `false`.
+- Use sparingly: an editorial statement, not a tagline replacement. The page `<h1>` still lives in `<Hero>`.
+
+### Portrait
+- Editorial photography primitive. Renders `<picture>` with AVIF > WebP > JPEG fallback chain and srcset at 4 widths derived from the canonical `width`.
+- `alt` is required and must be non-empty. Dev-mode throws on empty alt — portraits are never decorative (WCAG 1.1.1). Do NOT pass `alt=""`.
+- `aspect` (`1:1` | `3:4` | `4:3` | `16:9` | `9:16`) drives the CSS `aspect-ratio` and the computed `height` attribute. Locked at render time to prevent CLS.
+- `width` is the canonical source-image width in px — drives the srcset divisors (1, 1.5, 2.34375, 3.75) and the `width`/`height` HTML attrs. Pass the full source resolution, not the display size.
+- `loading` defaults to `"lazy"`; use `"eager"` for above-the-fold portraits. `fetchPriority` defaults to `"auto"`; pair `loading="eager"` with `fetchPriority="high"` for the LCP image. `sizes` defaults to `"100vw"`. `objectPosition` defaults to `"center"`.
+- `src` accepts either a string URL or an object shaped like Astro's `ImageMetadata` (`.src` is extracted). Do NOT pass `import.meta` imports without unwrapping.
 
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.

@@ -41,7 +41,7 @@
 .title {
   font-family: var(--font-serif);
   font-weight: 400;
-  font-size: clamp(1.5rem, 1.15rem + 1.2vw, 2rem);
+  font-size: var(--fs-card-title);
   line-height: 1.15;
   letter-spacing: -0.005em;
   color: var(--fg);

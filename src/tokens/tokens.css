@@ -94,6 +94,9 @@
   --fs-stat-large: clamp(3.5rem, 2.25rem + 5vw, 6rem); /* 56–96 */
   --tracking-stat: -0.015em;
 
+  /* Card-title rung — shared by RoleCard, Principle, FailureMode titles. */
+  --fs-card-title: clamp(1.5rem, 1.15rem + 1.2vw, 2rem); /* 24–32 */
+
   /* ---------- Spacing (4px base) ---------- */
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -101,6 +104,7 @@
   --space-4: 1rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
+  --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
   --space-24: 6rem;
@@ -127,11 +131,13 @@
   /* ---------- Motion ---------- */
   --easing: cubic-bezier(0.16, 1, 0.3, 1); /* expo-out: entrance */
   --easing-link: cubic-bezier(0.2, 0, 0, 1); /* link underline grow */
+  --dur-press: 80ms; /* tactile click/press feedback (transform, active state); deliberately faster than --dur-fast so the response feels immediate */
   --dur-fast: 180ms;
   --dur-mid: 240ms;
   --dur-slow: 600ms;
   --dur-hero-title-rise: 700ms; /* title slot in Hero entrance stagger — 100ms longer than siblings for visual emphasis */
   --dur-stagger-step: 150ms; /* base step for staggered entrance sequences; multiply by slot index (0–3) */
+  --dur-pulse: 1800ms; /* StatusBadge available-state pulse animation, intentionally slow + meditative */
 
   /* ---------- Radii & rules ---------- */
   --radius-1: 2px; /* focus ring */

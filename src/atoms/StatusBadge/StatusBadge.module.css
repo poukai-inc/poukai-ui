@@ -35,7 +35,7 @@
   inset: 0;
   border-radius: 50%;
   background: var(--accent-glow);
-  animation: poukai-pulse 1800ms ease-out infinite;
+  animation: poukai-pulse var(--dur-pulse) ease-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {

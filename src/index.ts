@@ -23,9 +23,12 @@ export { Stat, type StatProps, type StatAlign, type StatSize } from "./atoms/Sta
 export {
   Hero,
   type HeroProps,
+  type HeroDefaultProps,
+  type HeroNoTitleProps,
   type HeroAlign,
   type HeroSize,
   type HeroEntrance,
+  type HeroVariant,
   type HeroBleed,
 } from "./molecules/Hero";
 export { RoleCard, type RoleCardProps } from "./molecules/RoleCard";

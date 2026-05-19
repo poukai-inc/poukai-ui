@@ -44,6 +44,7 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--fs-stat: clamp(2.75rem, 2rem + 3vw, 4.5rem)` (44-72px) — Stat numeral at size="md".
 - `--fs-stat-large: clamp(3.5rem, 2.25rem + 5vw, 6rem)` (56-96px) — Stat numeral at size="lg". One per section at most.
 - `--tracking-stat: -0.015em` — Negative letter-spacing for display numerals in Stat only.
+- `--fs-card-title: clamp(1.5rem, 1.15rem + 1.2vw, 2rem)` (24-32px) — Card-title rung. Shared by `<RoleCard>`, `<Principle>`, `<FailureMode>` titles. Always rendered in `--font-serif`, `font-weight: 400`. Do NOT use as a heading-level replacement; the title element semantics still come from the consuming page.
 
 ### Spacing (4px base grid)
 
@@ -53,12 +54,13 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--space-4`: 1rem (16px) — Body paragraph margin, card internal rhythm
 - `--space-6`: 1.5rem (24px) — Hero status-to-title, nav gap, card padding tier
 - `--space-8`: 2rem (32px) — Hero title-to-lede, Principle padding
+- `--space-10`: 2.5rem (40px) — Editorial bump above `--space-8` (h1 desktop bottom margin, Hero CTA desktop top margin, FailureMode top padding)
 - `--space-12`: 3rem (48px) — Principle desktop padding, main content top
 - `--space-16`: 4rem (64px) — Large section gaps
 - `--space-24`: 6rem (96px) — Main content bottom padding
 - `--space-32`: 8rem (128px) — Maximum editorial breathing room
 
-Gaps between tokens (--space-5, --space-7, etc.) do not exist. NEVER use raw pixel values.
+Other gaps in the scale (--space-5, --space-7, --space-9, --space-11, etc.) do not exist. NEVER use raw pixel values.
 
 ### Layout
 
@@ -71,9 +73,11 @@ Gaps between tokens (--space-5, --space-7, etc.) do not exist. NEVER use raw pix
 
 - `--easing: cubic-bezier(0.16, 1, 0.3, 1)` — Expo-out for entrance animations.
 - `--easing-link: cubic-bezier(0.2, 0, 0, 1)` — Link underline grow animation.
+- `--dur-press: 80ms` — Tactile click/press feedback (button `:active` transform, immediate-response interactions). Deliberately shorter than `--dur-fast` so the press lands without lag.
 - `--dur-fast: 180ms` — Micro-interactions.
 - `--dur-mid: 240ms` — Standard transition.
 - `--dur-slow: 600ms` — Entrance animations.
+- `--dur-pulse: 1800ms` — `<StatusBadge status="available">` halo pulse (intentionally slow + meditative, paired with `ease-out`).
 
 All motion is gated by `prefers-reduced-motion: reduce` via a `:root !important` block. This block is the ONLY permitted use of `!important` in the codebase.
 

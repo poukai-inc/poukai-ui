@@ -2,14 +2,18 @@
 /**
  * scripts/check-llms-tokens-sync.mjs
  *
- * CI guard: verifies every color token defined in src/tokens/tokens.css
- * is documented in meta/llms-full.txt. Exits 1 with a clear error if any
- * token name or hex value is absent; exits 0 if all tokens are accounted for.
+ * CI guard. Two assertions:
+ *   1. Every color token defined in src/tokens/tokens.css is documented in
+ *      meta/llms-full.txt (token name AND hex value).
+ *   2. Every component directory under src/{atoms,molecules,organisms}/
+ *      has a matching `### ComponentName` heading in meta/llms-full.txt.
+ *
+ * Exits 1 with a clear error if any check fails; exits 0 on full sync.
  *
  * Usage:
  *   node scripts/check-llms-tokens-sync.mjs
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
@@ -61,8 +65,36 @@ if (missing.length > 0) {
   process.exit(1);
 }
 
+// Component-doc check: every src/{atoms,molecules,organisms}/<Name>/ must have
+// a matching `### <Name>` heading in meta/llms-full.txt.
+const LAYERS = ["atoms", "molecules", "organisms"];
+const components = LAYERS.flatMap((layer) =>
+  readdirSync(resolve(pkgRoot, "src", layer), { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => ({ layer, name: entry.name })),
+);
+
+const missingDocs = components.filter(({ name }) => !llmsFull.includes(`### ${name}`));
+
+if (missingDocs.length > 0) {
+  console.error(
+    "check-llms-tokens-sync: the following components have no `### <Name>` section in meta/llms-full.txt:\n",
+  );
+  for (const { layer, name } of missingDocs) {
+    console.error("  " + layer + "/" + name);
+  }
+  console.error(
+    "\nFix: add a `### " +
+      missingDocs[0].name +
+      "` section to meta/llms-full.txt under '## Component recommended usages'.",
+  );
+  process.exit(1);
+}
+
 console.log(
   "check-llms-tokens-sync: all " +
     tokens.length +
-    " color token(s) documented in meta/llms-full.txt. OK",
+    " color token(s) and " +
+    components.length +
+    " component(s) documented in meta/llms-full.txt. OK",
 );

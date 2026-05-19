@@ -37,7 +37,7 @@ await copyFile(resolve(pkgRoot, "meta/llms-full.txt"), outFull);
 
 const COMPONENTS = {
   atoms: ["Wordmark", "StatusBadge", "Button", "Stat"],
-  molecules: ["Hero", "RoleCard", "Principle", "FailureMode"],
+  molecules: ["Hero", "RoleCard", "Principle", "FailureMode", "Statement", "Portrait"],
   organisms: ["SiteShell"],
 };
 
@@ -88,7 +88,8 @@ lines.push("");
 lines.push("## Exports");
 lines.push("");
 for (const key of exportKeys) {
-  lines.push(`- \`@poukai-inc/ui${key === "." ? "" : key}\``);
+  const suffix = key === "." ? "" : key.replace(/^\.\//, "/");
+  lines.push(`- \`@poukai-inc/ui${suffix}\``);
 }
 lines.push("");
 

@@ -1,5 +1,18 @@
 # @poukai-inc/ui
 
+## 1.0.0
+
+### Major Changes
+
+- 924ce6a: # 1.0.0 — API freeze
+
+  See `CHANGELOG.md` 1.0.0 entry and `meta/milestones/1.0.0.md` for the
+  scope, rationale, and post-1.0 semver policy.
+
+  No prop renames, no token removals, no export changes. The major bump
+  marks the API freeze — future X.0.0 bumps will follow
+  `meta/migrations/template.md`.
+
 ## 1.0.0 — 2026-05-20
 
 ### The freeze

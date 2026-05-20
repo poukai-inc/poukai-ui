@@ -35,18 +35,59 @@ Work the user is driving, where I'm a passenger.
 
 Kept for ~one release as context, then pruned.
 
+- [x] **`0.18.0`** — `Tag` atom, `Avatar` atom, `Dialog` + `DialogBasic`
+      organism, `FieldNote` molecule, `Footer` organism, `Quote` molecule.
+      `@radix-ui/react-dialog` dep is now in use.
+- [x] **`0.17.0`** — `EmailLink`, `Eyebrow` atoms; `Pull`, `Section`,
+      `FeatureCard`, `LinkCard`, `TeamCard` molecules. New tokens
+      `--tracking-eyebrow`, `--lh-meta`, `--fs-pull`. Global `<a>`
+      resting-state underline + Stat color inheritance fix. `displayName`
+      backfill across all `forwardRef` components.
+- [x] **`0.16.1`** — internal ESLint config dedupe; no consumer impact.
+- [x] **`0.16.0`** — High-severity audit cleanup. New tokens `--space-10`,
+      `--dur-press`, `--dur-pulse`, `--fs-card-title`. `Statement` +
+      full Hero discriminated union re-exported from `./molecules`.
+      Button / StatusBadge token-consumer migrations + test backfill.
+- [x] **`0.15.1`** — defined `--fs-statement` and `--hero-illustration-max`
+      that shipped components were already consuming without a fallback.
+- [x] **`0.15.0`** — Hero `illustration` slot (two-column layout above 720px).
+- [x] **`0.14.0`** — `--fs-display` editorial display rung (48–88px).
+- [x] **`0.13.0`** — `Portrait` molecule (AVIF/WebP/JPEG `<picture>`,
+      srcset, enforced non-empty alt). Warm-accent token tier
+      (`--bg-warm-accent`, `--fg-on-warm`, `--fg-on-warm-muted`).
+- [x] **`0.12.0`** — Hero `bleed="full"` + `--content-max-bleed` token.
+- [x] **`0.11.0`** — Hero `variant="no-title"` for editorial doorway pages.
+- [x] **`0.10.0`** — `Statement` molecule (editorial statement block).
+      `--surface-section` token (fourth elevation tier).
+- [x] **`0.9.0`** — Button `size="compact"` (40px rung). Button height
+      ladder exposed as `--btn-h-*` tokens.
+- [x] **`0.8.0`** — Hero `entrance="stagger"` (CSS-only staggered reveal,
+      `prefers-reduced-motion` honored).
+- [x] **`0.7.1`** — Hero compressed vertical rhythm at `size="intimate"`.
+- [x] **`0.7.0`** — Hero `size` prop with `"display"` / `"intimate"`. New
+      token `--fs-tagline-intimate`.
+- [x] **`0.6.1`** — docs: `llms-full.txt` synced with 0.6.0 color tokens;
+      CI gate added.
+- [x] **`0.6.0`** — Apple-aligned palette: `--bg` → `#FBFBFD`,
+      `--bg-elevated` (`#FFFFFF`) added. Three-step elevation rhythm.
+- [x] **`0.5.0`** — ship `llms.txt` + `llms-full.txt` as package exports.
+- [x] **`0.4.0`** — six additional brand assets under `brand/`; `llms.txt`
+      first cut.
+- [x] **`0.3.2`** — Wordmark proportions revised; inverted variant
+      actually inverts; RoleCard grid overlap fix; StatusBadge pulse
+      made visible.
+- [x] **`0.3.1`** — Wordmark letter-group shift so isotype renders
+      flush-left.
+- [x] **`0.3.0`** — Wordmark restored to horizontal lockup (isotype +
+      wordtype side-by-side). viewBox aspect ratio change.
+- [x] **`0.2.3`** — SiteShell brand-mark height 28 → 56px.
+- [x] **`0.2.2`** — fix: component CSS never reached the browser.
+      Per-entry CSS auto-injection via `vite-plugin-lib-inject-css`.
 - [x] **`0.2.1`** — fixed `build:tokens` flatten bug so `dist/tokens.css`
-      lands at the root (was at `dist/src/tokens/tokens.css`). Unblocks
-      `import "@poukai-inc/ui/tokens.css"` for registry-installed consumers.
-- [x] **`0.2.0`** — first real publish to GitHub Packages.
-  - Required removing `"private": true` from `package.json`.
-  - Required renaming the GitHub org `Pouk-AI-INC` → `poukai-inc` and
-    the package scope `@poukai/ui` → `@poukai-inc/ui` (GitHub Packages
-    enforces npm-scope == owner-login).
-  - Ships stacked lockup, isotype, banner, and avatars as runtime brand
-    assets via `./brand/*`. (Favicon + OG image placeholders that lived in
-    `src/brand/` at this release were never wired to the build; dropped in
-    a 0.6.x reorg — they were never part of the published surface.)
+      lands at the root (was at `dist/src/tokens/tokens.css`).
+- [x] **`0.2.0`** — first real publish to GitHub Packages. Org rename
+      `Pouk-AI-INC` → `poukai-inc`; scope `@poukai/ui` → `@poukai-inc/ui`.
+      Stacked lockup, isotype, banner, avatars via `./brand/*`.
 - [x] **`0.1.0`** — Phase 1 of the migration plan: atomic restructure
       (`atoms/` / `molecules/` / `organisms/`), eight components, a11y CI
       gate, per-subpath size budgets, inline Wordmark geometry, subpath
@@ -181,14 +222,11 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
       (`44px`)** or reference the existing `--btn-h-md` token where it lines up.
 - [ ] **Document `illustration` slot in `meta/llms-full.txt` Hero section.**
       Added `0.15.0`, missing from the constraints list.
-- [ ] **Prune stale `ROADMAP.md` "Shipped" block.** Stuck at `0.1.0`; misses
-      14 releases including Statement (`0.10.0`), Portrait (`0.13.0`),
-      illustration slot (`0.15.0`).
-- [ ] **Prune stale `BACKLOG.md` "Done" entries** (currently references
-      `0.2.1` / `0.2.0` only — handled as part of this audit pass; remove
-      this item once the historical Done block is rewritten).
-- [ ] **Decide on `@radix-ui/react-dialog` dependency.** No Dialog component
-      ships; ROADMAP says "maybe / no current need". Drop or wire up.
+- [x] **Prune stale `ROADMAP.md` "Shipped" block.** Done in this same pass —
+      see ROADMAP.md.
+- [x] **Prune stale `BACKLOG.md` "Done" entries** Done in this same pass.
+- [x] **Decide on `@radix-ui/react-dialog` dependency.** Resolved by shipping
+      `Dialog` + `DialogBasic` organism in v0.18.0. The dep is now used.
 - [ ] **Reconcile sequential-marker prop names.** `FailureMode.index` +
       `indexLabel` vs `Principle.numeral` for the same concept.
 - [ ] **Make the Portrait dev-mode-guard test non-vacuous.** Current test

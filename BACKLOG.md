@@ -22,8 +22,8 @@ Items from `meta/milestones/1.0.0.md` §3 that are not yet met. Tick here and in
 - [ ] **Verify `llms-full.txt` sync check passes for all 31 components.** Run `scripts/check-llms-tokens-sync.mjs` after specs land; address any missing `### ComponentName` headings. Estimated 1–2 hours.
 - [ ] **Resolve Wordmark story namespace.** Decide `"Brand / Wordmark"` vs. `"Components / *"`; document the split or unify. Arian decides; engineer implements. Estimated < 1 hour once decided.
 - [ ] **Verify bundle CI gate is blocking on regression.** Confirm the size-limit step in CI runs on every PR and fails if the 28kB ESM floor is broken. Estimated 2–3 hours.
-- [ ] **Author `meta/migrations/template.md`.** Migration guide template for future major bumps. See `meta/milestones/1.0.0.md` §4 for structure and worked example. Estimated 2–3 hours.
-- [ ] **Author `CONTRIBUTING.md`.** Polymorphic-prop conventions, token addition flow, story/test requirements, semver policy. Synthesises `meta/conventions/polymorphic-props.md`. Estimated 1 day.
+- [x] **Author `meta/migrations/template.md`.** Migration guide template for future major bumps. See `meta/milestones/1.0.0.md` §4 for structure and worked example. Estimated 2–3 hours.
+- [x] **Author `CONTRIBUTING.md`.** Polymorphic-prop conventions, token addition flow, story/test requirements, semver policy. Synthesises `meta/conventions/polymorphic-props.md`. Estimated 1 day.
 - [ ] **CHANGELOG hand-rewrite for 0.x → 1.0.** Curated narrative grouping changeset entries by theme. Final step — write after all other gate items are met. Estimated 4–6 hours.
 
 ---

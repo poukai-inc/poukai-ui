@@ -1,5 +1,11 @@
 # @poukai-inc/ui
 
+## 0.20.0
+
+### Minor Changes
+
+- 4c057f4: Add `Field`, `Input`, and `Textarea` form primitives — a coherent set of single-line input, multi-line textarea, and composition-wrapper molecules. `Field` auto-wires label association, `aria-describedby`, `aria-invalid`, and `required` onto its child control via `cloneElement`. Zero new tokens. Unblocks waitlist surfaces, contact forms inside Dialog, and settings panes.
+
 ## 0.19.0
 
 ### Minor Changes

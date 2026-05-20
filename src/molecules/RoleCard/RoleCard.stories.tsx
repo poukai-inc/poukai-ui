@@ -25,16 +25,41 @@ const PlaceholderIcon = () => (
 
 export default {
   title: "Components / Cards / RoleCard",
+  args: {
+    eyebrow: "Role 01",
+    title: "Builder",
+    body: "Ships production systems end-to-end. Comfortable in the codebase from day one; closes the loop between design intent and what runs in prod.",
+    hiredBy: "Anthropic · Vercel · Stripe",
+  },
+  argTypes: {
+    eyebrow: {
+      control: { type: "text" },
+    },
+    title: {
+      control: { type: "text" },
+    },
+    body: {
+      control: { type: "text" },
+    },
+    hiredBy: {
+      control: { type: "text" },
+    },
+  },
 } satisfies StoryDefault;
 
-export const Playground: Story = () => (
+export const Playground: Story<{
+  eyebrow: string;
+  title: string;
+  body: string;
+  hiredBy: string;
+}> = ({ eyebrow, title, body, hiredBy }) => (
   <div style={{ maxWidth: "22rem" }}>
     <RoleCard
       icon={<PlaceholderIcon />}
-      eyebrow="Role 01"
-      title="Builder"
-      body="Ships production systems end-to-end. Comfortable in the codebase from day one; closes the loop between design intent and what runs in prod."
-      hiredBy="Anthropic · Vercel · Stripe"
+      eyebrow={eyebrow}
+      title={title}
+      body={body}
+      hiredBy={hiredBy || undefined}
     />
   </div>
 );

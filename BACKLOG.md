@@ -194,9 +194,9 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
       Description/Close), DialogBasic, SiteShell. No code changes required;
       the BACKLOG entry was stale.
 - [x] **Document polymorphic-prop conventions.** Documented in `meta/conventions/polymorphic-props.md`.
-- [ ] **Add `args` / `argTypes` to story default exports** for FailureMode,
-      Portrait, Principle, RoleCard, Statement, SiteShell — currently only
-      Button/Stat/StatusBadge/Hero expose Playground knobs.
+- [x] **Add `args` / `argTypes` to story default exports** — Added
+      `args`/`argTypes` Playground knobs to the six story files: FailureMode,
+      Portrait, Principle, RoleCard, Statement, SiteShell.
 - [ ] **Decide Wordmark story namespace.** `"Brand / Wordmark"` vs
       `"Components / *"` for the other ten. Either document the split or
       unify under `Components/`.

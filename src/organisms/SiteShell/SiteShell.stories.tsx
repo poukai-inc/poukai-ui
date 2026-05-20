@@ -9,12 +9,34 @@ const sampleRoutes = [
 
 export default {
   title: "Components / SiteShell",
+  args: {
+    currentRoute: "/roles",
+    homeHref: "/",
+    navLabel: "Primary",
+  },
+  argTypes: {
+    currentRoute: {
+      control: { type: "text" },
+    },
+    homeHref: {
+      control: { type: "text" },
+    },
+    navLabel: {
+      control: { type: "text" },
+    },
+  },
 } satisfies StoryDefault;
 
-export const Playground: Story = () => (
+export const Playground: Story<{
+  currentRoute: string;
+  homeHref: string;
+  navLabel: string;
+}> = ({ currentRoute, homeHref, navLabel }) => (
   <SiteShell
     routes={sampleRoutes}
-    currentRoute="/roles"
+    currentRoute={currentRoute}
+    homeHref={homeHref}
+    navLabel={navLabel}
     footer={
       <p>
         © Pouk AI INC 2026 ·{" "}

@@ -3,11 +3,31 @@ import { FailureMode } from "./FailureMode";
 
 export default {
   title: "Components / FailureMode",
+  args: {
+    index: 1,
+    indexLabel: "",
+    title: "The chatbot-on-top-of-RAG plateau.",
+  },
+  argTypes: {
+    index: {
+      control: { type: "number" },
+    },
+    indexLabel: {
+      control: { type: "text" },
+    },
+    title: {
+      control: { type: "text" },
+    },
+  },
 } satisfies StoryDefault;
 
-export const Playground: Story = () => (
+export const Playground: Story<{
+  index: number;
+  indexLabel: string;
+  title: string;
+}> = ({ index, indexLabel, title }) => (
   <div style={{ maxWidth: "56rem", padding: "var(--space-8)" }}>
-    <FailureMode index={1} title="The chatbot-on-top-of-RAG plateau.">
+    <FailureMode index={index} indexLabel={indexLabel || undefined} title={title}>
       <p>
         Most teams stop here. The demo dazzles; the production loop never closes; quality degrades
         silently and nobody has the eval harness to see it.

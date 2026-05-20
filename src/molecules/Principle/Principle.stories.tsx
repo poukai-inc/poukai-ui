@@ -3,11 +3,26 @@ import { Principle } from "./Principle";
 
 export default {
   title: "Components / Principle",
+  args: {
+    numeral: "i.",
+    title: "Ship the smallest real thing.",
+  },
+  argTypes: {
+    numeral: {
+      control: { type: "text" },
+    },
+    title: {
+      control: { type: "text" },
+    },
+  },
 } satisfies StoryDefault;
 
-export const Playground: Story = () => (
+export const Playground: Story<{
+  numeral: string;
+  title: string;
+}> = ({ numeral, title }) => (
   <div style={{ maxWidth: "56rem", padding: "var(--space-8)" }}>
-    <Principle numeral="i." title="Ship the smallest real thing.">
+    <Principle numeral={numeral} title={title}>
       <p>
         Pilots fail because they're rehearsals. Production is the only proving ground — find the
         smallest piece of the workflow that can run for real, and run it for real.

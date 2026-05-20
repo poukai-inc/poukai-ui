@@ -10,6 +10,8 @@
 
 .dot {
   position: relative;
+  /* 8px dot: intentionally inline — too specific to be a reusable token.
+   * See meta/design/StatusBadge.md §3 (Anatomy) for the rationale. */
   width: 8px;
   height: 8px;
   border-radius: 50%;

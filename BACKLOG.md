@@ -215,11 +215,16 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
       (paired `max-width: 719px` → `767px`). All `@media (min-width: 768px)`
       queries in Hero and Principle converted to `@media (--bp-md)`. h1 rule
       in tokens.css likewise converted.
-- [ ] **Tokenize / document Button paddings.** `Button.module.css:34,40,46,52`
-      hardcodes four px-pair values. Brand decision says padding stays in the
-      spec, not in tokens — link the spec from the file or move to tokens.
-- [ ] **Tokenize StatusBadge dot dimensions (`8px`) and RoleCard icon box
-      (`44px`)** or reference the existing `--btn-h-md` token where it lines up.
+- [x] **Tokenize / document Button paddings.** Added a comment block at the
+      top of `Button.module.css` linking to `meta/design/Button.md §3` and
+      explaining that the four px-pair padding values (`6px 12px`, `9px 16px`,
+      `10px 18px`, `14px 24px`) are intentionally inline — they encode
+      size-specific affordance geometry, not a reusable token scale.
+- [x] **Tokenize StatusBadge dot dimensions (`8px`) and RoleCard icon box
+      (`44px`).** StatusBadge dot stays inline (`8px`) with a comment linking
+      `meta/design/StatusBadge.md §3` — too specific for a token. RoleCard icon
+      box swapped to `var(--btn-h-md)` (resolves to `44px`) since the alignment
+      is intentional and should track the button height ladder.
 - [ ] **Document `illustration` slot in `meta/llms-full.txt` Hero section.**
       Added `0.15.0`, missing from the constraints list.
 - [x] **Prune stale `ROADMAP.md` "Shipped" block.** Done in this same pass —

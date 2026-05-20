@@ -19,8 +19,11 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  /* Icon box aligns to --btn-h-md (44px) so card icons optically match
+   * the md Button height — intentional grid alignment, not a coincidence.
+   * If --btn-h-md ever changes, this box should change with it. */
+  width: var(--btn-h-md);
+  height: var(--btn-h-md);
   border-radius: var(--radius-2);
   background: var(--bg);
   border: var(--hairline-w) solid var(--hairline);

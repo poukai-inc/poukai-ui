@@ -1,3 +1,7 @@
+/* Padding values are intentionally inline rather than tokenized.
+ * See meta/design/Button.md §3 (Anatomy & Sizing) for the rationale —
+ * Button paddings are part of the component spec, not the global token
+ * vocabulary, since they encode size-specific affordance geometry. */
 .root {
   display: inline-flex;
   align-items: center;

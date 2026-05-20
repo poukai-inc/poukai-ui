@@ -97,6 +97,7 @@ other layers, even if the bundler's tree-shaker would miss it.
 | organism | `DialogBasic` | Convenience wrapper: title + description + body + footer + built-in X close button         |
 | organism | `Tabs`        | Compound tabbed interface: Root, List, Trigger, Content — Radix-wrapped, brand-styled      |
 | organism | `TabsBasic`   | Convenience wrapper: data-driven tabs array, horizontal or vertical orientation            |
+| organism | `Form`        | Structured submission wrapper: composes Field + Input + Textarea + Button; FormData submit |
 
 More to come — see `ROADMAP.md`.
 

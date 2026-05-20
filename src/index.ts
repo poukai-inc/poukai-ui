@@ -88,3 +88,4 @@ export {
   type TabsBasicProps,
   type TabItem,
 } from "./organisms/Tabs";
+export { Form, type FormProps } from "./organisms/Form";

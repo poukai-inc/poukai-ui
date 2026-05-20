@@ -30,6 +30,7 @@ import { Input } from "./molecules/Input";
 import { Textarea } from "./molecules/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
+import { Form } from "./organisms/Form";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -715,4 +716,21 @@ test("a11y — SiteShell (full chrome)", async ({ mount, page }) => {
     </SiteShell>,
   );
   await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — Form (with Field + Input + Textarea + Button)", async ({ mount, page }) => {
+  await mount(
+    <Form onSubmit={() => undefined}>
+      <Field label="Email" id="a11y-form-email">
+        <Input type="email" name="email" />
+      </Field>
+      <Field label="Message" id="a11y-form-message">
+        <Textarea name="message" rows={4} />
+      </Field>
+      <Button variant="primary" type="submit">
+        Send
+      </Button>
+    </Form>,
+  );
+  await expectAxeClean(page);
 });

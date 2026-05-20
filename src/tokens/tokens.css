@@ -58,9 +58,6 @@
   --hairline: #d2d2d7; /* dividers, 1px rules, borders */
   --accent: #0071e3; /* status dot, link underline-on-hover, focus ring */
   --accent-glow: rgba(0, 113, 227, 0.18);
-  --danger: #b3261e; /* form invalid border, destructive state — matches Material error hue */
-  --bg-danger: #fdf3f2; /* danger surface tint — error message backgrounds */
-  --fg-on-danger: #ffffff; /* text on solid danger fill */
 
   /* ---------- Warm accent (editorial band) ---------- */
   --bg-warm-accent: #c0452c; /* editorial band bg — see meta/brand.md for restraint rules */

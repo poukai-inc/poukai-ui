@@ -950,6 +950,32 @@ function SettingsPanel() {
 - Horizontal `Tabs.List` scrolls on overflow (`overflow-x: auto`, hidden scrollbar). No "More" overflow menu in v1.
 - Active tab indicator is an inset `box-shadow` (not a `border`) to avoid layout shift. Horizontal: `inset 0 -2px 0 var(--accent)`. Vertical: `inset -2px 0 0 var(--accent)`.
 
+### Form
+
+Structured submission container — `<form>` wrapper that composes `Field` + `Input` + `Textarea` + `Button` without owning a validation library.
+
+- Root element: `<form>`. Not polymorphic.
+- Props: `onSubmit: (data: FormData) => void | Promise<void>` (required); standard `<form>` attributes (`action`, `method`, `name`, etc.) spread via `Omit<ComponentPropsWithoutRef<"form">, "onSubmit">`.
+- Behavior: prevents default browser submit, collects `new FormData(event.currentTarget)`, passes it to consumer's `onSubmit`. Handler exceptions propagate — Form does not swallow them.
+- Layout: `display: flex; flex-direction: column; gap: var(--space-4); max-width: var(--hero-max);` (matches prose column).
+- `forwardRef<HTMLFormElement, FormProps>`, `displayName = "Form"`, `clsx` className merge.
+- A11y: native `<form>` semantics. No additional ARIA.
+- Tokens consumed: `--space-4`, `--hero-max`, `--font-sans`. No new tokens.
+- Validation: consumer responsibility — pair with Zod, React Hook Form, or hand-rolled. The DS does not ship a validation hook contract.
+- Do NOT add a `<fieldset>`/`<legend>` slot — consumer adds those via children if needed.
+
+```tsx
+<Form onSubmit={(data) => sendEmail({ email: data.get("email"), message: data.get("message") })}>
+  <Field label="Email" id="email">
+    <Input type="email" name="email" placeholder="you@example.com" required />
+  </Field>
+  <Field label="Message" id="message">
+    <Textarea name="message" rows={4} required />
+  </Field>
+  <Button variant="primary" type="submit">Send</Button>
+</Form>
+```
+
 ---
 
 ## Anti-patterns

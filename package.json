@@ -61,7 +61,7 @@
     "format:check": "prettier --check \"src/**/*.{ts,tsx,css,md}\"",
     "typecheck": "tsc --noEmit",
     "size": "size-limit",
-    "showcase:build": "ladle build",
+    "showcase:build": "pnpm run build:tokens && ladle build && cpy --flat dist/tokens.css build && cpy 'dist/fonts/**' build/fonts",
     "changeset": "changeset",
     "release": "changeset publish",
     "prepare": "husky"

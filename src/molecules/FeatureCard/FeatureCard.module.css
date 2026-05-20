@@ -80,7 +80,7 @@
   color: var(--fg-muted);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
-  line-height: 1.55;
+  line-height: var(--lh-body);
 }
 
 /* Zero the global <p> bottom margin (0 0 --space-4) that double-stacks
@@ -90,7 +90,7 @@
   color: var(--fg-muted);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
-  line-height: 1.55;
+  line-height: var(--lh-body);
 }
 
 /* ---------- Footer slot ---------- */

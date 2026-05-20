@@ -45,8 +45,12 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--fs-stat: clamp(2.75rem, 2rem + 3vw, 4.5rem)` (44-72px) — Stat numeral at size="md".
 - `--fs-stat-large: clamp(3.5rem, 2.25rem + 5vw, 6rem)` (56-96px) — Stat numeral at size="lg". One per section at most.
 - `--tracking-stat: -0.015em` — Negative letter-spacing for display numerals in Stat only.
-- `--tracking-eyebrow: 0.06em` — Canonical letter-spacing for all Eyebrow labels. The single resolved value across the three previously-divergent inline usages (RoleCard: 0.06em, FailureMode: 0.08em, .micro: 0.04em). At `--fs-meta` (14px) = 0.84px per letter — enough to communicate uppercase structure without tipping airy. See design spec `meta/design/Eyebrow.md §3` for rationale.
-- `--lh-meta: 1.2` — Line-height for meta/eyebrow-scale text. First named line-height token in the system, scoped to the meta register. Matches the value already used on `h2`, `h3`, and `.numeral` throughout the token file. A full `--lh-*` ramp is deferred to a foundations pass.
+- `--tracking-micro: 0.04em` — Canonical tracking for micro/uppercase labels. Used by `.micro` global class, `Stat` source line, and `Hero` eyebrow (variant="no-title"). Always paired with `text-transform: uppercase` and `--fs-micro`.
+- `--tracking-eyebrow: 0.06em` — Canonical letter-spacing for all Eyebrow labels. Used by `<Eyebrow>`, `RoleCard` eyebrow, `FieldNote` label. At `--fs-meta` (14px) = 0.84px per letter — enough to communicate uppercase structure without tipping airy.
+- `--tracking-numeric: 0.08em` — Wider tracking for sequential numeric markers. Used by `FailureMode` index (`.index`). Slightly wider than eyebrow tracking to visually separate reference labels from editorial labels.
+- `--lh-body: 1.55` — Canonical body line-height. Applied to global `body`, `RoleCard` body, `Statement` supporting, `FieldNote` body, `LinkCard` body, `FeatureCard` body, `TeamCard` bio, `Dialog` description and body. The default body reading rhythm.
+- `--lh-body-relaxed: 1.6` — Relaxed body line-height for longer-form editorial prose. Applied to `Principle` content and `FailureMode` body — intentionally looser than `--lh-body` to give the longer editorial paragraphs more air. Do not use for UI chrome or short card copy.
+- `--lh-meta: 1.2` — Line-height for meta/eyebrow-scale text. First named line-height token in the system, scoped to the meta register. Matches the value already used on `h2`, `h3`, and `.numeral` throughout the token file.
 - `--fs-card-title: clamp(1.5rem, 1.15rem + 1.2vw, 2rem)` (24-32px) — Card-title rung. Shared by `<RoleCard>`, `<Principle>`, `<FailureMode>` titles. Always rendered in `--font-serif`, `font-weight: 400`. Do NOT use as a heading-level replacement; the title element semantics still come from the consuming page.
 
 ### Spacing (4px base grid)

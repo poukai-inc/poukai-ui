@@ -15,7 +15,7 @@
   font-family: var(--font-sans);
   font-weight: 500;
   font-size: var(--fs-meta);
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-numeric);
   color: var(--fg-muted);
   /* Subtle uppercase styling — these are reference labels, not editorial numerals. */
   font-variant-numeric: tabular-nums;
@@ -37,7 +37,7 @@
 .body {
   font-family: var(--font-sans);
   font-size: var(--fs-body);
-  line-height: 1.6;
+  line-height: var(--lh-body-relaxed);
   color: var(--fg);
 }
 

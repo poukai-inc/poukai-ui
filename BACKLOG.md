@@ -162,11 +162,16 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
       `src/a11y.test.tsx` or add inline scans everywhere — current pattern is
       asymmetric.
 - [ ] **Add `Portrait` to the centralized `src/a11y.test.tsx` gate.**
-- [ ] **Reconcile letter-spacing.** Canonical `.micro` uses `0.04em`; RoleCard
-      eyebrow uses `0.06em`, FailureMode index uses `0.08em`. Pick or tokenize.
-- [ ] **Reconcile responsive breakpoint.** Hero uses `720px` while the rest of
-      the repo (Principle grid, tokens.css h1) uses `768px`. Tokenize
-      breakpoints or align Hero.
+- [x] **Reconcile letter-spacing.** Resolved by adding `--tracking-micro: 0.04em`,
+      `--tracking-eyebrow: 0.06em` (already existed), and `--tracking-numeric: 0.08em`
+      tokens. Literals swept from `Stat.source`, `Hero.eyebrow`, `RoleCard.eyebrow`,
+      `FailureMode.index`.
+- [x] **Reconcile responsive breakpoint.** Resolved by adding `--bp-md: 768px`
+      token and `@custom-media --bp-md (min-width: 768px)` declaration in
+      `tokens.css`. Hero illustration breakpoint changed from `720px` → `768px`
+      (paired `max-width: 719px` → `767px`). All `@media (min-width: 768px)`
+      queries in Hero and Principle converted to `@media (--bp-md)`. h1 rule
+      in tokens.css likewise converted.
 - [ ] **Tokenize / document Button paddings.** `Button.module.css:34,40,46,52`
       hardcodes four px-pair values. Brand decision says padding stays in the
       spec, not in tokens — link the spec from the file or move to tokens.
@@ -202,9 +207,11 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
 - [ ] **Resolve orphaned tokens** — `--fs-wordmark`, `--space-32`, `--fs-display`
       defined but unreferenced. Drop or wire up (`--fs-wordmark` likely
       intended for the Wordmark atom, which uses a `height` prop instead).
-- [ ] **Pick one body line-height.** `1.6` (Principle/FailureMode) vs `1.55`
-      (RoleCard/global body) — either reconcile or tokenize as
-      `--lh-body-tight` / `--lh-body-relaxed`.
+- [x] **Pick one body line-height.** Resolved by tokenizing both values:
+      `--lh-body: 1.55` (canonical — global body, RoleCard, Statement, FieldNote,
+      LinkCard, FeatureCard, TeamCard, Dialog) and `--lh-body-relaxed: 1.6`
+      (intentional relaxed variant for editorial prose — Principle, FailureMode).
+      All inline `1.55` / `1.6` literals replaced with the appropriate token.
 - [ ] **Fill `meta/brand.md` Typography / Spacing / Motion / Brand-mark
       sections** (currently `_To be filled._` stubs) — the token contract is
       enforced in code but the rationale is undocumented.
@@ -213,8 +220,9 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
       (specs exist for Button, Hero, Portrait only).
 - [ ] **Decide on Firefox CT coverage.** `playwright-ct.config.ts` runs only
       Chromium + WebKit; add Firefox or document the omission.
-- [ ] **Tokenize line-height + letter-spacing scales** to stop the per-file
-      drift identified above (`--lh-*`, `--tracking-*`).
+- [x] **Tokenize line-height + letter-spacing scales** — resolved by the two
+      items above. Tokens added: `--tracking-micro`, `--tracking-numeric`,
+      `--lh-body`, `--lh-body-relaxed`. (`--tracking-eyebrow` pre-existed.)
 
 ---
 

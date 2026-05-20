@@ -148,7 +148,7 @@
   margin-top: var(--space-4);
   font-size: var(--fs-body);
   color: var(--fg-muted);
-  line-height: 1.55;
+  line-height: var(--lh-body);
 }
 
 /* Suppress any <p> bottom-margin the global rule adds inside the card body */

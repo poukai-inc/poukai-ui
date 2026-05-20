@@ -9,6 +9,7 @@ playwright/.cache
 test-results
 *.log
 .omc
+.claude/
 .DS_Store
 .env
 .env.local

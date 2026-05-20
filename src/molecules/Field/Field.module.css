@@ -34,6 +34,6 @@
   color: var(--fg);
   margin: 0;
   margin-top: var(--space-1);
-  border-inline-start: 2px solid var(--accent);
+  border-inline-start: 2px solid var(--danger);
   padding-inline-start: var(--space-2);
 }

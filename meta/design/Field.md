@@ -45,7 +45,8 @@
 | `--font-sans` | All text in the field wrapper                 |
 | `--fg`        | Label text color; error text color            |
 | `--fg-muted`  | Helper text color; required `*` indicator     |
-| `--accent`    | Error message left-rule accent border         |
+| `--accent`    | Focus ring on child controls (focus-visible)  |
+| `--danger`    | Error message left-rule border                |
 | `--space-1`   | Gap between elements; helper/error margin-top |
 | `--space-2`   | Error message padding-inline-start            |
 

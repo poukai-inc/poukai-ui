@@ -38,7 +38,8 @@ Props forwarded via `...rest` spread: `value`, `onChange`, `placeholder`, `rows`
 | `--hairline`    | Resting border color                       |
 | `--fg-muted`    | Placeholder text; hover border             |
 | `--fg`          | Textarea text color                        |
-| `--accent`      | Focus ring + border; error border          |
+| `--accent`      | Focus ring + border (focus-visible only)   |
+| `--danger`      | Error/invalid border                       |
 | `--font-sans`   | Textarea font family                       |
 | `--fs-body`     | Textarea font size                         |
 | `--lh-body`     | Textarea line height                       |
@@ -59,10 +60,10 @@ No new tokens introduced.
 | Default       | `--hairline` border, `--bg-elevated` background                   |
 | Hover         | Border shifts to `--fg-muted`                                     |
 | Focus-visible | 2px `--accent` outline + `outline-offset: 2px`; border `--accent` |
-| Invalid       | Border `--accent` (via `data-invalid="true"`)                     |
+| Invalid       | Border `--danger` (via `data-invalid="true"`)                     |
 | Disabled      | `opacity: 0.5; cursor: not-allowed`                               |
 
-**Error uses `--accent`**, not a dedicated danger token. The DS does not ship a danger token. This is the correct register for v1.
+**Error uses `--danger`** (`#b3261e`). The invalid border is a true danger red — distinct from `--accent` (blue) so the error register reads as wrong, not interactive.
 
 ---
 

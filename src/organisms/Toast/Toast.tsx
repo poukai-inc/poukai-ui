@@ -13,7 +13,20 @@
  */
 
 import { createContext, useCallback, useContext, useState, type ReactNode } from "react";
-import * as RadixToast from "@radix-ui/react-toast";
+// Runtime destructuring instead of static named imports to avoid a
+// Playwright CT bundler issue where `ToastProvider` would collide with
+// Radix's internal identifier of the same name when the test wrapper
+// hoists imports. Keeps Radix primitives out of the static module scope.
+import * as RadixToastModule from "@radix-ui/react-toast";
+const {
+  Provider: RadixToastProvider,
+  Viewport: RadixToastViewport,
+  Root: RadixToastRoot,
+  Title: RadixToastTitle,
+  Description: RadixToastDescription,
+  Action: RadixToastAction,
+  Close: RadixToastClose,
+} = RadixToastModule;
 import { X } from "lucide-react";
 import clsx from "clsx";
 import { Button } from "../../atoms/Button";
@@ -89,8 +102,14 @@ export interface ToastProviderProps {
 /**
  * ToastProvider — wrap the app root with this once.
  * Renders the Radix toast viewport as a portal to document.body.
+ *
+ * NOTE: declared as `PoukaiToastProvider` and re-exported as `ToastProvider`
+ * to avoid a name collision in the Vite-bundled test scope —
+ * `@radix-ui/react-toast` internally declares its own `ToastProvider`
+ * identifier (the namespace import does not always sandbox it under
+ * Radix's namespace once esbuild flattens the bundle).
  */
-export function ToastProvider({
+function PoukaiToastProvider({
   children,
   defaultDuration = 5000,
   max = 4,
@@ -118,9 +137,9 @@ export function ToastProvider({
 
   return (
     <ToastContext.Provider value={{ show, dismiss }}>
-      <RadixToast.Provider>
+      <RadixToastProvider>
         {children}
-        <RadixToast.Viewport
+        <RadixToastViewport
           className={clsx(styles.viewport, styles[`position-${position}`])}
           data-position={position}
         />
@@ -132,7 +151,7 @@ export function ToastProvider({
           const radixType = tone === "danger" || tone === "warning" ? "foreground" : "background";
 
           return (
-            <RadixToast.Root
+            <RadixToastRoot
               key={id}
               duration={duration}
               type={radixType}
@@ -145,16 +164,16 @@ export function ToastProvider({
               <div className={styles.inner}>
                 <div className={styles.textBlock}>
                   {payload.title !== undefined && (
-                    <RadixToast.Title className={styles.title}>{payload.title}</RadixToast.Title>
+                    <RadixToastTitle className={styles.title}>{payload.title}</RadixToastTitle>
                   )}
-                  <RadixToast.Description className={styles.body}>
+                  <RadixToastDescription className={styles.body}>
                     {payload.body}
-                  </RadixToast.Description>
+                  </RadixToastDescription>
                 </div>
 
                 <div className={styles.controls}>
                   {payload.action !== undefined && (
-                    <RadixToast.Action
+                    <RadixToastAction
                       altText={payload.action.label}
                       className={styles.actionWrapper}
                       onClick={payload.action.onClick}
@@ -162,22 +181,24 @@ export function ToastProvider({
                       <Button variant="ghost" size="sm">
                         {payload.action.label}
                       </Button>
-                    </RadixToast.Action>
+                    </RadixToastAction>
                   )}
 
-                  <RadixToast.Close asChild>
+                  <RadixToastClose asChild>
                     <button className={styles.closeButton} aria-label={closeLabel} type="button">
                       <X size={14} aria-hidden="true" />
                     </button>
-                  </RadixToast.Close>
+                  </RadixToastClose>
                 </div>
               </div>
-            </RadixToast.Root>
+            </RadixToastRoot>
           );
         })}
-      </RadixToast.Provider>
+      </RadixToastProvider>
     </ToastContext.Provider>
   );
 }
 
-ToastProvider.displayName = "ToastProvider";
+PoukaiToastProvider.displayName = "ToastProvider";
+
+export { PoukaiToastProvider as ToastProvider };

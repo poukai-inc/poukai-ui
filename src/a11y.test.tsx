@@ -31,7 +31,7 @@ import { Textarea } from "./molecules/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
 import { Form } from "./organisms/Form";
-import { ToastProvider, useToast } from "./organisms/Toast";
+import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -740,65 +740,47 @@ test("a11y — Form (with Field + Input + Textarea + Button)", async ({ mount, p
 
 /**
  * Toast a11y gate — one toast per tone rendered open.
- *
- * We use a helper component that calls show() once on mount so the toasts
- * are visible during the axe scan without user interaction.
+ * Both ToastHarness (wraps Provider) and ToastA11yHarness (auto-fires show())
+ * live in src/organisms/Toast/__test_harness__.tsx because Playwright CT
+ * forbids inline component definitions in test files.
  */
-function ToastA11yHarness({ tone }: { tone: "info" | "success" | "warning" | "danger" }) {
-  const { show } = useToast();
-  // Use a ref-guard so show() is only called once even under StrictMode double-invoke
-  const fired = { current: false };
-  if (!fired.current) {
-    fired.current = true;
-    // Show synchronously during render — this is intentional for test harness only
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    show({
-      tone,
-      title: tone === "danger" ? "Error" : tone === "warning" ? "Warning" : undefined,
-      body: `A11y gate: ${tone} toast.`,
-      duration: 60000,
-    });
-  }
-  return null;
-}
 
 test("a11y — Toast (info tone, open)", async ({ mount, page }) => {
   await mount(
-    <ToastProvider position="bottom-right" defaultDuration={60000}>
+    <ToastHarness position="bottom-right" defaultDuration={60000}>
       <ToastA11yHarness tone="info" />
-    </ToastProvider>,
+    </ToastHarness>,
   );
-  // Wait for the toast to appear
-  await expect(page.getByText("A11y gate: info toast.")).toBeVisible();
+  await expect(page.locator("[data-tone]", { hasText: "A11y gate: info toast." })).toBeVisible();
   await expectAxeClean(page);
 });
 
 test("a11y — Toast (success tone, open)", async ({ mount, page }) => {
   await mount(
-    <ToastProvider position="bottom-right" defaultDuration={60000}>
+    <ToastHarness position="bottom-right" defaultDuration={60000}>
       <ToastA11yHarness tone="success" />
-    </ToastProvider>,
+    </ToastHarness>,
   );
-  await expect(page.getByText("A11y gate: success toast.")).toBeVisible();
+  await expect(page.locator("[data-tone]", { hasText: "A11y gate: success toast." })).toBeVisible();
   await expectAxeClean(page);
 });
 
 test("a11y — Toast (warning tone, open)", async ({ mount, page }) => {
   await mount(
-    <ToastProvider position="bottom-right" defaultDuration={60000}>
+    <ToastHarness position="bottom-right" defaultDuration={60000}>
       <ToastA11yHarness tone="warning" />
-    </ToastProvider>,
+    </ToastHarness>,
   );
-  await expect(page.getByText("A11y gate: warning toast.")).toBeVisible();
+  await expect(page.locator("[data-tone]", { hasText: "A11y gate: warning toast." })).toBeVisible();
   await expectAxeClean(page);
 });
 
 test("a11y — Toast (danger tone, open)", async ({ mount, page }) => {
   await mount(
-    <ToastProvider position="bottom-right" defaultDuration={60000}>
+    <ToastHarness position="bottom-right" defaultDuration={60000}>
       <ToastA11yHarness tone="danger" />
-    </ToastProvider>,
+    </ToastHarness>,
   );
-  await expect(page.getByText("A11y gate: danger toast.")).toBeVisible();
+  await expect(page.locator("[data-tone]", { hasText: "A11y gate: danger toast." })).toBeVisible();
   await expectAxeClean(page);
 });

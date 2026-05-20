@@ -251,4 +251,4 @@ The case for: consumers currently wire validation manually, which means error st
 
 The case against: the right abstraction depends on what the first real multi-form consumer actually builds. Designing the contract speculatively — before seeing two or three real form surfaces — risks building the wrong abstraction and then being locked into it at 1.0.
 
-**Decision**: deferred. See `meta/milestones/1.0.0.md` §5, "Form validation hook contract." No validation hook is introduced in this spec. If a consuming surface surfaces a clear pattern, open a proposal at `meta/proposals/form-validation-hook.md`.
+**Decision**: resolved in v1.1.0. See `meta/design/form-validation.md` for the full spec. `useFieldErrors` ships as a validation-lib-agnostic error-state hook co-located with `<Field>`. Consumers import it from `@poukai-inc/ui` and wire `errors.fieldName` to `<Field error={…}>`. No validation library dependency was introduced.

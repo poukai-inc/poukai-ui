@@ -1013,7 +1013,7 @@ Structured submission container — `<form>` wrapper that composes `Field` + `In
 - `forwardRef<HTMLFormElement, FormProps>`, `displayName = "Form"`, `clsx` className merge.
 - A11y: native `<form>` semantics. No additional ARIA.
 - Tokens consumed: `--space-4`, `--hero-max`, `--font-sans`. No new tokens.
-- Validation: consumer responsibility — pair with Zod, React Hook Form, or hand-rolled. The DS does not ship a validation hook contract.
+- Validation: consumer responsibility — pair with Zod, React Hook Form, or hand-rolled. Use `useFieldErrors` (shipped v1.1.0) for field-keyed error state management.
 - Do NOT add a `<fieldset>`/`<legend>` slot — consumer adds those via children if needed.
 
 ```tsx
@@ -1026,6 +1026,45 @@ Structured submission container — `<form>` wrapper that composes `Field` + `In
   </Field>
   <Button variant="primary" type="submit">Send</Button>
 </Form>
+```
+
+### useFieldErrors
+
+Validation-lib-agnostic error-state hook for Form surfaces. Shipped in v1.1.0. Co-located with `<Field>` at `src/molecules/Field/useFieldErrors.ts`.
+
+```ts
+import { useFieldErrors, type FieldErrors } from "@poukai-inc/ui";
+
+const { errors, setErrors, setFieldError, clearAll } = useFieldErrors(initial?);
+```
+
+- `errors: FieldErrors` — `Record<string, string | undefined>`. Keys are input `name` attributes; values are user-facing error strings (or `undefined` to clear).
+- `setErrors(next)` — replace the entire error map. Use after full-form validation runs.
+- `setFieldError(name, message | undefined)` — set or clear the error for a single field; preserves all other fields.
+- `clearAll()` — clear all errors. Call on successful submit or after server acknowledgement.
+- All setters are stable across re-renders (`useCallback`). Pure state — no tokens, no DOM, invisible to AT.
+- Compatible with Zod (`flatten().fieldErrors`), React Hook Form (after one transform), Yup, and hand-rolled validators.
+- Do NOT add a validation runner, schema integration, or async handling to the hook. Validation logic lives at the call site.
+
+```tsx
+// Hand-rolled validator
+function ContactForm() {
+  const { errors, setErrors, clearAll } = useFieldErrors();
+  return (
+    <Form onSubmit={(data) => {
+      const email = String(data.get("email") ?? "");
+      const next: FieldErrors = {};
+      if (!email.includes("@")) next.email = "Enter a valid email";
+      if (Object.keys(next).length === 0) { clearAll(); return submit(data); }
+      setErrors(next);
+    }}>
+      <Field label="Email" id="email" error={errors.email}>
+        <Input type="email" name="email" />
+      </Field>
+      <Button type="submit">Send</Button>
+    </Form>
+  );
+}
 ```
 
 ---

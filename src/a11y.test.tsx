@@ -25,6 +25,7 @@ import { Avatar } from "./atoms/Avatar";
 import { SiteShell } from "./organisms/SiteShell";
 import { Footer } from "./organisms/Footer";
 import { Dialog, DialogBasic } from "./organisms/Dialog";
+import { Tabs, TabsBasic } from "./organisms/Tabs";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -527,6 +528,66 @@ test("a11y — DialogBasic (open, all slots)", async ({ mount, page }) => {
     >
       <p>Body content for the accessibility gate scan.</p>
     </DialogBasic>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Tabs (compound API, horizontal)", async ({ mount, page }) => {
+  await mount(
+    <Tabs.Root defaultValue="overview">
+      <Tabs.List>
+        <Tabs.Trigger value="overview">Overview</Tabs.Trigger>
+        <Tabs.Trigger value="approach">Approach</Tabs.Trigger>
+        <Tabs.Trigger value="results">Results</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="overview">
+        <p>Overview panel content for the a11y gate scan.</p>
+      </Tabs.Content>
+      <Tabs.Content value="approach">
+        <p>Approach panel content for the a11y gate scan.</p>
+      </Tabs.Content>
+      <Tabs.Content value="results">
+        <p>Results panel content for the a11y gate scan.</p>
+      </Tabs.Content>
+    </Tabs.Root>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Tabs (compound API, vertical)", async ({ mount, page }) => {
+  await mount(
+    <Tabs.Root defaultValue="build" orientation="vertical">
+      <Tabs.List>
+        <Tabs.Trigger value="build">Build</Tabs.Trigger>
+        <Tabs.Trigger value="automate">Automate</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="build">
+        <p>Build panel for the a11y gate scan.</p>
+      </Tabs.Content>
+      <Tabs.Content value="automate">
+        <p>Automate panel for the a11y gate scan.</p>
+      </Tabs.Content>
+    </Tabs.Root>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TabsBasic", async ({ mount, page }) => {
+  await mount(
+    <TabsBasic
+      tabs={[
+        {
+          value: "overview",
+          label: "Overview",
+          content: <p>Overview panel content for the a11y gate scan.</p>,
+        },
+        {
+          value: "approach",
+          label: "Approach",
+          content: <p>Approach panel content for the a11y gate scan.</p>,
+        },
+      ]}
+    />,
   );
   await expectAxeClean(page);
 });

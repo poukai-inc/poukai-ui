@@ -74,3 +74,13 @@ export {
   type DialogCloseProps,
   type DialogBasicProps,
 } from "./organisms/Dialog";
+export {
+  Tabs,
+  TabsBasic,
+  type TabsRootProps,
+  type TabsListProps,
+  type TabsTriggerProps,
+  type TabsContentProps,
+  type TabsBasicProps,
+  type TabItem,
+} from "./organisms/Tabs";

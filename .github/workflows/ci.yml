@@ -34,6 +34,13 @@ jobs:
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Use the PAT so commits + the Version Packages PR are authored by the
+          # token owner, not by github-actions[bot]. PRs authored via GITHUB_TOKEN
+          # do NOT trigger downstream `pull_request` workflows (CI never runs on
+          # them), which makes auto-merge impossible. Authoring as a user fires
+          # CI normally and the PR auto-merges when checks pass.
+          token: ${{ secrets.CHANGESETS_TOKEN }}
       - uses: pnpm/action-setup@v4
         with: { version: 9 }
       - uses: actions/setup-node@v4
@@ -49,7 +56,9 @@ jobs:
           publish: pnpm release
           version: pnpm changeset version
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # CHANGESETS_TOKEN (PAT) instead of GITHUB_TOKEN so the Version
+          # Packages PR fires `pull_request` workflows and can auto-merge.
+          GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Dispatch ds-package-published to poukai-inc/pouk.ai
         if: steps.changesets.outputs.published == 'true'

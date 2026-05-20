@@ -3,19 +3,28 @@
 Living to-do for `@poukai-inc/ui`. PRs that close an item should tick its box.
 Items removed when stale or migrated to an issue.
 
-**Last reviewed:** 2026-05-19 (lint-staged worktree bug fixed same day)
+**Last reviewed:** 2026-05-20 (1.0.0 milestone plan authored; gate items added)
 
 ---
 
 ## 🔴 Blocking
 
-Real bugs in published `0.15.0` surfaced by the 2026-05-18 consistency audit.
+No current blockers. All `0.22.0`-era blocking items have shipped.
 
-- [x] **Define `--fs-statement` in `src/tokens/tokens.css`.**
-      Added as `clamp(1.75rem, 1.25rem + 2vw, 2.75rem)` (28–44px) — italic-serif
-      editorial Statement block; sits between h2 and `--fs-tagline-intimate`.
-- [x] **Define `--hero-illustration-max` in `src/tokens/tokens.css`.**
-      Added as `25rem` per `CHANGELOG.md:7` stated intent.
+---
+
+## 🟣 1.0.0 milestone gate
+
+Items from `meta/milestones/1.0.0.md` §3 that are not yet met. Tick here and in the milestone doc in the same PR.
+
+- [ ] **Author `meta/design/Statement.md`.** Backfill from existing implementation. Estimated 4–6 hours.
+- [ ] **Author `meta/design/Form.md`.** Compound organism; needs full prop-intent section for `Form`, `Field`, `Input`, `Textarea` composition. Estimated 6–8 hours.
+- [ ] **Verify `llms-full.txt` sync check passes for all 31 components.** Run `scripts/check-llms-tokens-sync.mjs` after specs land; address any missing `### ComponentName` headings. Estimated 1–2 hours.
+- [ ] **Resolve Wordmark story namespace.** Decide `"Brand / Wordmark"` vs. `"Components / *"`; document the split or unify. Arian decides; engineer implements. Estimated < 1 hour once decided.
+- [ ] **Verify bundle CI gate is blocking on regression.** Confirm the size-limit step in CI runs on every PR and fails if the 28kB ESM floor is broken. Estimated 2–3 hours.
+- [ ] **Author `meta/migrations/template.md`.** Migration guide template for future major bumps. See `meta/milestones/1.0.0.md` §4 for structure and worked example. Estimated 2–3 hours.
+- [ ] **Author `CONTRIBUTING.md`.** Polymorphic-prop conventions, token addition flow, story/test requirements, semver policy. Synthesises `meta/conventions/polymorphic-props.md`. Estimated 1 day.
+- [ ] **CHANGELOG hand-rewrite for 0.x → 1.0.** Curated narrative grouping changeset entries by theme. Final step — write after all other gate items are met. Estimated 4–6 hours.
 
 ---
 
@@ -35,6 +44,10 @@ Work the user is driving, where I'm a passenger.
 
 Kept for ~one release as context, then pruned.
 
+- [x] **`0.22.0`** — `Form` organism.
+- [x] **`0.21.0`** — `Toast` organism + `useToast` hook.
+- [x] **`0.20.0`** — `Tabs` organism, `Field` / `Input` / `Textarea` molecules.
+- [x] **`0.19.0`** — Dark-mode tokens; Apple-HIG-aligned dark palette; all contrast budgets met. `Banner` molecule.
 - [x] **`0.18.0`** — `Tag` atom, `Avatar` atom, `Dialog` + `DialogBasic`
       organism, `FieldNote` molecule, `Footer` organism, `Quote` molecule.
       `@radix-ui/react-dialog` dep is now in use.
@@ -43,55 +56,6 @@ Kept for ~one release as context, then pruned.
       `--tracking-eyebrow`, `--lh-meta`, `--fs-pull`. Global `<a>`
       resting-state underline + Stat color inheritance fix. `displayName`
       backfill across all `forwardRef` components.
-- [x] **`0.16.1`** — internal ESLint config dedupe; no consumer impact.
-- [x] **`0.16.0`** — High-severity audit cleanup. New tokens `--space-10`,
-      `--dur-press`, `--dur-pulse`, `--fs-card-title`. `Statement` +
-      full Hero discriminated union re-exported from `./molecules`.
-      Button / StatusBadge token-consumer migrations + test backfill.
-- [x] **`0.15.1`** — defined `--fs-statement` and `--hero-illustration-max`
-      that shipped components were already consuming without a fallback.
-- [x] **`0.15.0`** — Hero `illustration` slot (two-column layout above 720px).
-- [x] **`0.14.0`** — `--fs-display` editorial display rung (48–88px).
-- [x] **`0.13.0`** — `Portrait` molecule (AVIF/WebP/JPEG `<picture>`,
-      srcset, enforced non-empty alt). Warm-accent token tier
-      (`--bg-warm-accent`, `--fg-on-warm`, `--fg-on-warm-muted`).
-- [x] **`0.12.0`** — Hero `bleed="full"` + `--content-max-bleed` token.
-- [x] **`0.11.0`** — Hero `variant="no-title"` for editorial doorway pages.
-- [x] **`0.10.0`** — `Statement` molecule (editorial statement block).
-      `--surface-section` token (fourth elevation tier).
-- [x] **`0.9.0`** — Button `size="compact"` (40px rung). Button height
-      ladder exposed as `--btn-h-*` tokens.
-- [x] **`0.8.0`** — Hero `entrance="stagger"` (CSS-only staggered reveal,
-      `prefers-reduced-motion` honored).
-- [x] **`0.7.1`** — Hero compressed vertical rhythm at `size="intimate"`.
-- [x] **`0.7.0`** — Hero `size` prop with `"display"` / `"intimate"`. New
-      token `--fs-tagline-intimate`.
-- [x] **`0.6.1`** — docs: `llms-full.txt` synced with 0.6.0 color tokens;
-      CI gate added.
-- [x] **`0.6.0`** — Apple-aligned palette: `--bg` → `#FBFBFD`,
-      `--bg-elevated` (`#FFFFFF`) added. Three-step elevation rhythm.
-- [x] **`0.5.0`** — ship `llms.txt` + `llms-full.txt` as package exports.
-- [x] **`0.4.0`** — six additional brand assets under `brand/`; `llms.txt`
-      first cut.
-- [x] **`0.3.2`** — Wordmark proportions revised; inverted variant
-      actually inverts; RoleCard grid overlap fix; StatusBadge pulse
-      made visible.
-- [x] **`0.3.1`** — Wordmark letter-group shift so isotype renders
-      flush-left.
-- [x] **`0.3.0`** — Wordmark restored to horizontal lockup (isotype +
-      wordtype side-by-side). viewBox aspect ratio change.
-- [x] **`0.2.3`** — SiteShell brand-mark height 28 → 56px.
-- [x] **`0.2.2`** — fix: component CSS never reached the browser.
-      Per-entry CSS auto-injection via `vite-plugin-lib-inject-css`.
-- [x] **`0.2.1`** — fixed `build:tokens` flatten bug so `dist/tokens.css`
-      lands at the root (was at `dist/src/tokens/tokens.css`).
-- [x] **`0.2.0`** — first real publish to GitHub Packages. Org rename
-      `Pouk-AI-INC` → `poukai-inc`; scope `@poukai/ui` → `@poukai-inc/ui`.
-      Stacked lockup, isotype, banner, avatars via `./brand/*`.
-- [x] **`0.1.0`** — Phase 1 of the migration plan: atomic restructure
-      (`atoms/` / `molecules/` / `organisms/`), eight components, a11y CI
-      gate, per-subpath size budgets, inline Wordmark geometry, subpath
-      exports.
 
 ---
 
@@ -100,26 +64,17 @@ Kept for ~one release as context, then pruned.
 Things to pick up while the site consumes the package. Not committed;
 ordering by likely demand.
 
-- [ ] **Replace draft copy in `apps/pouk-ai-site/src/content/*.json`** (site repo).
-      Files are tagged `_draft: true`. Source canonical copy from
-      `meta/backlog.md` in the brand repo.
-- [ ] **Re-evaluate Lucide icon picks** — Hammer / Bot / BookOpen / Sparkles.
-      Done quickly inside `roles.astro`; just needs founder sign-off.
 - [ ] **PWA + OG assets** — favicon set (svg + 16/32/192/512 + apple-touch),
-      `site.webmanifest`, and a real `og.png` (1200×630). Placeholders that
-      previously sat in `src/brand/` were dropped in the 0.6.x reorg since
-      nothing in-tree consumed them. Site repo will need them; author fresh
-      in `src/brand/` if they should ship via `./brand/*`, or keep them in
-      the site repo if they're truly site-only.
-- [ ] **Ladle showcase deploy.** `pnpm showcase:build` already produces a
-      static site; deploying to GitHub Pages on every release gives the site
-      team a stable reference URL. Not in the plan but cheap.
+      `site.webmanifest`, and a real `og.png` (1200×630). Placeholders dropped
+      in the 0.6.x reorg; site repo will need them. Author fresh in `src/brand/`
+      if they should ship via `./brand/*`, or keep in site repo if site-only.
+- [ ] **Re-evaluate Lucide icon picks** — Hammer / Bot / BookOpen / Sparkles.
+      Done quickly inside `roles.astro`; needs founder sign-off.
 - [ ] **CI: lighthouse-ci in the site repo** — required for the Phase 4
       parity matrix (Lighthouse 100 on every page).
 - [ ] **Phase 3 activation** — write the workspace-sibling setup
       (`pnpm-workspace.yaml` in the parent folder) once the site repo is
-      consuming the published package end-to-end. Docs already in
-      `apps/pouk-ai-site/README.md`.
+      consuming the published package end-to-end.
 - [ ] **Phase 4 cutover** — run the parity matrix from migration plan §6.1,
       then DNS swap on Vercel. Last step.
 
@@ -133,50 +88,24 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
 ### High — consumer-visible or contract-breaking
 
 - [x] **Export `Statement` from `src/molecules.ts` subpath barrel.**
-      Now reachable via `@poukai-inc/ui/molecules`.
 - [x] **Widen Hero type re-exports in `src/molecules.ts`** to include the full
       union: `HeroSize`, `HeroEntrance`, `HeroBleed`, `HeroVariant`,
-      `HeroDefaultProps`, `HeroNoTitleProps`. Root barrel widened to match
-      (closes the matching Medium item).
+      `HeroDefaultProps`, `HeroNoTitleProps`. Root barrel widened to match.
 - [x] **Add `Portrait` and `Statement` to `scripts/build-llms-txt.mjs`
       `COMPONENTS.molecules`** so the generated `dist/llms.txt` lists all
-      shipped components. Also fixed a pre-existing path-emission bug
-      (`@poukai-inc/ui./atoms` → `@poukai-inc/ui/atoms`).
+      shipped components. Also fixed a pre-existing path-emission bug.
 - [x] **Add `### Portrait` and `### Statement` sections to
-      `meta/llms-full.txt`**, plus the `--fs-statement` typography token,
-      `--hero-illustration-max` layout token, the Hero `illustration` slot,
-      and the three previously-undocumented warm-accent color tokens
-      (`--bg-warm-accent`, `--fg-on-warm`, `--fg-on-warm-muted`) surfaced by
-      the extended sync check.
+      `meta/llms-full.txt`**, plus missing tokens and Hero slots.
 - [x] **Add `Portrait` and `Statement` rows to the "Components shipped today"
       table in `README.md`.**
-- [x] **Replace hardcoded transition values in `src/atoms/Button/Button.module.css`**.
-      Color/background/border use `var(--dur-fast) var(--easing)`; transform uses
-      the new `--dur-press: 80ms` token so the click feedback stays tactile
-      without lying about durations.
-- [x] **Tokenize StatusBadge pulse duration.** Added `--dur-pulse: 1800ms`
-      and switched `StatusBadge.module.css` to consume it.
-- [x] **Tokenize the repeated card-title clamp.** Added
-      `--fs-card-title: clamp(1.5rem, 1.15rem + 1.2vw, 2rem)` and replaced the
-      duplicated value in `RoleCard`, `Principle`, `FailureMode` titles.
-- [x] **Define `--space-10: 2.5rem`.** Added to the spacing scale between
-      `--space-8` and `--space-12`. Existing `var(--space-10, 2.5rem)` fallback
-      uses (Hero CTA margin, FailureMode top padding, h1 desktop margin) now
-      resolve through the real token. Fallbacks left in place; trivial follow-up
-      to remove them.
-- [x] **Add per-variant assertions to `src/atoms/Button/Button.test.tsx`.**
-      All three variants (primary default, secondary, ghost) and the missing
-      sizes (sm/lg) now have class + min-height assertions. Added className
-      merge + arbitrary-prop forwarding tests.
-- [x] **Backfill `StatusBadge` tests.** Adds idle status coverage, default-status
-      coverage, dot `aria-hidden` assertion, pulse-element count guard, and a
-      CSS regression guard on `animation-duration: 1.8s` + `animation-iteration-count: infinite`.
-      Plus className merge + arbitrary-prop forwarding tests.
-- [x] **Extend `scripts/check-llms-tokens-sync.mjs` to assert each
-      `src/{atoms,molecules,organisms}/*` has a matching `### ComponentName`
-      heading in `meta/llms-full.txt`.** Now passes for 11 colors + 11
-      components; new components without a doc section will fail CI before
-      shipping.
+- [x] **Replace hardcoded transition values in `Button.module.css`.**
+- [x] **Tokenize StatusBadge pulse duration.** Added `--dur-pulse: 1800ms`.
+- [x] **Tokenize the repeated card-title clamp.** Added `--fs-card-title`.
+- [x] **Define `--space-10: 2.5rem`.** Added to spacing scale.
+- [x] **Add per-variant assertions to `Button.test.tsx`.**
+- [x] **Backfill `StatusBadge` tests.**
+- [x] **Extend `scripts/check-llms-tokens-sync.mjs`** to assert every component
+      directory has a matching heading in `meta/llms-full.txt`.
 
 ### Medium — API + token + docs polish
 
@@ -186,145 +115,58 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
       Replaced `var(--radius-2, 8px)` with `var(--radius-2)` so the token is
       authoritative; the wrong 8px fallback is gone.
 - [x] **Add `displayName` to all `forwardRef` components.** Exhaustive sweep
-      confirmed all 25 forwardRef components already carry displayName: atoms —
-      Button, Stat, Avatar, Eyebrow, EmailLink, Wordmark, Tag, StatusBadge;
-      molecules — RoleCard, Section, FieldNote, Quote, LinkCard, FeatureCard,
-      Pull, Portrait, Statement, Principle, TeamCard, FailureMode, Hero;
-      organisms — Footer, Dialog (Root/Trigger/Portal/Overlay/Content/Title/
-      Description/Close), DialogBasic, SiteShell. No code changes required;
-      the BACKLOG entry was stale.
+      confirmed all 25 forwardRef components already carry displayName.
 - [x] **Document polymorphic-prop conventions.** Documented in `meta/conventions/polymorphic-props.md`.
 - [x] **Add `args` / `argTypes` to story default exports** — Added
       `args`/`argTypes` Playground knobs to the six story files: FailureMode,
       Portrait, Principle, RoleCard, Statement, SiteShell.
 - [x] **Decide Wordmark story namespace.** Unified under `Components/Wordmark`.
-      All three Wordmark story files (`Wordmark.stories.tsx`,
-      `Wordmark.DontDo.stories.tsx`, `Wordmark.AllVariants.stories.tsx`)
-      updated from `"Brand / Wordmark"` to `"Components / Wordmark"`.
+      All three Wordmark story files updated from `"Brand / Wordmark"` to
+      `"Components / Wordmark"`.
 - [x] **Spread axe-core coverage.** Standardized on the central
-      `src/a11y.test.tsx` gate. Inline `AxeBuilder` scans removed from 14
-      component tests (Avatar, EmailLink, Eyebrow, Tag, Statement, FeatureCard,
-      Field, FieldNote, LinkCard, Pull, Quote, Section, TeamCard, Dialog, Footer,
-      Tabs); state-specific inline scans kept for 4 components (Hero — 3 unique
-      variant states; Portrait — eager/high-priority load variant; Input and
-      Textarea — standalone-with-label states not reachable via central gate).
-      Portrait and 4 previously-missing variant tests added to the central gate.
+      `src/a11y.test.tsx` gate. Inline scans removed from 14 components;
+      state-specific inline scans kept for Hero, Portrait, Input, Textarea.
 - [x] **Add `Portrait` to the centralized `src/a11y.test.tsx` gate.**
-      Added `test("a11y — Portrait (lazy default, eager above-fold)", …)` covering
-      both loading modes. Portrait was already imported at the top of the file.
-      (Also done as part of the axe-coverage standardization above.)
-- [x] **Reconcile letter-spacing.** Resolved by adding `--tracking-micro: 0.04em`,
-      `--tracking-eyebrow: 0.06em` (already existed), and `--tracking-numeric: 0.08em`
-      tokens. Literals swept from `Stat.source`, `Hero.eyebrow`, `RoleCard.eyebrow`,
-      `FailureMode.index`.
-- [x] **Reconcile responsive breakpoint.** Resolved by adding `--bp-md: 768px`
-      token and `@custom-media --bp-md (min-width: 768px)` declaration in
-      `tokens.css`. Hero illustration breakpoint changed from `720px` → `768px`
-      (paired `max-width: 719px` → `767px`). All `@media (min-width: 768px)`
-      queries in Hero and Principle converted to `@media (--bp-md)`. h1 rule
-      in tokens.css likewise converted.
-- [x] **Tokenize / document Button paddings.** Added a comment block at the
-      top of `Button.module.css` linking to `meta/design/Button.md §3` and
-      explaining that the four px-pair padding values (`6px 12px`, `9px 16px`,
-      `10px 18px`, `14px 24px`) are intentionally inline — they encode
-      size-specific affordance geometry, not a reusable token scale.
-- [x] **Tokenize StatusBadge dot dimensions (`8px`) and RoleCard icon box
-      (`44px`).** StatusBadge dot stays inline (`8px`) with a comment linking
-      `meta/design/StatusBadge.md §3` — too specific for a token. RoleCard icon
-      box swapped to `var(--btn-h-md)` (resolves to `44px`) since the alignment
-      is intentional and should track the button height ladder.
+- [x] **Reconcile letter-spacing.** Tokens added: `--tracking-micro`,
+      `--tracking-eyebrow`, `--tracking-numeric`.
+- [x] **Reconcile responsive breakpoint.** `--bp-md: 768px` token +
+      `@custom-media --bp-md` declaration in `tokens.css`. Hero aligned.
+- [x] **Tokenize / document Button paddings.** Inline with comment linking
+      `meta/design/Button.md §3`.
+- [x] **Tokenize StatusBadge dot dimensions and RoleCard icon box.**
+      StatusBadge dot stays inline; RoleCard icon swapped to `var(--btn-h-md)`.
 - [x] **Document `illustration` slot in `meta/llms-full.txt` Hero section.**
-      Added `0.15.0`, missing from the constraints list. Bullet was present but
-      documented `720px`; corrected to `768px` (`--bp-md`) to match the reconciled
-      breakpoint, added stacked-below-768px behavior note, and documented accepted
-      content types (SVG, `<img>`, `<Portrait>`, etc.).
-- [x] **Prune stale `ROADMAP.md` "Shipped" block.** Done in this same pass —
-      see ROADMAP.md.
-- [x] **Prune stale `BACKLOG.md` "Done" entries** Done in this same pass.
-- [x] **Decide on `@radix-ui/react-dialog` dependency.** Resolved by shipping
-      `Dialog` + `DialogBasic` organism in v0.18.0. The dep is now used.
-- [x] **Reconcile sequential-marker prop names.** `FailureMode.index` +
-      `indexLabel` vs `Principle.numeral` — kept as-is; the semantic difference is
-      intentional. `Principle.numeral` uses Roman numerals (i, ii, iii) for editorial /
-      philosophical sequencing; `FailureMode.index` + `indexLabel` use Arabic-numeral
-      integer indices with optional formatted labels (e.g. "FM-01") for enumerated
-      failure cases. Documented the distinction in both `### Principle` and
-      `### FailureMode` sections of `meta/llms-full.txt`.
-- [x] **Make the Portrait dev-mode-guard test non-vacuous.** Added
-      `define: { "import.meta.env.DEV": "true" }` to `ctViteConfig` in
-      `playwright-ct.config.ts` so the guard executes during CT runs. Rewrote
-      the test to mount with `alt=""` and assert `mount()` rejects — the test
-      will fail if the guard is removed. No runtime behavior change (Vite
-      replaces `import.meta.env.DEV` with `false` in the published build).
+- [x] **Prune stale `ROADMAP.md` "Shipped" block.**
+- [x] **Prune stale `BACKLOG.md` "Done" entries.**
+- [x] **Decide on `@radix-ui/react-dialog` dependency.** Shipped in `0.18.0`.
+- [x] **Reconcile sequential-marker prop names.** Kept as-is; distinction documented.
+- [x] **Make Portrait dev-mode-guard test non-vacuous.**
 
 ### Low — hygiene + future-proofing
 
-- [x] **Dedupe ESLint config.** Inlined the rule set into `eslint.config.mjs`
-      and removed `.eslintrc.cjs` so the project has a single ESLint source of
-      truth (still routed through `FlatCompat` for the legacy plugin shapes;
-      zero behavior change).
+- [x] **Dedupe ESLint config.**
 - [ ] **Move `lede` (`Hero.tsx:136`) and `muted-link` (`SiteShell.tsx:86`)
-      global classes into their respective CSS Modules** — only places where
-      a global utility leaks into component JSX.
-- [x] **Fix `.ladle/config.mjs` `defaultStory: "showcase-overview--index"`** —
-      Fixed: `System.stories.tsx` has `title: "System / Reference"` and exports `All`,
-      giving the Ladle id `system-reference--all`. Updated `defaultStory` to that value.
-- [x] **Resolve orphaned tokens** — Grepped all of `src/` for `var(--fs-wordmark)`,
-      `var(--space-32)`, `var(--fs-display)` outside `tokens.css`.
-      `--fs-wordmark` and `--space-32` are referenced in showcase stories
-      (`TypeScale.tsx`, `SpacingScale.tsx`, `Tokens.stories.tsx`) — kept.
-      `--fs-display` had zero references anywhere outside `tokens.css`; dropped from
-      `tokens.css` and from `meta/llms-full.txt`.
-- [x] **Pick one body line-height.** Resolved by tokenizing both values:
-      `--lh-body: 1.55` (canonical — global body, RoleCard, Statement, FieldNote,
-      LinkCard, FeatureCard, TeamCard, Dialog) and `--lh-body-relaxed: 1.6`
-      (intentional relaxed variant for editorial prose — Principle, FailureMode).
-      All inline `1.55` / `1.6` literals replaced with the appropriate token.
-- [x] **Fill `meta/brand.md` Typography / Spacing / Motion / Brand-mark
-      sections** — Filled the four sections (Typography / Spacing / Motion / Brand-mark).
-- [x] **Author missing design specs under `meta/design/`** — Authored 7 missing specs
-      (Wordmark, StatusBadge, Stat, RoleCard, Principle, FailureMode, SiteShell) from
-      existing source. Backfill — not a re-design.
-- [x] **Decide on Firefox CT coverage.** Added Firefox (Desktop Firefox device)
-      as a third project in `playwright-ct.config.ts`. All 1572 tests pass
-      across Chromium, Firefox, and WebKit — zero failures, zero flake on two
-      consecutive runs. `playwright:install` script updated to include firefox.
-      Path chosen: Firefox shipped.
-- [x] **Tokenize line-height + letter-spacing scales** — resolved by the two
-      items above. Tokens added: `--tracking-micro`, `--tracking-numeric`,
-      `--lh-body`, `--lh-body-relaxed`. (`--tracking-eyebrow` pre-existed.)
+      global classes into their respective CSS Modules.**
+- [x] **Fix `.ladle/config.mjs` `defaultStory`.**
+- [x] **Resolve orphaned tokens.**
+- [x] **Pick one body line-height.** Tokens: `--lh-body`, `--lh-body-relaxed`.
+- [x] **Fill `meta/brand.md` Typography / Spacing / Motion / Brand-mark sections.**
+- [x] **Author missing design specs under `meta/design/`.** 29 of 31 specs done. `Statement` and `Form` remain — promoted to 🟣 gate.
+- [x] **Decide on Firefox CT coverage.** Shipped; all 1572 tests passing.
+- [x] **Tokenize line-height + letter-spacing scales.**
 
 ---
 
 ## ⚪ Parked / open questions
 
-- [ ] **CHANGELOG bootstrap.** Currently auto-created by `changesets/action`
-      on the first Version Packages merge. If we want a cleaner first-PR
-      diff, pre-commit an empty `CHANGELOG.md`. Low priority.
+- [ ] **CHANGELOG bootstrap.** Auto-created by `changesets/action` on first
+      Version Packages merge. Pre-committing an empty `CHANGELOG.md` would
+      give a cleaner first-PR diff. Low priority; superseded by the 1.0.0
+      CHANGELOG hand-rewrite gate item.
 - [ ] **Token for Vercel (Phase 3).** Use a separate fine-grained PAT with
-      `read:packages` only for the site repo's Vercel env var, to keep blast
-      radius small. The repo's `NPM_TOKEN` (which needs `write:packages`)
-      should not be reused there.
-- [x] **lint-staged worktree bug — `pre-commit` corrupts commits when run
-      from a git worktree.** Fixed by two coordinated changes:
-      (1) Replaced `npx lint-staged` with a hand-rolled
-      `scripts/pre-commit.mjs` that lists staged files via
-      `git diff --cached --diff-filter=ACMR`, runs `eslint --fix` +
-      `prettier --write` against them, and re-stages the originally-staged
-      paths. No stash cycle = no phantom deletions. The `lint-staged`
-      devDep and its config block are gone from `package.json`; the
-      pattern groups are encoded directly in the script. Trade-off
-      documented in the script header: lints the whole file, not just the
-      staged hunks, which matches the standard pre-commit behavior outside
-      lint-staged and is safe across worktrees.
-      (2) Made `.husky/pre-commit` worktree-aware by `cd`-ing to
-      `git rev-parse --show-toplevel` instead of `$(dirname "$0")/..`.
-      Husky pins `core.hooksPath` to the main repo's `.husky/_/`, so
-      `$0` always resolves to the main worktree even when committing
-      from a secondary worktree — without this change, the hook would
-      `cd` into the wrong tree and `scripts/pre-commit.mjs` would resolve
-      to the wrong branch's content. The new `git rev-parse` form makes
-      the hook follow whichever worktree triggered the commit.
+      `read:packages` only for the site repo's Vercel env var. The repo's
+      `NPM_TOKEN` should not be reused there.
+- [x] **lint-staged worktree bug** — fixed; `scripts/pre-commit.mjs` in place.
 
 ---
 

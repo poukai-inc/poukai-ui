@@ -31,6 +31,7 @@ import { Textarea } from "./molecules/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
 import { Form } from "./organisms/Form";
+import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -732,5 +733,54 @@ test("a11y — Form (with Field + Input + Textarea + Button)", async ({ mount, p
       </Button>
     </Form>,
   );
+  await expectAxeClean(page);
+});
+
+/* ---------- Toast ---------- */
+
+/**
+ * Toast a11y gate — one toast per tone rendered open.
+ * Both ToastHarness (wraps Provider) and ToastA11yHarness (auto-fires show())
+ * live in src/organisms/Toast/__test_harness__.tsx because Playwright CT
+ * forbids inline component definitions in test files.
+ */
+
+test("a11y — Toast (info tone, open)", async ({ mount, page }) => {
+  await mount(
+    <ToastHarness position="bottom-right" defaultDuration={60000}>
+      <ToastA11yHarness tone="info" />
+    </ToastHarness>,
+  );
+  await expect(page.locator("[data-tone]", { hasText: "A11y gate: info toast." })).toBeVisible();
+  await expectAxeClean(page);
+});
+
+test("a11y — Toast (success tone, open)", async ({ mount, page }) => {
+  await mount(
+    <ToastHarness position="bottom-right" defaultDuration={60000}>
+      <ToastA11yHarness tone="success" />
+    </ToastHarness>,
+  );
+  await expect(page.locator("[data-tone]", { hasText: "A11y gate: success toast." })).toBeVisible();
+  await expectAxeClean(page);
+});
+
+test("a11y — Toast (warning tone, open)", async ({ mount, page }) => {
+  await mount(
+    <ToastHarness position="bottom-right" defaultDuration={60000}>
+      <ToastA11yHarness tone="warning" />
+    </ToastHarness>,
+  );
+  await expect(page.locator("[data-tone]", { hasText: "A11y gate: warning toast." })).toBeVisible();
+  await expectAxeClean(page);
+});
+
+test("a11y — Toast (danger tone, open)", async ({ mount, page }) => {
+  await mount(
+    <ToastHarness position="bottom-right" defaultDuration={60000}>
+      <ToastA11yHarness tone="danger" />
+    </ToastHarness>,
+  );
+  await expect(page.locator("[data-tone]", { hasText: "A11y gate: danger toast." })).toBeVisible();
   await expectAxeClean(page);
 });

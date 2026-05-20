@@ -1,0 +1,260 @@
+/* ============================================================
+   Toast — imperative notification organism.
+   Token contract: meta/design/Toast.md §3
+   All values reference CSS custom properties from tokens.css.
+   The box-shadow (0 4px 12px rgb(0 0 0 / 0.08)) is intentionally
+   inline — no shadow token exists in the DS vocabulary.
+   Consistent with Dialog.module.css rationale (§6).
+   ============================================================ */
+
+/* ─── Viewport ────────────────────────────────────────────────── */
+
+.viewport {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: min(420px, calc(100vw - 2 * var(--page-pad)));
+  max-width: 100vw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  /* Above Dialog (z-index: 101) and its overlay (z-index: 100) */
+  z-index: 200;
+  /* Prevent accidental pointer interference outside toast bounds */
+  pointer-events: none;
+  outline: none;
+}
+
+/* ─── Viewport positions ──────────────────────────────────────── */
+
+.position-top-right {
+  top: var(--space-6);
+  right: var(--space-6);
+}
+
+.position-bottom-right {
+  bottom: var(--space-6);
+  right: var(--space-6);
+}
+
+.position-top-center {
+  top: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.position-bottom-center {
+  bottom: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* ─── Toast root ──────────────────────────────────────────────── */
+
+.root {
+  pointer-events: auto;
+  position: relative;
+  width: min(420px, calc(100vw - 2 * var(--page-pad)));
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-2);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+  font-family: var(--font-sans);
+
+  /* Entrance: slide in from the right (bottom-right / top-right) */
+  /* Position-specific slide directions are handled per keyframe
+     set below using Radix data-state attributes. */
+}
+
+/* ─── Tone variants ───────────────────────────────────────────── */
+
+/* info (default): elevated bg, hairline border, --fg text */
+.tone-info {
+  background: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+  color: var(--fg);
+}
+
+/* success: elevated bg, 2px accent left-rule, --fg text */
+.tone-success {
+  background: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+  border-inline-start: 2px solid var(--accent);
+  color: var(--fg);
+}
+
+/* warning: --bg-warning bg, 2px --warning left-rule, --fg-on-warning text */
+.tone-warning {
+  background: var(--bg-warning);
+  border: none;
+  border-inline-start: 2px solid var(--warning);
+  color: var(--fg-on-warning);
+}
+
+/* danger: --bg-danger bg, 2px --danger left-rule, --fg-on-danger text */
+.tone-danger {
+  background: var(--bg-danger);
+  border: none;
+  border-inline-start: 2px solid var(--danger);
+  color: var(--fg-on-danger);
+}
+
+/* ─── Entrance/exit animations ────────────────────────────────── */
+
+/* Slide-in from the right edge (default; covers bottom-right and top-right) */
+.root[data-state="open"] {
+  animation: toastSlideInRight var(--dur-fast) var(--easing) forwards;
+}
+
+.root[data-state="closed"] {
+  animation: toastFadeOut var(--dur-fast) ease forwards;
+}
+
+/* For top-center and bottom-center, slide in from below or above.
+   We use [data-position] on the viewport to scope the animation.
+   The viewport is the parent but not an ancestor selector in CSS Modules.
+   Use a sibling-context approach: apply position-specific keyframes
+   by checking the viewport's data-position via the :global wrapper.
+   CSS Modules does not support ancestor selectors directly, so we
+   apply animations directly using the position class on the root,
+   which is set via a data attribute on the viewport. Since each
+   toast Root is rendered inside the Provider and the viewport carries
+   the position, we instead use the parent attribute selector via
+   a :global scope guard to keep the module clean. */
+
+/* Slide in from right: bottom-right / top-right (default above) */
+@keyframes toastSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + var(--space-6)));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide in from bottom: bottom-center */
+@keyframes toastSlideInBottom {
+  from {
+    opacity: 0;
+    transform: translateY(calc(100% + var(--space-6)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide in from top: top-center */
+@keyframes toastSlideInTop {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-100% - var(--space-6)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toastFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ─── prefers-reduced-motion ──────────────────────────────────── */
+/* The global block in tokens.css collapses all animation-duration to
+   0.01ms via !important — this file does not need to repeat the block.
+   Toasts appear/disappear instantly for reduced-motion users. */
+
+/* ─── Inner layout ────────────────────────────────────────────── */
+
+.inner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.textBlock {
+  flex: 1;
+  min-width: 0;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-shrink: 0;
+}
+
+/* ─── Title ────────────────────────────────────────────────────── */
+
+.title {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  line-height: var(--lh-meta);
+  color: currentColor;
+  margin: 0 0 var(--space-1);
+}
+
+/* ─── Body ─────────────────────────────────────────────────────── */
+
+.body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  color: currentColor;
+  margin: 0;
+}
+
+/* ─── Action wrapper ───────────────────────────────────────────── */
+
+.actionWrapper {
+  /* Radix renders this as a button wrapper; override default button styles */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ─── Close button ─────────────────────────────────────────────── */
+
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  flex-shrink: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: currentColor;
+  opacity: 0.6;
+  border-radius: var(--radius-1);
+  transition:
+    opacity var(--dur-fast) ease,
+    background var(--dur-fast) ease;
+}
+
+.closeButton:hover {
+  opacity: 1;
+  background: rgb(0 0 0 / 0.06);
+}
+
+.closeButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+  opacity: 1;
+}

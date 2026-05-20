@@ -35,6 +35,7 @@ Grouped by component, shipping version noted.
 - `FieldNote` molecule — inline technical-aside primitive (`0.18.0`).
 - `Footer` organism — site-footer content block (`0.18.0`).
 - `Quote` molecule — attributed customer testimonial (`0.18.0`).
+- Dark-mode tokens — `@media (prefers-color-scheme: dark)` tier appended to `tokens.css`; Apple-HIG-aligned dark palette; all contrast budgets met (`0.19.0`).
 
 ## Next
 
@@ -50,9 +51,6 @@ demand from the site rebuild and follow-on internal products.
 ## Maybe
 
 Lower confidence. Will only build when a real consumer asks.
-
-- Dark-mode tokens — current Apple-light palette is the brand contract. Dark
-  mode is a content decision, not a token-set we'd add speculatively.
 
 ## Won't
 

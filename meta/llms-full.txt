@@ -38,6 +38,49 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 
 **Never pure edges.** `--fg` is never `#000000`; `--bg` is never pure `#FFFFFF`. Both ends of the neutral ramp pull in slightly — this gives elevation headroom on the page and ensures the palette inverts cleanly to dark mode without losing its restraint. Treat any spec or hardcoded value that implies a pure edge as a brand-level escalation.
 
+### Dark mode
+
+Dark mode is implemented as a `@media (prefers-color-scheme: dark)` block appended to `src/tokens/tokens.css`. It overrides every color token on `:root`. No component CSS changes — every component that consumes `var(--token)` references gains dark mode automatically. Full rationale in `meta/design/dark-mode.md`.
+
+**Philosophy.** Dark mode is not an inversion of the light palette. It is a parallel surface stack: backgrounds darken progressively toward black (the floor); foregrounds brighten toward near-white (never pure). The elevation rhythm inverts direction — surfaces RISE through lighter grays as they elevate, rather than toward white. `html { color-scheme: light dark }` is declared so browser-native controls (scrollbars, form inputs, selection) match the token-driven scheme.
+
+**Dark-mode token table.**
+
+| Token | Dark value | Notes |
+|---|---|---|
+| `--bg` | `#000000` | Page floor. Apple canonical dark-mode canvas. |
+| `--bg-elevated` | `#1C1C1E` | Popovers, sheets, dialogs. Apple iOS `systemBackground` dark. |
+| `--surface` | `#1C1C1E` | Recessed inline blocks. Same raw value as `--bg-elevated`; semantically distinct by context. |
+| `--surface-section` | `#161618` | Section bands. Slightly lighter than `--bg`, preserving the recessed-band rhythm. |
+| `--fg` | `#F5F5F7` | Primary text. Near-white (10/255 off pure). Contrast on `--bg`: **19.58:1** (AAA). |
+| `--fg-muted` | `#86868B` | Secondary text. Apple `secondaryLabel` dark. Contrast on `--bg`: **6.10:1** (AA). |
+| `--hairline` | `#2C2C2E` | Dividers. Apple `separator` dark value. |
+| `--accent` | `#0A84FF` | Links, focus rings. Apple `systemBlue` dark. Contrast on `--bg`: **5.86:1** (AA; ≥3:1 required for non-text). |
+| `--accent-glow` | `rgba(10,132,255,0.24)` | Halo / selection. Higher opacity compensates for dark surface absorption. |
+| `--bg-warm-accent` | `#8A2E1C` | Editorial band — dimmed to ~55% luminance of light value ("deep ember"). |
+| `--fg-on-warm` | `#FDF5F0` | Unchanged. Contrast on dark `--bg-warm-accent`: **7.75:1** (AAA). |
+| `--fg-on-warm-muted` | `#D6B9A8` | Contrast on dark `--bg-warm-accent`: **~4.8:1** (AA). |
+| `--danger` | `#FF453A` | Apple `systemRed` dark. |
+| `--bg-danger` | `#1C0A0A` | Near-black, red undertone. |
+| `--fg-on-danger` | `#FFB4B0` | Contrast on `--bg-danger`: **11.63:1** (AAA). |
+| `--warning` | `#FF9F0A` | Apple `systemOrange` dark. |
+| `--bg-warning` | `#1C1408` | Near-black, amber undertone. |
+| `--fg-on-warning` | `#FFD6A0` | Contrast on `--bg-warning`: **13.74:1** (AAA). |
+
+**Contrast budget (all met).**
+
+| Pair | Ratio | Threshold | Result |
+|---|---|---|---|
+| `--fg` on `--bg` | 19.58:1 | 7:1 (AAA body) | AAA |
+| `--fg-muted` on `--bg` | 6.10:1 | 4.5:1 (AA normal) | AA |
+| `--accent` on `--bg` | 5.86:1 | 3:1 (non-text) | AA normal |
+| `--fg-on-warm` on `--bg-warm-accent` | 7.75:1 | 4.5:1 | AAA |
+| `--fg-on-warm-muted` on `--bg-warm-accent` | ~4.8:1 | 4.5:1 | AA |
+| `--fg-on-danger` on `--bg-danger` | 11.63:1 | 4.5:1 | AAA |
+| `--fg-on-warning` on `--bg-warning` | 13.74:1 | 4.5:1 | AAA |
+
+**Component audit.** All shipped atoms, molecules, and organisms consume only `var(--token)` references and gain dark mode for free. One known exception: `Dialog.module.css` scrim (`rgb(0 0 0 / 0.4)`) is intentionally inline per its spec — acceptable in dark mode but flagged for future opacity review.
+
 ### Typography
 
 - `--font-serif: "Instrument Serif", Georgia, …` — Editorial display face. Used for h1, h2, RoleCard titles, Principle titles, FailureMode titles, Stat numeral. NEVER use for UI chrome.
@@ -1018,6 +1061,30 @@ Precise, direct, technically confident. Never hedges, inflates, or reassures. No
 - StatusBadge: "Taking conversations for Q3." / "Not taking new work at this time." (availability facts, no exclamation marks)
 - Button labels: sentence-case, max 4 words, specific verbs. "Get in touch", "Learn more", not "Click here" or "LET'S CONNECT!"
 - Error states (consumer responsibility): declarative, specific, not apologetic. "Email address is required." not "Oops! Something went wrong."
+
+### Toast
+- Imperative notification organism. Wraps `@radix-ui/react-toast` — all ARIA, swipe-to-dismiss, focus, and prefers-reduced-motion are delegated to Radix.
+- Architecture: `<ToastProvider>` wraps the app root once. `useToast()` returns `{ show, dismiss }` for imperative use anywhere in the tree.
+- `ToastPayload`: `{ tone?, title?, body, duration?, action? }`. `body` is the only required field.
+- Four tones: `"info"` (default), `"success"`, `"warning"`, `"danger"`. Tone determines background, left-rule color, and text color — identical palette contract to `<Banner>`.
+  - `info`: `--bg-elevated` bg, hairline border all sides, `--fg` text.
+  - `success`: `--bg-elevated` bg, 2px `--accent` left-rule, `--fg` text.
+  - `warning`: `--bg-warning` bg, 2px `--warning` left-rule, `--fg-on-warning` text.
+  - `danger`: `--bg-danger` bg, 2px `--danger` left-rule, `--fg-on-danger` text.
+- `ToastProvider` props: `defaultDuration` (default 5000ms), `max` (default 4 simultaneous), `position` (`"bottom-right"` default, `"top-right"`, `"top-center"`, `"bottom-center"`), `closeLabel` (default `"Close"`).
+- `position` drives the viewport's CSS class. Viewport is `position: fixed; z-index: 200` — above Dialog overlay (100) and content (101).
+- `max` enforces a queue cap: when exceeded, the oldest toast is dropped immediately.
+- Per-toast `duration` overrides `defaultDuration`. Radix fires `onOpenChange(false)` when duration expires, which triggers `dismiss(id)`.
+- `action`: `{ label: string; onClick: () => void }`. Rendered via Radix `<Toast.Action altText={label}>` wrapping `<Button variant="ghost" size="sm">`. `altText` is required by Radix for SR accessibility.
+- Close button: always rendered. `aria-label` = `closeLabel` prop (default `"Close"`). Uses Lucide `X` at 14px.
+- ARIA: Radix maps `type="foreground"` → `aria-live="assertive"` (warning/danger) and `type="background"` → `aria-live="polite"` (info/success).
+- Width: `min(420px, calc(100vw - 2 * var(--page-pad)))`. Padding: `--space-3` block, `--space-4` inline. Radius: `--radius-2`. Shadow: `0 4px 12px rgb(0 0 0 / 0.08)` (inline — no shadow token in DS vocabulary; same rationale as Dialog).
+- Entrance: slide from right. Exit: fade out. Both at `--dur-fast` (180ms). Reduced motion: handled by the global `tokens.css` block — no per-component override.
+- Toast is NOT `<Banner>` (Banner is persistent, inline, document-flow). Toast is NOT `<Dialog>` (Dialog is modal and blocking). Use Toast for time-limited, non-blocking feedback only.
+- Do NOT add `<ToastProvider>` to `<SiteShell>` — that is the consuming app's concern.
+- Do NOT use `useToast()` outside a `<ToastProvider>` — it throws.
+- Do NOT show more than `max` simultaneous toasts. The oldest is dropped automatically.
+- Do NOT use Toast for destructive confirmations — use `<Dialog>`.
 
 ---
 

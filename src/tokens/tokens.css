@@ -175,7 +175,7 @@
    ============================================================ */
 
 html {
-  color-scheme: light;
+  color-scheme: light dark;
 }
 
 body {
@@ -321,5 +321,53 @@ hr {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   Dark-mode token tier — prefers-color-scheme: dark
+   Spec: meta/design/dark-mode.md
+   All values sourced from the approved spec §3 token contract.
+   The light-mode :root block above is UNCHANGED.
+   Typography, spacing, motion, layout, and radius tokens are
+   omitted — only color tokens change in dark mode.
+   ============================================================ */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* ---------- Surface stack (dark elevation: black floor → lighter gray) ---------- */
+    --bg: #000000; /* Page floor. Pure black is the canonical dark-mode canvas (Apple iOS/macOS systemBackground dark). */
+    --bg-elevated: #1c1c1e; /* Front-most layer: popovers, sheets, dialogs. Apple iOS systemBackground dark. */
+    --surface: #1c1c1e; /* Recessed inline blocks. Shares the raw value with --bg-elevated; semantically distinct by context. */
+    --surface-section: #161618; /* Full-width section bands — slightly lighter than --bg, creating the recessed-band rhythm downward. */
+
+    /* ---------- Foreground ---------- */
+    --fg: #f5f5f7; /* Primary text, wordmark. Near-white pulled off #FFFFFF — 10/255 on each channel. Contrast on --bg: 19.58:1 (AAA). */
+    --fg-muted: #86868b; /* Secondary text: captions, footer, lede. Apple secondaryLabel dark. Contrast on --bg: 6.10:1 (AA). */
+
+    /* ---------- Structure ---------- */
+    --hairline: #2c2c2e; /* 1px dividers. Apple separator dark value. */
+
+    /* ---------- Accent ---------- */
+    --accent: #0a84ff; /* Links, focus rings, status dot. Apple systemBlue dark. Contrast on --bg: 5.86:1 (AA normal; ≥3:1 required for non-text). */
+    --accent-glow: rgba(
+      10,
+      132,
+      255,
+      0.24
+    ); /* Selection background, status dot halo. Higher opacity than light to compensate for dark surface absorption. */
+
+    /* ---------- Warm accent (editorial band) ---------- */
+    --bg-warm-accent: #8a2e1c; /* Editorial band bg — dimmed ~55% luminance of light value; "deep ember" register. */
+    --fg-on-warm: #fdf5f0; /* Primary text on warm band — unchanged; reads correctly against both warm-band values. Contrast: 7.75:1 (AAA). */
+    --fg-on-warm-muted: #d6b9a8; /* Supporting text on warm band — pulled inward for legibility against dimmed band. Contrast: ~4.8:1 (AA). */
+
+    /* ---------- Status color tier ---------- */
+    --danger: #ff453a; /* Apple systemRed dark. Brighter than light-mode to read clearly on dark surfaces. */
+    --bg-danger: #1c0a0a; /* Near-black with red undertone. Tinted dark surface register. */
+    --fg-on-danger: #ffb4b0; /* Softened salmon-pink. Contrast on --bg-danger: 11.63:1 (AAA). */
+    --warning: #ff9f0a; /* Apple systemOrange dark. */
+    --bg-warning: #1c1408; /* Near-black with amber undertone. */
+    --fg-on-warning: #ffd6a0; /* Warm straw. Contrast on --bg-warning: 13.74:1 (AAA). */
   }
 }

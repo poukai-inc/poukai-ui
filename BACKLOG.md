@@ -255,9 +255,9 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
 - [ ] **Fill `meta/brand.md` Typography / Spacing / Motion / Brand-mark
       sections** (currently `_To be filled._` stubs) — the token contract is
       enforced in code but the rationale is undocumented.
-- [ ] **Author missing design specs under `meta/design/`** for Wordmark,
-      StatusBadge, Stat, RoleCard, Principle, FailureMode, Statement, SiteShell
-      (specs exist for Button, Hero, Portrait only).
+- [x] **Author missing design specs under `meta/design/`** — Authored 7 missing specs
+      (Wordmark, StatusBadge, Stat, RoleCard, Principle, FailureMode, SiteShell) from
+      existing source. Backfill — not a re-design.
 - [ ] **Decide on Firefox CT coverage.** `playwright-ct.config.ts` runs only
       Chromium + WebKit; add Firefox or document the omission.
 - [x] **Tokenize line-height + letter-spacing scales** — resolved by the two

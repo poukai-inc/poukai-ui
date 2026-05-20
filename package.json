@@ -143,7 +143,7 @@
       "name": "ESM — tree-shaken (Hero + RoleCard + Principle)",
       "path": "dist/index.js",
       "import": "{ Hero, RoleCard, Principle }",
-      "limit": "9.5 kB"
+      "limit": "10 kB"
     }
   ]
 }

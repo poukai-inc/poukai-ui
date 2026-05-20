@@ -51,6 +51,9 @@ const COMPONENTS = {
     "FeatureCard",
     "FieldNote",
     "Quote",
+    "Input",
+    "Textarea",
+    "Field",
   ],
   organisms: ["SiteShell", "Footer", "Dialog", "DialogBasic", "Tabs", "TabsBasic"],
 };

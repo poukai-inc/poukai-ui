@@ -1,0 +1,39 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  line-height: var(--lh-meta);
+  color: var(--fg);
+  cursor: pointer;
+}
+
+.required {
+  color: var(--fg-muted);
+  margin-left: 2px;
+}
+
+.helper {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg-muted);
+  margin: 0;
+  margin-top: var(--space-1);
+}
+
+.error {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg);
+  margin: 0;
+  margin-top: var(--space-1);
+  border-inline-start: 2px solid var(--accent);
+  padding-inline-start: var(--space-2);
+}

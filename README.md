@@ -87,6 +87,9 @@ other layers, even if the bundler's tree-shaker would miss it.
 | molecule | `TeamCard`    | Person tile: portrait + name + role + bio + contact; stacked or horizontal layout          |
 | molecule | `FieldNote`   | Inline technical aside; 1px left rule, optional muted label, body-register typography      |
 | molecule | `Quote`       | Attributed customer testimonial; sans-serif roman body, hairline rule, avatar slot         |
+| molecule | `Input`       | Single-line text input; type, invalid, disabled; token-styled, forwardRef                  |
+| molecule | `Textarea`    | Multi-line textarea; invalid, disabled, rows=4 default; resize vertical                    |
+| molecule | `Field`       | Label + control + helper/error wrapper; auto-wires id, aria-describedby, aria-invalid      |
 | organism | `SiteShell`   | Top nav + main slot + hairline footer; no router awareness                                 |
 | organism | `Footer`      | Copyright + email + optional secondary link row; `as` prop avoids double `<footer>`        |
 | organism | `Dialog`      | Compound modal overlay: Root, Trigger, Portal, Overlay, Content, Title, Description, Close |

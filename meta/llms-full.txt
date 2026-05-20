@@ -453,6 +453,99 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - Do NOT make Avatar polymorphic — root is always `<span>`.
 - Do NOT use Avatar for decorative brand imagery — use `<Portrait>` for editorial photography.
 
+### Input
+- Single-line text input primitive. Root is always `<input>`. Non-polymorphic. Ref forwarded to `HTMLInputElement`.
+- `type` (`"text"` | `"email"` | `"url"` | `"tel"` | `"password"` | `"search"` | `"number"`, default `"text"`) — constrained to single-line text-like types.
+- `invalid` (optional boolean) — when true, sets `data-invalid="true"` and `aria-invalid="true"` on the root element, applies accent border via CSS. Prefer wiring through `<Field error="…">` which also links `aria-describedby`.
+- Standard `ComponentPropsWithoutRef<"input">` spread: `value`, `onChange`, `placeholder`, `disabled`, `readOnly`, `required`, `autoComplete`, `aria-*`, `data-*`, etc.
+- `clsx` className merge via `className` prop.
+- States: default (`--hairline` border, `--bg-elevated` bg), hover (border → `--fg-muted`), focus-visible (2px `--accent` outline + border), invalid (`--accent` border), disabled (`opacity: 0.5; cursor: not-allowed`).
+- Error border uses `--accent` — the DS does not ship a danger token in v1. This is the correct brand register.
+- Tokens consumed: `--bg-elevated`, `--hairline`, `--fg-muted`, `--fg`, `--accent`, `--font-sans`, `--fs-body`, `--lh-body`, `--space-2`, `--space-3`, `--radius-2`, `--dur-fast`, `--easing`. No new tokens.
+- Idiomatic usage wraps Input in `<Field>`. Standalone usage is valid; consumer owns label association.
+- Do NOT use Input for multi-line text — use `<Textarea>`.
+- Do NOT pass `type="checkbox"`, `type="radio"`, `type="file"`, `type="range"`, `type="date"` — those are not in the allowed type union and require separate primitives.
+- Do NOT add prefix/suffix icon slots in v1 — keep the surface minimal.
+
+```tsx
+// Inside Field (recommended):
+<Field label="Email address" id="email" helper="We'll never share your email.">
+  <Input type="email" placeholder="you@example.com" />
+</Field>
+
+// Standalone (consumer owns label):
+<label htmlFor="search">Search</label>
+<Input id="search" type="search" />
+```
+
+### Textarea
+- Multi-line textarea primitive. Root is always `<textarea>`. Non-polymorphic. Ref forwarded to `HTMLTextAreaElement`.
+- `invalid` (optional boolean) — when true, sets `data-invalid="true"` and `aria-invalid="true"`, applies accent border. Prefer wiring through `<Field error="…">`.
+- Default `rows={4}`. Consumer can override via `rows` prop.
+- `resize: vertical` — horizontal resize disabled. Min-height corresponds to 4 lines of body text.
+- Standard `ComponentPropsWithoutRef<"textarea">` spread: `value`, `onChange`, `placeholder`, `rows`, `disabled`, `readOnly`, `required`, `aria-*`, `data-*`, etc.
+- `clsx` className merge via `className` prop.
+- States: identical to Input — default, hover, focus-visible, invalid, disabled.
+- Tokens consumed: `--bg-elevated`, `--hairline`, `--fg-muted`, `--fg`, `--accent`, `--font-sans`, `--fs-body`, `--lh-body`, `--space-2`, `--space-3`, `--radius-2`, `--dur-fast`, `--easing`. No new tokens.
+- Do NOT add character count display — consumer responsibility.
+- Do NOT use Textarea for single-line input — use `<Input>`.
+
+```tsx
+// Inside Field (recommended):
+<Field label="Message" id="message">
+  <Textarea placeholder="Tell us about your project…" rows={6} />
+</Field>
+```
+
+### Field
+- Composition wrapper that connects a visible label, optional helper text, and optional error message to a single form control (`<Input>`, `<Textarea>`, or any HTML form element).
+- Root element: `<div>`. Non-polymorphic. Ref forwarded to `HTMLDivElement`. `...rest` spread passes `data-*`, `aria-*`, `className`, `style`, etc.
+- `label` (required string) — visible label text. Rendered as `<label htmlFor={id}>`. Every Field must have a label.
+- `id` (optional string) — auto-generated via `useId()` when not provided. Wires `<label htmlFor>` and the child control's `id`.
+- `helper` (optional string) — helper text rendered below the control in `--fg-muted` register. Not rendered when `error` is also set.
+- `error` (optional string) — error message rendered below the control with `role="alert"`, `--fg` color, and a 2px `--accent` left-rule border. When set: replaces helper text, injects `invalid={true}` and `aria-invalid="true"` onto the child, includes error element id in `aria-describedby`.
+- `required` (optional boolean) — adds visible `*` indicator (in `<span aria-hidden="true">`) next to label, and injects `required` onto child. The `aria-hidden` hides `*` from AT; the `required` attribute conveys it semantically.
+- `children` (ReactElement) — exactly one form control. Field clones it via `React.cloneElement` to inject `id`, `aria-describedby`, `aria-invalid`, `invalid`, and `required` as needed.
+- `cloneElement` injection table:
+  - `id` — always injected (wires label)
+  - `aria-describedby` — injected when helper or error is set
+  - `aria-invalid="true"` — injected when error is set
+  - `invalid={true}` — injected when error is set (for DS Input/Textarea styling)
+  - `required={true}` — injected when required is set
+- `aria-describedby` points at error element id when error is present; helper element id when only helper is present.
+- Error `<p>` has `role="alert"` — announces error message to screen readers on mount.
+- Layout: `display: flex; flex-direction: column; gap: var(--space-1)`.
+- Label typography: `--fs-meta`, `font-weight: 500`, `--fg`, `cursor: pointer`.
+- Helper typography: `--fs-meta`, `--fg-muted`, `--lh-meta`, `margin-top: var(--space-1)`.
+- Error typography: `--fs-meta`, `--fg`, `--lh-meta`, `margin-top: var(--space-1)`, `border-inline-start: 2px solid var(--accent)`, `padding-inline-start: var(--space-2)`.
+- Tokens consumed: `--fs-meta`, `--lh-meta`, `--font-sans`, `--fg`, `--fg-muted`, `--accent`, `--space-1`, `--space-2`. No new tokens.
+- Do NOT add a Form wrapper organism here — that is a separate future organism.
+- Do NOT pass multiple children — Field supports exactly one form control.
+- Do NOT add inline vs. stacked label variants in v1 — stacked only.
+- Do NOT add floating label — not brand-aligned.
+
+```tsx
+// (a) Field + Input (email):
+<Field label="Email address" id="email" helper="We'll never share your email.">
+  <Input type="email" placeholder="you@example.com" />
+</Field>
+
+// (b) Field + Textarea (message):
+<Field label="Message" id="message">
+  <Textarea placeholder="Tell us about your project…" />
+</Field>
+
+// (c) Field with error:
+<Field label="Email address" id="email-err" error="Please enter a valid email address.">
+  <Input type="email" defaultValue="not-an-email" />
+</Field>
+
+// (d) Required field:
+<Field label="Full name" id="name" required>
+  <Input placeholder="Arian Zargaran" />
+</Field>
+```
+
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.
 - Emits plain <a href> tags — framework-router consumers intercept at app level.

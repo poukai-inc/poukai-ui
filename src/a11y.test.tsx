@@ -26,6 +26,9 @@ import { SiteShell } from "./organisms/SiteShell";
 import { Footer } from "./organisms/Footer";
 import { Dialog, DialogBasic } from "./organisms/Dialog";
 import { Tabs, TabsBasic } from "./organisms/Tabs";
+import { Input } from "./molecules/Input";
+import { Textarea } from "./molecules/Textarea";
+import { Field } from "./molecules/Field";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -588,6 +591,37 @@ test("a11y — TabsBasic", async ({ mount, page }) => {
         },
       ]}
     />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Field + Input (email, with helper)", async ({ mount, page }) => {
+  await mount(
+    <Field label="Email address" id="a11y-gate-field-input" helper="We'll never share your email.">
+      <Input type="email" placeholder="you@example.com" />
+    </Field>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Field + Textarea (message, with helper)", async ({ mount, page }) => {
+  await mount(
+    <Field label="Message" id="a11y-gate-field-ta" helper="Tell us about your project.">
+      <Textarea placeholder="Your message…" />
+    </Field>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Field with error state", async ({ mount, page }) => {
+  await mount(
+    <Field
+      label="Email address"
+      id="a11y-gate-field-error"
+      error="Please enter a valid email address."
+    >
+      <Input type="email" defaultValue="not-an-email" />
+    </Field>,
   );
   await expectAxeClean(page);
 });

@@ -57,6 +57,9 @@ export { TeamCard, type TeamCardProps } from "./molecules/TeamCard";
 export { FeatureCard, type FeatureCardProps } from "./molecules/FeatureCard";
 export { FieldNote, type FieldNoteProps } from "./molecules/FieldNote";
 export { Quote, type QuoteProps } from "./molecules/Quote";
+export { Input, type InputProps } from "./molecules/Input";
+export { Textarea, type TextareaProps } from "./molecules/Textarea";
+export { Field, type FieldProps } from "./molecules/Field";
 
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";

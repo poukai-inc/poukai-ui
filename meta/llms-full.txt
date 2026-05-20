@@ -1019,6 +1019,30 @@ Precise, direct, technically confident. Never hedges, inflates, or reassures. No
 - Button labels: sentence-case, max 4 words, specific verbs. "Get in touch", "Learn more", not "Click here" or "LET'S CONNECT!"
 - Error states (consumer responsibility): declarative, specific, not apologetic. "Email address is required." not "Oops! Something went wrong."
 
+### Toast
+- Imperative notification organism. Wraps `@radix-ui/react-toast` — all ARIA, swipe-to-dismiss, focus, and prefers-reduced-motion are delegated to Radix.
+- Architecture: `<ToastProvider>` wraps the app root once. `useToast()` returns `{ show, dismiss }` for imperative use anywhere in the tree.
+- `ToastPayload`: `{ tone?, title?, body, duration?, action? }`. `body` is the only required field.
+- Four tones: `"info"` (default), `"success"`, `"warning"`, `"danger"`. Tone determines background, left-rule color, and text color — identical palette contract to `<Banner>`.
+  - `info`: `--bg-elevated` bg, hairline border all sides, `--fg` text.
+  - `success`: `--bg-elevated` bg, 2px `--accent` left-rule, `--fg` text.
+  - `warning`: `--bg-warning` bg, 2px `--warning` left-rule, `--fg-on-warning` text.
+  - `danger`: `--bg-danger` bg, 2px `--danger` left-rule, `--fg-on-danger` text.
+- `ToastProvider` props: `defaultDuration` (default 5000ms), `max` (default 4 simultaneous), `position` (`"bottom-right"` default, `"top-right"`, `"top-center"`, `"bottom-center"`), `closeLabel` (default `"Close"`).
+- `position` drives the viewport's CSS class. Viewport is `position: fixed; z-index: 200` — above Dialog overlay (100) and content (101).
+- `max` enforces a queue cap: when exceeded, the oldest toast is dropped immediately.
+- Per-toast `duration` overrides `defaultDuration`. Radix fires `onOpenChange(false)` when duration expires, which triggers `dismiss(id)`.
+- `action`: `{ label: string; onClick: () => void }`. Rendered via Radix `<Toast.Action altText={label}>` wrapping `<Button variant="ghost" size="sm">`. `altText` is required by Radix for SR accessibility.
+- Close button: always rendered. `aria-label` = `closeLabel` prop (default `"Close"`). Uses Lucide `X` at 14px.
+- ARIA: Radix maps `type="foreground"` → `aria-live="assertive"` (warning/danger) and `type="background"` → `aria-live="polite"` (info/success).
+- Width: `min(420px, calc(100vw - 2 * var(--page-pad)))`. Padding: `--space-3` block, `--space-4` inline. Radius: `--radius-2`. Shadow: `0 4px 12px rgb(0 0 0 / 0.08)` (inline — no shadow token in DS vocabulary; same rationale as Dialog).
+- Entrance: slide from right. Exit: fade out. Both at `--dur-fast` (180ms). Reduced motion: handled by the global `tokens.css` block — no per-component override.
+- Toast is NOT `<Banner>` (Banner is persistent, inline, document-flow). Toast is NOT `<Dialog>` (Dialog is modal and blocking). Use Toast for time-limited, non-blocking feedback only.
+- Do NOT add `<ToastProvider>` to `<SiteShell>` — that is the consuming app's concern.
+- Do NOT use `useToast()` outside a `<ToastProvider>` — it throws.
+- Do NOT show more than `max` simultaneous toasts. The oldest is dropped automatically.
+- Do NOT use Toast for destructive confirmations — use `<Dialog>`.
+
 ---
 
 ## Decision provenance

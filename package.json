@@ -117,7 +117,7 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "28 kB"
+      "limit": "33 kB"
     },
     {
       "name": "ESM — atoms subpath",
@@ -132,7 +132,7 @@
     {
       "name": "ESM — organisms subpath",
       "path": "dist/organisms.js",
-      "limit": "21 kB"
+      "limit": "25 kB"
     },
     {
       "name": "ESM — tree-shaken (Wordmark + Button)",

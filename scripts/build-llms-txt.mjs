@@ -56,7 +56,7 @@ const COMPONENTS = {
     "Field",
     "Banner",
   ],
-  organisms: ["SiteShell", "Footer", "Dialog", "DialogBasic", "Tabs", "TabsBasic", "Form"],
+  organisms: ["SiteShell", "Footer", "Dialog", "DialogBasic", "Tabs", "TabsBasic", "Form", "ToastProvider"],
 };
 
 const exportKeys = Object.keys(pkg.exports ?? {});

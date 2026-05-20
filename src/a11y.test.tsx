@@ -470,6 +470,28 @@ test("a11y — Banner (all four tones)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — Portrait (lazy default, eager above-fold)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Portrait
+        src="https://picsum.photos/seed/a11y-portrait/1800/2400"
+        alt="Arian Zargaran, founder of Poukai — headshot in natural light"
+        aspect="3:4"
+        width={1800}
+      />
+      <Portrait
+        src="https://picsum.photos/seed/a11y-portrait-eager/800/800"
+        alt="Team member headshot for a11y gate scan"
+        aspect="1:1"
+        width={800}
+        loading="eager"
+        fetchPriority="high"
+      />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- organisms ---------- */
 
 test("a11y — Footer (as=div, with links)", async ({ mount, page }) => {

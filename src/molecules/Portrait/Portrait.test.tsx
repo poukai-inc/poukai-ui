@@ -78,17 +78,14 @@ test("loading and fetchpriority attributes are set correctly on img", async ({ m
   await expect(img).toHaveAttribute("fetchpriority", "high");
 });
 
-test("dev-mode throws on empty alt (guard is process.env.NODE_ENV === development)", async ({
-  mount,
-}) => {
-  // The Portrait component throws in NODE_ENV=development when alt is empty.
-  // Playwright CT runs under NODE_ENV=test, so the guard does not fire in CI.
-  // This test verifies the guard logic is in place by confirming the component
-  // renders without error when alt is valid.
-  const component = await mount(
-    <Portrait src={VALID_SRC} alt={VALID_ALT} aspect="3:4" width={1800} />,
-  );
-  await expect(component.locator("img")).toHaveAttribute("alt", VALID_ALT);
+test("dev-mode throws on empty alt — guard actually fires", async ({ mount }) => {
+  // playwright-ct.config.ts sets `define: { "import.meta.env.DEV": "true" }` so
+  // the guard executes in CT builds. This test confirms the throw path is active:
+  // mounting with alt="" must reject. If the guard is removed this test will fail
+  // because mount() will resolve instead of rejecting.
+  await expect(
+    mount(<Portrait src={VALID_SRC} alt="" aspect="3:4" width={1800} />),
+  ).rejects.toThrow();
 });
 
 test("sizes prop flows through to both source elements", async ({ mount }) => {

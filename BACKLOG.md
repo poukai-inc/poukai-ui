@@ -204,7 +204,9 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
       Hero/Portrait/Statement tests only; either standardize on the central
       `src/a11y.test.tsx` or add inline scans everywhere — current pattern is
       asymmetric.
-- [ ] **Add `Portrait` to the centralized `src/a11y.test.tsx` gate.**
+- [x] **Add `Portrait` to the centralized `src/a11y.test.tsx` gate.**
+      Added `test("a11y — Portrait (lazy default, eager above-fold)", …)` covering
+      both loading modes. Portrait was already imported at the top of the file.
 - [x] **Reconcile letter-spacing.** Resolved by adding `--tracking-micro: 0.04em`,
       `--tracking-eyebrow: 0.06em` (already existed), and `--tracking-numeric: 0.08em`
       tokens. Literals swept from `Stat.source`, `Hero.eyebrow`, `RoleCard.eyebrow`,
@@ -225,8 +227,11 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
       `meta/design/StatusBadge.md §3` — too specific for a token. RoleCard icon
       box swapped to `var(--btn-h-md)` (resolves to `44px`) since the alignment
       is intentional and should track the button height ladder.
-- [ ] **Document `illustration` slot in `meta/llms-full.txt` Hero section.**
-      Added `0.15.0`, missing from the constraints list.
+- [x] **Document `illustration` slot in `meta/llms-full.txt` Hero section.**
+      Added `0.15.0`, missing from the constraints list. Bullet was present but
+      documented `720px`; corrected to `768px` (`--bp-md`) to match the reconciled
+      breakpoint, added stacked-below-768px behavior note, and documented accepted
+      content types (SVG, `<img>`, `<Portrait>`, etc.).
 - [x] **Prune stale `ROADMAP.md` "Shipped" block.** Done in this same pass —
       see ROADMAP.md.
 - [x] **Prune stale `BACKLOG.md` "Done" entries** Done in this same pass.
@@ -239,8 +244,12 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
       integer indices with optional formatted labels (e.g. "FM-01") for enumerated
       failure cases. Documented the distinction in both `### Principle` and
       `### FailureMode` sections of `meta/llms-full.txt`.
-- [ ] **Make the Portrait dev-mode-guard test non-vacuous.** Current test
-      passes trivially under `NODE_ENV=test` without exercising the guard.
+- [x] **Make the Portrait dev-mode-guard test non-vacuous.** Added
+      `define: { "import.meta.env.DEV": "true" }` to `ctViteConfig` in
+      `playwright-ct.config.ts` so the guard executes during CT runs. Rewrote
+      the test to mount with `alt=""` and assert `mount()` rejects — the test
+      will fail if the guard is removed. No runtime behavior change (Vite
+      replaces `import.meta.env.DEV` with `false` in the published build).
 
 ### Low — hygiene + future-proofing
 

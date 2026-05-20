@@ -13,6 +13,12 @@ export default defineConfig({
     trace: "on-first-retry",
     ctPort: 3100,
     ctViteConfig: {
+      // Expose import.meta.env.DEV as true so dev-mode guards (e.g. Portrait's
+      // non-empty alt invariant) are exercisable in Playwright CT tests.
+      // Vite replaces import.meta.env.DEV with false in the published build.
+      define: {
+        "import.meta.env.DEV": "true",
+      },
       css: {
         modules: { localsConvention: "camelCaseOnly" },
       },

@@ -39,22 +39,28 @@
 
 /* ---------- Tone: warning ---------- */
 
-/* Warm-accent surface. Decorative 2px left rule over the standard hairline. */
+/* Tinted page-tier surface (--bg-warning). Amber/ochre left rule.
+   NOTE: --fg-on-warning text on --bg-warning gives ≥10:1 contrast (AAA).
+   <Button variant="ghost"> (--fg text) over --bg-warning: ~16:1 — composes cleanly. */
 .warning {
-  background: var(--bg-warm-accent);
+  background: var(--bg-warning);
   border: none;
-  border-inline-start: 2px solid var(--fg-on-warm-muted);
-  color: var(--fg-on-warm);
+  border-inline-start: 2px solid var(--warning);
+  color: var(--fg-on-warning);
 }
 
 /* ---------- Tone: danger ---------- */
 
-/* Same warm-accent register as warning — same urgency tier. */
+/* Tinted page-tier surface (--bg-danger). True-red left rule.
+   NOTE: --fg-on-danger text on --bg-danger gives ≥9:1 contrast (AAA).
+   <Button variant="ghost"> (--fg text) over --bg-danger: ~16:1 — composes cleanly.
+   Contrast note: if a future ghost-on-warm Button is designed for use over
+   --bg-warm-accent, that variant must use --fg-on-warm to meet WCAG AA 4.5:1. */
 .danger {
-  background: var(--bg-warm-accent);
+  background: var(--bg-danger);
   border: none;
-  border-inline-start: 2px solid var(--fg-on-warm-muted);
-  color: var(--fg-on-warm);
+  border-inline-start: 2px solid var(--danger);
+  color: var(--fg-on-danger);
 }
 
 /* ---------- Tone: success ---------- */

@@ -64,6 +64,16 @@
   --fg-on-warm: #fdf5f0; /* primary text on warm band — warm-tinted near-white */
   --fg-on-warm-muted: #f5ddd0; /* supporting text on warm band — see brand.md for ceiling */
 
+  /* ---------- Status color tier — product feedback only (not editorial brand) ---------- */
+  /* danger: errors, destructive actions. True red hue family — distinct from --bg-warm-accent brick-red. */
+  --danger: #b3261e; /* WCAG AA on --bg (#FBFBFD): ~7.2:1 */
+  --bg-danger: #fef0f0; /* tinted page-tier surface — subtle pink */
+  --fg-on-danger: #5c1310; /* deep oxblood for text on --bg-danger: ~9.1:1 */
+  /* warning: caution, attention required. Amber/ochre hue — distinct from --bg-warm-accent and --danger. */
+  --warning: #b46100; /* WCAG AA on --bg (#FBFBFD): ~4.6:1 */
+  --bg-warning: #fff7e6; /* tinted page-tier surface — light cream */
+  --fg-on-warning: #4a2900; /* deep brown for text on --bg-warning: ~10.2:1 */
+
   /* ---------- Typography ---------- */
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
   --font-sans:

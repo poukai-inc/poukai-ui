@@ -17,9 +17,9 @@ export const InfoDefault: Story = () => (
   </div>
 );
 
-/** Warning — warm-accent surface, assertive live region, decorative left rule.
- *  Verifies: role="alert", --bg-warm-accent background, --fg-on-warm text,
- *  2px border-inline-start using --fg-on-warm-muted. */
+/** Warning — tinted cream surface (--bg-warning), assertive live region, amber left rule.
+ *  Verifies: role="alert", --bg-warning background, --fg-on-warning text,
+ *  2px border-inline-start using --warning (amber). Visually distinct from danger (pink surface). */
 export const Warning: Story = () => (
   <div style={{ background: "var(--bg)", padding: "var(--space-8) var(--space-4)" }}>
     <Banner tone="warning">
@@ -28,8 +28,9 @@ export const Warning: Story = () => (
   </div>
 );
 
-/** Danger — same warm-accent register as warning, assertive live region.
- *  Verifies: role="alert", identical surface to warning, distinct semantic intent. */
+/** Danger — tinted pink surface (--bg-danger), assertive live region, true-red left rule.
+ *  Verifies: role="alert", --bg-danger background, --fg-on-danger text,
+ *  2px border-inline-start using --danger (red). Visually distinct from warning (cream surface). */
 export const Danger: Story = () => (
   <div style={{ background: "var(--bg)", padding: "var(--space-8) var(--space-4)" }}>
     <Banner tone="danger">
@@ -94,7 +95,9 @@ export const WithIcon: Story = () => (
 );
 
 /** AllTones — all four tones stacked for visual comparison.
- *  Design-matrix story. */
+ *  Design-matrix story. Each tone is now visually distinct:
+ *  info=page canvas (--bg), warning=cream (--bg-warning), danger=pink (--bg-danger), success=elevated (--bg-elevated).
+ *  warning and danger no longer share the same --bg-warm-accent surface. */
 export const AllTones: Story = () => (
   <div
     style={{
@@ -113,9 +116,10 @@ export const AllTones: Story = () => (
 );
 
 /** WithIconAndAction — full anatomy: icon + body + action. Warning tone.
- *  On warm tones (warning/danger), action elements must use --fg-on-warm for contrast.
- *  A plain <button> with explicit on-warm color is the correct pattern on warm surfaces.
- *  ghost Button uses --fg which does not meet 4.5:1 over --bg-warm-accent. */
+ *  warning now uses --bg-warning (cream) with --fg-on-warning text.
+ *  <Button variant="ghost"> (--fg text, ~16:1 on --bg-warning) composes cleanly on the new tinted surface.
+ *  NOTE: The previous constraint about --fg-on-warm over --bg-warm-accent still applies if --bg-warm-accent
+ *  is used in future components. Ghost Button now works on danger/warning tones without a special variant. */
 export const WithIconAndAction: Story = () => (
   <div style={{ background: "var(--bg)", padding: "var(--space-8) var(--space-4)" }}>
     <Banner
@@ -138,20 +142,9 @@ export const WithIconAndAction: Story = () => (
         </svg>
       }
       action={
-        <button
-          type="button"
-          style={{
-            background: "none",
-            border: "none",
-            color: "var(--fg-on-warm)",
-            cursor: "pointer",
-            fontFamily: "var(--font-sans)",
-            fontSize: "var(--fs-meta)",
-            padding: 0,
-          }}
-        >
+        <Button variant="ghost" size="sm">
           Rotate key
-        </button>
+        </Button>
       }
     >
       Your API key expires in 3 days. Rotate it before the deadline to prevent service interruption.

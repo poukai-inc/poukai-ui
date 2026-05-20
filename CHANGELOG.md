@@ -1,5 +1,126 @@
 # @poukai-inc/ui
 
+## 1.0.0 — 2026-05-20
+
+### The freeze
+
+1.0.0 freezes the API surface. Prop signatures, token names, and subpath exports
+lock in per `meta/semver-policy.md`. Any removal or rename of a prop, CSS custom
+property, or subpath export is a major version bump from this point forward. Adding
+a new optional prop, a new token, or a new component remains a minor bump.
+
+What stays evolvable: CSS visual output, internal implementation, DOM structure that
+does not alter accessible roles. A token value can shift in a patch release if the
+delta is imperceptible; a deliberate visible change is minor. New components continue
+to ship as minor bumps. The deprecation lifecycle — warn in development for at least
+one minor release before removal — is documented in `meta/semver-policy.md` and
+enforced by review.
+
+The shipped surface at freeze: 31 components across 3 atomic layers; a dark-mode
+token tier via `@media (prefers-color-scheme: dark)`; 34 CSS custom properties in
+`src/tokens/tokens.css`; an Apple-aligned neutral + accent palette; Playwright
+component tests across Chromium, Firefox, and WebKit with an axe-core a11y gate;
+per-subpath bundle-size budgets enforced in CI; and an auto-merge pipeline. See
+`meta/milestones/1.0.0.md` for the full gate criteria. Future breaking changes
+follow the template at `meta/migrations/template.md`.
+
+### What you get
+
+#### Component surface (31 shipped)
+
+**Atoms (8)**
+
+- `Wordmark` (`0.1.0`) — SVG brand mark, geometry inlined at build time, inherits `currentColor`.
+- `StatusBadge` (`0.1.0`) — availability indicator: `available` / `idle` / `closed`. Animated pulse for `available`.
+- `Button` (`0.1.0`) — primary action atom. Variants: `primary`, `secondary`, `ghost`. Sizes: `sm`, `compact`, `md`, `lg`. `asChild` via Radix Slot.
+- `Stat` (`0.1.0`) — display numeral + caption + optional source line. Inherits `currentColor`; invertable on dark surfaces.
+- `EmailLink` (`0.17.0`) — canonical `mailto:` affordance. Variants: `default`, `muted`. Optional leading icon and trailing qualifier.
+- `Eyebrow` (`0.17.0`) — canonical micro-label. Variants: `muted`, `solid`, `numbered`. Polymorphic `as` prop.
+- `Tag` (`0.18.0`) — inline categorical pill. Tones: `default`, `muted`. Optional leading icon slot.
+- `Avatar` (`0.18.0`) — three modes via discriminated union: `image`, `initials`, `empty`. Sizes: `sm`, `md`, `lg`. Shapes: `circle`, `square`.
+
+**Molecules (17)**
+
+- `Hero` (`0.1.0`) — doorway section with hand-tuned vertical rhythm. Variants: `default`, `no-title`. Sizes: `display`, `intimate`. Entrance: `stagger`. Bleed: `none`, `full`. Illustration slot for two-column layout.
+- `RoleCard` (`0.1.0`) — surface + hairline card recipe with editorial typography. Optional icon slot; footer bottom-pinned for grid alignment.
+- `Principle` (`0.1.0`) — editorial numbered block. Margin numeral on desktop.
+- `FailureMode` (`0.1.0`) — zero-padded index block. Visually distinct from `Principle`; the failure is the subject.
+- `Statement` (`0.10.0`) — italic-serif editorial block with optional supporting line and hairline.
+- `Portrait` (`0.13.0`) — photography primitive with AVIF/WebP/JPEG `<picture>` fallback chain, srcset generation, and CLS-safe aspect-ratio.
+- `Pull` (`0.17.0`) — left-ruled blockquote accent. Variants: `serif` (Instrument Serif italic), `sans` (Geist roman). Polymorphic `as` prop.
+- `Section` (`0.17.0`) — page-section wrapper. Owns vertical rhythm around eyebrow + title + lede. `aria-labelledby` wired on landmark roots.
+- `FeatureCard` (`0.17.0`) — structural feature-grid tile. Variants: `default`, `bordered`. Polymorphic `as` prop.
+- `LinkCard` (`0.17.0`) — interactive card primitive; entire surface is a single `<a>` click target. Variants: `default`, `quiet`. `asChild` via Radix Slot.
+- `TeamCard` (`0.17.0`) — person tile: portrait, name, role, optional bio, optional contact affordance. Layouts: `stacked`, `horizontal`.
+- `FieldNote` (`0.18.0`) — inline technical-aside: 1px left hairline rule, body-register type. Distinct from `Pull` and `FailureMode`.
+- `Quote` (`0.18.0`) — attributed customer testimonial. `<figure>` + `<blockquote>` + `<figcaption>` semantic structure. Optional avatar slot.
+- `Banner` (`0.21.0`) — persistent inline notice. Tones: `info`, `warning`, `danger`, `success`. Optional leading icon and trailing action slots.
+- `Field` (`0.20.0`) — composition wrapper: auto-wires label association, `aria-describedby`, `aria-invalid`, and `required` onto its child control.
+- `Input` (`0.20.0`) — single-line text input. Composed inside `Field`.
+- `Textarea` (`0.20.0`) — multi-line text input. Composed inside `Field`.
+
+**Organisms (6)**
+
+- `SiteShell` (`0.1.0`) — top nav (linked wordmark + route list) + main slot + hairline footer. No router awareness; emits plain `<a href>`.
+- `Dialog` + `DialogBasic` (`0.18.0`) — compound modal overlay on `@radix-ui/react-dialog`. `DialogBasic` is a convenience wrapper with built-in close, title, optional description, body, and footer row.
+- `Footer` (`0.18.0`) — site-footer content block. Copyright + `EmailLink` + optional nav link row. `as` prop prevents double-`<footer>` landmark problem.
+- `Tabs` (`0.19.0`) — compound tabbed interface on `@radix-ui/react-tabs`. `TabsBasic` convenience wrapper. Horizontal and vertical orientations.
+- `Toast` + `useToast` (`0.22.0`) — imperative notification portal on `@radix-ui/react-toast`. Tones: `info`, `success`, `warning`, `danger`. `ToastProvider` with position, duration, and max controls.
+- `Form` (`0.22.0`) — form layout organism wrapping `Field`, `Input`, and `Textarea` primitives.
+
+#### Brand contract
+
+The token contract is in `src/tokens/tokens.css`. Engineers consume tokens; they never edit the file directly. All 34 CSS custom properties are documented in `meta/llms-full.txt` and `meta/design/foundations.md`.
+
+Color: Apple-aligned neutral ramp — `--bg` (`#FBFBFD`, never pure white), `--bg-elevated` (`#FFFFFF`, reserved for popovers and the front-most layer), `--surface`, `--surface-section`, `--fg`, `--fg-muted`, `--hairline`, `--accent`, `--accent-glow`. Dark mode overrides via `@media (prefers-color-scheme: dark)` — Apple-HIG values throughout; `--fg` at 19.58:1 on `--bg` (AAA). Status tier (`--danger`, `--warning`, `--success` with matching surface and foreground pairs) is distinct from the editorial warm-accent tier (`--bg-warm-accent`, `--fg-on-warm`, `--fg-on-warm-muted`).
+
+Typography: Geist (sans-serif, body and UI) and Instrument Serif (italic editorial accents). Self-hosted in `src/tokens/fonts/`. Type scale: `--fs-meta` (14px) through `--fs-display` (48–88px fluid), with named rungs for body, card-title, statement, tagline, stat, and display.
+
+Spacing: 4px grid, 11 named rungs (`--space-1` through `--space-12`). Consuming contexts own spacing; components carry `margin: 0` on their roots.
+
+Motion: 7 duration tokens (`--dur-instant` through `--dur-pulse`) and 2 easing tokens (`--easing`, `--easing-link`). `prefers-reduced-motion: reduce` is honored via a global override block in `tokens.css`; no component-level workarounds required.
+
+#### Composition patterns
+
+Four patterns are documented in `meta/conventions/polymorphic-props.md`:
+
+- `asChild` (Radix Slot) — the component's root element is replaced by the consumer's child element. Used on `Button` and `LinkCard`.
+- `as` (closed root swap) — the root HTML element changes within an explicit allowed union. Used on `Eyebrow`, `Statement`, `Section`, `Pull`, `FeatureCard`, `TeamCard`, `Footer`.
+- `<slot>As` (named inner slot swap) — a named interior element changes semantic level. Used on `Hero` (`titleAs`), `Section` (`titleAs`), `FeatureCard` (`titleAs`), `LinkCard` (`titleAs`).
+- No polymorphism — pure content, fixed root element. Used on atoms with a fixed semantic contract.
+
+Compound APIs: `Dialog` and `Tabs` expose Radix-wrapped sub-component namespaces. Imperative API: `Toast` via `useToast()`. Structural wrappers with explicit child slots: `Form`, `Field`, `SiteShell`, `Footer`.
+
+#### Accessibility
+
+WCAG 2.1 AA is the baseline on all components. The axe-core gate (`src/a11y.test.tsx`) runs in CI and blocks on any violation across all 31 components. Three-browser coverage: Chromium, Firefox, WebKit — all 1572 tests passing. Dark-mode body text (`--fg` on `--bg`) meets AAA at 19.58:1. `aria-labelledby` is wired automatically on landmark roots (`article`, `section`) where the `as` prop resolves to a landmark element.
+
+#### Tooling
+
+Auto-merge is the default on every non-draft PR. Six per-subpath bundle-size budgets are enforced in CI (`pnpm size` after build, exit 1 on regression). Source maps (`*.js.map`, `*.cjs.map`) are published with the package — stack traces in consumer debuggers resolve to real source lines. A bundle visualizer artifact (`dist/stats.html`) is uploaded on every CI run and retained 30 days. The Ladle showcase auto-deploys to <https://poukai-inc.github.io/poukai-ui/> on every push to `main`.
+
+#### Documentation
+
+Every component has a design spec in `meta/design/`. `meta/llms-full.txt` (mirrored to `dist/llms-full.txt`) is the brand and component contract for LLM consumers; a CI sync check (`scripts/check-llms-tokens-sync.mjs`) blocks if any color token or component directory is undocumented. `CONTRIBUTING.md` covers the full contribution loop. `meta/semver-policy.md` defines the versioning contract. `meta/migrations/template.md` is the format for documenting future breaking changes.
+
+### Breaking changes from 0.x
+
+No prop renames or removals occurred during the 0.x line. The 0.x series was purely additive — every release added props, tokens, or components; nothing was taken away or renamed. The two internal CSS property removals in `0.3.2` (hardcoded `color: var(--fg)` override on `Wordmark` root; `min-height: 100%` on `RoleCard` root) corrected bugs and did not alter any public prop or token contract.
+
+Consumers on 0.22.x adopt 1.0.0 without code changes.
+
+### Migration path
+
+This 1.0.0 release is non-breaking. No migration steps are required for consumers upgrading from 0.22.x.
+
+Future major bumps (2.0.0 and beyond) will follow the template at `meta/migrations/template.md`. Each guide documents the exact set of props, tokens, and exports that changed, the mechanical upgrade steps, and the design rationale.
+
+### Acknowledgements
+
+The 0.x line was largely solo-author work. The brand contract lived in `meta/brand.md` from day one and drove every token decision, palette choice, and typographic rule in the system. The 1.0.0 milestone closes Phase 1 of the migration plan and establishes the stable floor that the pouk.ai site rebuild and future product surfaces depend on.
+
+---
+
 ## 0.22.1
 
 ### Patch Changes

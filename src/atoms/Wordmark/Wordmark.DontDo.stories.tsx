@@ -3,7 +3,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Wordmark } from "./Wordmark";
 
 export default {
-  title: "Brand / Wordmark",
+  title: "Components / Wordmark",
 } satisfies StoryDefault;
 
 /* ─── Layout helpers ──────────────────────────────────────── */

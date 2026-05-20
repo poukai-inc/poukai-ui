@@ -21,6 +21,13 @@ jobs:
       - run: pnpm lint
       - run: pnpm format:check
       - run: pnpm build
+      - name: Upload bundle stats
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-stats
+          path: dist/stats.html
+          retention-days: 30
       - run: pnpm exec playwright install --with-deps chromium firefox webkit
       - run: pnpm test
       - run: pnpm size

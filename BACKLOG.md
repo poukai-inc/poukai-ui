@@ -197,9 +197,10 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
 - [x] **Add `args` / `argTypes` to story default exports** — Added
       `args`/`argTypes` Playground knobs to the six story files: FailureMode,
       Portrait, Principle, RoleCard, Statement, SiteShell.
-- [ ] **Decide Wordmark story namespace.** `"Brand / Wordmark"` vs
-      `"Components / *"` for the other ten. Either document the split or
-      unify under `Components/`.
+- [x] **Decide Wordmark story namespace.** Unified under `Components/Wordmark`.
+      All three Wordmark story files (`Wordmark.stories.tsx`,
+      `Wordmark.DontDo.stories.tsx`, `Wordmark.AllVariants.stories.tsx`)
+      updated from `"Brand / Wordmark"` to `"Components / Wordmark"`.
 - [x] **Spread axe-core coverage.** Standardized on the central
       `src/a11y.test.tsx` gate. Inline `AxeBuilder` scans removed from 14
       component tests (Avatar, EmailLink, Eyebrow, Tag, Statement, FeatureCard,

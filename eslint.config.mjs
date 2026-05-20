@@ -12,6 +12,24 @@ const compat = new FlatCompat({
 
 /** @type {import("eslint").Linter.Config[]} */
 export default [
+  // Flat-config ignores: exclude files outside tsconfig.json's
+  // "include": ["src", "*.d.ts"]. Root-level config .ts/.mjs/.cjs files
+  // are not part of the TS project and must not be parsed with
+  // parserOptions.project. List them explicitly to avoid accidentally
+  // excluding src/**/*.ts.
+  {
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      ".ladle/**",
+      "scripts/**",
+      "vite.config.ts",
+      "playwright-ct.config.ts",
+      "playwright/**",
+      "*.mjs",
+      "*.cjs",
+    ],
+  },
   ...compat.config({
     root: true,
     parser: "@typescript-eslint/parser",

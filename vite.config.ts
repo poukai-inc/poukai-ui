@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import { libInjectCss } from "vite-plugin-lib-inject-css";
+import { visualizer } from "rollup-plugin-visualizer";
 import { resolve } from "node:path";
 
 // Library mode is gated on BUILD_TARGET=lib so Ladle (which reuses this config
@@ -11,7 +12,18 @@ const isLibBuild = process.env.BUILD_TARGET === "lib";
 
 export default defineConfig({
   plugins: isLibBuild
-    ? [react(), dts({ include: ["src"], rollupTypes: true }), libInjectCss()]
+    ? [
+        react(),
+        dts({ include: ["src"], rollupTypes: true }),
+        libInjectCss(),
+        visualizer({
+          filename: "dist/stats.html",
+          template: "treemap",
+          gzipSize: true,
+          brotliSize: true,
+          emitFile: false,
+        }),
+      ]
     : [react()],
   css: {
     modules: {

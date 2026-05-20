@@ -1,4 +1,5 @@
 dist
+dist/stats.html
 node_modules
 .ladle/build
 build

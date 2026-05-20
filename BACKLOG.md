@@ -17,8 +17,8 @@ No current blockers. All `0.22.0`-era blocking items have shipped.
 
 Items from `meta/milestones/1.0.0.md` §3 that are not yet met. Tick here and in the milestone doc in the same PR.
 
-- [ ] **Author `meta/design/Statement.md`.** Backfill from existing implementation. Estimated 4–6 hours.
-- [ ] **Author `meta/design/Form.md`.** Compound organism; needs full prop-intent section for `Form`, `Field`, `Input`, `Textarea` composition. Estimated 6–8 hours.
+- [x] **Author `meta/design/Statement.md`.** Backfill from existing implementation. Estimated 4–6 hours.
+- [x] **Author `meta/design/Form.md`.** Compound organism; needs full prop-intent section for `Form`, `Field`, `Input`, `Textarea` composition. Estimated 6–8 hours.
 - [ ] **Verify `llms-full.txt` sync check passes for all 31 components.** Run `scripts/check-llms-tokens-sync.mjs` after specs land; address any missing `### ComponentName` headings. Estimated 1–2 hours.
 - [ ] **Resolve Wordmark story namespace.** Decide `"Brand / Wordmark"` vs. `"Components / *"`; document the split or unify. Arian decides; engineer implements. Estimated < 1 hour once decided.
 - [ ] **Verify bundle CI gate is blocking on regression.** Confirm the size-limit step in CI runs on every PR and fails if the 28kB ESM floor is broken. Estimated 2–3 hours.
@@ -151,7 +151,7 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
 - [x] **Resolve orphaned tokens.**
 - [x] **Pick one body line-height.** Tokens: `--lh-body`, `--lh-body-relaxed`.
 - [x] **Fill `meta/brand.md` Typography / Spacing / Motion / Brand-mark sections.**
-- [x] **Author missing design specs under `meta/design/`.** 29 of 31 specs done. `Statement` and `Form` remain — promoted to 🟣 gate.
+- [x] **Author missing design specs under `meta/design/`.** All 31 specs done. `Statement` and `Form` landed in 1.0.0 gate pass.
 - [x] **Decide on Firefox CT coverage.** Shipped; all 1572 tests passing.
 - [x] **Tokenize line-height + letter-spacing scales.**
 

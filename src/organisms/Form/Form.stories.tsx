@@ -30,7 +30,12 @@ export const MultiField: Story = () => (
     <Field label="Full name" id="multi-name" required>
       <Input name="name" placeholder="Arian Zargaran" />
     </Field>
-    <Field label="Email address" id="multi-email" required helper="We'll reach out within 48 hours.">
+    <Field
+      label="Email address"
+      id="multi-email"
+      required
+      helper="We'll reach out within 48 hours."
+    >
       <Input type="email" name="email" placeholder="you@example.com" />
     </Field>
     <Field label="Message" id="multi-message" helper="Tell us about your project.">

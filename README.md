@@ -91,6 +91,8 @@ other layers, even if the bundler's tree-shaker would miss it.
 | organism | `Footer`      | Copyright + email + optional secondary link row; `as` prop avoids double `<footer>`        |
 | organism | `Dialog`      | Compound modal overlay: Root, Trigger, Portal, Overlay, Content, Title, Description, Close |
 | organism | `DialogBasic` | Convenience wrapper: title + description + body + footer + built-in X close button         |
+| organism | `Tabs`        | Compound tabbed interface: Root, List, Trigger, Content — Radix-wrapped, brand-styled      |
+| organism | `TabsBasic`   | Convenience wrapper: data-driven tabs array, horizontal or vertical orientation            |
 
 More to come — see `ROADMAP.md`.
 

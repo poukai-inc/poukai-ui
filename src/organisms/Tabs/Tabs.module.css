@@ -1,0 +1,120 @@
+/* ============================================================
+   Tabs — DS-styled tabbed interface.
+   Token contract: meta/design/Tabs.md §3
+   All values reference CSS custom properties from tokens.css.
+   ============================================================ */
+
+/* ─── Root ────────────────────────────────────────────────── */
+
+.root {
+  display: flex;
+  flex-direction: column;
+}
+
+.root[data-orientation="vertical"] {
+  flex-direction: row;
+}
+
+/* ─── List ────────────────────────────────────────────────── */
+
+.list {
+  display: flex;
+  gap: var(--space-4);
+  border-bottom: var(--hairline-w) solid var(--hairline);
+  overflow-x: auto;
+  scrollbar-width: none;
+  flex-shrink: 0;
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+/* Vertical orientation: border shifts to right side */
+[data-orientation="vertical"] > .list {
+  flex-direction: column;
+  border-bottom: none;
+  border-right: var(--hairline-w) solid var(--hairline);
+  overflow-x: visible;
+  overflow-y: auto;
+}
+
+/* ─── Trigger ─────────────────────────────────────────────── */
+
+.trigger {
+  /* Reset */
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  /* Layout */
+  padding: var(--space-2) var(--space-1);
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  /* Typography */
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  font-weight: 500;
+
+  /* Color — rest state */
+  color: var(--fg-muted);
+
+  /* Active indicator — inset bottom border via box-shadow (horizontal) */
+  box-shadow: none;
+
+  /* Transitions */
+  transition:
+    color var(--dur-fast) var(--easing),
+    box-shadow var(--dur-fast) var(--easing);
+
+  /* Focus ring handled below */
+  border-radius: var(--radius-1);
+  outline: none;
+}
+
+/* Hover */
+.trigger:hover {
+  color: var(--fg);
+}
+
+/* Active tab — horizontal (default) */
+.trigger[data-state="active"] {
+  color: var(--fg);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+/* Active tab — vertical orientation */
+[data-orientation="vertical"] .trigger[data-state="active"] {
+  box-shadow: inset -2px 0 0 var(--accent);
+}
+
+/* Focus ring */
+.trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+/* ─── Content ─────────────────────────────────────────────── */
+
+.content {
+  padding-top: var(--space-6);
+  flex: 1;
+  min-width: 0;
+}
+
+/* Vertical orientation: content gets left padding instead of top */
+[data-orientation="vertical"] > .content {
+  padding-top: 0;
+  padding-left: var(--space-6);
+}
+
+/* Focus ring on content panel (Radix focuses the panel on tab switch) */
+.content:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}

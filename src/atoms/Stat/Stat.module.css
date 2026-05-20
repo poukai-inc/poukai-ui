@@ -51,7 +51,7 @@
 .source {
   font-family: var(--font-mono);
   font-size: var(--fs-micro);
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking-micro);
   text-transform: uppercase;
   /* Muted register via currentColor mix — works on light AND inverted backgrounds. */
   color: color-mix(in srgb, currentColor 65%, transparent);

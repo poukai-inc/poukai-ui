@@ -29,7 +29,7 @@
   margin: 0 0 var(--space-6);
 }
 
-@media (min-width: 768px) {
+@media (--bp-md) {
   .title {
     margin-bottom: var(--space-8);
   }
@@ -52,7 +52,7 @@
   display: inline-flex;
 }
 
-@media (min-width: 768px) {
+@media (--bp-md) {
   .cta {
     margin-top: var(--space-10, 2.5rem);
   }
@@ -67,7 +67,7 @@
   margin-bottom: var(--space-4);
 }
 
-@media (min-width: 768px) {
+@media (--bp-md) {
   .size-intimate .title {
     margin-bottom: var(--space-6);
   }
@@ -81,7 +81,7 @@
   font-size: var(--fs-micro);
   color: var(--fg-muted);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking-micro);
   font-weight: 400;
   margin: 0 0 var(--space-2);
 }
@@ -196,9 +196,9 @@
    illustration slot — two-column layout
    ============================================================ */
 
-/* The row activates only above 720px. Below that, the
+/* The row activates only above 768px. Below that, the
    component renders its existing single-column layout. */
-@media (min-width: 720px) {
+@media (--bp-md) {
   .has-illustration {
     max-width: none; /* override --hero-max on .root */
   }
@@ -225,8 +225,8 @@
   }
 }
 
-/* Below 720px: illustration hidden; text-col full-width */
-@media (max-width: 719px) {
+/* Below 768px: illustration hidden; text-col full-width */
+@media (max-width: 767px) {
   .illustration {
     display: none;
   }

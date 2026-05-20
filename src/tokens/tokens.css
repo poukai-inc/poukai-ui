@@ -98,7 +98,11 @@
   --fs-stat: clamp(2.75rem, 2rem + 3vw, 4.5rem); /* 44–72 */
   --fs-stat-large: clamp(3.5rem, 2.25rem + 5vw, 6rem); /* 56–96 */
   --tracking-stat: -0.015em;
+  --tracking-micro: 0.04em; /* canonical tracking for micro/uppercase labels (.micro, Stat source, Hero eyebrow) */
   --tracking-eyebrow: 0.06em; /* canonical letter-spacing for all Eyebrow labels */
+  --tracking-numeric: 0.08em; /* wider tracking for sequential numeric markers (FailureMode index) */
+  --lh-body: 1.55; /* canonical body line-height — global body rule, RoleCard, Statement, Dialog body copy */
+  --lh-body-relaxed: 1.6; /* relaxed body line-height — intentional for longer-form editorial prose (Principle, FailureMode) */
   --lh-meta: 1.2; /* line-height for meta/eyebrow-scale text (first named lh token) */
 
   /* Card-title rung — shared by RoleCard, Principle, FailureMode titles. */
@@ -118,6 +122,7 @@
   --space-32: 8rem;
 
   /* ---------- Layout ---------- */
+  --bp-md: 768px; /* canonical small→medium breakpoint — matches tokens.css h1 and Principle grid */
   --page-pad: clamp(1.5rem, 2vw + 1rem, 3rem);
   --content-max: 64rem;
   /* Full-bleed layout permission. Components opt into viewport-width by reading
@@ -154,6 +159,12 @@
 }
 
 /* ============================================================
+   Custom media queries — consumed by postcss-custom-media
+   ============================================================ */
+
+@custom-media --bp-md (min-width: 768px);
+
+/* ============================================================
    Semantic mappings — element-level defaults
    Use these by writing semantic HTML; no class plumbing needed.
    ============================================================ */
@@ -167,7 +178,7 @@ body {
   color: var(--fg);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
-  line-height: 1.55;
+  line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -185,7 +196,7 @@ h1 {
   padding-bottom: 0.08em;
   margin: 0 0 var(--space-8);
 }
-@media (min-width: 768px) {
+@media (--bp-md) {
   h1 {
     margin-bottom: var(--space-10, 2.5rem);
   }

@@ -75,6 +75,6 @@
      component-local drift values. Inline value, not a token — BACKLOG item
      to tokenize --lh-body is a migration target. Matches how Pull
      specifies its own 1.45 inline. */
-  line-height: 1.55;
+  line-height: var(--lh-body);
   color: var(--fg);
 }

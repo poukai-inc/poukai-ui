@@ -45,8 +45,12 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--fs-stat: clamp(2.75rem, 2rem + 3vw, 4.5rem)` (44-72px) — Stat numeral at size="md".
 - `--fs-stat-large: clamp(3.5rem, 2.25rem + 5vw, 6rem)` (56-96px) — Stat numeral at size="lg". One per section at most.
 - `--tracking-stat: -0.015em` — Negative letter-spacing for display numerals in Stat only.
-- `--tracking-eyebrow: 0.06em` — Canonical letter-spacing for all Eyebrow labels. The single resolved value across the three previously-divergent inline usages (RoleCard: 0.06em, FailureMode: 0.08em, .micro: 0.04em). At `--fs-meta` (14px) = 0.84px per letter — enough to communicate uppercase structure without tipping airy. See design spec `meta/design/Eyebrow.md §3` for rationale.
-- `--lh-meta: 1.2` — Line-height for meta/eyebrow-scale text. First named line-height token in the system, scoped to the meta register. Matches the value already used on `h2`, `h3`, and `.numeral` throughout the token file. A full `--lh-*` ramp is deferred to a foundations pass.
+- `--tracking-micro: 0.04em` — Canonical tracking for micro/uppercase labels. Used by `.micro` global class, `Stat` source line, and `Hero` eyebrow (variant="no-title"). Always paired with `text-transform: uppercase` and `--fs-micro`.
+- `--tracking-eyebrow: 0.06em` — Canonical letter-spacing for all Eyebrow labels. Used by `<Eyebrow>`, `RoleCard` eyebrow, `FieldNote` label. At `--fs-meta` (14px) = 0.84px per letter — enough to communicate uppercase structure without tipping airy.
+- `--tracking-numeric: 0.08em` — Wider tracking for sequential numeric markers. Used by `FailureMode` index (`.index`). Slightly wider than eyebrow tracking to visually separate reference labels from editorial labels.
+- `--lh-body: 1.55` — Canonical body line-height. Applied to global `body`, `RoleCard` body, `Statement` supporting, `FieldNote` body, `LinkCard` body, `FeatureCard` body, `TeamCard` bio, `Dialog` description and body. The default body reading rhythm.
+- `--lh-body-relaxed: 1.6` — Relaxed body line-height for longer-form editorial prose. Applied to `Principle` content and `FailureMode` body — intentionally looser than `--lh-body` to give the longer editorial paragraphs more air. Do not use for UI chrome or short card copy.
+- `--lh-meta: 1.2` — Line-height for meta/eyebrow-scale text. First named line-height token in the system, scoped to the meta register. Matches the value already used on `h2`, `h3`, and `.numeral` throughout the token file.
 - `--fs-card-title: clamp(1.5rem, 1.15rem + 1.2vw, 2rem)` (24-32px) — Card-title rung. Shared by `<RoleCard>`, `<Principle>`, `<FailureMode>` titles. Always rendered in `--font-serif`, `font-weight: 400`. Do NOT use as a heading-level replacement; the title element semantics still come from the consuming page.
 
 ### Spacing (4px base grid)
@@ -686,6 +690,127 @@ function DeleteConfirmation({ open, onOpenChange, onConfirm }) {
 - Do NOT nest a Dialog inside another Dialog.
 - Do NOT add `role="alertdialog"` unless the action is truly irreversible with no non-destructive dismiss path — a future `AlertDialog` variant will handle that register.
 - `className` on `Dialog.Content` and `DialogBasic` is the sanctioned escape hatch for layout overrides (e.g. wider panels). No "wide" size variant ships in v1.
+
+### Tabs
+
+Tabbed interface primitive. Wraps `@radix-ui/react-tabs` — all ARIA roles (`tablist`, `tab`, `tabpanel`), keyboard navigation (arrow keys, Home/End), focus management, and `aria-selected` / `aria-controls` / `aria-labelledby` wiring are delegated to Radix. The DS adds brand styling only.
+
+**Compound subcomponents**
+
+| Subcomponent    | Role                                                                                                           |
+| --------------- | -------------------------------------------------------------------------------------------------------------- |
+| `Tabs.Root`     | State controller. Props: `value`, `defaultValue`, `onValueChange`, `orientation` (`"horizontal"` \| `"vertical"`, default `"horizontal"`), `className`, `children`. |
+| `Tabs.List`     | Wrapper for triggers. Sets `role="tablist"`. DS-styled: hairline border-bottom (horizontal) or border-right (vertical), flex, overflow-x scroll. |
+| `Tabs.Trigger`  | Individual tab button. Required `value` prop. DS-styled: `--fg-muted` at rest, `--fg` on hover/active, inset accent `box-shadow` on active. |
+| `Tabs.Content`  | Content panel for a given tab. Required `value` prop. `padding-top: var(--space-6)` (horizontal) or `padding-left: var(--space-6)` (vertical). |
+
+**`TabsBasic` convenience wrapper**
+
+Data-driven API for the 90% case.
+
+| Prop            | Type                              | Default              | Description                                                              |
+| --------------- | --------------------------------- | -------------------- | ------------------------------------------------------------------------ |
+| `tabs`          | `TabItem[]`                       | required             | Array of `{ value, label, content }` objects.                            |
+| `defaultValue`  | `string?`                         | `tabs[0].value`      | Uncontrolled initial active tab.                                         |
+| `value`         | `string?`                         | —                    | Controlled active tab value. Pair with `onValueChange`.                  |
+| `onValueChange` | `(v: string) => void?`            | —                    | Controlled mode handler.                                                 |
+| `orientation`   | `"horizontal" \| "vertical"`      | `"horizontal"`       | Tab layout orientation.                                                  |
+| `className`     | `string?`                         | —                    | Forwarded to `Tabs.Root`. Standard layout-override escape hatch.          |
+
+**Tokens consumed**
+
+| Token          | Role                                                                |
+| -------------- | ------------------------------------------------------------------- |
+| `--hairline`   | List border-bottom (horizontal) or border-right (vertical)          |
+| `--hairline-w` | Hairline stroke weight (1px)                                        |
+| `--space-1`    | Trigger horizontal padding                                          |
+| `--space-2`    | Trigger vertical padding                                            |
+| `--space-4`    | Gap between triggers in list                                        |
+| `--space-6`    | Content padding-top (horizontal) or padding-left (vertical)         |
+| `--fs-meta`    | Trigger font size (14px)                                            |
+| `--lh-meta`    | Trigger line-height (1.2)                                           |
+| `--font-sans`  | Trigger font family (Geist)                                         |
+| `--fg`         | Trigger color on hover and active state                             |
+| `--fg-muted`   | Trigger color at rest                                               |
+| `--accent`     | Active trigger inset box-shadow; focus ring                         |
+| `--radius-1`   | Trigger and content focus ring border-radius (2px)                  |
+| `--dur-fast`   | Trigger color and box-shadow transition duration (180ms)             |
+| `--easing`     | Trigger transition easing (expo-out)                                |
+
+**JSX usage examples**
+
+```jsx
+// (a) Controlled TabsBasic with two tabs
+import { useState } from "react";
+import { TabsBasic } from "@poukai-inc/ui";
+
+function ServiceSelector() {
+  const [tab, setTab] = useState("build");
+  return (
+    <TabsBasic
+      value={tab}
+      onValueChange={setTab}
+      tabs={[
+        { value: "build", label: "Build", content: <p>Custom AI builds — end-to-end production systems.</p> },
+        { value: "automate", label: "Automate", content: <p>Workflow automation — closed-loop inference pipelines.</p> },
+      ]}
+    />
+  );
+}
+
+// (b) Compound API with three tabs
+import { Tabs } from "@poukai-inc/ui";
+
+function WorkPage() {
+  return (
+    <Tabs.Root defaultValue="principles">
+      <Tabs.List>
+        <Tabs.Trigger value="principles">Principles</Tabs.Trigger>
+        <Tabs.Trigger value="failure-modes">Failure Modes</Tabs.Trigger>
+        <Tabs.Trigger value="team">Team</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="principles">
+        <h3>Ship the smallest real thing.</h3>
+        <p>The only metric that matters is a production feedback loop closing.</p>
+      </Tabs.Content>
+      <Tabs.Content value="failure-modes">
+        <h3>The chatbot-on-top-of-RAG plateau.</h3>
+        <p>Most teams stop here. The demo dazzles; the production loop never closes.</p>
+      </Tabs.Content>
+      <Tabs.Content value="team">
+        <h3>Senior-only.</h3>
+        <p>No juniors, no coordinators. Every person ships to production.</p>
+      </Tabs.Content>
+    </Tabs.Root>
+  );
+}
+
+// (c) Vertical orientation via compound API
+import { Tabs } from "@poukai-inc/ui";
+
+function SettingsPanel() {
+  return (
+    <Tabs.Root defaultValue="general" orientation="vertical">
+      <Tabs.List>
+        <Tabs.Trigger value="general">General</Tabs.Trigger>
+        <Tabs.Trigger value="notifications">Notifications</Tabs.Trigger>
+        <Tabs.Trigger value="billing">Billing</Tabs.Trigger>
+      </Tabs.List>
+      <Tabs.Content value="general"><p>General settings panel.</p></Tabs.Content>
+      <Tabs.Content value="notifications"><p>Notification preferences panel.</p></Tabs.Content>
+      <Tabs.Content value="billing"><p>Billing panel.</p></Tabs.Content>
+    </Tabs.Root>
+  );
+}
+```
+
+- Do NOT roll your own keyboard navigation — Radix handles arrow keys, Home, End, and focus management. Custom `onKeyDown` on triggers will break native behavior.
+- Do NOT add a router abstraction — consumers wire `value` / `onValueChange` to URL state themselves.
+- Do NOT add lazy-load / suspense for `Tabs.Content` at the DS level — wrap content in `<Suspense>` at the consumer side if needed.
+- `Tabs.Trigger` value must exactly match its `Tabs.Content` value — Radix uses these to wire `aria-controls` and `aria-labelledby`.
+- Do NOT nest `Tabs.Root` inside another `Tabs.Root` — conflicting ARIA relationships.
+- Horizontal `Tabs.List` scrolls on overflow (`overflow-x: auto`, hidden scrollbar). No "More" overflow menu in v1.
+- Active tab indicator is an inset `box-shadow` (not a `border`) to avoid layout shift. Horizontal: `inset 0 -2px 0 var(--accent)`. Vertical: `inset -2px 0 0 var(--accent)`.
 
 ---
 

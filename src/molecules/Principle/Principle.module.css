@@ -11,7 +11,7 @@
   border-bottom: var(--hairline-w) solid var(--hairline);
 }
 
-@media (min-width: 768px) {
+@media (--bp-md) {
   .root {
     /* Desktop: margin numeral + body column. */
     grid-template-columns: 5rem 1fr;
@@ -29,7 +29,7 @@
   /* Align baseline with the title on desktop. */
 }
 
-@media (min-width: 768px) {
+@media (--bp-md) {
   .numeral {
     font-size: 1.25rem;
     /* Optical nudge to align numeral baseline with title cap-height. */
@@ -60,7 +60,7 @@
 .content {
   font-family: var(--font-sans);
   font-size: var(--fs-body);
-  line-height: 1.6;
+  line-height: var(--lh-body-relaxed);
   color: var(--fg);
 }
 

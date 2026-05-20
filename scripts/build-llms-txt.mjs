@@ -52,7 +52,7 @@ const COMPONENTS = {
     "FieldNote",
     "Quote",
   ],
-  organisms: ["SiteShell", "Footer", "Dialog", "DialogBasic"],
+  organisms: ["SiteShell", "Footer", "Dialog", "DialogBasic", "Tabs", "TabsBasic"],
 };
 
 const exportKeys = Object.keys(pkg.exports ?? {});

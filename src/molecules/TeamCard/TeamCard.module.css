@@ -69,7 +69,7 @@
   font-family: var(--font-sans);
   font-size: var(--fs-body);
   color: var(--fg);
-  line-height: 1.55;
+  line-height: var(--lh-body);
   margin: 0;
   /* Gap: role → bio (--space-4, 16px) */
   margin-top: var(--space-4);

@@ -32,7 +32,7 @@ Items from `meta/milestones/1.0.0.md` §3 that are not yet met. Tick here and in
       no `continue-on-error`. Documented in `meta/ci/size-gate.md`.
 - [x] **Author `meta/migrations/template.md`.** Migration guide template for future major bumps. See `meta/milestones/1.0.0.md` §4 for structure and worked example. Estimated 2–3 hours.
 - [x] **Author `CONTRIBUTING.md`.** Polymorphic-prop conventions, token addition flow, story/test requirements, semver policy. Synthesises `meta/conventions/polymorphic-props.md`. Estimated 1 day.
-- [ ] **CHANGELOG hand-rewrite for 0.x → 1.0.** Curated narrative grouping changeset entries by theme. Final step — write after all other gate items are met. Estimated 4–6 hours.
+- [x] **CHANGELOG hand-rewrite for 0.x → 1.0.** Curated narrative grouping changeset entries by theme. Final step — write after all other gate items are met. Estimated 4–6 hours.
 
 ---
 

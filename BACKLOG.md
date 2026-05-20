@@ -284,8 +284,11 @@ build/exports, docs/coverage. CRITICALs already promoted to 🔴 Blocking.
 - [x] **Author missing design specs under `meta/design/`** — Authored 7 missing specs
       (Wordmark, StatusBadge, Stat, RoleCard, Principle, FailureMode, SiteShell) from
       existing source. Backfill — not a re-design.
-- [ ] **Decide on Firefox CT coverage.** `playwright-ct.config.ts` runs only
-      Chromium + WebKit; add Firefox or document the omission.
+- [x] **Decide on Firefox CT coverage.** Added Firefox (Desktop Firefox device)
+      as a third project in `playwright-ct.config.ts`. All 1572 tests pass
+      across Chromium, Firefox, and WebKit — zero failures, zero flake on two
+      consecutive runs. `playwright:install` script updated to include firefox.
+      Path chosen: Firefox shipped.
 - [x] **Tokenize line-height + letter-spacing scales** — resolved by the two
       items above. Tokens added: `--tracking-micro`, `--tracking-numeric`,
       `--lh-body`, `--lh-body-relaxed`. (`--tracking-eyebrow` pre-existed.)

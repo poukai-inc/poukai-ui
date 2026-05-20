@@ -52,7 +52,7 @@
     "build:brand": "cpy 'src/brand/**' dist/brand",
     "build:llms": "node scripts/build-llms-txt.mjs",
     "test": "playwright test -c playwright-ct.config.ts",
-    "playwright:install": "playwright install chromium webkit",
+    "playwright:install": "playwright install chromium firefox webkit",
     "test:ui": "playwright test -c playwright-ct.config.ts --ui",
     "test:a11y": "playwright test -c playwright-ct.config.ts src/a11y.test.tsx",
     "build:wordmark": "node scripts/build-wordmark.mjs",

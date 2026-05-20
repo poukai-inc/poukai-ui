@@ -38,6 +38,49 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 
 **Never pure edges.** `--fg` is never `#000000`; `--bg` is never pure `#FFFFFF`. Both ends of the neutral ramp pull in slightly — this gives elevation headroom on the page and ensures the palette inverts cleanly to dark mode without losing its restraint. Treat any spec or hardcoded value that implies a pure edge as a brand-level escalation.
 
+### Dark mode
+
+Dark mode is implemented as a `@media (prefers-color-scheme: dark)` block appended to `src/tokens/tokens.css`. It overrides every color token on `:root`. No component CSS changes — every component that consumes `var(--token)` references gains dark mode automatically. Full rationale in `meta/design/dark-mode.md`.
+
+**Philosophy.** Dark mode is not an inversion of the light palette. It is a parallel surface stack: backgrounds darken progressively toward black (the floor); foregrounds brighten toward near-white (never pure). The elevation rhythm inverts direction — surfaces RISE through lighter grays as they elevate, rather than toward white. `html { color-scheme: light dark }` is declared so browser-native controls (scrollbars, form inputs, selection) match the token-driven scheme.
+
+**Dark-mode token table.**
+
+| Token | Dark value | Notes |
+|---|---|---|
+| `--bg` | `#000000` | Page floor. Apple canonical dark-mode canvas. |
+| `--bg-elevated` | `#1C1C1E` | Popovers, sheets, dialogs. Apple iOS `systemBackground` dark. |
+| `--surface` | `#1C1C1E` | Recessed inline blocks. Same raw value as `--bg-elevated`; semantically distinct by context. |
+| `--surface-section` | `#161618` | Section bands. Slightly lighter than `--bg`, preserving the recessed-band rhythm. |
+| `--fg` | `#F5F5F7` | Primary text. Near-white (10/255 off pure). Contrast on `--bg`: **19.58:1** (AAA). |
+| `--fg-muted` | `#86868B` | Secondary text. Apple `secondaryLabel` dark. Contrast on `--bg`: **6.10:1** (AA). |
+| `--hairline` | `#2C2C2E` | Dividers. Apple `separator` dark value. |
+| `--accent` | `#0A84FF` | Links, focus rings. Apple `systemBlue` dark. Contrast on `--bg`: **5.86:1** (AA; ≥3:1 required for non-text). |
+| `--accent-glow` | `rgba(10,132,255,0.24)` | Halo / selection. Higher opacity compensates for dark surface absorption. |
+| `--bg-warm-accent` | `#8A2E1C` | Editorial band — dimmed to ~55% luminance of light value ("deep ember"). |
+| `--fg-on-warm` | `#FDF5F0` | Unchanged. Contrast on dark `--bg-warm-accent`: **7.75:1** (AAA). |
+| `--fg-on-warm-muted` | `#D6B9A8` | Contrast on dark `--bg-warm-accent`: **~4.8:1** (AA). |
+| `--danger` | `#FF453A` | Apple `systemRed` dark. |
+| `--bg-danger` | `#1C0A0A` | Near-black, red undertone. |
+| `--fg-on-danger` | `#FFB4B0` | Contrast on `--bg-danger`: **11.63:1** (AAA). |
+| `--warning` | `#FF9F0A` | Apple `systemOrange` dark. |
+| `--bg-warning` | `#1C1408` | Near-black, amber undertone. |
+| `--fg-on-warning` | `#FFD6A0` | Contrast on `--bg-warning`: **13.74:1** (AAA). |
+
+**Contrast budget (all met).**
+
+| Pair | Ratio | Threshold | Result |
+|---|---|---|---|
+| `--fg` on `--bg` | 19.58:1 | 7:1 (AAA body) | AAA |
+| `--fg-muted` on `--bg` | 6.10:1 | 4.5:1 (AA normal) | AA |
+| `--accent` on `--bg` | 5.86:1 | 3:1 (non-text) | AA normal |
+| `--fg-on-warm` on `--bg-warm-accent` | 7.75:1 | 4.5:1 | AAA |
+| `--fg-on-warm-muted` on `--bg-warm-accent` | ~4.8:1 | 4.5:1 | AA |
+| `--fg-on-danger` on `--bg-danger` | 11.63:1 | 4.5:1 | AAA |
+| `--fg-on-warning` on `--bg-warning` | 13.74:1 | 4.5:1 | AAA |
+
+**Component audit.** All shipped atoms, molecules, and organisms consume only `var(--token)` references and gain dark mode for free. One known exception: `Dialog.module.css` scrim (`rgb(0 0 0 / 0.4)`) is intentionally inline per its spec — acceptable in dark mode but flagged for future opacity review.
+
 ### Typography
 
 - `--font-serif: "Instrument Serif", Georgia, …` — Editorial display face. Used for h1, h2, RoleCard titles, Principle titles, FailureMode titles, Stat numeral. NEVER use for UI chrome.

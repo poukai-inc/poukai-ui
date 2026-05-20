@@ -31,6 +31,8 @@ Pouk AI's color foundation is Apple's restrained Human Interface palette: SF sys
 
 **Math.** Contrast ratios above are computed against the WCAG 2.1 sRGB linearization (`C_lin = C/12.92` for `C ≤ 0.04045`, else `((C+0.055)/1.055)^2.4`) and the `(L1 + 0.05)/(L2 + 0.05)` ratio formula. Verified independently of the brand decision.
 
+**Dark-mode tier.** A parallel color tier exists for `prefers-color-scheme: dark`, implemented as a `@media` block appended to `src/tokens/tokens.css`. It overrides every color token on `:root` with Apple-HIG-aligned dark values — black page floor, near-white foreground, dimmed accent and warm-accent surfaces — while leaving all typography, spacing, motion, and layout tokens unchanged. Full token values, contrast ratios, and design rationale are in `meta/design/dark-mode.md`.
+
 ### Typography — headline and body face, rationale, type scale, line-height.
 
 Two families. No exceptions.

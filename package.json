@@ -50,6 +50,11 @@
       "import": "./dist/atoms/IconButton.js",
       "require": "./dist/atoms/IconButton.cjs"
     },
+    "./atoms/Label": {
+      "types": "./dist/atoms/Label.d.ts",
+      "import": "./dist/atoms/Label.js",
+      "require": "./dist/atoms/Label.cjs"
+    },
     "./atoms/Button": {
       "types": "./dist/atoms/Button.d.ts",
       "import": "./dist/atoms/Button.js",

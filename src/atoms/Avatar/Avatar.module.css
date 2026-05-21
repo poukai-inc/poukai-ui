@@ -21,6 +21,8 @@
   -webkit-tap-highlight-color: transparent;
   /* Vertical rhythm anchor */
   vertical-align: middle;
+  /* Prevent accidental text selection of initials on long-press / double-click */
+  user-select: none;
 }
 
 /* --- Sizes --- */
@@ -48,7 +50,7 @@
 }
 
 .shape-square {
-  border-radius: var(--radius-2);
+  border-radius: var(--radius-1);
 }
 
 /* --- Image --- */
@@ -70,6 +72,5 @@
   font-family: inherit;
   color: var(--fg-muted);
   letter-spacing: 0.02em;
-  user-select: none;
   line-height: 1;
 }

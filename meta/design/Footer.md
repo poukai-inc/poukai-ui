@@ -1,7 +1,7 @@
 # Design spec: Footer
 
 **Atomic layer**: organism
-**Status**: Draft
+**Status**: Approved
 **Author**: poukai-design
 **Last updated**: 2026-05-19
 

@@ -1,7 +1,7 @@
 # Design spec: Avatar
 
 **Atomic layer**: atom
-**Status**: Draft
+**Status**: Approved
 **Author**: poukai-design
 **Last updated**: 2026-05-19
 
@@ -419,7 +419,25 @@ import { Avatar, Quote } from "@poukai-inc/ui";
 
 ---
 
-## 13. Open questions for Arian
+## 13. Implementation deviations (approved)
+
+The following items differ from the original spec text. Each was decided during implementation and is recorded here as the canonical source of truth. The spec is not wrong — these are approved post-spec decisions.
+
+### `mode` prop is explicit
+
+The spec (§8) describes mode inference from which props are provided (`src` present → image mode, `initials` present → initials mode, neither → empty). The implementation uses an explicit `mode` discriminant prop (`mode="image" | "initials" | "empty"`). This was the implementation decision: an explicit discriminant produces clearer TypeScript error messages and avoids ambiguity when props are conditionally passed. The three-variant discriminated union in `AvatarProps` achieves the same mutual-exclusivity goal the spec intended.
+
+### Initials font-size scales per size (10px / 12px / 14px)
+
+The spec (§4, initials `<span>`) specifies `font-size: var(--fs-micro)` (12px fixed) across all three Avatar sizes. The implementation uses per-size font values: 10px for `sm`, 12px for `md`, 14px for `lg`. This was decided on a founder call to address the spec's own concern (§13, open question 2) that 12px looks underfilled inside the 40px `lg` disk. The values are set via `font-size` on the `.size-sm`, `.size-md`, `.size-lg` root classes and inherited by the inner `.initials` span. No new tokens are introduced.
+
+### `letter-spacing: 0.02em` (not `0.03em`)
+
+The spec (§4, initials `<span>`) specifies `letter-spacing: 0.03em`. The CSS module uses `0.02em`. The implementation value is the approved value — it was adjusted during visual QA. This spec entry is superseded by the CSS.
+
+---
+
+## 14. Open questions for Arian
 
 1. **`onError` / initials fallback in v1.** When a remote image 404s, the browser shows the broken-image indicator inside a 32px disk — which looks wrong on a polished surface. The v1 spec defers `fallbackToInitials`. This means consumers who pass `src` must handle their own error state (e.g. wrapping Avatar in a component that conditionally passes `src` or `initials` based on load result). Is the broken-image state acceptable for v1, or should the engineer add `onError`→fallback as a v1 requirement even though it introduces state into an atom?
 

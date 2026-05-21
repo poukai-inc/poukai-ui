@@ -1,0 +1,45 @@
+/* ============================================================
+   Kbd — keyboard-key glyph atom
+   ============================================================ */
+
+.root {
+  /* Typography */
+  font-family: var(--font-mono);
+  /* Intentional em-relative scaling so the chip reads ~15% smaller than
+     surrounding text on every surface. Per Kbd design spec
+     (meta/design/Kbd.md) §3 — 0.85em is slightly tighter than Code's 0.9em
+     because Kbd carries a visible border; without the size pull-back, the
+     bordered chip would read heavier than its inline-text neighbor. */
+  font-size: 0.85em;
+  font-weight: 500;
+  /* Tight leading: the chip is single-line and we want height ≈ width. */
+  line-height: 1;
+
+  /* Layout — inline-block so min-width applies; remains in inline flow. */
+  display: inline-block;
+  margin: 0;
+  text-align: center;
+
+  /* Spacing — inline-only padding preserves baseline alignment. */
+  padding-block: 0;
+  padding-inline: var(--space-1);
+
+  /* Square-ish key-cap silhouette for single-character keys.
+     Per Kbd design spec §3 — geometric constant, not a brand decision; kept
+     as an em-relative CSS literal so the chip scales with the parent text
+     register. */
+  min-width: 1.5em;
+
+  /* Surface */
+  background-color: var(--surface);
+  color: var(--fg);
+
+  /* Key-cap border — single 1px hairline distinguishes Kbd from Code. */
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-2);
+
+  /* border-box so min-width is honored inclusive of the 1px border on
+     either side; prevents single-char chips from drifting wider than
+     intended. */
+  box-sizing: border-box;
+}

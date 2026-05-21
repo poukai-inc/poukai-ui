@@ -28,6 +28,8 @@ import { Skeleton } from "./atoms/Skeleton";
 import { Icon } from "./atoms/Icon";
 import { Link } from "./atoms/Link";
 import { VisuallyHidden } from "./atoms/VisuallyHidden";
+import { Code } from "./atoms/Code";
+import { Kbd } from "./atoms/Kbd";
 import { Mail, Heart } from "lucide-react";
 import { SiteShell } from "./organisms/SiteShell";
 import { Footer } from "./organisms/Footer";
@@ -274,6 +276,25 @@ test("a11y — VisuallyHidden (default span)", async ({ mount, page }) => {
     <div>
       <VisuallyHidden>Accessible label for an adjacent element</VisuallyHidden>
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Code (inline in prose)", async ({ mount, page }) => {
+  await mount(
+    <p>
+      Override the <Code>--accent</Code> token to change the link color, then run{" "}
+      <Code>pnpm build</Code>.
+    </p>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Kbd (single, symbol with aria-label, combination)", async ({ mount, page }) => {
+  await mount(
+    <p>
+      Press <Kbd>Esc</Kbd> to close. Reopen with <Kbd aria-label="Command">⌘</Kbd> <Kbd>K</Kbd>.
+    </p>,
   );
   await expectAxeClean(page);
 });

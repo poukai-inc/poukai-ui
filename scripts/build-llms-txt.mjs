@@ -36,7 +36,7 @@ await copyFile(resolve(pkgRoot, "meta/llms-full.txt"), outFull);
 /* ─── dist/llms.txt — short auto-generated index ──────────── */
 
 const COMPONENTS = {
-  atoms: ["Wordmark", "StatusBadge", "Button", "Stat", "Eyebrow", "EmailLink", "Tag", "Avatar", "VisuallyHidden", "Skeleton", "Icon", "Link", "Divider", "Spinner"],
+  atoms: ["Wordmark", "StatusBadge", "Button", "IconButton", "Stat", "Eyebrow", "EmailLink", "Tag", "Avatar", "VisuallyHidden", "Skeleton", "Icon", "Link", "Divider", "Spinner"],
   molecules: [
     "Hero",
     "RoleCard",

@@ -77,7 +77,7 @@ export const Icon = forwardRef<SVGSVGElement, IconProps>(function Icon(
 
   return (
     <LucideComponent
-      ref={ref}
+      ref={ref as React.Ref<SVGSVGElement>}
       width={px}
       height={px}
       className={clsx(SIZE_CLASS[size], className)}

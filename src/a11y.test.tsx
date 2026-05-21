@@ -25,10 +25,9 @@ import { Quote } from "./molecules/Quote";
 import { Avatar } from "./atoms/Avatar";
 import { Spinner } from "./atoms/Spinner";
 import { Skeleton } from "./atoms/Skeleton";
-import { Icon } from "./atoms/Icon";
+import { IconFixture } from "./atoms/Icon/Icon.fixtures";
 import { Link } from "./atoms/Link";
 import { VisuallyHidden } from "./atoms/VisuallyHidden";
-import { Mail, Heart } from "lucide-react";
 import { SiteShell } from "./organisms/SiteShell";
 import { Footer } from "./organisms/Footer";
 import { Dialog, DialogBasic } from "./organisms/Dialog";
@@ -199,12 +198,14 @@ test("a11y — Divider (muted tone, horizontal)", async ({ mount, page }) => {
 });
 
 test("a11y — Icon (decorative default)", async ({ mount, page }) => {
-  await mount(<Icon icon={Mail} size="sm" />);
+  await mount(<IconFixture name="mail" size="sm" />);
   await expectAxeClean(page);
 });
 
 test("a11y — Icon (semantic with aria-label)", async ({ mount, page }) => {
-  await mount(<Icon icon={Heart} size="md" decorative={false} aria-label="Add to favourites" />);
+  await mount(
+    <IconFixture name="heart" size="md" decorative={false} aria-label="Add to favourites" />,
+  );
   await expectAxeClean(page);
 });
 

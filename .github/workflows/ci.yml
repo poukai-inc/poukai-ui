@@ -11,7 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
         with:
           node-version: 20
@@ -32,6 +31,30 @@ jobs:
       - run: pnpm test
       - run: pnpm size
 
+  # React 18/19 dual-peer matrix: ensures component tests pass under both
+  # React majors so consumers on either version stay green. Lint/typecheck
+  # are covered by the primary `ci` job above; this matrix is test-only.
+  ct-react-matrix:
+    needs: ci
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        react: ["18", "19"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Install React ${{ matrix.react }} (latest minor)
+        if: matrix.react == '19'
+        run: pnpm add -D react@^19 react-dom@^19 @types/react@^19 @types/react-dom@^19
+      - run: pnpm exec playwright install --with-deps chromium firefox webkit
+      - run: pnpm test
+
   release:
     needs: ci
     if: github.ref == 'refs/heads/main'
@@ -49,7 +72,6 @@ jobs:
           # CI normally and the PR auto-merges when checks pass.
           token: ${{ secrets.CHANGESETS_TOKEN }}
       - uses: pnpm/action-setup@v4
-        with: { version: 9 }
       - uses: actions/setup-node@v4
         with:
           node-version: 20

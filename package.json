@@ -186,10 +186,14 @@
     "release": "changeset publish",
     "prepare": "husky"
   },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.33.0",
   "peerDependencies": {
-    "lucide-react": ">=0.400.0",
-    "react": ">=18",
-    "react-dom": ">=18"
+    "lucide-react": ">=0.500.0",
+    "react": ">=18 || >=19",
+    "react-dom": ">=18 || >=19"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.0",
@@ -201,14 +205,13 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",
     "@changesets/cli": "^2.27.0",
-    "@eslint/eslintrc": "^3.3.5",
     "@eslint/js": "^9.39.4",
     "@ladle/react": "^4.1.0",
     "@playwright/experimental-ct-react": "^1.45.0",
     "@playwright/test": "^1.45.0",
     "@size-limit/preset-small-lib": "^11.1.0",
-    "@types/react": "^18.3.0",
-    "@types/react-dom": "^18.3.0",
+    "@types/react": ">=18.3.0 <20",
+    "@types/react-dom": ">=18.3.0 <20",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "@vitejs/plugin-react": "^4.3.0",
@@ -219,7 +222,7 @@
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "husky": "^9.1.0",
-    "lucide-react": "^0.400.0",
+    "lucide-react": "^0.577.0",
     "marked": "^14.1.0",
     "postcss": "^8.4.45",
     "postcss-custom-media": "^11.0.0",

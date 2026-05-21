@@ -296,6 +296,25 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Do NOT use `--accent` on Eyebrow — it is a label, not a link or status indicator.
 - Do NOT add truncation or overflow clipping — the DS does not manage Eyebrow overflow.
 
+### Label
+- Canonical form-label atom. Renders a `<label>` element bound to its control via `htmlFor`. Typed, token-aligned wrapper so every form surface speaks the same typographic and semantic contract.
+- Root element: `<label>`. Non-polymorphic — no `as` prop. `<label>` is the only semantically correct root for a form label; swapping it would break the `htmlFor` association contract.
+- `htmlFor` (required, string) — The `id` of the bound control. Type-level required; no default. A `<Label>` without `htmlFor` is a broken label — TypeScript enforces this at authoring time.
+- `children` (required, ReactNode) — Label text. Typically a short string; may include inline `<strong>` or similar emphasis.
+- `required` (optional, boolean, default `false`) — When `true`, renders `<span aria-hidden="true">*</span>` in `var(--danger)` after the label text. Visual only; the ARIA required contract (`aria-required="true"` / `required`) lives on the bound control, not on this element.
+- `tone` (`"default"` | `"muted"`, default `"default"`) — text color only. `"default"` → `var(--fg)`. `"muted"` → `var(--fg-muted)`. Required indicator is always `var(--danger)` regardless of tone.
+- Typography: `--font-sans`, `--fs-meta` (14px), `font-weight: 500`, `--lh-meta` (1.2), `letter-spacing: 0.01em` (raw value — neither `--tracking-eyebrow` nor `--tracking-numeric` fits mixed-case 14px; see spec §3 rationale).
+- Layout: `display: inline-block`, `margin: 0`. Consumer and molecule own all spacing.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg`, `--fg-muted`, `--danger`. No new tokens introduced.
+- Standalone usage: `<Label htmlFor="email">Email address</Label>` / `<input id="email" type="email" />`. Consumer owns spacing between label and control.
+- With `<Field>` molecule: `<Field>` composes `<Label>` internally. Do not pass `<Label>` as a child of `<Field>`.
+- Contrast: `--fg` (#1D1D1F) on `--bg` (#FBFBFD) ≈ 16.1:1 (AAA). `--fg-muted` (#6E6E73) on `--bg` ≈ 4.9:1 (AA — passes WCAG 4.5:1 at 14px/500). `--danger` (#B3261E) on `--bg` ≈ 7.2:1 (AAA).
+- Do NOT default or omit `htmlFor` — it is type-level required. A label without `htmlFor` provides no programmatic association.
+- Do NOT add an `as` prop. Root is always `<label>`.
+- Do NOT add `(optional)` text marker, tooltip slot, icon slot, or inline-with-input layout — all out of scope per spec §10.
+- Do NOT add `aria-required` to the `<label>` element — it belongs on the bound control only.
+- Do NOT use floating-label animation — not brand-aligned, excluded permanently.
+
 ### EmailLink
 - Canonical `mailto:` affordance atom. Not a button — it opens a mail client, it does not commit to an outcome. Choose `<EmailLink>` over `<Button asChild><a href="mailto:…">` when the contact register is "reach out" rather than "commit to action."
 - `email` (required string) — The email address. Component always computes `href="mailto:${email}"`. Consumers NEVER pass `href` directly — it is excluded from the prop interface via `Omit<AnchorHTMLAttributes, 'href'>`.

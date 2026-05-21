@@ -35,6 +35,126 @@
       "import": "./dist/organisms.js",
       "require": "./dist/organisms.cjs"
     },
+    "./atoms/Avatar": {
+      "types": "./dist/atoms/Avatar.d.ts",
+      "import": "./dist/atoms/Avatar.js",
+      "require": "./dist/atoms/Avatar.cjs"
+    },
+    "./atoms/Button": {
+      "types": "./dist/atoms/Button.d.ts",
+      "import": "./dist/atoms/Button.js",
+      "require": "./dist/atoms/Button.cjs"
+    },
+    "./atoms/EmailLink": {
+      "types": "./dist/atoms/EmailLink.d.ts",
+      "import": "./dist/atoms/EmailLink.js",
+      "require": "./dist/atoms/EmailLink.cjs"
+    },
+    "./atoms/Eyebrow": {
+      "types": "./dist/atoms/Eyebrow.d.ts",
+      "import": "./dist/atoms/Eyebrow.js",
+      "require": "./dist/atoms/Eyebrow.cjs"
+    },
+    "./atoms/Stat": {
+      "types": "./dist/atoms/Stat.d.ts",
+      "import": "./dist/atoms/Stat.js",
+      "require": "./dist/atoms/Stat.cjs"
+    },
+    "./atoms/StatusBadge": {
+      "types": "./dist/atoms/StatusBadge.d.ts",
+      "import": "./dist/atoms/StatusBadge.js",
+      "require": "./dist/atoms/StatusBadge.cjs"
+    },
+    "./atoms/Tag": {
+      "types": "./dist/atoms/Tag.d.ts",
+      "import": "./dist/atoms/Tag.js",
+      "require": "./dist/atoms/Tag.cjs"
+    },
+    "./atoms/Wordmark": {
+      "types": "./dist/atoms/Wordmark.d.ts",
+      "import": "./dist/atoms/Wordmark.js",
+      "require": "./dist/atoms/Wordmark.cjs"
+    },
+    "./molecules/FailureMode": {
+      "types": "./dist/molecules/FailureMode.d.ts",
+      "import": "./dist/molecules/FailureMode.js",
+      "require": "./dist/molecules/FailureMode.cjs"
+    },
+    "./molecules/FeatureCard": {
+      "types": "./dist/molecules/FeatureCard.d.ts",
+      "import": "./dist/molecules/FeatureCard.js",
+      "require": "./dist/molecules/FeatureCard.cjs"
+    },
+    "./molecules/FieldNote": {
+      "types": "./dist/molecules/FieldNote.d.ts",
+      "import": "./dist/molecules/FieldNote.js",
+      "require": "./dist/molecules/FieldNote.cjs"
+    },
+    "./molecules/Hero": {
+      "types": "./dist/molecules/Hero.d.ts",
+      "import": "./dist/molecules/Hero.js",
+      "require": "./dist/molecules/Hero.cjs"
+    },
+    "./molecules/LinkCard": {
+      "types": "./dist/molecules/LinkCard.d.ts",
+      "import": "./dist/molecules/LinkCard.js",
+      "require": "./dist/molecules/LinkCard.cjs"
+    },
+    "./molecules/Portrait": {
+      "types": "./dist/molecules/Portrait.d.ts",
+      "import": "./dist/molecules/Portrait.js",
+      "require": "./dist/molecules/Portrait.cjs"
+    },
+    "./molecules/Principle": {
+      "types": "./dist/molecules/Principle.d.ts",
+      "import": "./dist/molecules/Principle.js",
+      "require": "./dist/molecules/Principle.cjs"
+    },
+    "./molecules/Pull": {
+      "types": "./dist/molecules/Pull.d.ts",
+      "import": "./dist/molecules/Pull.js",
+      "require": "./dist/molecules/Pull.cjs"
+    },
+    "./molecules/Quote": {
+      "types": "./dist/molecules/Quote.d.ts",
+      "import": "./dist/molecules/Quote.js",
+      "require": "./dist/molecules/Quote.cjs"
+    },
+    "./molecules/RoleCard": {
+      "types": "./dist/molecules/RoleCard.d.ts",
+      "import": "./dist/molecules/RoleCard.js",
+      "require": "./dist/molecules/RoleCard.cjs"
+    },
+    "./molecules/Section": {
+      "types": "./dist/molecules/Section.d.ts",
+      "import": "./dist/molecules/Section.js",
+      "require": "./dist/molecules/Section.cjs"
+    },
+    "./molecules/Statement": {
+      "types": "./dist/molecules/Statement.d.ts",
+      "import": "./dist/molecules/Statement.js",
+      "require": "./dist/molecules/Statement.cjs"
+    },
+    "./molecules/TeamCard": {
+      "types": "./dist/molecules/TeamCard.d.ts",
+      "import": "./dist/molecules/TeamCard.js",
+      "require": "./dist/molecules/TeamCard.cjs"
+    },
+    "./organisms/Dialog": {
+      "types": "./dist/organisms/Dialog.d.ts",
+      "import": "./dist/organisms/Dialog.js",
+      "require": "./dist/organisms/Dialog.cjs"
+    },
+    "./organisms/Footer": {
+      "types": "./dist/organisms/Footer.d.ts",
+      "import": "./dist/organisms/Footer.js",
+      "require": "./dist/organisms/Footer.cjs"
+    },
+    "./organisms/SiteShell": {
+      "types": "./dist/organisms/SiteShell.d.ts",
+      "import": "./dist/organisms/SiteShell.js",
+      "require": "./dist/organisms/SiteShell.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./fonts/*": "./dist/fonts/*",
     "./brand/*": "./dist/brand/*",

@@ -38,3 +38,5 @@ export {
 export { Spinner, type SpinnerProps, type SpinnerSize } from "./atoms/Spinner";
 export { Heading, type HeadingProps, type HeadingLevel } from "./atoms/Heading";
 export { Prose, type ProseProps, type ProseWidth } from "./atoms/Prose";
+export { Code, type CodeProps } from "./atoms/Code";
+export { Kbd, type KbdProps } from "./atoms/Kbd";

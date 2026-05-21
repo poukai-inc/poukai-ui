@@ -1,0 +1,34 @@
+/* ============================================================
+   Code — inline code chip atom
+   ============================================================ */
+
+.root {
+  /* Typography */
+  font-family: var(--font-mono);
+  /* Intentional em-relative scaling so the chip reads ~10% smaller than
+     surrounding text on every surface (body copy, pull-quote, field note).
+     Per Code design spec (meta/design/Code.md) §3 — relative sizing is the
+     correct choice for an inline literal-quotation chip; fixing the size
+     would either oversize the chip inside small text or undersize it inside
+     editorial display text. */
+  font-size: 0.9em;
+  font-weight: 400;
+  /* Inherit parent line-height so the chip never increases the leading of
+     the line that contains it. */
+  line-height: inherit;
+
+  /* Layout — pure inline flow */
+  display: inline;
+  margin: 0;
+
+  /* Spacing — inline-only padding preserves baseline alignment.
+     Adding block padding would inflate the chip above the text baseline and
+     create a small "lump" in running prose. */
+  padding-block: 0;
+  padding-inline: var(--space-1);
+
+  /* Surface */
+  background-color: var(--surface);
+  color: var(--fg);
+  border-radius: var(--radius-2);
+}

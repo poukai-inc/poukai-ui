@@ -95,6 +95,16 @@
       "import": "./dist/atoms/Prose.js",
       "require": "./dist/atoms/Prose.cjs"
     },
+    "./atoms/Code": {
+      "types": "./dist/atoms/Code.d.ts",
+      "import": "./dist/atoms/Code.js",
+      "require": "./dist/atoms/Code.cjs"
+    },
+    "./atoms/Kbd": {
+      "types": "./dist/atoms/Kbd.d.ts",
+      "import": "./dist/atoms/Kbd.js",
+      "require": "./dist/atoms/Kbd.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",

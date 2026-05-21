@@ -60,6 +60,11 @@
       "import": "./dist/atoms/Eyebrow.js",
       "require": "./dist/atoms/Eyebrow.cjs"
     },
+    "./atoms/Heading": {
+      "types": "./dist/atoms/Heading.d.ts",
+      "import": "./dist/atoms/Heading.js",
+      "require": "./dist/atoms/Heading.cjs"
+    },
     "./atoms/Stat": {
       "types": "./dist/atoms/Stat.d.ts",
       "import": "./dist/atoms/Stat.js",

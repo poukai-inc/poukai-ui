@@ -164,37 +164,116 @@ Motion is restrained and editorial. Every transition serves a perceptual purpose
 
 #### Easing tokens
 
-| Token           | Value                           | Role                                                                                                                                                                                                                                     |
-| --------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--easing`      | `cubic-bezier(0.16, 1, 0.3, 1)` | Expo-out. The entrance easing for all reveal animations (Hero stagger, content entrance). Objects decelerate rapidly into their resting position — they do not bounce, spring, or overshoot. The curve reads as confident and immediate. |
-| `--easing-link` | `cubic-bezier(0.2, 0, 0, 1)`    | Link underline grow. A gentler exit on the deceleration tail — appropriate for a sub-pixel graphic element that must feel responsive without overshooting into a mechanical stop.                                                        |
+| Token           | Value                           | Role                                                                                                                                                                                                                                                         |
+| --------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `--easing`      | `cubic-bezier(0.16, 1, 0.3, 1)` | Expo-out. The canonical curve for all entrances and exits. Objects decelerate rapidly into their resting position — they do not bounce, spring, or overshoot. The curve reads as confident and immediate. Used for enter and exit symmetrically (see below). |
+| `--easing-link` | `cubic-bezier(0.2, 0, 0, 1)`    | Reserved exclusively for the link-underline two-layer grow. A gentler deceleration tail — appropriate for a sub-pixel graphic element that must feel responsive without overshooting into a mechanical stop. Do not reuse outside the link context.          |
 
-No bouncy or elastic curves exist in this system. Bounce and spring easings belong to the playful register; pouk.ai is operator-grade.
+**No other cubic-bezier values exist in this system.** Bounce, spring, and elastic easings belong to the playful register. pouk.ai is operator-grade. Any new easing curve requires a brand-decision-log entry and Arian's approval before use.
+
+**Enter vs. exit — same curve.** Both `--easing` enter and exit transitions use the same `cubic-bezier(0.16, 1, 0.3, 1)` curve. A distinct exit curve (e.g. `ease-in` or a slow ease-out reverse) was evaluated and rejected: the expo-out curve exits quickly from rest and reads as clean dismissal, not sluggish retreat. The symmetry also reduces cognitive overhead — one easing to learn, not two. This is a deliberate decision; do not introduce `--easing-exit` without a written rationale in this log.
+
+The one place where this rule is currently violated in practice: the global `<a>` color transition in `tokens.css` uses the raw `ease` keyword (not `--easing`). This is a tracked debt item. It should be resolved by either tokenizing as `--easing-color` with a written reason or migrating to `--easing`. Until that decision is made, the `ease` usage on `<a>` color is grandfathered; it must not be imitated elsewhere.
 
 #### Duration tokens
 
-| Token                   | Value    | Role                                                                                                                                                                                                                                              |
-| ----------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--dur-press`           | `80ms`   | Tactile click/press feedback — button `:active` transform, immediate-response interactions. Deliberately shorter than `--dur-fast` so the press response lands without perceptible lag. This is the floor of the motion scale; nothing is faster. |
-| `--dur-fast`            | `180ms`  | Micro-interactions: color transitions, opacity shifts, border changes. The default for any state change that does not involve geometry.                                                                                                           |
-| `--dur-mid`             | `240ms`  | Standard transition. Used for the link underline grow — a graphic element that involves geometry but is sub-pixel and must feel immediate.                                                                                                        |
-| `--dur-slow`            | `600ms`  | Entrance animations. The Hero stagger uses this as the base duration for each slot; the title slot gets 100ms additional (`--dur-hero-title-rise: 700ms`) for visual emphasis.                                                                    |
-| `--dur-hero-title-rise` | `700ms`  | Title slot duration in the Hero entrance stagger. 100ms longer than its siblings to give the primary statement a slightly longer settle — the eye reads the title last, so it earns the additional time.                                          |
-| `--dur-stagger-step`    | `150ms`  | Base delay step for staggered entrance sequences. Multiply by slot index (0–3) to derive each slot's `animation-delay`.                                                                                                                           |
-| `--dur-pulse`           | `1800ms` | `<StatusBadge status="available">` halo pulse. Intentionally slow and meditative — the pulse is not an alert, it is a presence signal. At 1800ms per cycle it reads as breathing, not blinking.                                                   |
-| `--dur-spinner`         | `800ms`  | `<Spinner>` rotation period. Sub-second so the indicator reads as actively working, not stalled. Distinct semantic register from `--dur-pulse`: the spinner communicates active process; the pulse communicates ambient presence.                 |
+| Token                   | Value    | Use case                                                                                                                                                                                                                                     |
+| ----------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `--dur-press`           | `80ms`   | Tactile click/press feedback — button `:active` transform. Deliberately below `--dur-fast` so the physical response lands without perceptible lag. This is the floor of the motion scale; no animation is faster.                            |
+| `--dur-fast`            | `180ms`  | Micro-interactions: color transitions, background changes, border-color shifts, focus-ring appearance. The default for any state change that does not involve geometry. If in doubt about which duration to use, start here.                 |
+| `--dur-mid`             | `240ms`  | Link underline grow and any geometric transition for a sub-pixel graphic element. One rung above `--dur-fast` — use when a geometric change (background-size, transform) would feel abrupt at 180ms but does not warrant a full 600ms dwell. |
+| `--dur-slow`            | `600ms`  | Editorial entrance animations where `--dur-mid` reads as hurried. The Hero stagger uses this as the base duration for non-title slots. Reserved for arrival events, never for repeated state changes.                                        |
+| `--dur-hero-title-rise` | `700ms`  | Hero title slot only. 100ms longer than `--dur-slow` siblings to give the primary statement a slightly longer settle. The eye reads the headline last; it earns the additional time.                                                         |
+| `--dur-stagger-step`    | `150ms`  | Base delay unit for staggered entrance sequences. Multiply by slot index (0–3) to derive each slot's `animation-delay`. Slot index must not exceed 3 — see stagger ceiling rule below.                                                       |
+| `--dur-pulse`           | `1800ms` | `<StatusBadge status="available">` halo pulse only. Intentionally slow and meditative — the pulse is not an alert, it is a presence signal. At 1800ms per cycle it reads as breathing, not blinking.                                         |
+| `--dur-spinner`         | `800ms`  | `<Spinner>` rotation period. Sub-second so the indicator reads as actively working, not stalled. Distinct semantic register from `--dur-pulse`: the spinner communicates active process; the pulse communicates ambient presence.            |
 
-All durations are ≤300ms for state transitions and ≤700ms for entrance animations. The `--dur-pulse` and `--dur-spinner` exceptions exist because those animations are the indicator itself, not decoration on top of content.
+**Duration ceiling by category.** State transitions (hover, focus, active, disabled) must resolve within `--dur-fast` (180ms) or `--dur-mid` (240ms). Entrance animations may extend to `--dur-slow` (600ms) or `--dur-hero-title-rise` (700ms). `--dur-pulse` (1800ms) and `--dur-spinner` (800ms) are exceptions because those durations are the semantic content of the indicator — the periodicity itself communicates meaning. They are not decorative durations applied on top of content.
+
+The existing spread — 80 / 150 / 180 / 240 / 600 / 700 / 800 / 1800ms — is intentional. Do not round to the nearest 100ms to "simplify"; each value was hand-tuned. Adding a new duration token requires a written reason in this log.
+
+#### Property contract
+
+**Always enumerate animated properties explicitly. Never use `transition: all`.**
+
+The sanctioned animatable properties are:
+
+- `opacity` — presence/absence, state feedback
+- `transform` (translate, scale) — spatial entrance, press feedback, hover lift
+- `background-color`, `background-size` — color state changes, link underline grow
+- `color` — text color state changes
+- `border-color` — border state changes
+- `outline` — focus ring (instant; no transition on `:focus-visible`)
+- `animation-play-state` — pause/resume for continuous animations (Marquee, Carousel)
+
+**Never animate** `width`, `height`, `top`, `left`, `right`, `bottom`, `padding`, `margin`, `font-size`, `line-height`, or any property that triggers layout recalculation. If a design calls for a size animation, lift it to `transform: scale()` with `transform-origin` set appropriately, or rethink the interaction. No FLIP animation libraries.
+
+**Rationale.** `transition: all` is prohibited because it catches every property change — including layout-triggering properties — and makes animated properties invisible to code review. Enumerating properties explicitly makes the contract auditable, prevents performance regressions from accidental geometry animations, and aligns with the lint rule goal in the backlog.
+
+#### Reduced-motion contract
+
+The global `@media (prefers-reduced-motion: reduce)` block in `src/tokens/tokens.css` is the primary mechanism:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+This is the only permitted use of `!important` in the codebase. It collapses `animation-duration` and `transition-duration` to effectively instant. Components must not force-animate via JavaScript or inline styles to work around this rule.
+
+**The global block is necessary but not sufficient.** It does not suppress `animation-delay` or `animation-fill-mode`. A component that uses `animation-fill-mode: both` with a 450ms `animation-delay` (the Hero cta slot) will hold the element at `opacity: 0` for 450ms before snapping visible — a severe UX failure for reduced-motion users. Every component that ships a staggered or delayed `@keyframes` animation must add an explicit per-component override:
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  .entrance-stagger .slot-name {
+    animation: none;
+  }
+}
+```
+
+`animation: none` is the only reliable override because it simultaneously clears `animation-name`, `animation-duration`, `animation-delay`, `animation-fill-mode`, and `animation-timing-function`. Do not rely on the global `animation-duration: 0.01ms` alone for staggered or fill-mode animations.
+
+**What "suppress" means per animation type:**
+
+| Animation class                                  | Reduced-motion behavior                                                                                                                                                                        |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| State transitions (color, border, bg)            | Global block collapses to instant. No per-component override needed.                                                                                                                           |
+| Opacity-only entrance (no stagger, no fill-mode) | Global block collapses to instant. No per-component override needed.                                                                                                                           |
+| Staggered entrance (Hero, Section)               | Per-component `animation: none` required. Elements must render at their final state (opacity: 1, transform: none) immediately.                                                                 |
+| Press/transform feedback                         | Global block collapses to instant. No per-component override needed.                                                                                                                           |
+| Continuous loops (StatusBadge pulse, Spinner)    | Global block collapses animation to one 0.01ms cycle — effectively stops. No per-component override needed; the static final state (badge visible, spinner visible) is correct.                |
+| Continuous ambient motion (Marquee, Carousel)    | Must set `animation-play-state: paused` in the reduced-motion block in addition to the global duration collapse. Pausing is semantically correct for ambient motion; stopping mid-loop is not. |
+
+**Every component that ships an animation must have a Playwright CT test that asserts the reduced-motion final state.** This is a non-negotiable QA gate, not a recommendation.
+
+#### Stagger ceiling
+
+The Hero entrance stagger uses slot indices 0–3, producing delays of 0ms, 150ms, 300ms, and 450ms respectively. **The slot index must not exceed 3.** A 4th+ slot (index ≥ 4) receives the same delay as slot 3 (450ms) and snaps in at that timing — it does not extend the stagger window.
+
+**Rationale.** The stagger exists to communicate hierarchy: the reader's eye needs to register each element before the next one appears. Beyond 450ms of accumulated delay the total reveal window approaches 1000ms (450ms delay + 600ms duration), which begins to feel like a loading sequence rather than a confident arrival. The ceiling prevents future Hero variants from drifting to 5- or 6-slot reveals that contradict the operator-grade register.
+
+**Implementation rule.** The engineer maps slot indices using a capped formula: `delay = min(slotIndex, 3) * var(--dur-stagger-step)`. Any slot at index 4 or higher gets `calc(var(--dur-stagger-step) * 3)` — identical to slot 3, with no visual distinction. The Hero spec (slot indices 0–3 for status, title, lede, cta) is the reference implementation; future component variants must not exceed this ceiling without a brand-decision-log entry.
 
 #### Principles
 
-**Motion earns its place.** A transition without a semantic purpose is noise. Before adding any animation, name what the user perceives: "content arriving," "action confirmed," "state changed." If the answer is "it looks nice," remove the animation.
+**Motion earns its place.** Before adding any animation, name what the user perceives: "content arriving," "action confirmed," "state changed." If the answer is "it looks nice," remove the animation.
 
-**No animation above 300ms for state transitions.** State changes (hover, focus, active, disabled) must resolve within `--dur-fast` (180ms) or `--dur-mid` (240ms). Longer durations create the perception of lag, which breaks the operator-grade register.
+**Subtlety bias.** When motion is justified, prefer the smallest distance, the shortest duration, and the lowest contrast that still communicates. Default to `--dur-fast`; escalate only with a written reason in the component spec.
 
-**Entrances are one-shot.** Entrance animations (Hero stagger, content reveal) fire once on mount. They do not repeat, they do not loop, and they do not trigger on scroll re-entry. The brand aesthetic is confident arrival, not perpetual motion.
+**One easing language.** `--easing` is the brand curve for all enters and exits. `--easing-link` is the single exception. No new cubic-bezier values without a decision-log entry.
 
-**`prefers-reduced-motion` is non-negotiable.** The token file carries a single `@media (prefers-reduced-motion: reduce)` block that collapses all `animation-duration` and `transition-duration` values to `0.01ms` via `!important`. This is the only permitted use of `!important` in the codebase. The `--dur-pulse` StatusBadge animation is collapsed by this block — despite being status-bearing information, the available status is also communicated via text content, so the visual pulse is non-essential and can be safely suppressed. Components must not force-animate via JavaScript or inline styles to work around this rule.
+**Entrances are one-shot.** Entrance animations fire once on mount. They do not repeat, loop, or trigger on scroll re-entry. The brand aesthetic is confident arrival, not perpetual motion. The sole exception is scroll-triggered section entrances, which fire once per element as it enters the viewport — they do not re-animate on scroll back.
+
+**No animation above 300ms for state transitions.** State changes must resolve within `--dur-fast` (180ms) or `--dur-mid` (240ms). Longer durations on state changes create the perception of lag.
+
+**`prefers-reduced-motion` is non-negotiable and is a first-class contract, not an afterthought.** See the Reduced-motion contract section above. Every animated component ships with a reduced-motion final-state test.
 
 ### Brand marks — Wordmark, isotype, lockup rules.
 

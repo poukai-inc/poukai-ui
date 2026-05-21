@@ -73,9 +73,8 @@ test("tone=default applies toneDefault class", async ({ mount }) => {
 /* ---------- `as` override ---------- */
 
 test("as=div renders a div element", async ({ mount }) => {
-  const component = await mount(<Divider as="div" data-testid="div-divider" />);
-  const divider = component.locator("[data-testid='div-divider']");
-  const tag = await divider.evaluate((el) => el.tagName.toLowerCase());
+  const component = await mount(<Divider as="div" />);
+  const tag = await component.evaluate((el) => el.tagName.toLowerCase());
   expect(tag).toBe("div");
 });
 
@@ -100,9 +99,8 @@ test("hr has no explicit role attribute (implicit separator)", async ({ mount })
 });
 
 test("as=div gets role=separator", async ({ mount }) => {
-  const component = await mount(<Divider as="div" data-testid="role-check" />);
-  const divider = component.locator("[data-testid='role-check']");
-  await expect(divider).toHaveAttribute("role", "separator");
+  const component = await mount(<Divider as="div" />);
+  await expect(component).toHaveAttribute("role", "separator");
 });
 
 test("vertical div gets aria-orientation=vertical", async ({ mount }) => {
@@ -116,9 +114,8 @@ test("vertical div gets aria-orientation=vertical", async ({ mount }) => {
 });
 
 test("horizontal as=div gets aria-orientation=horizontal", async ({ mount }) => {
-  const component = await mount(<Divider as="div" data-testid="aria-h" />);
-  const divider = component.locator("[data-testid='aria-h']");
-  await expect(divider).toHaveAttribute("aria-orientation", "horizontal");
+  const component = await mount(<Divider as="div" />);
+  await expect(component).toHaveAttribute("aria-orientation", "horizontal");
 });
 
 /* ---------- Ref forwarding ---------- */
@@ -132,8 +129,8 @@ test("forwards ref to hr element", async ({ mount }) => {
 
 test("forwards ref to div element", async ({ mount }) => {
   const component = await mount(<Divider as="div" data-testid="ref-div" />);
-  const divider = component.locator("[data-testid='ref-div']");
-  const tag = await divider.evaluate((el) => el.tagName.toLowerCase());
+  await expect(component).toHaveAttribute("data-testid", "ref-div");
+  const tag = await component.evaluate((el) => el.tagName.toLowerCase());
   expect(tag).toBe("div");
 });
 
@@ -155,11 +152,8 @@ test("forwards data-* props to root element", async ({ mount }) => {
 });
 
 test("forwards aria-label to root element on div", async ({ mount }) => {
-  const component = await mount(
-    <Divider as="div" aria-label="End of section" data-testid="aria-label-div" />,
-  );
-  const divider = component.locator("[data-testid='aria-label-div']");
-  await expect(divider).toHaveAttribute("aria-label", "End of section");
+  const component = await mount(<Divider as="div" aria-label="End of section" />);
+  await expect(component).toHaveAttribute("aria-label", "End of section");
 });
 
 /* ---------- axe a11y ---------- */

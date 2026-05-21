@@ -15,7 +15,6 @@
 
 import { forwardRef, type ReactNode } from "react";
 import { X } from "lucide-react";
-import clsx from "clsx";
 import { Dialog } from "./Dialog";
 import styles from "./Dialog.module.css";
 
@@ -87,7 +86,7 @@ export const DialogBasic = forwardRef<HTMLDivElement, DialogBasicProps>(function
         <Dialog.Overlay />
         <Dialog.Content
           ref={ref}
-          className={clsx(className)}
+          className={className}
           data-has-description={hasDescription ? "true" : undefined}
         >
           {/* Title band: title + X close button */}

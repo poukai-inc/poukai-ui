@@ -378,4 +378,27 @@ test("DialogBasic className forwarded to Content", async ({ mount, page }) => {
   expect(cls).toContain("consumer-override");
 });
 
+test("reduced-motion: content panel animation is suppressed when prefers-reduced-motion is reduce", async ({
+  mount,
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await mount(
+    <Dialog.Root defaultOpen>
+      <Dialog.Portal>
+        <Dialog.Overlay />
+        <Dialog.Content data-testid="rm-content">
+          <Dialog.Title>Reduced motion dialog</Dialog.Title>
+          <p>Body content.</p>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>,
+  );
+  const content = page.locator('[data-testid="rm-content"]');
+  await expect(content).toBeVisible();
+  // Dialog.module.css has a component-level reduced-motion block (animation: none)
+  // that suppresses both contentIn and contentOut animations.
+  await expect(content).toHaveCSS("animation-name", "none");
+});
+
 /* a11y scans (Dialog open, DialogBasic open) are in src/a11y.test.tsx (central gate). */

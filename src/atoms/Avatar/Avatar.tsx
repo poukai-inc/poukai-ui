@@ -108,6 +108,8 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(p
   let rootRole: string | undefined;
   let rootAriaLabel: string | undefined;
 
+  let rootAriaHidden: true | undefined;
+
   if (mode === "image") {
     const { src, alt } = props as AvatarImageProps;
     if (alt) {
@@ -117,12 +119,14 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(p
       // No alt — root span carries role + aria-label from name prop.
       rootRole = name ? "img" : undefined;
       rootAriaLabel = name ?? undefined;
+      if (!name) rootAriaHidden = true;
       inner = <img src={src} alt="" loading="lazy" className={styles.img} aria-hidden={true} />;
     }
   } else if (mode === "initials") {
     const { initials } = props as AvatarInitialsProps;
     rootRole = name ? "img" : undefined;
     rootAriaLabel = name ?? undefined;
+    if (!name) rootAriaHidden = true;
     inner = (
       <span className={styles.initials} aria-hidden="true">
         {initials}
@@ -132,6 +136,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(p
     // empty mode
     rootRole = name ? "img" : undefined;
     rootAriaLabel = name ?? undefined;
+    if (!name) rootAriaHidden = true;
   }
 
   return (
@@ -140,6 +145,7 @@ export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(p
       className={clsx(styles.root, sizeClass[size], shapeClass[shape], className)}
       role={rootRole}
       aria-label={rootAriaLabel}
+      aria-hidden={rootAriaHidden}
       {...spanRest}
     >
       {inner}

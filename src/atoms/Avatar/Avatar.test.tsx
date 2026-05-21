@@ -141,4 +141,18 @@ test("ref forwarded to root span", async ({ mount, page }) => {
   expect(tagName).toBe("span");
 });
 
+/* ---------- aria-hidden on decorative avatars ---------- */
+
+test("decorative avatar (no name, no alt) has aria-hidden on root", async ({ mount }) => {
+  const component = await mount(<Avatar mode="initials" initials="AZ" size="md" />);
+  await expect(component).toHaveAttribute("aria-hidden", "true");
+});
+
+/* ---------- shape=square border-radius ---------- */
+
+test('shape="square" resolves to border-radius 2px (--radius-1)', async ({ mount }) => {
+  const component = await mount(<Avatar mode="empty" size="md" shape="square" />);
+  await expect(component).toHaveCSS("border-radius", "2px");
+});
+
 /* a11y scans are in src/a11y.test.tsx (central gate). */

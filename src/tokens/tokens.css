@@ -303,7 +303,7 @@ a:focus-visible {
 .muted-link {
   color: var(--fg-muted);
   background-image: none;
-  transition: color var(--dur-fast) ease;
+  transition: color var(--dur-fast) var(--easing);
 }
 @media (hover: hover) {
   .muted-link:hover {

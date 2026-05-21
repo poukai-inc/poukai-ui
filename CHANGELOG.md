@@ -1,5 +1,102 @@
 # @poukai-inc/ui
 
+## 1.3.0
+
+### Minor Changes
+
+- 9bddd36: Add `Divider` atom — hairline separator rule.
+
+  Props: `orientation` (`"horizontal"` | `"vertical"`, default `"horizontal"`), `tone` (`"default"` | `"muted"`), `as` (`"hr"` | `"div"`, defaults from orientation). Horizontal defaults to `<hr>` (implicit `role="separator"`); vertical defaults to `<div role="separator" aria-orientation="vertical">`. Zero self-margin — parent layout controls spacing.
+
+  Introduces `--hairline-soft` token (light: `#E5E5EA`, dark: `#3A3A3C`) for the `tone="muted"` variant.
+
+  **Not included in this PR:** migration of the 10 existing inline-hairline call sites enumerated in `meta/design/Divider.md §9` (`FailureMode`, `Principle`, `Statement`, `RoleCard`, `LinkCard`, `Quote`, `SiteShell`, `Footer`, `Tabs`, `Dialog`). Those remain as-is; migration to `<Divider>` is a follow-up engineering task.
+
+- 9bddd36: Add Icon atom — thin wrapper over `lucide-react` LucideIcon (consumer brings the icon).
+
+  Accepts any `LucideIcon` via the `icon` prop. Size scale maps `xs/sm/md/lg` to
+  `--icon-xs` (12 px) / `--icon-sm` (16 px) / `--icon-md` (20 px) / `--icon-lg` (24 px)
+  via token-backed CSS classes. Color is always `currentColor` so icons inherit text
+  color from parent. `strokeWidth` defaults to `1.5` per brand spec.
+
+  Accessibility: `decorative={true}` (default) sets `aria-hidden="true"` + `focusable="false"`.
+  `decorative={false}` requires `aria-label` and sets `role="img"` + `focusable="false"`;
+  omitting the label is a runtime console.error.
+
+  `forwardRef` to SVG root; `...rest` forwarded so consumers can pass `data-*`, `aria-*`,
+  and any SVG attribute.
+
+- 9bddd36: Add `Link` atom — canonical styled anchor with three variants and `asChild` Radix Slot composition.
+
+  **What ships:**
+  - `<Link href variant="default|quiet|muted-link" asChild>` — named, versioned anchor atom in `src/atoms/Link/`.
+  - `variant="default"` — two-layer underline grow (accent over hairline), direct transcription of the global `a` rule in `tokens.css`.
+  - `variant="quiet"` — single-layer underline on hover only; no hairline at rest. Correct technique: pre-declared 0%-wide accent layer so the grow interpolates rather than snaps.
+  - `variant="muted-link"` — `color: var(--fg-muted)` at rest, `color: var(--fg)` on hover, plain `color` transition. Byte-for-byte match of the global `.muted-link` utility class — the migration target for `SiteShell`, `Footer`, and story fixtures.
+  - `asChild` via `@radix-ui/react-slot` — compose DS styles onto a framework router Link (Next.js, Remix, etc.).
+  - Auto `rel="noopener noreferrer"` when `target="_blank"` and no explicit `rel` is provided; consumer-supplied `rel` always wins.
+  - `href` is required at the TypeScript level (`Omit<AnchorHTMLAttributes, 'href'> & { href: string }`).
+  - Exported from `@poukai-inc/ui`, `@poukai-inc/ui/atoms`, and `@poukai-inc/ui/atoms/Link` subpath.
+
+  **Migration note — global `.muted-link` class:**
+  The `.muted-link` global utility class in `src/tokens/tokens.css` is NOT removed in this PR. Confirmed call sites (`SiteShell.tsx`, `Footer.tsx`, `SiteShell.stories.tsx`, `a11y.test.tsx`, and others) must migrate to `<Link variant="muted-link">` in a follow-up audit PR with Arian's sign-off, after confirming no remaining consumers in the site repo reference the global class directly.
+
+- 9bddd36: Add Skeleton atom — content placeholder for async data loads.
+
+  Single element with `--surface` background fill, opacity pulse animation
+  (`poukai-skeleton-pulse` at `--dur-pulse` 1800ms, `ease-in-out`, infinite),
+  radius variants (`sm`/`md`/`lg`/`circle`), `as="div"|"span"` for block/inline
+  contexts, and explicit reduced-motion final state (`animation: none; opacity: 0.6`).
+
+  NO shimmer. Opacity pulse only, per the motion banlist in BACKLOG.md §Motion:
+  "Skeleton shimmer that's prettier than the loaded state." No gradient, no
+  background-position animation, no moving gradient layer at any point.
+
+  `aria-hidden="true"` by default — decorative placeholder. Consumer owns
+  `aria-busy` on the loading region container.
+
+  Also fixes a pre-existing `TS2322` ref-cast error in `VisuallyHidden`
+  (`as unknown as React.Ref<HTMLDivElement>`) that was blocking `tsc`.
+
+- 9bddd36: Add `Spinner` atom — indeterminate loading indicator.
+  - Inline SVG arc (track at 0.2 opacity + rotating arc at full opacity), `currentColor` throughout so it adapts to any surface without a color prop.
+  - Three sizes: `sm` (16px), `md` (20px, default), `lg` (24px) — matched to the icon size token scale (`--icon-sm`, `--icon-md`, `--icon-lg`).
+  - Rotation driven by new `--dur-spinner: 800ms` motion token (added to `tokens.css` by `poukai-design`); `linear` easing for a smooth continuous loop.
+  - `role="status"` + `aria-live="polite"` + `aria-label` on the host `<span>`; visually-hidden text sibling for virtual browse mode.
+  - Reduced-motion fallback: explicit `animation: none` on the arc (belt-and-suspenders over the global `tokens.css` collapse) plus a CSS-only `…` ellipsis revealed only under `prefers-reduced-motion: reduce` — no JS branching, no DOM structure change.
+  - Full Playwright CT test suite (render, sizes, label, ref forwarding, className merge, rest props, animation token regression, reduced-motion assertions, axe scans).
+  - Added to `src/a11y.test.tsx` central gate (default, all sizes, custom label, reduced-motion).
+
+- 9bddd36: Add `VisuallyHidden` atom — the canonical sr-only clip-pattern primitive for `@poukai-inc/ui`.
+
+  Renders children in the accessibility tree (screen-reader-readable, announced by assistive technology) while remaining completely invisible to sighted users via the WCAG/Bootstrap/Tailwind canonical clip pattern. Invariant: no tokens, no variants, no motion.
+  - `as?: "span" | "div"` closed union (default `"span"`) for inline vs block-level contexts
+  - `...rest` forwarded to root — use `id` for `aria-labelledby`/`aria-describedby`, `aria-live` for live-region announcements
+  - `className` merged additively; internal clip class has dedicated specificity
+  - Zero axe violations across default span, div variant, and `aria-live` usage
+  - First-party consumers: `IconButton`, `Dialog` close label, `SkipLink` (hidden base), `Carousel` slide counter
+
+### Patch Changes
+
+- b2fb30f: Fix Avatar accessibility and CSS spec compliance; ratify 6 Draft design specs.
+  - Avatar: add `aria-hidden="true"` on decorative instances (no `name`, no `alt`)
+  - Avatar: fix `shape="square"` border-radius to `--radius-1` (2px, was 4px)
+  - Avatar: move `user-select: none` to root element
+  - Dialog: remove redundant `clsx(className)` wrapping in DialogBasic
+  - Design specs: promote Avatar, Tag, FieldNote, Quote, Dialog, Footer from Draft → Approved
+
+- 801dc75: Fix animation token discipline: replace all raw `ease` literals with `var(--easing)` across tokens.css and Dialog.module.css. Add component-level reduced-motion suppression block to Dialog. Add reduced-motion CT tests for StatusBadge, Hero, and Dialog.
+
+## 1.2.0
+
+### Minor Changes
+
+- f7193c7: Stack alignment (issue #105):
+  - **D1 — React 19 dual-peer support.** Widen `peerDependencies.react` and `peerDependencies.react-dom` from `>=18` to `>=18 || >=19`, and broaden `@types/react` / `@types/react-dom` ranges to `>=18.3.0 <20`. CI now runs Playwright component tests under React 18 _and_ React 19 via a `ct-react-matrix` job so both peer surfaces stay green.
+  - **D4 — lucide-react alignment.** Tighten `peerDependencies.lucide-react` floor from `>=0.400.0` to `>=0.500.0` to match org-wide consumer versions (`autopost` 0.562, `poukai` 0.511). Bump devDep to `^0.577.0` (latest 0.5xx). Icons used internally (`ArrowUpRight`, `Mail`, `Heart`, `Check`, `AlertCircle`, `X`, `LucideIcon`) are stable across the 0.4xx → 0.5xx range — no rename impact.
+
+  No public-API changes. Consumer migration: install on a host with React 18 or 19 and `lucide-react ≥ 0.500.0`.
+
 ## 1.1.0
 
 ### Minor Changes

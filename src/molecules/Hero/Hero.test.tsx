@@ -403,3 +403,22 @@ test('a11y — illustration with aria-hidden="true" passes axe-core', async ({ m
     .analyze();
   expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
 });
+
+test('reduced-motion: entrance="stagger" stagger animations are suppressed when prefers-reduced-motion is reduce', async ({
+  mount,
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const component = await mount(
+    <Hero
+      entrance="stagger"
+      title="Stagger heading"
+      lede="Stagger lede."
+      status={<span data-testid="status-rm">Available</span>}
+      cta={<a href="#">Contact</a>}
+    />,
+  );
+  // The title element carries the .title class which gets animation: none under
+  // @media (prefers-reduced-motion: reduce) in Hero.module.css.
+  await expect(component.locator("h1")).toHaveCSS("animation-name", "none");
+});

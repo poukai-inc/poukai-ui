@@ -68,8 +68,9 @@ test("asChild renders the child element as root", async ({ mount }) => {
       </a>
     </Link>,
   );
-  // The Slot merges props onto the child; the child anchor should be visible
-  await expect(component.getByTestId("child-anchor")).toBeVisible();
+  // Slot merges props onto the child; the child IS the root element
+  await expect(component).toBeVisible();
+  await expect(component).toHaveAttribute("data-testid", "child-anchor");
 });
 
 test("asChild forwards DS classes to the child element", async ({ mount }) => {
@@ -216,14 +217,14 @@ test("a11y — quiet variant", async ({ mount, page }) => {
 
 test("a11y — muted-link variant", async ({ mount, page }) => {
   await mount(
-    <footer>
+    <main>
       <Link href="mailto:hello@pouk.ai" variant="muted-link">
         hello@pouk.ai
       </Link>
-    </footer>,
+    </main>,
   );
   const { violations } = await new AxeBuilder({ page })
-    .disableRules(["landmark-one-main", "page-has-heading-one", "region", "contentinfo-onpage"])
+    .disableRules(["landmark-one-main", "page-has-heading-one", "region"])
     .analyze();
   expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
 });

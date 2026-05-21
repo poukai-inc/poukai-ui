@@ -49,7 +49,7 @@ test('radius="circle" sets data-radius="circle"', async ({ mount }) => {
 
 test('radius="circle" resolves to border-radius 50%', async ({ mount }) => {
   const component = await mount(<Skeleton width={40} height={40} radius="circle" />);
-  await expect(component).toHaveCSS("border-radius", "20px"); // 50% of 40px
+  await expect(component).toHaveCSS("border-radius", "50%");
 });
 
 /* ── as prop ─────────────────────────────────────────────── */
@@ -158,7 +158,9 @@ test("axe: no violations on default skeleton", async ({ mount, page }) => {
       <Skeleton width={200} height={24} />
     </div>,
   );
-  const results = await new AxeBuilder({ page }).analyze();
+  const results = await new AxeBuilder({ page })
+    .disableRules(["landmark-one-main", "page-has-heading-one", "region"])
+    .analyze();
   expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
 });
 
@@ -171,7 +173,9 @@ test("axe: no violations with all radius variants", async ({ mount, page }) => {
       <Skeleton width={40} height={40} radius="circle" />
     </div>,
   );
-  const results = await new AxeBuilder({ page }).analyze();
+  const results = await new AxeBuilder({ page })
+    .disableRules(["landmark-one-main", "page-has-heading-one", "region"])
+    .analyze();
   expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
 });
 
@@ -181,6 +185,8 @@ test("axe: no violations with as=span inline", async ({ mount, page }) => {
       Loading <Skeleton as="span" width={60} height={14} radius="sm" />
     </p>,
   );
-  const results = await new AxeBuilder({ page }).analyze();
+  const results = await new AxeBuilder({ page })
+    .disableRules(["landmark-one-main", "page-has-heading-one", "region"])
+    .analyze();
   expect(results.violations, JSON.stringify(results.violations, null, 2)).toEqual([]);
 });

@@ -1,0 +1,49 @@
+@keyframes poukai-skeleton-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.root {
+  display: block;
+  background-color: var(--surface);
+  border-radius: var(--radius-2); /* md default */
+  animation: poukai-skeleton-pulse var(--dur-pulse) ease-in-out infinite;
+}
+
+/* ── radius variants ─────────────────────────────────────── */
+
+.root[data-radius="sm"] {
+  border-radius: var(--radius-1);
+}
+
+.root[data-radius="md"] {
+  border-radius: var(--radius-2);
+}
+
+.root[data-radius="lg"] {
+  border-radius: var(--radius-3);
+}
+
+.root[data-radius="circle"] {
+  border-radius: 50%;
+}
+
+/* ── inline context ──────────────────────────────────────── */
+
+.root[data-as="span"] {
+  display: inline-block;
+}
+
+/* ── reduced-motion override ─────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .root {
+    animation: none;
+    opacity: 0.6;
+  }
+}

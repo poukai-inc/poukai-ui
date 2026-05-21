@@ -1,0 +1,30 @@
+/**
+ * VisuallyHidden — canonical sr-only clip pattern.
+ *
+ * These values are fixed a11y constants, NOT design tokens. They are drawn
+ * from the WCAG / Bootstrap / Tailwind canonical sr-only technique and must
+ * not be replaced with token references. The spec (§3, §4) explicitly states:
+ * "No design tokens are consumed or introduced by this component."
+ *
+ * margin: -1px is load-bearing: it prevents the 1×1px ghost element from
+ * contributing to scroll dimensions in some browser/layout combinations.
+ *
+ * clip is the legacy property for older browser compat.
+ * clip-path: inset(50%) is the modern equivalent — both are applied for
+ * maximum coverage.
+ *
+ * The .root class has dedicated specificity so that consumer className
+ * additions cannot accidentally override position or overflow.
+ */
+.root {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

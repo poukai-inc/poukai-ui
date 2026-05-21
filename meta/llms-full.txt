@@ -19,6 +19,7 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--fg: #1d1d1f` — Primary text, wordmark fill, sigil stroke, and the `primary` button background (inverts: `--fg` fill, `--bg` text). The only color allowed for body paragraph text. NEVER use decoratively as a background wash.
 - `--fg-muted: #6e6e73` — Secondary text: captions, footer copy, eyebrow labels, lede paragraphs, hiredBy lines, Stat provenance. NEVER use for primary calls to action. NEVER use as a disabled-state substitute.
 - `--hairline: #d2d2d7` — Dividers, 1px rules, borders. Always applied as a border/border-top/border-bottom, NEVER as a background. Never render thicker than `--hairline-w: 1px`.
+- `--hairline-soft: #e5e5ea` — Quieter decorative separator. Sits between `--hairline` and `--surface` in the neutral ramp. Use where a hairline would be too assertive — e.g. between adjacent tiles that already share a surface background. NEVER use for interactive borders or focus rings.
 - `--accent: #0071e3` — The brand’s single accent. Roles: status dot fill, link underline-on-hover (the accent layer grows over the resting hairline underline), focus rings. NEVER use as a surface fill, body text color, or button background. It is a signal color: interactivity and focus only. `--accent` is NEVER visible in a resting state — it appears only on hover (animated underline) and on focus-visible (ring).
 - `--accent-glow: rgba(0, 113, 227, 0.18)` — Transparent halo for the available status dot and `::selection`. NEVER use as a container fill or hover state. Never stack it.
 - `--bg-warm-accent: #c0452c` — Editorial warm-accent band background (full-bleed orange). Restraint rules in `meta/brand.md`: at most one warm band per page; never adjacent to another `--bg-warm-accent` band. NEVER use for inline elements or component fills.
@@ -55,6 +56,7 @@ Dark mode is implemented as a `@media (prefers-color-scheme: dark)` block append
 | `--fg` | `#F5F5F7` | Primary text. Near-white (10/255 off pure). Contrast on `--bg`: **19.58:1** (AAA). |
 | `--fg-muted` | `#86868B` | Secondary text. Apple `secondaryLabel` dark. Contrast on `--bg`: **6.10:1** (AA). |
 | `--hairline` | `#2C2C2E` | Dividers. Apple `separator` dark value. |
+| `--hairline-soft` | `#3a3a3c` | Quieter decorative separator in dark mode — sits between `--hairline` and `--surface` in the dark neutral ramp. |
 | `--accent` | `#0A84FF` | Links, focus rings. Apple `systemBlue` dark. Contrast on `--bg`: **5.86:1** (AA; ≥3:1 required for non-text). |
 | `--accent-glow` | `rgba(10,132,255,0.24)` | Halo / selection. Higher opacity compensates for dark surface absorption. |
 | `--bg-warm-accent` | `#8A2E1C` | Editorial band — dimmed to ~55% luminance of light value ("deep ember"). |
@@ -156,6 +158,17 @@ The `<Button>` height ladder is part of the brand contract. Four named rungs, ha
 - `--btn-h-lg: 52px` — `size="lg"` min-height. Loud CTA.
 
 Padding and font-size stay hand-tuned per size (no separate padding-token scale). Consumed by `src/atoms/Button/Button.module.css`; available to any future primitive (form fields, segmented controls) that needs to align to the same height ladder.
+
+### Icon size scale (4px base grid)
+
+Four named rungs. Semantically distinct from `--space-*` — icon dimensions are not rhythm values. Consumed by `<Icon>` atom via a `SIZE_MAP` lookup. NEVER use raw pixel values for icon sizing; reference these tokens.
+
+- `--icon-xs: 12px` — compact pill / dense label row (e.g. inside `<Tag>`, inside `<Eyebrow>`)
+- `--icon-sm: 16px` — default inline icon; pairs with `--fs-meta` (14px) text. The most common rung.
+- `--icon-md: 20px` — mid-weight; pairs with `--fs-body` (17–19px) text or stands alone in a row
+- `--icon-lg: 24px` — large standalone; navigation rows, feature-card icon slots, prominent markers
+
+Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 16px placement. No rung above 24px exists on the atom; display-scale icons at 32px+ are molecule-level layout decisions.
 
 ---
 
@@ -505,6 +518,153 @@ Padding and font-size stay hand-tuned per size (no separate padding-token scale)
 - Do NOT add group/stack composition at this layer — consumer-side concern.
 - Do NOT make Avatar polymorphic — root is always `<span>`.
 - Do NOT use Avatar for decorative brand imagery — use `<Portrait>` for editorial photography.
+
+### Skeleton
+- Atom for async content placeholders. Single element — no children, no inner structure.
+- Root element is `<div>` by default; `as="span"` renders `<span>` with `display: inline-block` for inline contexts.
+- `as` prop is a closed union: only `"div"` and `"span"`. No arbitrary elements.
+- `width` / `height` (string | number, optional): bare numbers coerce to px (e.g. `120` → `120px`); strings pass through verbatim (`"100%"`, `"12rem"`). Applied as inline `style`. No intrinsic size — omitting both collapses the element to zero height (silent failure, easy to debug).
+- `radius` (`"sm"` | `"md"` | `"lg"` | `"circle"`, default `"md"`): sm → `--radius-1` (2px), md → `--radius-2` (4px), lg → `--radius-3` (8px), circle → `50%` (geometric instruction, not a token).
+- Animation: opacity pulse only — `poukai-skeleton-pulse` keyframe, `ease-in-out`, `var(--dur-pulse)` (1800ms), infinite. 0%/100% opacity 1 → 50% opacity 0.4. NO gradient shimmer, NO background-position animation, NO moving gradient of any kind. The banlist is explicit: "Skeleton shimmer that's prettier than the loaded state."
+- Reduced-motion: `@media (prefers-reduced-motion: reduce)` sets `animation: none; opacity: 0.6`. The global `tokens.css` block collapses duration to 0.01ms but does NOT set the correct resting opacity — the component must declare this explicitly.
+- `aria-hidden="true"` by default — decorative placeholder, communicates nothing to the a11y tree. Consumer can override via `...rest`.
+- `aria-busy` is NOT the Skeleton's concern — the consumer container owns the `aria-busy="true"` / `aria-busy="false"` lifecycle.
+- Tokens consumed: `--surface` (background fill), `--radius-1`, `--radius-2`, `--radius-3` (corner radii), `--dur-pulse` (animation duration). No new tokens introduced.
+- `display: block` on root div; `display: inline-block` when `as="span"`.
+- Do NOT add children — Skeleton has no inner structure.
+- Do NOT implement shimmer / sweep gradient / background-position animation at any point.
+- Do NOT add a `tone` prop — fill is always `--surface`. No exceptions.
+- Do NOT add default width/height — zero is the deliberate collapsed state.
+- Do NOT set `aria-busy` on the Skeleton itself.
+- Do NOT open the `as` union beyond `"div"` and `"span"`.
+
+```tsx
+// Block placeholder (text lines)
+<div aria-busy="true">
+  <Skeleton width="100%" height={24} radius="sm" />
+  <Skeleton width="60%" height={24} radius="sm" />
+</div>
+
+// Avatar placeholder
+<Skeleton width={40} height={40} radius="circle" />
+
+// Card placeholder
+<Skeleton width="100%" height={220} radius="lg" />
+
+// Inline text placeholder
+<p>Posted by <Skeleton as="span" width={80} height={14} radius="sm" /></p>
+```
+
+### Divider
+- Canonical hairline separator atom. Renders a 1px rule — horizontal (`<hr>`) or vertical (`<div role="separator">`).
+- `orientation` (`"horizontal"` | `"vertical"`, default `"horizontal"`) — horizontal is a full-width top-border rule; vertical is a 1px column rule that requires a flex/grid parent to have visible height.
+- `tone` (`"default"` | `"muted"`, default `"default"`) — `"default"` uses `--hairline`; `"muted"` uses `--hairline-soft` for quieter decorative contexts.
+- `as` (`"hr"` | `"div"`) — closed polymorphic. Horizontal defaults to `<hr>` (implicit `role="separator"`); vertical defaults to `<div>` with explicit `role="separator"` and `aria-orientation="vertical"`.
+- Zero self-margin by design. Parent layout (flex `gap`, padding) controls spacing around the rule.
+- Do NOT use as a background fill or container. Do NOT render thicker than `--hairline-w` (1px). Do NOT apply `--hairline-soft` for structural separators.
+
+### Spinner
+- Indeterminate loading indicator. Signals that an async operation is in progress when the duration is unknown.
+- Root element: `<span role="status" aria-live="polite" aria-label>`. SVG arc inside is `aria-hidden="true"`.
+- `size` (`"sm"` | `"md"` | `"lg"`, default `"md"`) — sm=16px, md=20px, lg=24px. Matches the `--icon-sm/md/lg` rung sizes.
+- `label` (string, default `"Loading"`) — accessible label announced to screen readers.
+- Uses `currentColor` for the arc and track — place inside any colored context without a separate color prop.
+- Under `prefers-reduced-motion: reduce`: rotation stops; a static ellipsis (`…`) is revealed for reduced-motion users.
+- Rotation period: `--dur-spinner` (800ms). Sub-second so the spinner reads as active, not stalled.
+- Do NOT use Spinner as a page-level loading overlay — that is a separate organism. Do NOT add a determinate progress variant here.
+
+### VisuallyHidden
+- Canonical sr-only primitive. Renders children visible to the accessibility tree but invisible to sighted users (WCAG clip pattern).
+- Root element: `<span>` by default; `as="div"` for block-level contexts where `<span>` would be invalid HTML.
+- No tokens, no variants, no motion. Invariant — one shape only.
+- Use `...rest` to forward `id` (for `aria-labelledby`/`aria-describedby` associations) or `aria-live` (for live-region announcements).
+- Do NOT add visible styles or variants. Do NOT use for layout hiding — use CSS `display: none` or `visibility: hidden` for that.
+
+### Icon
+- Thin rendering wrapper around any `lucide-react` icon component. Enforces three system-wide contracts at every call site: a token-aligned size scale (`xs`/`sm`/`md`/`lg`), `currentColor` as the only colour source, and decorative-by-default accessibility (`aria-hidden="true"` unless an explicit label is provided).
+- Root element: the Lucide icon SVG directly. No wrapper `<span>` or `<div>` — the SVG IS the root. Keeps the DOM flat and preserves inline-flex alignment inside button labels and icon-text rows.
+- `icon` (required `LucideIcon`) — the Lucide component reference. Consumer imports directly from `lucide-react` and passes the component. `<Icon>` is a frame, not a catalogue — it does NOT re-export any Lucide icon.
+- `size` (`"xs" | "sm" | "md" | "lg"`, default `"sm"`) — resolves to the `--icon-*` token via a `SIZE_MAP` lookup. xs → 12px, sm → 16px, md → 20px, lg → 24px. NEVER pass raw pixel values.
+- `decorative` (boolean, default `true`) — when `true`, `aria-hidden="true"` is set and the icon is removed from the a11y tree. When `false`, `role="img"` + `aria-label` is set. A dev-mode `console.error` fires when `decorative={false}` and no `aria-label` is provided — this is an a11y contract violation.
+- `aria-label` (optional string) — required when `decorative={false}`. Ignored when `decorative={true}`.
+- `className` — forwarded to the SVG root via `clsx`. Use sparingly; only for layout-level positioning. Never for color.
+- `...rest` — spread to the SVG element (id, data-*, event handlers).
+- `focusable="false"` — always applied (IE11/legacy-Edge SVG focus prevention). `flex-shrink: 0; pointer-events: none; color: currentColor` — always-on in CSS module.
+- No `color` prop. `currentColor` is the entire colour contract. Parent sets `color`; the icon inherits.
+- No numeric `size` prop. Four named rungs are the complete v1 surface.
+- `displayName = "Icon"`. `forwardRef` to the SVG element.
+- Tokens consumed: `--icon-xs` (12px), `--icon-sm` (16px), `--icon-md` (20px), `--icon-lg` (24px). Size classes in `Icon.module.css` set `width`/`height` via these tokens. `currentColor` cascades from parent — no token needed.
+- Composition: inside `<Button>` → `size="sm"`; inside `<Tag>` icon slot → `size="xs"`; inline with body text → `size="md"`; standalone nav/feature → `size="lg"`.
+- Do NOT add a `color` prop — `currentColor` is the contract.
+- Do NOT pass raw pixel values to `size` — the four named rungs are the complete scale.
+- Do NOT make `<Icon>` interactive — the surrounding `<button>` or `<a>` is always the focus target.
+- Do NOT nest inside `<Wordmark>` — Wordmark geometry is inline and hand-coded.
+
+### Link
+- Canonical styled anchor atom. Named, versioned component contract replacing the leaky global `a` rule and the `.muted-link` utility class for all call sites that want an explicit DS primitive.
+- Root element: `<a>` by default. When `asChild={true}`, renders a Radix `<Slot>` that merges all DS styles and event handlers onto the single child — the canonical pattern for Next.js `<Link>` or Remix `<Link>` composition.
+- `href` (required string) — destination URL. A link without an href is not a link; the prop is non-optional at the TypeScript level.
+- `variant` (`"default"` | `"quiet"` | `"muted-link"`, default `"default"`) — visual register. Three variants only; no additional tones without a spec revision.
+- `asChild` (boolean, default `false`) — Radix Slot composition. Consumer must pass exactly one child when `asChild={true}`.
+- `className` — merged via `clsx` onto the root. Consumer owns margin; Link has none.
+- `...rest` — full `AnchorHTMLAttributes<HTMLAnchorElement>` spread: `target`, `rel`, `aria-*`, `data-*`, event handlers, etc.
+- `variant="default"` — two gradient layers: accent grows 0%→100% on hover (layer 1); hairline always at 100% at rest (layer 2). `color: inherit`. `padding-bottom: 2px`. Transition: `background-size var(--dur-mid) var(--easing-link)`. Hover guarded by `@media (hover: hover)`. Direct transcription of the global `a` rule in `tokens.css`.
+- `variant="quiet"` — single gradient layer (accent only, pre-declared at 0% width). No hairline at rest. Hover grow identical to `default`. Pre-declaring a 0%-wide layer is required so the browser interpolates the grow — `none` at rest would snap instead of animate.
+- `variant="muted-link"` — `color: var(--fg-muted)`, `background-image: none`, `transition: color var(--dur-fast) ease`. On hover: `color: var(--fg)`. No underline layers. `padding-bottom: 0`. Byte-for-byte match of the global `.muted-link` class in `tokens.css` — the migration target for `SiteShell`, `Footer`, and story fixtures.
+- External-link security: when `target="_blank"` is passed and no explicit `rel` is provided, the component auto-applies `rel="noopener noreferrer"`. Consumer-supplied `rel` always wins.
+- Focus ring: inherits the global `a:focus-visible` rule (`outline: 2px solid var(--accent)`, `outline-offset: 4px`, `border-radius: var(--radius-1)`). The CSS module suppresses `a:focus` outline (double-ring prevention) and re-states `a:focus-visible` for explicitness.
+- No visited state, no active translateY, no color prop. Same rationale as `EmailLink`.
+- Tokens consumed: `--accent`, `--hairline`, `--fg-muted`, `--fg`, `--dur-mid`, `--dur-fast`, `--easing-link`, `--radius-1`. No new tokens introduced. The `1px` underline thickness and `2px` padding-bottom are literal values matching the global `a` rule (no `--text-underline-thickness` token exists yet).
+- `displayName = "Link"`. `forwardRef<HTMLAnchorElement, LinkProps>`. Named export only.
+- **Migration backlog (do NOT remove the global class in this PR).** The `.muted-link` global class in `tokens.css` is used in: `SiteShell.tsx`, `Footer.tsx`, `SiteShell.stories.tsx`, `a11y.test.tsx`, `System.stories.tsx`, `SiteShellFull.tsx`, `Hero.stories.tsx`. After `<Link variant="muted-link">` ships, each site should migrate. The global class must not be removed until an audit PR confirms all consumers (including the site repo) have migrated.
+- Use `<Link href="/path">` for all styled navigational anchors. Do NOT use a raw `<a>` inside prose copy.
+- Use `variant="muted-link"` inside `<SiteShell>` nav and `<Footer>` nav — direct replacement for the `"muted-link"` className.
+- Use `variant="quiet"` for nav lists where link nature is implicit from layout context. Do NOT use `quiet` in body paragraphs.
+- Use `variant="default"` in prose body copy where the hairline discoverability signal is required.
+- Do NOT use `<Link>` as a wrapper for `<Button>` — they are sibling atoms.
+- Do NOT add a `router` prop or bundle a framework adapter — the DS is framework-agnostic. This item is closed as Won't in the ROADMAP.
+- Do NOT add a `visited` style, `active` style, or `current` prop — out of scope per spec §10.
+- Do NOT add icon slots — inline icon composition is the consumer's responsibility at the call site.
+- Do NOT pass `href` when `asChild={true}` — the child element owns the href in that mode.
+
+```tsx
+// Default — prose body link with hairline underline at rest:
+<Link href="/work">our approach to AI adoption</Link>
+
+// Quiet — nav item, underline on hover only:
+<Link href="/why-ai" variant="quiet">Why AI</Link>
+
+// MutedLink — footer / secondary nav register:
+<Link href="mailto:hello@pouk.ai" variant="muted-link">hello@pouk.ai</Link>
+
+// External — rel auto-applied:
+<Link href="https://example.com/report" target="_blank">Industry report</Link>
+
+// asChild — Next.js router composition:
+<Link href="/about" asChild>
+  <NextLink href="/about">About</NextLink>
+</Link>
+```
+- Do NOT re-export Lucide symbols from `@poukai-inc/ui` — the consumer manages Lucide imports.
+
+```tsx
+import { Mail, AlertCircle } from "lucide-react";
+import { Icon } from "@poukai-inc/ui";
+
+// Decorative (default) — inside a button label:
+<button style={{ display: "inline-flex", alignItems: "center", gap: "var(--space-2)" }}>
+  <Icon icon={Mail} size="sm" />
+  Send email
+</button>
+
+// Semantic — icon carries meaning not expressed in adjacent text:
+<Icon icon={AlertCircle} size="md" decorative={false} aria-label="Warning: action required" />
+
+// Inheriting color from parent:
+<span style={{ color: "var(--fg-muted)" }}>
+  <Icon icon={Mail} size="sm" />
+</span>
+```
 
 ### Input
 - Single-line text input primitive. Root is always `<input>`. Non-polymorphic. Ref forwarded to `HTMLInputElement`.
@@ -1066,6 +1226,74 @@ function ContactForm() {
   );
 }
 ```
+
+### VisuallyHidden
+- Canonical sr-only clip-pattern atom. Renders `children` in the accessibility tree while keeping the element invisible to sighted users. Root element is always `<span>`. Non-polymorphic.
+- Use for supplementary screen-reader-only text: off-screen labels, "opens in new tab" notices, icon button labels that must not be visible.
+- Implementation: `position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0`. No CSS token consumption — geometry is fixed at the clip boundary.
+- `children` (required ReactNode) — the text or node to expose to the a11y tree.
+- `forwardRef` to the root `<span>`. `...rest` spread. `displayName = "VisuallyHidden"`.
+- Do NOT use `display: none` or `visibility: hidden` — both suppress from the a11y tree entirely. `VisuallyHidden` is the only correct pattern for sr-only text in this DS.
+- Do NOT substitute with `aria-label` when both a visual and a sr-only label are needed simultaneously — use `VisuallyHidden` for the supplementary text.
+
+### Skeleton
+- Content-placeholder atom for async loading states. Renders a pulsing grey block in the shape of absent content. `currentColor`-independent — uses `--surface` fill.
+- `width` (required, `number | string`) and `height` (required, `number | string`) — dimensions of the placeholder block. Pass numbers as px values; strings for percentages or CSS units.
+- `radius` (`"none"` | `"sm"` | `"md"` | `"lg"` | `"circle"`, default `"md"`) — border-radius variant. `"circle"` produces a pill/avatar placeholder; `"none"` for sharp-edge content like images.
+- `as` (`"div"` | `"span"`, default `"div"`) — root element. Use `"span"` for inline-in-text placeholders.
+- Animation: opacity pulse at `--dur-pulse` (1800ms). Suppressed by the global `prefers-reduced-motion` block in `tokens.css` — no per-component override needed.
+- A11y: root has `aria-hidden="true"`. Wrap groups in a container with `aria-busy="true"` and `aria-label` describing what is loading.
+- Tokens consumed: `--surface`, `--radius-1`, `--radius-2`, `--radius-3`, `--dur-pulse`. No new tokens.
+- Do NOT use Skeleton for indeterminate process feedback — use `<Spinner>`. Skeleton is for known-shape content placeholders only.
+- Do NOT pass meaningful text children — Skeleton is a visual shape, not a label.
+
+### Icon
+- Token-sized Lucide icon wrapper. Renders any Lucide icon at one of four named size rungs, inheriting `currentColor`.
+- `icon` (required) — a Lucide icon component (e.g. `import { Mail } from "lucide-react"`).
+- `size` (`"xs"` | `"sm"` | `"md"` | `"lg"`, default `"md"`) — maps to `--icon-xs` (12px), `--icon-sm` (16px), `--icon-md` (20px), `--icon-lg` (24px).
+- `decorative` (boolean, default `true`) — when `true`, sets `aria-hidden="true"` on the SVG (presentational). When `false`, the consumer must pass `aria-label` for the icon's semantic meaning.
+- `forwardRef` to the root SVG. `...rest` spread. `displayName = "Icon"`.
+- Tokens consumed: `--icon-xs`, `--icon-sm`, `--icon-md`, `--icon-lg`. Color is always `currentColor`.
+- Do NOT hardcode icon pixel sizes — always use the `size` prop and the icon size token scale.
+- Do NOT pass `aria-hidden` directly when `decorative={false}` — the `decorative` prop controls it. When `decorative={false}`, pass `aria-label` instead.
+
+### Link
+- Canonical styled anchor atom. Applies the brand two-layer underline affordance (resting `--hairline` underline; hover: `--accent` underline grows over it) and focus ring. Three variants.
+- Root element: `<a>` by default. `asChild={true}` delegates rendering to a Radix `Slot` — pass a framework `<Link>` component as the child for client-side routing.
+- `variant` (`"default"` | `"quiet"` | `"muted"`, default `"default"`) — color register:
+  - `"default"` — `color: var(--fg)`. Standard in-prose link.
+  - `"quiet"` — `color: var(--fg-muted)`. Use for secondary navigational links where reduced visual weight is appropriate.
+  - `"muted"` — applies the `.muted-link` global class pattern: `color: var(--fg-muted)` at rest, `color: var(--fg)` on hover via `transition`. No underline animation. Use for footer and caption-register links.
+- `href` — standard anchor attribute. Required when `asChild` is false.
+- `forwardRef` to the root `<a>` (or Slot child). `...rest` spread. `displayName = "Link"`.
+- Focus ring: `outline: 2px solid var(--accent); outline-offset: 4px; border-radius: var(--radius-1)` — matches global `a:focus-visible` in `tokens.css`.
+- Tokens consumed: `--fg`, `--fg-muted`, `--accent`, `--hairline`, `--dur-mid`, `--easing-link`, `--radius-1`. No new tokens.
+- Do NOT use `<Link>` for `mailto:` — use `<EmailLink>`. Do NOT use `<Link>` for button actions — use `<Button>`.
+
+### Divider
+- Hairline separator rule atom. Horizontal rule (`<hr>`) or vertical rule (`<div>`) at `1px` using `--hairline` or `--hairline-soft`.
+- `orientation` (`"horizontal"` | `"vertical"`, default `"horizontal"`) — axis of the rule. Horizontal emits `<hr>`; vertical emits `<div role="separator" aria-orientation="vertical">`.
+- `tone` (`"default"` | `"muted"`, default `"default"`) — `"default"` uses `--hairline`; `"muted"` uses `--hairline-soft` (quieter decorative separator).
+- Horizontal: `border: 0; border-top: var(--hairline-w) solid <tone-token>; margin: 0`. Vertical: `width: var(--hairline-w); background: <tone-token>; align-self: stretch`.
+- `forwardRef` to the root element. `...rest` spread. `displayName = "Divider"`.
+- Tokens consumed: `--hairline`, `--hairline-soft`, `--hairline-w`. No new tokens.
+- Do NOT use `Divider` as a layout spacer — it is a visual rule only. Use margin/gap tokens on the containing element for spacing.
+- Do NOT render thicker than `--hairline-w` (1px) — brand convention.
+
+### Spinner
+- Indeterminate loading indicator atom. An inline SVG arc that rotates continuously to signal an async operation in progress. Uses `currentColor` throughout — adapts to any surface without a color prop.
+- Root element: `<span>` with `role="status"`, `aria-live="polite"`, `aria-label`. The SVG inside is presentational (`aria-hidden="true"`). A visually-hidden `<span>` sibling contains the label text for virtual browse mode.
+- `size` (`"sm"` | `"md"` | `"lg"`, default `"md"`) — SVG dimensions: `sm`=16px (`--icon-sm`), `md`=20px (`--icon-md`), `lg`=24px (`--icon-lg`).
+- `label` (optional string, default `"Loading"`) — accessible label for `aria-label` and the visually-hidden text. Override with context-specific text: `"Submitting"`, `"Loading results"`.
+- SVG geometry: `viewBox="0 0 24 24"`, `r=10`, `cx=cy=12`, `strokeWidth=2`. Track arc at `opacity: 0.2`; rotating arc at full opacity covers ~270° (`stroke-dasharray ≈ 47.12`).
+- Animation: `animation: poukai-spin var(--dur-spinner) linear infinite` on the arc. `--dur-spinner: 800ms` — sub-second so the spinner reads as actively working. Linear easing (not `--easing`) because a continuous loop must not decelerate.
+- Reduced-motion fallback: explicit `animation: none` on the arc (belt-and-suspenders over the global `tokens.css` collapse) + a `…` (U+2026) ellipsis `<span aria-hidden="true">` revealed via CSS only under `prefers-reduced-motion: reduce`. No JS branching. DOM structure is identical across motion preferences.
+- Tokens consumed: `--dur-spinner`, `--icon-sm`, `--icon-md`, `--icon-lg`. Color: `currentColor`. No color token consumed directly.
+- Do NOT add a `color` prop — `currentColor` inheritance is the contract. Control color on the parent.
+- Do NOT add a `speed` or `duration` prop — override `--dur-spinner` via a scoped CSS custom property on a parent element.
+- Do NOT show `<Spinner>` for interactions that resolve in under ~300ms — it will flash and disappear, reading as a glitch.
+- Do NOT use `<Spinner>` as ambient decoration — motion doctrine bans ambient motion without semantic meaning tied to a real operation.
+- Button loading pairing: `sm`/`compact` buttons use `size="sm"`; `md`/`lg` buttons use `size="md"`. Never `size="lg"` inside a button — 24px competes with the button label.
 
 ---
 

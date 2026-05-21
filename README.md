@@ -74,6 +74,12 @@ other layers, even if the bundler's tree-shaker would miss it.
 | atom     | `EmailLink`                  | Canonical `mailto:` affordance with icon + qualifier slots                                                  |
 | atom     | `Tag`                        | Inline categorical pill — type, category, or topic label                                                    |
 | atom     | `Avatar`                     | Person/entity identity display — image, initials, or placeholder; circle or square                          |
+| atom     | `VisuallyHidden`             | Canonical sr-only clip-pattern primitive; renders children in the a11y tree, invisible to sighted users     |
+| atom     | `Skeleton`                   | Content placeholder for async loads — opacity pulse, radius variants, inline or block context               |
+| atom     | `Icon`                       | Token-sized Lucide icon wrapper — size scale (xs/sm/md/lg), currentColor, decorative-by-default a11y        |
+| atom     | `Link`                       | Canonical styled anchor — default / quiet / muted-link variants; `asChild` via Radix Slot                   |
+| atom     | `Divider`                    | Hairline separator rule — horizontal `<hr>` or vertical `<div>`; default + muted tones                      |
+| atom     | `Spinner`                    | Indeterminate loading indicator — `currentColor`, three sizes, reduced-motion ellipsis fallback             |
 | molecule | `Hero`                       | Status / title / lede / CTA — editorial vertical rhythm                                                     |
 | molecule | `RoleCard`                   | Icon + eyebrow + title + body + hired-by; card recipe                                                       |
 | molecule | `Principle`                  | Margin numeral + title + body; editorial layout                                                             |

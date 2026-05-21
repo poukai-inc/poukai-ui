@@ -1,0 +1,104 @@
+/* ============================================================
+   Spinner — indeterminate loading indicator
+   Tokens: --dur-spinner, --icon-sm, --icon-md, --icon-lg
+   Color:  currentColor throughout (inherits from parent)
+   ============================================================ */
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* No margin — consumer owns spacing */
+  position: relative;
+}
+
+/* ---------- Size variants ---------- */
+
+.sizeSm .svg {
+  width: var(--icon-sm); /* 16px */
+  height: var(--icon-sm);
+}
+
+.sizeMd .svg {
+  width: var(--icon-md); /* 20px */
+  height: var(--icon-md);
+}
+
+.sizeLg .svg {
+  width: var(--icon-lg); /* 24px */
+  height: var(--icon-lg);
+}
+
+/* Default to md when no size class is applied (fallback safety) */
+.svg {
+  width: var(--icon-md);
+  height: var(--icon-md);
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+/* ---------- Rotating arc ---------- */
+
+.arc {
+  transform-origin: center center;
+  animation: poukai-spin var(--dur-spinner) linear infinite;
+}
+
+@keyframes poukai-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Reduced-motion fallback ----------
+   The global tokens.css block collapses animation-duration to 0.01ms
+   and iteration-count to 1 (!important), which effectively freezes the arc.
+   We also add an explicit `animation: none` here as belt-and-suspenders,
+   and reveal the ellipsis affordance so the static state still reads as
+   "in progress" without relying on motion alone.
+   ------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .arc {
+    animation: none;
+  }
+
+  /* Hide ellipsis by default; reveal under reduced-motion */
+  .ellipsis {
+    display: inline !important;
+  }
+}
+
+/* ---------- Visually-hidden label ----------
+   Standard clip pattern: removed from layout but present in the a11y tree.
+   Used for virtual browse mode (belt-and-suspenders alongside aria-label).
+   ------------------------------------------------------------ */
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ---------- Reduced-motion ellipsis ----------
+   Hidden by default (display: none). Revealed only under reduced-motion
+   via the @media block above. aria-hidden="true" — purely visual affordance.
+   ------------------------------------------------------------ */
+
+.ellipsis {
+  display: none;
+  color: currentColor;
+  /* Minimal spacing so the ellipsis sits adjacent to the static arc */
+  margin-inline-start: 0.25em;
+  font-size: 1em;
+  line-height: 1;
+}

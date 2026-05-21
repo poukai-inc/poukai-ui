@@ -56,6 +56,7 @@
   --fg: #1d1d1f; /* primary text, wordmark, sigil stroke */
   --fg-muted: #6e6e73; /* secondary copy, footer, captions */
   --hairline: #d2d2d7; /* dividers, 1px rules, borders */
+  --hairline-soft: #e5e5ea; /* quieter decorative separator — sits between --hairline and --surface in the neutral ramp */
   --accent: #0071e3; /* status dot, link underline-on-hover, focus ring */
   --accent-glow: rgba(0, 113, 227, 0.18);
 
@@ -126,6 +127,15 @@
   --space-24: 6rem;
   --space-32: 8rem;
 
+  /* ---------- Icon size scale (4px base) ----------
+     Four named rungs. Semantically distinct from --space-*; icon dimensions
+     are not rhythm values. Consumed by <Icon> atom via a SIZE_MAP lookup.
+     See meta/design/Icon.md §3 and meta/brand.md decision 2026-05-20. */
+  --icon-xs: 12px; /* compact pill / dense label row — e.g. inside <Tag> */
+  --icon-sm: 16px; /* default inline icon — pairs with --fs-meta (14px) text */
+  --icon-md: 20px; /* mid-weight — pairs with --fs-body (17–19px) or standalone */
+  --icon-lg: 24px; /* large standalone — nav rows, feature-card icon slots */
+
   /* ---------- Layout ---------- */
   --bp-md: 768px; /* canonical small→medium breakpoint — matches tokens.css h1 and Principle grid */
   --page-pad: clamp(1.5rem, 2vw + 1rem, 3rem);
@@ -155,6 +165,7 @@
   --dur-hero-title-rise: 700ms; /* title slot in Hero entrance stagger — 100ms longer than siblings for visual emphasis */
   --dur-stagger-step: 150ms; /* base step for staggered entrance sequences; multiply by slot index (0–3) */
   --dur-pulse: 1800ms; /* StatusBadge available-state pulse animation, intentionally slow + meditative */
+  --dur-spinner: 800ms; /* Spinner rotation period — sub-second so the spinner reads as active, not stalled */
 
   /* ---------- Radii & rules ---------- */
   --radius-1: 2px; /* focus ring */
@@ -347,6 +358,7 @@ hr {
 
     /* ---------- Structure ---------- */
     --hairline: #2c2c2e; /* 1px dividers. Apple separator dark value. */
+    --hairline-soft: #3a3a3c; /* quieter decorative separator — sits between --hairline and --surface in the dark neutral ramp */
 
     /* ---------- Accent ---------- */
     --accent: #0a84ff; /* Links, focus rings, status dot. Apple systemBlue dark. Contrast on --bg: 5.86:1 (AA normal; ≥3:1 required for non-text). */

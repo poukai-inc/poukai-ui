@@ -40,6 +40,11 @@
       "import": "./dist/atoms/Avatar.js",
       "require": "./dist/atoms/Avatar.cjs"
     },
+    "./atoms/Icon": {
+      "types": "./dist/atoms/Icon.d.ts",
+      "import": "./dist/atoms/Icon.js",
+      "require": "./dist/atoms/Icon.cjs"
+    },
     "./atoms/Button": {
       "types": "./dist/atoms/Button.d.ts",
       "import": "./dist/atoms/Button.js",
@@ -74,6 +79,11 @@
       "types": "./dist/atoms/Wordmark.d.ts",
       "import": "./dist/atoms/Wordmark.js",
       "require": "./dist/atoms/Wordmark.cjs"
+    },
+    "./atoms/Link": {
+      "types": "./dist/atoms/Link.d.ts",
+      "import": "./dist/atoms/Link.js",
+      "require": "./dist/atoms/Link.cjs"
     },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
@@ -241,7 +251,7 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "33 kB"
+      "limit": "35 kB"
     },
     {
       "name": "ESM — atoms subpath",

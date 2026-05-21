@@ -1,5 +1,169 @@
 # @poukai-inc/ui
 
+## 1.5.0
+
+### Minor Changes
+
+- 077438a: Add IconButton atom — square, icon-only interactive primitive. Composes Button
+  (variant / state / focus / disabled), Icon (glyph slot), and VisuallyHidden
+  (belt-and-suspenders accessible name).
+
+  Same `variant` union (`primary` / `secondary` / `ghost`) and same `size` ladder
+  (`sm` 32 px / `compact` 40 px / `md` 44 px / `lg` 52 px) as Button — driven by
+  the shared `--btn-h-*` token rungs so IconButton and Button read as one family
+  on a shared surface.
+
+  `aria-label` is **required** at the type level (`Omit<…, "aria-label">` +
+  mandatory string field). The same label is rendered into a `VisuallyHidden`
+  child for assistive-tech variants that prefer inner text over `aria-label`.
+  Icon size resolves automatically per Button size (`sm`→16 px, `compact`/`md`→
+  20 px, `lg`→24 px).
+
+  `forwardRef` to the underlying `<button>` host (via Button's ref forwarding);
+  `...rest` forwarded so consumers can pass `data-*`, `onClick`, `disabled`, etc.
+  No `asChild` in v1 — anchor-as-icon-button is a separate concern (SkipLink).
+
+  Spec: `meta/design/IconButton.md`.
+
+## 1.4.0
+
+### Minor Changes
+
+- 64645b2: Add `Code` and `Kbd` atoms — inline literal-quotation and keyboard-key glyph chips.
+
+  **`Code`** — inline `<code>` chip for variable names, CSS custom properties, HTML element names, shell commands. Root is `<code>` (non-polymorphic). `--surface` background, `--fg` text, no border, `--radius-2` corner, monospace `--font-mono` at `0.9em` so the chip tracks the surrounding text register on any surface (body copy, pull-quote, field note). Inline-only `--space-1` padding preserves text baseline.
+
+  **`Kbd`** — keyboard-key glyph for shortcut hints (`⌘`, `K`, `Enter`, `Esc`). Root is `<kbd>` (non-polymorphic). Same `--surface` family as `Code`, plus a 1px `--hairline` border for the key-cap reading. Monospace at `0.85em` and `font-weight: 500` to disambiguate from `Code` at a glance. `min-width: 1.5em` preserves a square-ish silhouette for single-character keys. Multi-key combinations are composed by the consumer as side-by-side `<Kbd>` instances; the DS does not own combination semantics.
+
+  Both atoms are non-interactive (no hover/focus/active states), non-polymorphic, introduce zero new tokens, and resolve correctly in dark mode via the global `:root` block.
+
+- 64645b2: Add `Divider` atom — hairline separator rule.
+
+  Props: `orientation` (`"horizontal"` | `"vertical"`, default `"horizontal"`), `tone` (`"default"` | `"muted"`), `as` (`"hr"` | `"div"`, defaults from orientation). Horizontal defaults to `<hr>` (implicit `role="separator"`); vertical defaults to `<div role="separator" aria-orientation="vertical">`. Zero self-margin — parent layout controls spacing.
+
+  Introduces `--hairline-soft` token (light: `#E5E5EA`, dark: `#3A3A3C`) for the `tone="muted"` variant.
+
+  **Not included in this PR:** migration of the 10 existing inline-hairline call sites enumerated in `meta/design/Divider.md §9` (`FailureMode`, `Principle`, `Statement`, `RoleCard`, `LinkCard`, `Quote`, `SiteShell`, `Footer`, `Tabs`, `Dialog`). Those remain as-is; migration to `<Divider>` is a follow-up engineering task.
+
+- e3c9aff: Add `Heading` atom — canonical `h1`–`h6` type-ramp wrapper.
+
+  Props: `as` (`"h1"` … `"h6"`, default `"h2"`) drives the rendered HTML element and document outline; `size` (`"h1"` … `"h6"`, defaults to the value of `as`) drives the visual rank. The two are decoupled so consumers can render an `<h1>` styled at H3 visual rank (or vice versa) without breaking accessibility. `forwardRef` to the underlying heading element, plus standard `className` / `id` / `data-*` / `aria-*` forwarding.
+
+  Introduces six new tokens — `--fs-h1` … `--fs-h6` — for the canonical heading ramp. `--fs-h1` aliases `--fs-tagline` (display ceiling shared with `<Hero>`); `--fs-h6` aliases `--fs-meta` (bottom of the ramp = meta-text rung). `--fs-h2` and `--fs-h3` are lifted verbatim from the current `tokens.css` global `h2` / `h3` rules — zero visual drift on existing consumers. `--fs-h4` (`1rem`) and `--fs-h5` (`0.9375rem`) are new rungs.
+
+  **Not included in this PR:** migration of raw `<h1>` / `<h2>` / `<h3>` usage inside molecules (`Hero`, `Section`, `RoleCard`, `Principle`, etc.) to `<Heading>`. The global `tokens.css` heading rules stay in place so existing markup continues to render correctly. Migration is a follow-up engineering task.
+
+- 64645b2: Add Icon atom — thin wrapper over `lucide-react` LucideIcon (consumer brings the icon).
+
+  Accepts any `LucideIcon` via the `icon` prop. Size scale maps `xs/sm/md/lg` to
+  `--icon-xs` (12 px) / `--icon-sm` (16 px) / `--icon-md` (20 px) / `--icon-lg` (24 px)
+  via token-backed CSS classes. Color is always `currentColor` so icons inherit text
+  color from parent. `strokeWidth` defaults to `1.5` per brand spec.
+
+  Accessibility: `decorative={true}` (default) sets `aria-hidden="true"` + `focusable="false"`.
+  `decorative={false}` requires `aria-label` and sets `role="img"` + `focusable="false"`;
+  omitting the label is a runtime console.error.
+
+  `forwardRef` to SVG root; `...rest` forwarded so consumers can pass `data-*`, `aria-*`,
+  and any SVG attribute.
+
+- 64645b2: Add `Link` atom — canonical styled anchor with three variants and `asChild` Radix Slot composition.
+
+  **What ships:**
+  - `<Link href variant="default|quiet|muted-link" asChild>` — named, versioned anchor atom in `src/atoms/Link/`.
+  - `variant="default"` — two-layer underline grow (accent over hairline), direct transcription of the global `a` rule in `tokens.css`.
+  - `variant="quiet"` — single-layer underline on hover only; no hairline at rest. Correct technique: pre-declared 0%-wide accent layer so the grow interpolates rather than snaps.
+  - `variant="muted-link"` — `color: var(--fg-muted)` at rest, `color: var(--fg)` on hover, plain `color` transition. Byte-for-byte match of the global `.muted-link` utility class — the migration target for `SiteShell`, `Footer`, and story fixtures.
+  - `asChild` via `@radix-ui/react-slot` — compose DS styles onto a framework router Link (Next.js, Remix, etc.).
+  - Auto `rel="noopener noreferrer"` when `target="_blank"` and no explicit `rel` is provided; consumer-supplied `rel` always wins.
+  - `href` is required at the TypeScript level (`Omit<AnchorHTMLAttributes, 'href'> & { href: string }`).
+  - Exported from `@poukai-inc/ui`, `@poukai-inc/ui/atoms`, and `@poukai-inc/ui/atoms/Link` subpath.
+
+  **Migration note — global `.muted-link` class:**
+  The `.muted-link` global utility class in `src/tokens/tokens.css` is NOT removed in this PR. Confirmed call sites (`SiteShell.tsx`, `Footer.tsx`, `SiteShell.stories.tsx`, `a11y.test.tsx`, and others) must migrate to `<Link variant="muted-link">` in a follow-up audit PR with Arian's sign-off, after confirming no remaining consumers in the site repo reference the global class directly.
+
+- 92e5401: Add `Prose` atom — typographic context wrapper for long-form HTML.
+
+  **What ships:**
+  - `<Prose width="full|reading" asChild>` — named, versioned atom in `src/atoms/Prose/`.
+  - Single root class scopes the canonical type contract to descendant HTML primitives: `h1`–`h6`, `p`, `p.lede`, `ul`, `ol`, `li`, `blockquote` (with `cite`), `code`, `pre`, `kbd`, `hr`, `figure`, `figcaption`, `img`, `video`, `table` / `thead` / `th` / `td` / `caption`, `strong`, `em`, `small`. Markdown output and CMS body fields drop in without per-element class plumbing.
+  - Element rules authored with `:where(...)` to keep specificity at `0,0,1`; consumer overrides via a single `className` always win.
+  - Vertical rhythm declared as **top-margins on adjacent siblings** (`> :where(*) + :where(*)`) rather than bottom-margins on every element — eliminates leading/trailing margin collapse and keeps Prose composable inside flex/grid columns.
+  - `width="reading"` opts into the canonical editorial column at `64ch` (inside the 45–75 CPL band) with `margin-inline: auto`. `width="full"` (default) inherits the column from the parent layout.
+  - `asChild` via `@radix-ui/react-slot` — compose Prose styles onto `<article>`, `<section>`, or any semantically richer block element.
+  - Heading lead-in cadence per `meta/design/Prose.md` §3: `--space-10` before `h1`, `--space-8` before `h2`/`h3`, `--space-6` before `h4`–`h6` and block elements (`blockquote`, `pre`, `figure`, `table`, `hr`); tightened `--space-3` for heading → paragraph transition; `--space-4` default flow.
+  - Exported from `@poukai-inc/ui`, `@poukai-inc/ui/atoms`, and `@poukai-inc/ui/atoms/Prose` subpath.
+
+  **No new tokens.** Every value reads from `src/tokens/tokens.css`. The `64ch` reading column is the only `ch`-unit use in the DS — see `meta/design/Prose.md` §3 for the rationale.
+
+  **Design spec:** `meta/design/Prose.md` (10 sections; Approved status).
+
+- 64645b2: Add Skeleton atom — content placeholder for async data loads.
+
+  Single element with `--surface` background fill, opacity pulse animation
+  (`poukai-skeleton-pulse` at `--dur-pulse` 1800ms, `ease-in-out`, infinite),
+  radius variants (`sm`/`md`/`lg`/`circle`), `as="div"|"span"` for block/inline
+  contexts, and explicit reduced-motion final state (`animation: none; opacity: 0.6`).
+
+  NO shimmer. Opacity pulse only, per the motion banlist in BACKLOG.md §Motion:
+  "Skeleton shimmer that's prettier than the loaded state." No gradient, no
+  background-position animation, no moving gradient layer at any point.
+
+  `aria-hidden="true"` by default — decorative placeholder. Consumer owns
+  `aria-busy` on the loading region container.
+
+  Also fixes a pre-existing `TS2322` ref-cast error in `VisuallyHidden`
+  (`as unknown as React.Ref<HTMLDivElement>`) that was blocking `tsc`.
+
+- 64645b2: Add `Spinner` atom — indeterminate loading indicator.
+  - Inline SVG arc (track at 0.2 opacity + rotating arc at full opacity), `currentColor` throughout so it adapts to any surface without a color prop.
+  - Three sizes: `sm` (16px), `md` (20px, default), `lg` (24px) — matched to the icon size token scale (`--icon-sm`, `--icon-md`, `--icon-lg`).
+  - Rotation driven by new `--dur-spinner: 800ms` motion token (added to `tokens.css` by `poukai-design`); `linear` easing for a smooth continuous loop.
+  - `role="status"` + `aria-live="polite"` + `aria-label` on the host `<span>`; visually-hidden text sibling for virtual browse mode.
+  - Reduced-motion fallback: explicit `animation: none` on the arc (belt-and-suspenders over the global `tokens.css` collapse) plus a CSS-only `…` ellipsis revealed only under `prefers-reduced-motion: reduce` — no JS branching, no DOM structure change.
+  - Full Playwright CT test suite (render, sizes, label, ref forwarding, className merge, rest props, animation token regression, reduced-motion assertions, axe scans).
+  - Added to `src/a11y.test.tsx` central gate (default, all sizes, custom label, reduced-motion).
+
+- e6899a1: Add Text atom — canonical paragraph primitive.
+
+  Resolves the three ad-hoc patterns currently sprinkled across molecules — raw
+  `<p>` tags, the `.lede` utility, and inline muted `<p style>` overrides — into
+  one component with orthogonal `size` and `tone` axes.
+
+  `size`: `body` (default) / `lede` / `caption` / `micro`. Sizes map to existing
+  `--fs-*` and `--lh-*` tokens; `lede` adds `max-inline-size: 36rem` matching the
+  current `.lede` utility. No new tokens introduced.
+
+  `tone`: `default` / `muted` / `on-warm` / `on-warm-muted`. Maps to `--fg`,
+  `--fg-muted`, `--fg-on-warm`, `--fg-on-warm-muted` respectively. The
+  `on-warm-muted` tone is a brand-sanctioned decorative ceiling (~3.9:1 contrast,
+  below WCAG AA 4.5:1 for normal text) — its axe scan disables the
+  `color-contrast` rule, matching the documented brand-tier exception in
+  `meta/brand.md`. All other tone/size pairings meet AA on their intended
+  surfaces.
+
+  `as`: closed union `p` (default) / `span` / `div` / `dt` / `dd` / `li`.
+  Headings excluded — reserved for a future `<Heading>` atom. Polymorphic
+  implementation follows the `<Eyebrow>` switch-based pattern.
+
+  `margin: 0` invariant — consumer owns vertical rhythm via parent layout.
+  No `text-transform: uppercase` — the uppercase-tracked register belongs to
+  `<Eyebrow>`; `<Text size="micro">` is lowercase footnote scale.
+
+  Spec: `meta/design/Text.md`. Molecule adoption (Hero, FieldNote, RoleCard,
+  Footer, FailureMode) is a separate follow-up PR — this change only ships the
+  atom and registers it in `src/index.ts`, `src/atoms.ts`, and the
+  `./atoms/Text` subpath export.
+
+- 64645b2: Add `VisuallyHidden` atom — the canonical sr-only clip-pattern primitive for `@poukai-inc/ui`.
+
+  Renders children in the accessibility tree (screen-reader-readable, announced by assistive technology) while remaining completely invisible to sighted users via the WCAG/Bootstrap/Tailwind canonical clip pattern. Invariant: no tokens, no variants, no motion.
+  - `as?: "span" | "div"` closed union (default `"span"`) for inline vs block-level contexts
+  - `...rest` forwarded to root — use `id` for `aria-labelledby`/`aria-describedby`, `aria-live` for live-region announcements
+  - `className` merged additively; internal clip class has dedicated specificity
+  - Zero axe violations across default span, div variant, and `aria-live` usage
+  - First-party consumers: `IconButton`, `Dialog` close label, `SkipLink` (hidden base), `Carousel` slide counter
+
 ## 1.3.0
 
 ### Minor Changes

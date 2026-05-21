@@ -74,7 +74,12 @@ const components = LAYERS.flatMap((layer) =>
     .map((entry) => ({ layer, name: entry.name })),
 );
 
-const missingDocs = components.filter(({ name }) => !llmsFull.includes(`### ${name}`));
+// Use a line-anchored regex so `### Text` does NOT match `### Textarea`.
+// Substring includes() was a silent false-pass for any component whose name
+// is a prefix of another documented component.
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const headingHas = (name) => new RegExp("^### " + escapeRe(name) + "(?:\\s|$)", "m").test(llmsFull);
+const missingDocs = components.filter(({ name }) => !headingHas(name));
 
 if (missingDocs.length > 0) {
   console.error(

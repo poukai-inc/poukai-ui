@@ -211,6 +211,7 @@
     "build:tokens": "cpy --flat src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
     "build:brand": "cpy 'src/brand/**' dist/brand",
     "build:llms": "node scripts/build-llms-txt.mjs",
+    "check:llms": "node scripts/check-llms-tokens-sync.mjs",
     "test": "playwright test -c playwright-ct.config.ts",
     "playwright:install": "playwright install chromium firefox webkit",
     "test:ui": "playwright test -c playwright-ct.config.ts --ui",

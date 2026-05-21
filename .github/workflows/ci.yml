@@ -19,6 +19,7 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm format:check
+      - run: pnpm check:llms
       - run: pnpm build
       - name: Upload bundle stats
         if: always()

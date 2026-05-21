@@ -114,6 +114,16 @@
   /* Card-title rung — shared by RoleCard, Principle, FailureMode titles. */
   --fs-card-title: clamp(1.5rem, 1.15rem + 1.2vw, 2rem); /* 24–32 */
 
+  /* Heading ramp — H1 → H6. Consumed by the <Heading> atom; see
+     meta/design/Heading.md §3 for rationale. The aliases keep <Heading>
+     and <Hero>/global rules reading the same source of truth. */
+  --fs-h1: var(--fs-tagline); /* alias — H1 rides the tagline scale (36–68) */
+  --fs-h2: clamp(1.75rem, 1.25rem + 2vw, 2.5rem); /* 28–40, matches global h2 */
+  --fs-h3: 1.125rem; /* 18, matches global h3 */
+  --fs-h4: 1rem; /* 16 */
+  --fs-h5: 0.9375rem; /* 15 */
+  --fs-h6: var(--fs-meta); /* alias — bottom of the ramp = meta-text rung */
+
   /* ---------- Spacing (4px base) ---------- */
   --space-1: 0.25rem;
   --space-2: 0.5rem;

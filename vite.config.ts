@@ -55,6 +55,7 @@ export default defineConfig({
               "atoms/Button": resolve(__dirname, "src/atoms/Button/index.ts"),
               "atoms/EmailLink": resolve(__dirname, "src/atoms/EmailLink/index.ts"),
               "atoms/Eyebrow": resolve(__dirname, "src/atoms/Eyebrow/index.ts"),
+              "atoms/Heading": resolve(__dirname, "src/atoms/Heading/index.ts"),
               "atoms/Stat": resolve(__dirname, "src/atoms/Stat/index.ts"),
               "atoms/StatusBadge": resolve(__dirname, "src/atoms/StatusBadge/index.ts"),
               "atoms/Tag": resolve(__dirname, "src/atoms/Tag/index.ts"),

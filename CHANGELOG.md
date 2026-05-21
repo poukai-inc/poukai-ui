@@ -1,5 +1,15 @@
 # @poukai-inc/ui
 
+## 1.6.0
+
+### Minor Changes
+
+- 3d52c5a: Add Label atom — form label primitive that binds to its control via `htmlFor`, with optional `required` indicator and `muted` tone variant.
+
+### Patch Changes
+
+- 2388e3d: Docs/CI: backfill `meta/llms-full.txt` sections for `Heading`, `Text`, `Prose`, `Code`, `Kbd` atoms (previously merged via #111–#114 without llms-sync entries), wire `check-llms-tokens-sync` into CI as `pnpm check:llms`, and fix a silent false-pass in the checker where `### Text` matched `### Textarea` via substring `includes()` — replaced with a line-anchored regex (`^### <Name>(?:\s|$)`). No runtime API change.
+
 ## 1.5.0
 
 ### Minor Changes

@@ -9,7 +9,16 @@ playwright/.cache
 test-results
 *.log
 .omc
-.claude/
+
+# Claude Code harness runtime state — keep team-shared config under
+# .claude/ (settings.json, agents/, skills/, commands/, hooks/) committable;
+# ignore only the transient/per-session files.
+.claude/worktrees/
+.claude/scheduled_tasks.lock
+.claude/tasks/
+.claude/state/
+.claude/logs/
+
 .DS_Store
 .env
 .env.local

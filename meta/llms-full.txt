@@ -200,6 +200,45 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Composes Button + Icon + VisuallyHidden. No `asChild` in v1 — IconButton always renders a `<button>`. WCAG AAA tap-target posture same as Button: md and lg pass at 44px, sm and compact are AA only.
 - Use for icon-only affordances where the glyph is unambiguous (close, copy, prev/next). For icon+label, use Button with a child Icon, not IconButton.
 
+### Heading
+- Canonical heading atom. Owns the H1 → H6 type ramp. Decoupled `as` (rendered HTML element, drives the document outline) and `size` (visual rank, drives type styling). `size` defaults to whatever `as` is, so `<Heading>Foo</Heading>` renders an `<h2>` styled at h2 rank with no extra props.
+- `as` (default `"h2"`) — closed union of `"h1" | "h2" | "h3" | "h4" | "h5" | "h6"`. An explicit H1 must be opt-in (the default does not auto-promote to H1; one H1 per page is the consumer's responsibility).
+- `size` (optional) — independent of `as`. Use when document outline and visual rank diverge: `<Heading as="h1" size="h2">` keeps the page H1 semantics while sizing the text at h2 rank.
+- Owns no margin. Consumer molecule owns spacing between Heading and adjacent siblings.
+- Do NOT use Heading for non-heading editorial display (statements, taglines). Use `<Statement>` for editorial italic-serif blocks; use `<Hero>` for the page tagline.
+- Do NOT pass arbitrary HTML elements via `as` — the union is closed at the type level.
+
+### Text
+- Canonical paragraph atom. Resolves raw `<p>`, `.lede`, and inline muted `<p style>` patterns into one component with orthogonal `size` and `tone` axes.
+- `size` (default `"body"`): `"body"` (`--fs-body` + `--lh-body`), `"lede"` (`--fs-body` + `--lh-body-relaxed`, capped at `max-inline-size: 36rem`), `"caption"` (`--fs-meta` + `--lh-meta`), `"micro"` (`--fs-micro` + `--lh-meta`). `"micro"` is NOT uppercase — use `<Eyebrow>` for uppercase micro-labels.
+- `tone` (default `"default"`): `"default"` (`--fg`), `"muted"` (`--fg-muted`), `"on-warm"` (`--fg-on-warm`), `"on-warm-muted"` (`--fg-on-warm-muted`). The two `on-warm-*` tones are exclusively for the warm editorial band.
+- `as` (default `"p"`) — closed union of `"p" | "span" | "div" | "dt" | "dd" | "li"`. No heading elements: use `<Heading>` or a raw `<h*>` for those.
+- Owns no margin. Consumer owns spacing.
+- Do NOT use Text for headings, eyebrows, or status — those have their own atoms.
+
+### Prose
+- Typographic context wrapper for long-form HTML. Drop arbitrary `<h1>`–`<h6>`, `<p>`, `<ul>`, `<ol>`, `<blockquote>`, `<code>`, `<pre>`, `<hr>`, `<figure>`, `<table>` markup inside and the DS type contract applies via low-specificity `:where(...)` descendant rules. Consumer overrides always win.
+- `width` (default `"full"`): `"full"` inherits the column from the parent layout (no max-width). `"reading"` caps the column at `64ch` and centers horizontally — canonical editorial body for standalone article pages.
+- `asChild` (default `false`) — when `true`, renders a Radix `<Slot>` and merges all props onto the single child (e.g. `<article>`). Consumer is responsible for passing exactly one child.
+- Use Prose when content is authored as raw HTML (CMS output, MDX, markdown render) — NOT for hand-composed atom layouts. Hand-composed pages compose `<Heading>` + `<Text>` directly.
+- Do NOT nest Prose inside Prose. Do NOT use Prose to style standalone atoms — it is a long-form HTML context, not a typography utility.
+
+### Code
+- Inline code chip — communicates that the wrapped content is a literal token (variable name, CSS custom property, HTML element, shell command, config key).
+- Root is always `<code>` (non-polymorphic). Non-interactive — no hover, focus, or active states.
+- Font size is relative (`0.9em`) so the chip tracks the surrounding text register on any surface.
+- `children` is the literal content. Typically a plain string; ReactNode accepted for parity with the rest of the atomic system.
+- Do NOT use Code for multi-line code blocks — use a `<pre><code>` composition (or future `CodeBlock` primitive). Code is inline-only.
+- Do NOT use Code for keyboard keys — use `<Kbd>`. Code is for code literals; Kbd is for physical keys.
+
+### Kbd
+- Keyboard-key glyph — a compact chip that represents a physical key (`⌘`, `K`, `Enter`, `Esc`). Used inline in onboarding copy, command-menu shortcut hints, help text, and menu rows.
+- Root is always `<kbd>` (non-polymorphic). Non-interactive — no hover, focus, or active states.
+- `children` is the key content. Typically a single character (`"K"`), a symbol (`"⌘"`), or a short token (`"Enter"`, `"Esc"`).
+- For symbol keys whose glyph does not announce well in screen readers, pass a spelled-out name via `aria-label` (e.g. `<Kbd aria-label="Command">⌘</Kbd>`).
+- Multi-key combinations are composed by the consumer as side-by-side `<Kbd>` instances (e.g. `<Kbd>⌘</Kbd> <Kbd>K</Kbd>`).
+- Do NOT use Kbd for code literals — use `<Code>`.
+
 ### Stat
 - Requires a caption — numeral alone is not self-explanatory.
 - value must be a numeral or numeral+unit string. source should be citation only.

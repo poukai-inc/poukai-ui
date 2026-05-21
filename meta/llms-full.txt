@@ -193,6 +193,13 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - size="compact" is the editorial CTA — quieter than md, louder than sm. WCAG 2.5.5 AAA tap target (44px) requires md or lg; sm and compact are AA tiers.
 - Use asChild with an <a> element for link-styled buttons. Do NOT nest a <button> inside Button with asChild.
 
+### IconButton
+- Square, icon-only sibling of Button. Same variant union (primary / secondary / ghost) and same size ladder (sm 32 / compact 40 / md 44 / lg 52) driven by the shared --btn-h-* tokens.
+- `aria-label` is REQUIRED at the type level — IconButton without an accessible name is a TypeScript error. The label is mirrored into a VisuallyHidden child as belt-and-suspenders for assistive-tech variants that prefer inner text.
+- Icon size resolves automatically per Button size: sm → 16px, compact / md → 20px, lg → 24px. No consumer override.
+- Composes Button + Icon + VisuallyHidden. No `asChild` in v1 — IconButton always renders a `<button>`. WCAG AAA tap-target posture same as Button: md and lg pass at 44px, sm and compact are AA only.
+- Use for icon-only affordances where the glyph is unambiguous (close, copy, prev/next). For icon+label, use Button with a child Icon, not IconButton.
+
 ### Stat
 - Requires a caption — numeral alone is not self-explanatory.
 - value must be a numeral or numeral+unit string. source should be citation only.

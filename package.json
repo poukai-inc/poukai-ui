@@ -45,6 +45,11 @@
       "import": "./dist/atoms/Icon.js",
       "require": "./dist/atoms/Icon.cjs"
     },
+    "./atoms/IconButton": {
+      "types": "./dist/atoms/IconButton.d.ts",
+      "import": "./dist/atoms/IconButton.js",
+      "require": "./dist/atoms/IconButton.cjs"
+    },
     "./atoms/Button": {
       "types": "./dist/atoms/Button.d.ts",
       "import": "./dist/atoms/Button.js",

@@ -69,6 +69,7 @@ other layers, even if the bundler's tree-shaker would miss it.
 | atom     | `Wordmark`                   | Full POUKAI lockup, inherits `currentColor`                                                                 |
 | atom     | `StatusBadge`                | Availability dot + caption (available / idle / closed)                                                      |
 | atom     | `Button`                     | Primary / secondary / ghost; `asChild` via Radix Slot                                                       |
+| atom     | `IconButton`                 | Square, icon-only sibling of Button — mandatory `aria-label`; same variant + size ladder via `--btn-h-*`    |
 | atom     | `Stat`                       | Display numeral + caption + optional source line                                                            |
 | atom     | `Eyebrow`                    | Canonical micro-label: uppercase, tracked, sans-serif                                                       |
 | atom     | `EmailLink`                  | Canonical `mailto:` affordance with icon + qualifier slots                                                  |

@@ -70,3 +70,13 @@ test("forwards arbitrary data-* and aria-* props to the root", async ({ mount })
   await expect(component).toHaveAttribute("data-testid", "badge");
   await expect(component).toHaveAttribute("aria-live", "polite");
 });
+
+test("reduced-motion: pulse animation is suppressed when prefers-reduced-motion is reduce", async ({
+  mount,
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const component = await mount(<StatusBadge status="available">Open</StatusBadge>);
+  const pulse = component.locator("[data-status='available'] > span");
+  await expect(pulse).toHaveCSS("animation-name", "none");
+});

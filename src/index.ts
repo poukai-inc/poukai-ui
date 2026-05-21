@@ -43,6 +43,7 @@ export {
   type DividerTone,
 } from "./atoms/Divider";
 export { Spinner, type SpinnerProps, type SpinnerSize } from "./atoms/Spinner";
+export { Heading, type HeadingProps, type HeadingLevel } from "./atoms/Heading";
 export { Code, type CodeProps } from "./atoms/Code";
 export { Kbd, type KbdProps } from "./atoms/Kbd";
 

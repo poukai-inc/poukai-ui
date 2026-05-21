@@ -1,0 +1,343 @@
+/* ============================================================
+   Prose — typographic context wrapper for long-form HTML.
+
+   Strategy
+   --------
+   1. Element rules use :where(...) to keep specificity at 0,0,1.
+      Consumer overrides (a single className) always win.
+   2. Vertical rhythm is declared as top-margins on the *next*
+      sibling (`> :where(a) + :where(b)`) rather than bottom-margins
+      on every element. This eliminates leading/trailing margin
+      collapse and keeps Prose composable inside flex/grid columns.
+   3. Direct-child selectors only (`> :where(...)`). Nested elements
+      (a paragraph inside a figure, a list inside a blockquote) keep
+      their parent's flow context and are not double-margined.
+   4. No new tokens are introduced. All values consume tokens.css.
+
+   See meta/design/Prose.md for the full design contract.
+   ============================================================ */
+
+.root {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body-relaxed);
+  color: var(--fg);
+}
+
+/* ---------- Width: full (default) ----------
+   Prose inherits its column width from the parent layout. */
+.widthFull {
+  /* explicit no-op declaration so the variant class is non-empty
+     and reads cleanly in the rendered className list */
+  max-width: none;
+}
+
+/* ---------- Width: reading ----------
+   Canonical editorial column. 64ch sits inside the 45–75 CPL band
+   recommended for sustained reading. `ch` self-corrects across
+   font-size scales — see Prose.md §3 for the rationale. */
+.widthReading {
+  max-width: 64ch;
+  margin-inline: auto;
+}
+
+/* ============================================================
+   Block-level rhythm
+
+   Default flow: --space-4 between any two adjacent block siblings.
+   Headings and block elements get larger lead-ins (see Prose.md §3).
+   ============================================================ */
+
+.root > :where(*) + :where(*) {
+  margin-top: var(--space-4);
+}
+
+/* Heading lead-ins (must come after the default rule so they win). */
+.root > :where(*) + :where(h1) {
+  margin-top: var(--space-10);
+}
+
+.root > :where(*) + :where(h2, h3) {
+  margin-top: var(--space-8);
+}
+
+.root > :where(*) + :where(h4, h5, h6) {
+  margin-top: var(--space-6);
+}
+
+/* Block-element lead-ins. */
+.root > :where(*) + :where(blockquote, pre, figure, table, hr) {
+  margin-top: var(--space-6);
+}
+
+/* Tight heading → body transition: a paragraph directly after a
+   heading should hug the heading, not fall on the default cadence. */
+.root > :where(h1, h2, h3, h4, h5, h6) + :where(*) {
+  margin-top: var(--space-3);
+}
+
+/* Reset margins on the first and every direct child — Prose owns
+   rhythm via the adjacent-sibling rules above. The global tokens.css
+   element rules apply margin-bottom to h1/h2/h3/p; suppress those
+   inside Prose so the cadence is single-sourced here. */
+.root > :where(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, pre, figure, table, hr) {
+  margin: 0;
+}
+
+/* ============================================================
+   Headings
+   ============================================================ */
+
+.root :where(h1) {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--fs-tagline);
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  color: var(--fg);
+  text-wrap: balance;
+}
+
+.root :where(h1) em {
+  font-style: italic;
+}
+
+.root :where(h2) {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(1.75rem, 1.25rem + 2vw, 2.5rem);
+  line-height: 1.2;
+  color: var(--fg);
+  text-wrap: balance;
+}
+
+.root :where(h3) {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--fg);
+}
+
+.root :where(h4) {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-body);
+  line-height: 1.35;
+  color: var(--fg);
+}
+
+.root :where(h5) {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  letter-spacing: 0.01em;
+  color: var(--fg);
+}
+
+.root :where(h6) {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: var(--fs-micro);
+  line-height: var(--lh-meta);
+  letter-spacing: var(--tracking-micro);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* ============================================================
+   Body copy
+   ============================================================ */
+
+.root :where(p) {
+  color: var(--fg);
+}
+
+/* Lede — first paragraph (or any paragraph) explicitly marked as
+   the introductory sentence. Re-declared inside Prose scope so
+   readers do not have to cross-reference tokens.css. Matches the
+   global p.lede rule (tokens.css lines 249–253). */
+.root :where(p.lede, .lede) {
+  color: var(--fg-muted);
+  max-width: 36rem;
+}
+
+.root :where(strong, b) {
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.root :where(em, i) {
+  font-style: italic;
+}
+
+.root :where(small) {
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+}
+
+/* ============================================================
+   Lists
+   ============================================================ */
+
+.root :where(ul, ol) {
+  padding-inline-start: var(--space-6);
+  line-height: var(--lh-body);
+}
+
+.root :where(ul) {
+  list-style: disc;
+}
+
+.root :where(ol) {
+  list-style: decimal;
+}
+
+.root :where(li) {
+  color: var(--fg);
+}
+
+.root :where(li) + :where(li) {
+  margin-top: var(--space-2);
+}
+
+/* Nested lists hug their parent <li>. */
+.root :where(li) > :where(ul, ol) {
+  margin-top: var(--space-2);
+}
+
+/* ============================================================
+   Blockquote
+   ============================================================ */
+
+.root :where(blockquote) {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--fs-pull);
+  line-height: 1.4;
+  color: var(--fg);
+  padding: var(--space-4) var(--space-6);
+  border-inline-start: 2px solid var(--hairline);
+  background: var(--surface);
+  border-radius: var(--radius-2);
+}
+
+.root :where(blockquote) :where(cite) {
+  display: block;
+  margin-top: var(--space-2);
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+}
+
+/* ============================================================
+   Code & pre
+   ============================================================ */
+
+.root :where(code) {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: var(--surface);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-2);
+  color: var(--fg);
+}
+
+.root :where(pre) {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  line-height: 1.55;
+  background: var(--surface);
+  color: var(--fg);
+  padding: var(--space-4) var(--space-6);
+  border-radius: var(--radius-2);
+  overflow-x: auto;
+}
+
+/* Inside <pre>, the inline <code> chip styling is wrong — flatten it. */
+.root :where(pre) :where(code) {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
+}
+
+.root :where(kbd) {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--bg-elevated);
+  color: var(--fg);
+  padding: 0.1em 0.4em;
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-2);
+}
+
+/* ============================================================
+   Rules & images
+   ============================================================ */
+
+.root :where(hr) {
+  border: 0;
+  border-top: var(--hairline-w) solid var(--hairline);
+  height: 0;
+}
+
+.root :where(img, video) {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.root :where(figure) {
+  margin: 0;
+}
+
+.root :where(figure) > :where(img, video) {
+  border-radius: var(--radius-3);
+}
+
+.root :where(figcaption) {
+  margin-top: var(--space-2);
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+  text-align: center;
+}
+
+/* ============================================================
+   Tables
+   ============================================================ */
+
+.root :where(table) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-body);
+}
+
+.root :where(thead) {
+  border-bottom: var(--hairline-w) solid var(--hairline);
+}
+
+.root :where(th) {
+  text-align: start;
+  font-weight: 500;
+  color: var(--fg);
+  padding: var(--space-2) var(--space-3);
+}
+
+.root :where(td) {
+  color: var(--fg);
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--hairline-w) solid var(--hairline-soft);
+}
+
+.root :where(caption) {
+  caption-side: bottom;
+  margin-top: var(--space-2);
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+  text-align: start;
+}

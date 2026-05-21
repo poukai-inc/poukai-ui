@@ -90,6 +90,11 @@
       "import": "./dist/atoms/Link.js",
       "require": "./dist/atoms/Link.cjs"
     },
+    "./atoms/Prose": {
+      "types": "./dist/atoms/Prose.d.ts",
+      "import": "./dist/atoms/Prose.js",
+      "require": "./dist/atoms/Prose.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",
@@ -256,7 +261,7 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "35 kB"
+      "limit": "36 kB"
     },
     {
       "name": "ESM — atoms subpath",

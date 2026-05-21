@@ -9,7 +9,29 @@ Items removed when stale or migrated to an issue.
 
 ## 🔴 Blocking
 
-No current blockers. All `0.22.0`-era blocking items have shipped.
+- [ ] **Playwright CT cannot render `lucide-react` components — repo-wide
+      regression.** Any test that mounts a component which renders a Lucide
+      icon (whether directly via `<Icon icon={X}>` or indirectly via a
+      composing atom like `<IconButton>`) crashes in-browser with React
+      minified error #130 (`Element type is invalid … got: object.`) and
+      leaves `<div id="root"></div>` empty. Affects `chromium` and `firefox`
+      projects identically. Reproduces on a clean checkout of `main` —
+      `src/atoms/Icon/Icon.test.tsx` (e.g. the `default size is sm (16px)`
+      case) fails with the same React #130 stack. Verified via `git stash &&
+    pnpm test src/atoms/Icon/Icon.test.tsx -g "default size is sm"` on
+      `cac41bc`. Non-Lucide CT suites (`Button`, `Spinner`, `Toast`, etc.)
+      are unaffected. Lucide-react `0.577.0` pinned in `pnpm-lock.yaml`,
+      React `18.3.1` resolved as the single copy. Adding `optimizeDeps.include:
+    ["lucide-react"]` to `ctViteConfig` does **not** fix it. The build,
+      typecheck, lint, size-limit, and Ladle pipelines all stay green — only
+      CT is broken. Until this is resolved, all Lucide-composing atoms
+      (`Icon`, `IconButton`, future `EmailLink`-icon variants, anything in
+      `<Hero>` / `<Banner>` / `<Toast>` that uses an icon) cannot be CT-
+      regression-tested. Suspect Playwright CT's prop-serialisation
+      transform on component-typed props (e.g. `icon={Mail}`) — needs
+      bisection against an older Playwright CT version (`@playwright/
+    experimental-ct-react@1.60` is current; the suite last passed against
+      whatever version was in CI for PR #107).
 
 ---
 
@@ -278,7 +300,7 @@ Missing — icon & media primitives:
 - [ ] **ProgressBar** — linear determinate/indeterminate bar.
 - [ ] **Divider** — hairline rule (horizontal / vertical) using
       `--hairline`. Lifts the dozen inline `border-top: 1px solid
-    var(--hairline)` rules into one atom.
+  var(--hairline)` rules into one atom.
 - [ ] **Spacer** — explicit-gap atom for templates where flex/grid
       `gap` can't reach (rare, but useful inside Prose).
 - [ ] **VisuallyHidden** — screen-reader-only span. A11y primitive

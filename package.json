@@ -80,6 +80,11 @@
       "import": "./dist/atoms/Tag.js",
       "require": "./dist/atoms/Tag.cjs"
     },
+    "./atoms/Text": {
+      "types": "./dist/atoms/Text.d.ts",
+      "import": "./dist/atoms/Text.js",
+      "require": "./dist/atoms/Text.cjs"
+    },
     "./atoms/Wordmark": {
       "types": "./dist/atoms/Wordmark.d.ts",
       "import": "./dist/atoms/Wordmark.js",

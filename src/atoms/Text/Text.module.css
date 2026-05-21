@@ -1,0 +1,51 @@
+/* ============================================================
+   Text — canonical paragraph atom
+   See meta/design/Text.md for the full spec.
+   ============================================================ */
+
+.root {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  margin: 0;
+}
+
+/* ---------- Sizes ---------- */
+
+.size-body {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+}
+
+.size-lede {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body-relaxed);
+  max-inline-size: 36rem;
+}
+
+.size-caption {
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+}
+
+.size-micro {
+  font-size: var(--fs-micro);
+  line-height: var(--lh-meta);
+}
+
+/* ---------- Tones ---------- */
+
+.tone-default {
+  color: var(--fg);
+}
+
+.tone-muted {
+  color: var(--fg-muted);
+}
+
+.tone-on-warm {
+  color: var(--fg-on-warm);
+}
+
+.tone-on-warm-muted {
+  color: var(--fg-on-warm-muted);
+}

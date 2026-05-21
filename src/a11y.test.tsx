@@ -27,6 +27,7 @@ import { Spinner } from "./atoms/Spinner";
 import { Skeleton } from "./atoms/Skeleton";
 import { IconFixture } from "./atoms/Icon/Icon.fixtures";
 import { Link } from "./atoms/Link";
+import { Text } from "./atoms/Text";
 import { VisuallyHidden } from "./atoms/VisuallyHidden";
 import { Code } from "./atoms/Code";
 import { Kbd } from "./atoms/Kbd";
@@ -135,6 +136,50 @@ test("a11y — Eyebrow (all variants)", async ({ mount, page }) => {
     </div>,
   );
   await expectAxeClean(page);
+});
+
+test("a11y — Text (size × tone matrix)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Text>Body default.</Text>
+      <Text size="lede" tone="muted">
+        Lede muted — the canonical pairing.
+      </Text>
+      <Text size="caption" tone="muted">
+        Caption muted.
+      </Text>
+      <Text size="micro" tone="muted">
+        Micro muted.
+      </Text>
+      <div style={{ background: "var(--bg-warm-accent)", padding: "var(--space-4)" }}>
+        <Text tone="on-warm">On warm body.</Text>
+      </div>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+/**
+ * `tone="on-warm-muted"` is a brand-sanctioned decorative ceiling tone
+ * (see `meta/brand.md` and the `--fg-on-warm-muted` token comment). It does
+ * not meet WCAG AA 4.5:1 against `--bg-warm-accent` at normal text sizes —
+ * measured ratio is ~3.9:1. It is intended only for non-essential supporting
+ * copy in the warm editorial band. Therefore the axe scan for this tone is
+ * scoped to disable the `color-contrast` rule, matching the documented
+ * brand-tier exception rather than asserting a contrast it cannot meet.
+ */
+test("a11y — Text on-warm-muted (brand ceiling — color-contrast suppressed)", async ({
+  mount,
+  page,
+}) => {
+  await mount(
+    <div style={{ background: "var(--bg-warm-accent)", padding: "var(--space-4)" }}>
+      <Text tone="on-warm-muted">Supporting copy on the warm band.</Text>
+    </div>,
+  );
+  await expectAxeClean(page, {
+    configure: (b) => b.disableRules([...AXE_ISOLATED_MOUNT_RULES, "color-contrast"]),
+  });
 });
 
 test("a11y — Tag (both tones, with and without icon)", async ({ mount, page }) => {

@@ -1,0 +1,114 @@
+/* ============================================================
+   Link — canonical styled anchor atom
+   ============================================================
+
+   Three variants encapsulate the DS link-underline contract:
+
+     .default   — two-layer underline grow (lifted from the global `a`
+                  rule in tokens.css §Links, lines 262–301).
+     .quiet     — single-layer underline grow; no hairline at rest.
+     .mutedLink — color transition only; matches the global `.muted-link`
+                  rule in tokens.css §Links (lines 294–303) byte-for-byte.
+
+   The global `a` rule in tokens.css already applies to every <a> element,
+   so this module's job is:
+     1. Suppress global underline layers via `background-image: none` on
+        the root, then re-declare per-variant so the module wins.
+     2. Suppress `text-decoration` so the browser default never shows.
+     3. Suppress `a:focus` outline (double-ring prevention — matches the
+        global rule; browsers that support :focus-visible use that instead).
+
+   padding-bottom and 1px underline thickness are literal values matching
+   the global `a` rule — no tokens exist for these yet (see spec §3).
+   ============================================================ */
+
+.root {
+  /* Override the global `a` background-image rule in tokens.css so each
+     variant can declare its own layers cleanly. */
+  background-image: none;
+  padding-bottom: 0;
+
+  /* Ensure the browser default text-decoration is always off. */
+  text-decoration: none;
+
+  /* Suppress the :focus double-ring; :focus-visible below provides the
+     correct 2px --accent outline. Mirrors the global a:focus rule. */
+  outline: none;
+}
+
+/* Restored on :focus-visible — matches the global a:focus-visible rule
+   in tokens.css exactly; no override needed here, but re-stated for
+   clarity so readers know the focus ring is intentional. */
+.root:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}
+
+/* ---------- Variant: default ----------
+   Two gradient layers:
+     layer 1 (top): accent, grows 0%→100% on hover
+     layer 2 (btm): hairline, always 100%           */
+
+.default {
+  color: inherit;
+  background-image:
+    linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--hairline), var(--hairline));
+  background-repeat: no-repeat, no-repeat;
+  background-position:
+    0 100%,
+    0 100%;
+  background-size:
+    0% 1px,
+    100% 1px;
+  padding-bottom: 2px;
+  transition: background-size var(--dur-mid) var(--easing-link);
+}
+
+@media (hover: hover) {
+  .default:hover {
+    background-size:
+      100% 1px,
+      100% 1px;
+  }
+}
+
+/* ---------- Variant: quiet ----------
+   Single gradient layer (accent only, 0% at rest).
+   Pre-declaring a 0%-wide layer is required so the browser can
+   interpolate the grow — `background-image: none` at rest would
+   prevent interpolation (underline would snap in instantly). */
+
+.quiet {
+  color: inherit;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  padding-bottom: 2px;
+  transition: background-size var(--dur-mid) var(--easing-link);
+}
+
+@media (hover: hover) {
+  .quiet:hover {
+    background-size: 100% 1px;
+  }
+}
+
+/* ---------- Variant: muted-link ----------
+   Byte-for-byte match of the global `.muted-link` rule in tokens.css.
+   No underline layers. Color transition only.
+   padding-bottom is 0 (no underline clearance needed). */
+
+.mutedLink {
+  color: var(--fg-muted);
+  background-image: none;
+  padding-bottom: 0;
+  transition: color var(--dur-fast) ease;
+}
+
+@media (hover: hover) {
+  .mutedLink:hover {
+    color: var(--fg);
+  }
+}

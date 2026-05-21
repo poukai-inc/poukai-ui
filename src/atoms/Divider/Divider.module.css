@@ -1,0 +1,59 @@
+/* ============================================================
+   Divider — hairline separator atom
+   Single source of truth for 1px structural and decorative rules.
+   Zero self-margin by design; parent layout controls spacing.
+   ============================================================ */
+
+.root {
+  display: block;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  /* Reset <hr> UA color inheritance quirk (some browsers inherit currentColor
+     into the border — explicit inherit is safe and intentional per spec §4). */
+  color: inherit;
+}
+
+/* ---------- Orientation: horizontal ---------- */
+
+.horizontal {
+  /* UA stylesheets apply border: 1px inset on <hr>; reset before our override
+     to prevent double-line rendering in Firefox and other UAs. */
+  border: 0;
+  width: 100%;
+  height: 0;
+  overflow: visible;
+  box-sizing: content-box;
+}
+
+/* ---------- Orientation: vertical ---------- */
+
+.vertical {
+  width: var(--hairline-w);
+  /* align-self: stretch fills the cross-axis height of the flex/grid parent.
+     Vertical Divider REQUIRES a flex or grid parent — in block flow it renders
+     1px × 0px (invisible). */
+  align-self: stretch;
+  /* Prevent the 1px rule from collapsing inside a compressed flex container. */
+  flex-shrink: 0;
+}
+
+/* ---------- Tone: default — standard structural separator ---------- */
+
+.horizontal.toneDefault {
+  border-top: var(--hairline-w) solid var(--hairline);
+}
+
+.vertical.toneDefault {
+  background-color: var(--hairline);
+}
+
+/* ---------- Tone: muted — quieter decorative separator ---------- */
+
+.horizontal.toneMuted {
+  border-top: var(--hairline-w) solid var(--hairline-soft);
+}
+
+.vertical.toneMuted {
+  background-color: var(--hairline-soft);
+}

@@ -182,8 +182,9 @@ No bouncy or elastic curves exist in this system. Bounce and spring easings belo
 | `--dur-hero-title-rise` | `700ms`  | Title slot duration in the Hero entrance stagger. 100ms longer than its siblings to give the primary statement a slightly longer settle — the eye reads the title last, so it earns the additional time.                                          |
 | `--dur-stagger-step`    | `150ms`  | Base delay step for staggered entrance sequences. Multiply by slot index (0–3) to derive each slot's `animation-delay`.                                                                                                                           |
 | `--dur-pulse`           | `1800ms` | `<StatusBadge status="available">` halo pulse. Intentionally slow and meditative — the pulse is not an alert, it is a presence signal. At 1800ms per cycle it reads as breathing, not blinking.                                                   |
+| `--dur-spinner`         | `800ms`  | `<Spinner>` rotation period. Sub-second so the indicator reads as actively working, not stalled. Distinct semantic register from `--dur-pulse`: the spinner communicates active process; the pulse communicates ambient presence.                 |
 
-All durations are ≤300ms for state transitions and ≤700ms for entrance animations. The `--dur-pulse` exception exists because the pulse is the indicator itself, not decoration on top of content.
+All durations are ≤300ms for state transitions and ≤700ms for entrance animations. The `--dur-pulse` and `--dur-spinner` exceptions exist because those animations are the indicator itself, not decoration on top of content.
 
 #### Principles
 
@@ -250,6 +251,54 @@ _To be filled. When can a token change vs. add? What requires Arian's approval? 
 ## Decision history
 
 _Reverse-chronological. Each entry: context, decision, rationale, alternatives considered, approval (Arian)._
+
+### 2026-05-20 — Icon size token scale (`--icon-xs/sm/md/lg`)
+
+**Context.** The `Icon` atom spec (`meta/design/Icon.md`) was authored to wrap `lucide-react` with a token-aligned size scale, `currentColor`, and decorative-by-default accessibility. The spec identified a gap in the token vocabulary: no icon dimension tokens existed. Every call site that wanted a 16px icon was either hardcoding `size={16}` into the Lucide prop or re-deriving the value from an unrelated token (e.g. `--space-4`). Codifying the scale as named tokens gives the Icon atom a single source of truth and makes the intent readable at the call site.
+
+**Decision.** Add four icon size tokens to `src/tokens/tokens.css`, placed in a dedicated `Icon size scale` block after the spacing scale and before the Layout block:
+
+- `--icon-xs: 12px` — compact pill / dense label row (e.g. inside `<Tag>`)
+- `--icon-sm: 16px` — default inline icon; pairs with `--fs-meta` (14px) text
+- `--icon-md: 20px` — mid-weight; pairs with `--fs-body` (17–19px) or stands alone
+- `--icon-lg: 24px` — large standalone; nav rows, feature-card icon slots
+
+**Rationale.**
+
+The four values follow the 4px grid (`3×4`, `4×4`, `5×4`, `6×4`) and map directly onto Lucide's native design grid. Lucide's SVG grid is optimised for 16px placement — `--icon-sm` is the canonical rung. The `xs` rung at 12px covers compact contexts (pill icons, dense label rows at `--fs-meta`). The `md` and `lg` rungs cover body-scale and display-scale icon usage respectively. No rung above 24px is warranted for the current component surface — display-scale icons at 32px+ are layout decisions made by consuming molecules, not a new rung on the atom.
+
+The tokens are placed in a separate `Icon size scale` block rather than merged into `--space-*` because icon dimensions and rhythm spacing encode different intents. A 16px icon is not "the same concept" as a 16px gap. The precedent for intent-scoped token namespacing is already set by `--btn-h-*`, `--tracking-*`, and `--lh-*`.
+
+**Alternatives considered.**
+
+- Reuse `--space-*` tokens for icon dimensions: rejected. Conflates rhythm values with sizing values; semantics diverge at every call site.
+- Expose a numeric `size` prop on `<Icon>` with no token backing: rejected. Raw pixel values leak into component code and break the "tokens are the contract" principle.
+- Expand to six rungs (add `xl: 32px`, `2xl: 48px`): deferred. No current component needs display-scale icon rungs; the correct moment to add a fifth rung is when evidence from a real surface demands it, not preemptively.
+
+**Approval.** Approved — Arian Zargaran, 2026-05-20.
+
+---
+
+### 2026-05-20 — `--hairline-soft` token addition (Divider atom)
+
+**Context.** The `Divider` atom spec (`meta/design/Divider.md`) was authored to consolidate the dozen inline `border-top: var(--hairline-w) solid var(--hairline)` rules spread across component CSS modules. During spec authoring, a gap in the token vocabulary was identified: `--hairline` (`#D2D2D7`) is the full-strength structural separator token, but several existing call sites — Quote figcaption rule, Statement optional hairline prefix, RoleCard footer slot — are decorative or transitional separators that sit below the structural weight. No quieter separator token existed.
+
+**Decision.** Add `--hairline-soft` to the token vocabulary.
+
+- Light: `#E5E5EA`
+- Dark: `#3A3A3C`
+
+Consumed by `Divider` when `tone="muted"`. Available to any future component that needs a quieter separator.
+
+**Rationale.** The neutral ramp has a gap between `--hairline` (`#D2D2D7`) and `--surface` (`#F5F5F7`) in light mode. `#E5E5EA` sits mid-ramp — visible against `--bg` (`#FBFBFD`) but clearly subordinate to `--hairline`. This mirrors Apple's distinction between `separator` and `opaqueSeparator` colors in the HIG. The dark-mode value `#3A3A3C` preserves the same step relationship: between `--hairline` (`#2C2C2E`) and `--surface` (`#1C1C1E`). Both values are non-text decorative elements; no WCAG contrast requirement applies, but both are perceptible on all system surfaces by inspection.
+
+**Alternatives considered.**
+
+- Reuse `--hairline` for all Divider tones and rely on opacity (`rgba`): rejected. Opacity-based separators are fragile on non-`--bg` surfaces (they absorb whatever is behind them, not the surface color) and do not invert cleanly to dark mode.
+- Use `--surface` as the muted separator color: rejected. `--surface` (`#F5F5F7`) is a fill token, not a border token. Using it as a border would produce an almost-invisible 1px rule that disappears on `--surface` backgrounds.
+- No muted tone at all, single token only: considered. The counter-argument is that three existing molecule-level rules already need a lighter separator — deferring `--hairline-soft` would leave those molecules still inventing inline values. A single well-named token is the correct abstraction.
+
+**Approval.** Pending Arian review. Token is additive — no existing token changes, no breaking change.
 
 ### 2026-05-19 — Link resting-state discoverability: two-layer underline (hairline at rest, accent grows on hover)
 
@@ -726,6 +775,46 @@ same PR that first consumes them.
 
 - Changeset: minor bump (new tokens, new motion doctrine entries — additive, no breaking change).
 - Approval: Arian Zargaran, 2026-05-20.
+
+---
+
+### 2026-05-20 — Spinner atom: `--dur-spinner: 800ms`
+
+**Context.** The Spinner atom was specified as the indeterminate loading affordance for `@poukai-inc/ui`, covering Button `loading` state and async form submission. The BACKLOG listed Spinner as a pending atom (§ Atoms) and the motion doctrine explicitly sanctions it on the allowlist: "Spinner IS the semantic load signal" satisfying rule 1 (no motion without semantic meaning). One new duration token was required.
+
+**Decision — add `--dur-spinner: 800ms`.**
+
+800ms is the rotation period for a single full revolution of the spinner arc. The value was chosen by anchoring to the boundary conditions on both sides:
+
+- Below ~500ms: reads as urgent or agitated. Not the operator-grade register.
+- At 1000ms+: the spinner perceptibly pauses between steps, reading as stalled rather than active.
+- 800ms: settles in the "actively working" band — below the stall threshold, above the alarm threshold.
+
+This is a distinct semantic register from `--dur-pulse` (1800ms). The pulse is a meditative ambient heartbeat signalling presence; the spinner communicates an active, time-bounded process. They cannot share a token because their semantic registers are different, and conflating them would make the duration token namespace meaningless.
+
+**Why not reuse an existing token.** No existing duration token maps to the "active process" semantic:
+
+- `--dur-press` (80ms): tactile micro-feedback floor — too short.
+- `--dur-fast` (180ms): state transitions — structurally wrong for a loop.
+- `--dur-mid` (240ms): link underline / short transitions — too short, also wrong semantic.
+- `--dur-slow` (600ms): entrance animation base — close, but 600ms rotation reads as slightly sluggish and the semantic is "arrival," not "working."
+- `--dur-pulse` (1800ms): ambient presence — far too slow for an active-process signal.
+
+800ms fills a real gap. It is not a rounding of any existing token.
+
+**Motion property contract.** The rotation uses `transform: rotate()` exclusively. No `width`, `height`, `stroke-dashoffset`, or layout property is animated. `transform` is the composited property; this satisfies the motion property rule in BACKLOG §Motion.
+
+**Easing.** `linear` — not `--easing` (expo-out). Expo-out is the entrance easing for objects decelerating into rest. A looping spinner does not arrive; it runs continuously. Applying expo-out to a loop produces a visually irregular rhythm (fast start, slow finish per revolution) that reads as hesitation. Linear produces an even, constant-activity read.
+
+**Reduced-motion contract.** The global `tokens.css` block collapses `animation-duration` to `0.01ms` and `animation-iteration-count` to `1`, which freezes the spinner. The spec additionally requires an explicit `animation: none` in the component's CSS module under `prefers-reduced-motion: reduce`, plus a CSS-revealed `…` (HORIZONTAL ELLIPSIS) augmenting the static arc. The `…` is `aria-hidden="true"` — the a11y contract is already on the root container via `role="status"` / `aria-live="polite"` / `aria-label`.
+
+**Keyframe name:** `poukai-spin` — consistent with the `poukai-` prefix convention (`poukai-pulse` on StatusBadge).
+
+**Token added to `src/tokens/tokens.css`:** `--dur-spinner: 800ms`, inside the `/* Motion */` block, immediately after `--dur-pulse`.
+
+**Spec:** `meta/design/Spinner.md`.
+
+**Authorization.** `poukai-design` decision; Arian to ratify on review.
 
 ---
 

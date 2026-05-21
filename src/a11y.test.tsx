@@ -8,6 +8,7 @@ import { Stat } from "./atoms/Stat";
 import { Eyebrow } from "./atoms/Eyebrow";
 import { EmailLink } from "./atoms/EmailLink";
 import { Tag } from "./atoms/Tag";
+import { Divider } from "./atoms/Divider";
 import { Hero } from "./molecules/Hero";
 import { RoleCard } from "./molecules/RoleCard";
 import { Principle } from "./molecules/Principle";
@@ -22,6 +23,12 @@ import { FeatureCard } from "./molecules/FeatureCard";
 import { FieldNote } from "./molecules/FieldNote";
 import { Quote } from "./molecules/Quote";
 import { Avatar } from "./atoms/Avatar";
+import { Spinner } from "./atoms/Spinner";
+import { Skeleton } from "./atoms/Skeleton";
+import { Icon } from "./atoms/Icon";
+import { Link } from "./atoms/Link";
+import { VisuallyHidden } from "./atoms/VisuallyHidden";
+import { Mail, Heart } from "lucide-react";
 import { SiteShell } from "./organisms/SiteShell";
 import { Footer } from "./organisms/Footer";
 import { Dialog, DialogBasic } from "./organisms/Dialog";
@@ -158,6 +165,95 @@ test("a11y — Tag (both tones, with and without icon)", async ({ mount, page })
   await expectAxeClean(page);
 });
 
+test("a11y — Divider (horizontal default, hr)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <p>Above the rule</p>
+      <Divider />
+      <p>Below the rule</p>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Divider (vertical, div with role+aria-orientation)", async ({ mount, page }) => {
+  await mount(
+    <div style={{ display: "flex", height: "3rem" }}>
+      <span>Left</span>
+      <Divider orientation="vertical" />
+      <span>Right</span>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Divider (muted tone, horizontal)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <p>Above</p>
+      <Divider tone="muted" />
+      <p>Below</p>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Icon (decorative default)", async ({ mount, page }) => {
+  await mount(<Icon icon={Mail} size="sm" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Icon (semantic with aria-label)", async ({ mount, page }) => {
+  await mount(<Icon icon={Heart} size="md" decorative={false} aria-label="Add to favourites" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Skeleton (block and circle variants)", async ({ mount, page }) => {
+  await mount(
+    <div aria-busy="true">
+      <Skeleton width={200} height={24} radius="sm" />
+      <Skeleton width="100%" height={16} radius="md" />
+      <Skeleton width={120} height={40} radius="lg" />
+      <Skeleton width={40} height={40} radius="circle" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Skeleton (as=span inline)", async ({ mount, page }) => {
+  await mount(
+    <p aria-busy="true">
+      Posted by <Skeleton as="span" width={80} height={14} radius="sm" />
+    </p>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Link (all three variants)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <p>
+        Read the{" "}
+        <Link href="/about" variant="default">
+          full case study
+        </Link>{" "}
+        for context.
+      </p>
+      <nav aria-label="Test nav">
+        <Link href="/why-ai" variant="quiet">
+          Why AI
+        </Link>
+      </nav>
+      <footer>
+        <Link href="mailto:hello@pouk.ai" variant="muted-link">
+          hello@pouk.ai
+        </Link>
+      </footer>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — Avatar (image+alt, initials+name, empty+name)", async ({ mount, page }) => {
   await mount(
     <div>
@@ -168,6 +264,26 @@ test("a11y — Avatar (image+alt, initials+name, empty+name)", async ({ mount, p
       />
       <Avatar mode="initials" initials="AZ" name="Arian Zargaran" />
       <Avatar name="Unknown person" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — VisuallyHidden (default span)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <VisuallyHidden>Accessible label for an adjacent element</VisuallyHidden>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — VisuallyHidden (as=div, aria-live)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <VisuallyHidden as="div" aria-live="polite" aria-atomic="true">
+        Slide 2 of 5
+      </VisuallyHidden>
     </div>,
   );
   await expectAxeClean(page);
@@ -774,6 +890,37 @@ test("a11y — Toast (warning tone, open)", async ({ mount, page }) => {
   await expect(page.locator("[data-tone]", { hasText: "A11y gate: warning toast." })).toBeVisible();
   await expectAxeClean(page);
 });
+
+/* ---------- Spinner ---------- */
+
+test("a11y — Spinner (default)", async ({ mount, page }) => {
+  await mount(<Spinner />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Spinner (all sizes)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Spinner size="sm" label="Loading small" />
+      <Spinner size="md" label="Loading medium" />
+      <Spinner size="lg" label="Loading large" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Spinner (custom label)", async ({ mount, page }) => {
+  await mount(<Spinner label="Submitting your request" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Spinner (reduced-motion fallback)", async ({ mount, page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await mount(<Spinner label="Loading" />);
+  await expectAxeClean(page);
+});
+
+/* ---------- Toast ---------- */
 
 test("a11y — Toast (danger tone, open)", async ({ mount, page }) => {
   await mount(

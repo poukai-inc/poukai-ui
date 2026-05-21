@@ -1,0 +1,37 @@
+/*
+ * Icon.module.css
+ *
+ * Token-only. No hex values, no magic numbers.
+ * Size classes resolve to the --icon-* token scale defined in tokens.css.
+ */
+
+/* Always-on: icons never collapse in flex rows, never capture pointer events. */
+.sizeXs,
+.sizeSm,
+.sizeMd,
+.sizeLg {
+  display: block;
+  flex-shrink: 0;
+  pointer-events: none;
+  color: currentColor;
+}
+
+.sizeXs {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+}
+
+.sizeSm {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.sizeMd {
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.sizeLg {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}

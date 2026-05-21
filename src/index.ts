@@ -32,6 +32,17 @@ export {
   type AvatarModeProps,
   type AvatarBaseProps,
 } from "./atoms/Avatar";
+export { VisuallyHidden, type VisuallyHiddenProps } from "./atoms/VisuallyHidden";
+export { Skeleton, type SkeletonProps, type SkeletonRadius } from "./atoms/Skeleton";
+export { Icon, type IconProps, type IconSize } from "./atoms/Icon";
+export { Link, type LinkProps, type LinkVariant } from "./atoms/Link";
+export {
+  Divider,
+  type DividerProps,
+  type DividerOrientation,
+  type DividerTone,
+} from "./atoms/Divider";
+export { Spinner, type SpinnerProps, type SpinnerSize } from "./atoms/Spinner";
 
 /* ---------- molecules ---------- */
 export {

@@ -653,6 +653,82 @@ This is a documentation convention; the DS cannot enforce it at runtime. Documen
 
 ---
 
+### 2026-05-20 — Motion overrides: scroll-entrance, autoplay carousel, marquee, auto-accordion
+
+**Context.** The motion doctrine in `BACKLOG.md § Motion` originally banned scroll-triggered
+reveal animations outright and listed auto-playing carousels, marquees, and ticker tape on the
+hard banlist. Arian's review of `pouk.ai`'s hero section (live production) identified the
+`opacity + translateY` section entrance as the correct motion model for the DS — subtle,
+directional, communicates that new content has arrived. Simultaneously, three ambient/looping
+patterns (autoplay carousel, continuous marquee, auto-accordion cycling) were approved as
+semantically justified: each communicates something a static layout cannot (catalogue depth,
+catalogue breadth, content variety). All four overrides are recorded here as the authoritative
+brand decision.
+
+**Decision 1 — Scroll-triggered section entrance: approved with constraints.**
+
+The sanctioned form is strictly `opacity 0→1` + `translateY(var(--translate-entrance))→0`,
+easing `--easing` (expo-out), duration `--dur-slow` (600ms). No other entrance form is
+permitted — no clip, blur, scale, rotate, or path animation. Triggered by IntersectionObserver
+at `threshold: 0.1`. Reduced-motion: static final state (`opacity: 1`, `transform: none`)
+applied immediately without transition.
+
+New token: `--translate-entrance: 20px`. Chosen because: (a) small enough to feel ambient
+on any viewport, (b) large enough to register as directional on screens where 1rem ≈ 16px,
+(c) matches the visual register of `rise-8` (8px) and `rise-12` (12px) already used in
+Hero entrances but with more breathing room for a full section.
+
+Reference implementation: `pouk.ai` hero section fade-in. This is the role-model entrance
+for all future Section-level reveals in the DS.
+
+**Decision 2 — Autoplay Carousel: approved with mandatory pause contract.**
+
+An optional `autoplay` prop (default `false`) on the Carousel molecule. Interval controlled
+by new token `--dur-carousel-interval: 4s`. Slide transition reuses `--dur-mid / --easing`.
+
+Non-negotiable pause contract: `animation-play-state: paused` when (a) `prefers-reduced-motion:
+reduce` is active, (b) the carousel is `:hover`, (c) any descendant has `:focus-within`.
+Removing any of these three conditions is a shipping blocker regardless of design preference.
+
+**Decision 3 — Marquee / LazyRiver: approved with mandatory pause contract.**
+
+A continuous horizontal scroll loop (`Marquee.Root` / `Marquee.Track`). Animation:
+`translateX` loop, `animation-timing-function: linear`, duration `--dur-marquee: 30s`.
+Track content is duplicated by the component to create a seamless loop; the duplication
+is DOM-only (no visible effect on static/reduced-motion render).
+
+Same non-negotiable pause contract as Decision 2. `--dur-marquee: 30s` chosen as the
+ambient register: fast enough to read as movement at a glance, slow enough that no single
+item demands attention. Consumer can override via CSS custom property; the 30s default is
+the brand recommendation.
+
+**Decision 4 — Auto-accordion (cycling): approved with mandatory pause contract.**
+
+An accordion variant where items open/close on a timer, communicating that more content
+exists below the visible fold. Open/close animation uses Radix Accordion's
+`--radix-accordion-content-height` CSS variable, duration `--dur-mid`, easing `--easing`.
+Cycling interval is opt-in (`autoplay` prop, no default); same pause contract as Decisions
+2 and 3.
+
+**Rationale shared across all four decisions.**
+
+The original "no motion for static content" rule was correct as a default — it prevents
+speculative decoration. These four patterns are overrides, not refutations of the rule. Each
+communicates something a static layout cannot: (1) that new content has entered the viewport,
+(2) that a slide sequence has more items, (3) that a catalogue extends beyond the visible
+frame, (4) that more accordion content exists. The pause contracts are non-negotiable because
+ambient looping motion is the pattern most likely to cause harm for users with vestibular
+disorders — the rule is not softened, it is gated.
+
+**Tokens added:** `--translate-entrance: 20px`, `--dur-marquee: 30s`,
+`--dur-carousel-interval: 4s`. All three to be defined in `src/tokens/tokens.css` in the
+same PR that first consumes them.
+
+- Changeset: minor bump (new tokens, new motion doctrine entries — additive, no breaking change).
+- Approval: Arian Zargaran, 2026-05-20.
+
+---
+
 ### 2026-05-18 — Hero entrance animation tokens (issue #47)
 
 **Context.** GitHub issue #47 requests an `entrance="stagger"` prop on the Hero molecule — a CSS-only staggered reveal on page load. Four slots (status, title, lede, cta) animate in with a 150ms inter-slot delay. All animation values must be expressed via `var(--token)` references; no raw ms values allowed in Hero.module.css. Two token strategy decisions required sign-off before the spec could be finalized.

@@ -55,6 +55,11 @@ export default [
       "react/prop-types": "off",
       "@typescript-eslint/consistent-type-imports": ["error", { prefer: "type-imports" }],
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      // TypeScript handles undefined-symbol detection (and is aware of JSX
+      // implicit React, ambient DOM globals like `console`, etc.). The
+      // core `no-undef` rule duplicates that work without the type
+      // information and produces false positives in flat config.
+      "no-undef": "off",
     },
   },
 ];

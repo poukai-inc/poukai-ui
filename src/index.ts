@@ -48,6 +48,12 @@ export { Prose, type ProseProps, type ProseWidth } from "./atoms/Prose";
 export { Code, type CodeProps } from "./atoms/Code";
 export { Kbd, type KbdProps } from "./atoms/Kbd";
 export { Text, type TextProps, type TextSize, type TextTone } from "./atoms/Text";
+export {
+  IconButton,
+  type IconButtonProps,
+  type IconButtonVariant,
+  type IconButtonSize,
+} from "./atoms/IconButton";
 
 /* ---------- molecules ---------- */
 export {

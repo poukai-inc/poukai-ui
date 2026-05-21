@@ -1,0 +1,33 @@
+/* ============================================================
+   IconButton — square geometry override on top of Button.
+   All variant / state / focus / disabled behavior is inherited
+   from Button.module.css. This module only overrides geometry:
+   padding collapses to 0; width is locked to the Button height
+   ladder so the box is square at every rung.
+   Tokens: --btn-h-sm, --btn-h-compact, --btn-h-md, --btn-h-lg.
+   ============================================================ */
+
+.root {
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.size-sm {
+  width: var(--btn-h-sm);
+  min-width: var(--btn-h-sm);
+}
+
+.size-compact {
+  width: var(--btn-h-compact);
+  min-width: var(--btn-h-compact);
+}
+
+.size-md {
+  width: var(--btn-h-md);
+  min-width: var(--btn-h-md);
+}
+
+.size-lg {
+  width: var(--btn-h-lg);
+  min-width: var(--btn-h-lg);
+}

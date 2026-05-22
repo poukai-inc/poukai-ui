@@ -1,0 +1,98 @@
+/* ============================================================
+   Radio + RadioGroup — single-selection form primitive atom
+   ============================================================ */
+
+/* ---------- RadioGroup (root layout) ---------- */
+
+.group {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.vertical {
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.horizontal {
+  flex-direction: row;
+  gap: var(--space-4);
+}
+
+/* ---------- Radio item (the circular control) ---------- */
+
+.item {
+  /* Reset button chrome */
+  appearance: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+
+  /* Circle geometry — 16×16 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+
+  /* Resting border + background */
+  border: var(--hairline-w) solid var(--hairline);
+  background-color: var(--bg);
+
+  /* Motion — border-color and background only */
+  transition:
+    border-color var(--dur-fast) var(--easing),
+    background-color var(--dur-fast) var(--easing);
+
+  /* Stacking — keeps the focus ring above sibling label text */
+  position: relative;
+}
+
+/* Hover — unselected, enabled: border steps to --fg-muted */
+.item:not([data-state="checked"]):not([data-disabled]):hover {
+  border-color: var(--fg-muted);
+}
+
+/* Focus-visible ring */
+.item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+/* Disabled — any state */
+.item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Invalid — aria-invalid="true" on the item */
+.item[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+/* ---------- Radix Indicator (checked-only mount) ---------- */
+
+.indicator {
+  /* Full-size centering shell; Radix mounts this element only when checked */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* 8 px filled dot via ::after pseudo — no SVG, no Lucide, no Icon */
+.indicator::after {
+  content: "";
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--fg);
+}

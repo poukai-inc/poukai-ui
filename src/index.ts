@@ -86,6 +86,7 @@ export { Input, type InputProps, type InputSize } from "./atoms/Input";
 export { Select, type SelectProps, type SelectSize } from "./atoms/Select";
 
 export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Textarea";
+export { Radio, RadioGroup, type RadioProps, type RadioGroupProps } from "./atoms/Radio";
 
 /* ---------- molecules ---------- */
 export {

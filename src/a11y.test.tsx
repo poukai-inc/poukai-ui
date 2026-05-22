@@ -53,6 +53,7 @@ import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__t
 import { Label } from "./atoms/Label";
 import { NumberFormat } from "./atoms/NumberFormat";
 import { Time } from "./atoms/Time";
+import { Radio, RadioGroup } from "./atoms/Radio";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1178,6 +1179,105 @@ test("a11y — Spinner (custom label)", async ({ mount, page }) => {
 test("a11y — Spinner (reduced-motion fallback)", async ({ mount, page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await mount(<Spinner label="Loading" />);
+  await expectAxeClean(page);
+});
+
+/* ---------- Radio + RadioGroup ---------- */
+
+test("a11y — RadioGroup + Radio (unselected, with labels)", async ({ mount, page }) => {
+  await mount(
+    <RadioGroup aria-label="Billing plan">
+      <label>
+        <Radio value="monthly" />
+        Monthly
+      </label>
+      <label>
+        <Radio value="annual" />
+        Annual
+      </label>
+    </RadioGroup>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RadioGroup + Radio (controlled selection)", async ({ mount, page }) => {
+  await mount(
+    <RadioGroup value="annual" onValueChange={() => undefined} aria-label="Billing plan">
+      <label>
+        <Radio value="monthly" />
+        Monthly
+      </label>
+      <label>
+        <Radio value="annual" />
+        Annual
+      </label>
+    </RadioGroup>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RadioGroup horizontal (with labels)", async ({ mount, page }) => {
+  await mount(
+    <RadioGroup defaultValue="m" orientation="horizontal" aria-label="T-shirt size">
+      {["s", "m", "l"].map((s) => (
+        <label key={s}>
+          <Radio value={s} />
+          {s.toUpperCase()}
+        </label>
+      ))}
+    </RadioGroup>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RadioGroup with disabled item", async ({ mount, page }) => {
+  await mount(
+    <RadioGroup defaultValue="standard" aria-label="Shipping speed">
+      <label>
+        <Radio value="standard" />
+        Standard
+      </label>
+      <label>
+        <Radio value="express" disabled />
+        Express (unavailable)
+      </label>
+    </RadioGroup>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RadioGroup disabled group", async ({ mount, page }) => {
+  await mount(
+    <RadioGroup disabled defaultValue="monthly" aria-label="Billing plan (disabled)">
+      <label>
+        <Radio value="monthly" />
+        Monthly
+      </label>
+      <label>
+        <Radio value="annual" />
+        Annual
+      </label>
+    </RadioGroup>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RadioGroup with aria-labelledby", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <p id="a11y-rg-label">Choose a billing plan</p>
+      <RadioGroup defaultValue="monthly" aria-labelledby="a11y-rg-label">
+        <label>
+          <Radio value="monthly" />
+          Monthly
+        </label>
+        <label>
+          <Radio value="annual" />
+          Annual
+        </label>
+      </RadioGroup>
+    </div>,
+  );
   await expectAxeClean(page);
 });
 

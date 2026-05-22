@@ -45,6 +45,7 @@ import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
 import { NumberFormat } from "./atoms/NumberFormat";
+import { Time } from "./atoms/Time";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -404,6 +405,27 @@ test("a11y — Label (required indicator, bound to input)", async ({ mount, page
         Email address
       </Label>
       <input id="a11y-label-required" type="email" aria-required="true" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Time (formats + children override)", async ({ mount, page }) => {
+  const ANCHOR = "2026-05-21T14:30:00.000Z";
+  await mount(
+    <div>
+      <p>
+        <Time dateTime={ANCHOR} format="absolute" locale="en-US" />
+      </p>
+      <p>
+        <Time dateTime={ANCHOR} format="long" locale="en-US" />
+      </p>
+      <p>
+        <Time dateTime={ANCHOR} format="time-only" locale="en-US" />
+      </p>
+      <p>
+        <Time dateTime={ANCHOR}>Last Wednesday</Time>
+      </p>
     </div>,
   );
   await expectAxeClean(page);

@@ -267,6 +267,18 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Non-goals: no date/time formatting, no signed display (no `signDisplay` prop), no scientific/engineering notation, no unit formatting, no animated counters, no copy-to-clipboard. Date formatting is a separate atom.
 - Stat migration to use NumberFormat is a follow-up PR — NOT shipped with this atom.
 
+### Time
+- Semantic `<time datetime>` atom. Non-polymorphic — root is always `<time>`. Downstream consumers: `Byline`, `ArticleHeader`, `TimelineItem`.
+- `dateTime` prop accepts `string | Date`. String values pass verbatim to the `datetime` attribute (date-only strings such as `"2026-05-21"` are NOT round-tripped through `new Date()`). `Date` objects serialize via `.toISOString()`.
+- Four format modes (native `Intl` only — no date-fns, dayjs, luxon):
+  - `absolute` (default): `Intl.DateTimeFormat` with `{ year: "numeric", month: "short", day: "numeric" }` → `May 21, 2026`.
+  - `relative`: `Intl.RelativeTimeFormat` with `{ numeric: "auto" }`. Threshold table (descending, by |diff|): `< 60s` → `"just now"` (English literal); `≥ 345d` → year; `≥ 28d` → month; `≥ 7d` → week; `≥ 1d` → day; `≥ 1h` → hour; `≥ 1min` → minute. Signed value preserves past/future direction.
+  - `long`: `Intl.DateTimeFormat` with `{ year: "numeric", month: "long" }` → `May 2026`.
+  - `time-only`: `Intl.DateTimeFormat` with `{ hour: "2-digit", minute: "2-digit" }` → `02:30 PM` (en-US) / `14:30` (fr-FR).
+- `children` override: when `children` is provided, it replaces the computed label entirely; `format` and `locale` are ignored. The `datetime` attribute still emits the ISO string.
+- SSR locale resolution: `locale` prop → `navigator.language` (browser) → `"en-US"` (server). `format="relative"` is NOT guaranteed stable across SSR/hydration — use `children` or `format="absolute"` for consistent SSR output.
+- Guardrails: no `aria-label` injection, no motion, no color variants, no new tokens. Inherits `color: inherit`. No CSS module.
+
 ### Hero
 - One per page. Do NOT nest Hero inside another Hero.
 - status slot: StatusBadge or equivalent only (default variant only; not available in no-title variant).

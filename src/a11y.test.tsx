@@ -42,7 +42,7 @@ import { Footer } from "./organisms/Footer";
 import { Dialog, DialogBasic } from "./organisms/Dialog";
 import { Tabs, TabsBasic } from "./organisms/Tabs";
 import { Input } from "./molecules/Input";
-import { Textarea } from "./molecules/Textarea";
+import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
 import { Form } from "./organisms/Form";

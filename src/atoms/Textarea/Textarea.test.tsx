@@ -17,9 +17,29 @@ test("root element is textarea", async ({ mount }) => {
 
 /* ---------- Defaults ---------- */
 
-test("defaults to rows=4", async ({ mount }) => {
+test("defaults to rows=3", async ({ mount }) => {
   const component = await mount(<Textarea />);
-  await expect(component).toHaveAttribute("rows", "4");
+  await expect(component).toHaveAttribute("rows", "3");
+});
+
+test("defaults to resize: vertical", async ({ mount }) => {
+  const component = await mount(<Textarea />);
+  const resize = await component.evaluate((el) => getComputedStyle(el).resize);
+  expect(resize).toBe("vertical");
+});
+
+/* ---------- resize prop ---------- */
+
+test("resize='none' sets CSS resize: none", async ({ mount }) => {
+  const component = await mount(<Textarea resize="none" />);
+  const resize = await component.evaluate((el) => getComputedStyle(el).resize);
+  expect(resize).toBe("none");
+});
+
+test("resize='both' sets CSS resize: both", async ({ mount }) => {
+  const component = await mount(<Textarea resize="both" />);
+  const resize = await component.evaluate((el) => getComputedStyle(el).resize);
+  expect(resize).toBe("both");
 });
 
 /* ---------- invalid prop ---------- */
@@ -44,11 +64,17 @@ test("omitting invalid leaves no invalid attributes", async ({ mount }) => {
   expect(dataInvalid).toBeNull();
 });
 
-/* ---------- disabled prop ---------- */
+/* ---------- disabled / readonly props ---------- */
 
 test("disabled prop is forwarded", async ({ mount }) => {
   const component = await mount(<Textarea disabled />);
   await expect(component).toBeDisabled();
+});
+
+test("readOnly prop is forwarded", async ({ mount }) => {
+  const component = await mount(<Textarea readOnly defaultValue="locked" />);
+  await expect(component).toHaveAttribute("readonly", "");
+  await expect(component).toHaveValue("locked");
 });
 
 /* ---------- rows prop ---------- */
@@ -95,6 +121,11 @@ test("forwards aria-* props", async ({ mount }) => {
 test("forwards required prop", async ({ mount }) => {
   const component = await mount(<Textarea required />);
   await expect(component).toHaveAttribute("required");
+});
+
+test("forwards name prop", async ({ mount }) => {
+  const component = await mount(<Textarea name="message" />);
+  await expect(component).toHaveAttribute("name", "message");
 });
 
 /* ---------- Ref forwarding ---------- */
@@ -152,6 +183,19 @@ test("a11y — disabled state (with label)", async ({ mount, page }) => {
     <div>
       <label htmlFor="a11y-ta-disabled">Message</label>
       <Textarea id="a11y-ta-disabled" disabled />
+    </div>,
+  );
+  const { violations } = await new AxeBuilder({ page })
+    .disableRules(["landmark-one-main", "page-has-heading-one", "region"])
+    .analyze();
+  expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+});
+
+test("a11y — readonly state (with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-ta-readonly">Message</label>
+      <Textarea id="a11y-ta-readonly" readOnly defaultValue="locked content" />
     </div>,
   );
   const { violations } = await new AxeBuilder({ page })

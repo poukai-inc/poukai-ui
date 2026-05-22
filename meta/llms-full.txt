@@ -856,21 +856,29 @@ import { Icon } from "@poukai-inc/ui";
 ```
 
 ### Textarea
-- Multi-line textarea primitive. Root is always `<textarea>`. Non-polymorphic. Ref forwarded to `HTMLTextAreaElement`.
-- `invalid` (optional boolean) — when true, sets `data-invalid="true"` and `aria-invalid="true"`, applies accent border. Prefer wiring through `<Field error="…">`.
-- Default `rows={4}`. Consumer can override via `rows` prop.
-- `resize: vertical` — horizontal resize disabled. Min-height corresponds to 4 lines of body text.
-- Standard `ComponentPropsWithoutRef<"textarea">` spread: `value`, `onChange`, `placeholder`, `rows`, `disabled`, `readOnly`, `required`, `aria-*`, `data-*`, etc.
+- **Atom layer.** Multi-line textarea primitive. Root is always `<textarea>`. Non-polymorphic. Ref forwarded to `HTMLTextAreaElement`. Label/helper/error are NOT owned by Textarea — they live in `<Field>`.
+- Import from `@poukai-inc/ui` (root) or `@poukai-inc/ui/atoms/Textarea`. The legacy `@poukai-inc/ui/molecules/Textarea` path is a `@deprecated` re-export shim and will be removed in v2.0.
+- `invalid` (optional boolean) — when true, sets `data-invalid="true"` and `aria-invalid="true"`, applies `--danger` border. Prefer wiring through `<Field error="…">`.
+- `rows` — default `3`. Drives the natural rendered height.
+- `resize` — `"vertical" | "none" | "both"`, default `"vertical"`. Maps directly to the CSS `resize` property on the root. `"both"` is allowed but discouraged — horizontal drag breaks most responsive layouts.
+- Standard `ComponentPropsWithoutRef<"textarea">` spread: `value`, `onChange`, `placeholder`, `disabled`, `readOnly`, `required`, `name`, `aria-*`, `data-*`, etc.
 - `clsx` className merge via `className` prop.
-- States: identical to Input — default, hover, focus-visible, invalid, disabled.
-- Tokens consumed: `--bg-elevated`, `--hairline`, `--fg-muted`, `--fg`, `--accent`, `--font-sans`, `--fs-body`, `--lh-body`, `--space-2`, `--space-3`, `--radius-2`, `--dur-fast`, `--easing`. No new tokens.
+- States: default, hover, focus-visible, readonly, invalid, disabled. Visual register mirrors the `Input` atom exactly.
+- Tokens consumed: `--bg-elevated`, `--hairline`, `--fg-muted`, `--fg`, `--accent`, `--danger`, `--font-sans`, `--fs-body`, `--lh-body`, `--space-3`, `--radius-2`, `--dur-fast`, `--easing`. Strict subset of the `Input` atom's tokens. No new tokens.
+- Padding contract: **symmetric `--space-3` on all four sides** (block + inline). This is the only visual delta from `Input` (which uses `--space-2` block / `--space-3` inline). Multi-line content needs equal vertical headroom so the first and last lines do not feel cramped.
 - Do NOT add character count display — consumer responsibility.
 - Do NOT use Textarea for single-line input — use `<Input>`.
+- Do NOT add autosize / content-height tracking inside the atom. A future `useAutosizeTextarea` utility hook will compose on top; tracked separately.
 
 ```tsx
 // Inside Field (recommended):
 <Field label="Message" id="message">
   <Textarea placeholder="Tell us about your project…" rows={6} />
+</Field>
+
+// Resize locked (fixed-height note):
+<Field label="Internal note">
+  <Textarea rows={2} resize="none" placeholder="Short note…" />
 </Field>
 ```
 

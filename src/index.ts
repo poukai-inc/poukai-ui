@@ -81,6 +81,8 @@ export {
   type ProgressBarTone,
 } from "./atoms/ProgressBar";
 
+export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Textarea";
+
 /* ---------- molecules ---------- */
 export {
   Hero,
@@ -106,7 +108,6 @@ export { FeatureCard, type FeatureCardProps } from "./molecules/FeatureCard";
 export { FieldNote, type FieldNoteProps } from "./molecules/FieldNote";
 export { Quote, type QuoteProps } from "./molecules/Quote";
 export { Input, type InputProps } from "./molecules/Input";
-export { Textarea, type TextareaProps } from "./molecules/Textarea";
 export { Field, type FieldProps } from "./molecules/Field";
 export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";

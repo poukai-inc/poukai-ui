@@ -9,9 +9,7 @@ import { Radio, RadioGroup } from "./Radio";
 const AXE_ISOLATED = ["landmark-one-main", "page-has-heading-one", "region"] as const;
 
 async function expectAxeClean(page: import("@playwright/test").Page) {
-  const { violations } = await new AxeBuilder({ page })
-    .disableRules([...AXE_ISOLATED])
-    .analyze();
+  const { violations } = await new AxeBuilder({ page }).disableRules([...AXE_ISOLATED]).analyze();
   expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
 }
 
@@ -123,11 +121,7 @@ test("selecting one Radio deselects the other", async ({ mount }) => {
 test("onValueChange fires with the new value on click", async ({ mount }) => {
   const received: string[] = [];
   const component = await mount(
-    <RadioGroup
-      defaultValue="a"
-      onValueChange={(v) => received.push(v)}
-      aria-label="Test group"
-    >
+    <RadioGroup defaultValue="a" onValueChange={(v) => received.push(v)} aria-label="Test group">
       <Radio value="a" />
       <Radio value="b" />
     </RadioGroup>,
@@ -209,11 +203,7 @@ test("ArrowLeft moves selection to previous item in horizontal group", async ({ 
 test("disabled Radio item is not clickable", async ({ mount }) => {
   const received: string[] = [];
   const component = await mount(
-    <RadioGroup
-      defaultValue="a"
-      onValueChange={(v) => received.push(v)}
-      aria-label="Test group"
-    >
+    <RadioGroup defaultValue="a" onValueChange={(v) => received.push(v)} aria-label="Test group">
       <Radio value="a" />
       <Radio value="b" disabled />
     </RadioGroup>,
@@ -351,11 +341,7 @@ test("a11y — RadioGroup + Radio (with selection)", async ({ mount, page }) => 
 
 test("a11y — RadioGroup horizontal orientation", async ({ mount, page }) => {
   await mount(
-    <RadioGroup
-      defaultValue="m"
-      orientation="horizontal"
-      aria-label="A11y gate: horizontal"
-    >
+    <RadioGroup defaultValue="m" orientation="horizontal" aria-label="A11y gate: horizontal">
       <Radio value="s" />
       <Radio value="m" />
       <Radio value="l" />

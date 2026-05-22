@@ -26,15 +26,45 @@ export const VerticalGroup: Story = () => {
   const [value, setValue] = useState("monthly");
   return (
     <RadioGroup value={value} onValueChange={setValue} aria-label="Billing plan">
-      <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+      <label
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "var(--space-2)",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--fs-body)",
+          color: "var(--fg)",
+          cursor: "pointer",
+        }}
+      >
         <Radio value="monthly" />
         Monthly
       </label>
-      <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+      <label
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "var(--space-2)",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--fs-body)",
+          color: "var(--fg)",
+          cursor: "pointer",
+        }}
+      >
         <Radio value="annual" />
         Annual
       </label>
-      <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+      <label
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "var(--space-2)",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--fs-body)",
+          color: "var(--fg)",
+          cursor: "pointer",
+        }}
+      >
         <Radio value="lifetime" />
         Lifetime
       </label>
@@ -46,11 +76,24 @@ export const VerticalGroup: Story = () => {
 export const HorizontalGroup: Story = () => {
   const [value, setValue] = useState("s");
   return (
-    <RadioGroup value={value} onValueChange={setValue} orientation="horizontal" aria-label="T-shirt size">
+    <RadioGroup
+      value={value}
+      onValueChange={setValue}
+      orientation="horizontal"
+      aria-label="T-shirt size"
+    >
       {(["XS", "S", "M", "L", "XL"] as const).map((s) => (
         <label
           key={s}
-          style={{ display: "flex", alignItems: "center", gap: "var(--space-1)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--space-1)",
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--fs-body)",
+            color: "var(--fg)",
+            cursor: "pointer",
+          }}
         >
           <Radio value={s.toLowerCase()} />
           {s}
@@ -64,17 +107,51 @@ export const HorizontalGroup: Story = () => {
 export const Controlled: Story = () => {
   const [value, setValue] = useState("engineer");
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)", fontFamily: "var(--font-sans)" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--space-4)",
+        fontFamily: "var(--font-sans)",
+      }}
+    >
       <RadioGroup value={value} onValueChange={setValue} aria-label="Role">
-        <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--space-2)",
+            fontSize: "var(--fs-body)",
+            color: "var(--fg)",
+            cursor: "pointer",
+          }}
+        >
           <Radio value="engineer" id="role-engineer" />
           Engineer
         </label>
-        <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--space-2)",
+            fontSize: "var(--fs-body)",
+            color: "var(--fg)",
+            cursor: "pointer",
+          }}
+        >
           <Radio value="designer" id="role-designer" />
           Designer
         </label>
-        <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+        <label
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--space-2)",
+            fontSize: "var(--fs-body)",
+            color: "var(--fg)",
+            cursor: "pointer",
+          }}
+        >
           <Radio value="pm" id="role-pm" />
           Product Manager
         </label>
@@ -89,15 +166,45 @@ export const Controlled: Story = () => {
 /** Disabled item — the middle option is individually disabled. */
 export const DisabledItem: Story = () => (
   <RadioGroup defaultValue="standard" aria-label="Shipping speed">
-    <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+    <label
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "var(--space-2)",
+        fontFamily: "var(--font-sans)",
+        fontSize: "var(--fs-body)",
+        color: "var(--fg)",
+        cursor: "pointer",
+      }}
+    >
       <Radio value="standard" />
       Standard (3–5 days)
     </label>
-    <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg-muted)", cursor: "not-allowed" }}>
+    <label
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "var(--space-2)",
+        fontFamily: "var(--font-sans)",
+        fontSize: "var(--fs-body)",
+        color: "var(--fg-muted)",
+        cursor: "not-allowed",
+      }}
+    >
       <Radio value="express" disabled />
       Express (unavailable)
     </label>
-    <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+    <label
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "var(--space-2)",
+        fontFamily: "var(--font-sans)",
+        fontSize: "var(--fs-body)",
+        color: "var(--fg)",
+        cursor: "pointer",
+      }}
+    >
       <Radio value="overnight" />
       Overnight
     </label>
@@ -107,11 +214,31 @@ export const DisabledItem: Story = () => (
 /** Disabled group — all items disabled at the group level. */
 export const DisabledGroup: Story = () => (
   <RadioGroup defaultValue="monthly" disabled aria-label="Billing plan (disabled)">
-    <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg-muted)", cursor: "not-allowed" }}>
+    <label
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "var(--space-2)",
+        fontFamily: "var(--font-sans)",
+        fontSize: "var(--fs-body)",
+        color: "var(--fg-muted)",
+        cursor: "not-allowed",
+      }}
+    >
       <Radio value="monthly" />
       Monthly
     </label>
-    <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg-muted)", cursor: "not-allowed" }}>
+    <label
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "var(--space-2)",
+        fontFamily: "var(--font-sans)",
+        fontSize: "var(--fs-body)",
+        color: "var(--fg-muted)",
+        cursor: "not-allowed",
+      }}
+    >
       <Radio value="annual" />
       Annual
     </label>
@@ -128,18 +255,43 @@ export const DisabledGroup: Story = () => (
 export const InvalidGroup: Story = () => (
   <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-2)" }}>
     <RadioGroup aria-label="Preferred contact" aria-describedby="contact-error">
-      <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+      <label
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "var(--space-2)",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--fs-body)",
+          color: "var(--fg)",
+          cursor: "pointer",
+        }}
+      >
         <Radio value="email" aria-invalid="true" />
         Email
       </label>
-      <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+      <label
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "var(--space-2)",
+          fontFamily: "var(--font-sans)",
+          fontSize: "var(--fs-body)",
+          color: "var(--fg)",
+          cursor: "pointer",
+        }}
+      >
         <Radio value="phone" aria-invalid="true" />
         Phone
       </label>
     </RadioGroup>
     <p
       id="contact-error"
-      style={{ margin: 0, fontSize: "var(--fs-meta)", color: "var(--danger)", fontFamily: "var(--font-sans)" }}
+      style={{
+        margin: 0,
+        fontSize: "var(--fs-meta)",
+        color: "var(--danger)",
+        fontFamily: "var(--font-sans)",
+      }}
     >
       Please select one option.
     </p>
@@ -149,11 +301,31 @@ export const InvalidGroup: Story = () => (
 /** Uncontrolled — defaultValue sets the initial selection; no state management needed. */
 export const Uncontrolled: Story = () => (
   <RadioGroup defaultValue="standard" name="shipping" aria-label="Shipping speed">
-    <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+    <label
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "var(--space-2)",
+        fontFamily: "var(--font-sans)",
+        fontSize: "var(--fs-body)",
+        color: "var(--fg)",
+        cursor: "pointer",
+      }}
+    >
       <Radio value="standard" />
       Standard (3–5 days)
     </label>
-    <label style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)", color: "var(--fg)", cursor: "pointer" }}>
+    <label
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "var(--space-2)",
+        fontFamily: "var(--font-sans)",
+        fontSize: "var(--fs-body)",
+        color: "var(--fg)",
+        cursor: "pointer",
+      }}
+    >
       <Radio value="express" />
       Express (1–2 days)
     </label>

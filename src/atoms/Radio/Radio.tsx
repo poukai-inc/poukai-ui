@@ -57,47 +57,45 @@ export interface RadioGroupProps {
  * </RadioGroup>
  * ```
  */
-export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(
-  function RadioGroup(
-    {
-      orientation = "vertical",
-      className,
-      "aria-label": ariaLabel,
-      "aria-labelledby": ariaLabelledBy,
-      children,
-      ...rest
-    },
-    ref,
-  ) {
-    if (
-      process.env.NODE_ENV !== "production" &&
-      ariaLabel === undefined &&
-      ariaLabelledBy === undefined
-    ) {
-      console.warn(
-        "[RadioGroup] No accessible label supplied. Pass either aria-label or " +
-          "aria-labelledby so screen-reader users have group context.",
-      );
-    }
-
-    return (
-      <RadixRadioGroup.Root
-        ref={ref}
-        orientation={orientation}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-        className={clsx(
-          styles.group,
-          orientation === "horizontal" ? styles.horizontal : styles.vertical,
-          className,
-        )}
-        {...rest}
-      >
-        {children}
-      </RadixRadioGroup.Root>
-    );
+export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(function RadioGroup(
+  {
+    orientation = "vertical",
+    className,
+    "aria-label": ariaLabel,
+    "aria-labelledby": ariaLabelledBy,
+    children,
+    ...rest
   },
-);
+  ref,
+) {
+  if (
+    process.env.NODE_ENV !== "production" &&
+    ariaLabel === undefined &&
+    ariaLabelledBy === undefined
+  ) {
+    console.warn(
+      "[RadioGroup] No accessible label supplied. Pass either aria-label or " +
+        "aria-labelledby so screen-reader users have group context.",
+    );
+  }
+
+  return (
+    <RadixRadioGroup.Root
+      ref={ref}
+      orientation={orientation}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabelledBy}
+      className={clsx(
+        styles.group,
+        orientation === "horizontal" ? styles.horizontal : styles.vertical,
+        className,
+      )}
+      {...rest}
+    >
+      {children}
+    </RadixRadioGroup.Root>
+  );
+});
 
 RadioGroup.displayName = "RadioGroup";
 
@@ -136,21 +134,22 @@ export interface RadioProps {
  * </label>
  * ```
  */
-export const Radio = forwardRef<HTMLButtonElement, RadioProps>(
-  function Radio({ value, disabled, id, className, ...rest }, ref) {
-    return (
-      <RadixRadioGroup.Item
-        ref={ref}
-        value={value}
-        disabled={disabled}
-        id={id}
-        className={clsx(styles.item, className)}
-        {...rest}
-      >
-        <RadixRadioGroup.Indicator className={styles.indicator} />
-      </RadixRadioGroup.Item>
-    );
-  },
-);
+export const Radio = forwardRef<HTMLButtonElement, RadioProps>(function Radio(
+  { value, disabled, id, className, ...rest },
+  ref,
+) {
+  return (
+    <RadixRadioGroup.Item
+      ref={ref}
+      value={value}
+      disabled={disabled}
+      id={id}
+      className={clsx(styles.item, className)}
+      {...rest}
+    >
+      <RadixRadioGroup.Indicator className={styles.indicator} />
+    </RadixRadioGroup.Item>
+  );
+});
 
 Radio.displayName = "Radio";

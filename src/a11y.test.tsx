@@ -34,6 +34,7 @@ import { Kbd } from "./atoms/Kbd";
 import { Image } from "./atoms/Image";
 import { SkipLink } from "./atoms/SkipLink";
 import { Mark } from "./atoms/Mark";
+import { Spacer } from "./atoms/Spacer";
 import { SiteShell } from "./organisms/SiteShell";
 import { Footer } from "./organisms/Footer";
 import { Dialog, DialogBasic } from "./organisms/Dialog";
@@ -383,6 +384,28 @@ test("a11y — Mark (inline highlight in prose)", async ({ mount, page }) => {
     <p>
       The smallest real deployment teaches more than <Mark>six months of staging</Mark>, and that is
       where the work lives.
+    </p>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Spacer (block default, between paragraphs)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <p>Above the spacer</p>
+      <Spacer size="4" />
+      <p>Below the spacer</p>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Spacer (inline span between inline content)", async ({ mount, page }) => {
+  await mount(
+    <p>
+      Left
+      <Spacer as="span" axis="inline" size="3" />
+      Right
     </p>,
   );
   await expectAxeClean(page);

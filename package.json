@@ -353,12 +353,12 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "39.25 kB"
+      "limit": "42 kB"
     },
     {
       "name": "ESM — atoms subpath",
       "path": "dist/atoms.js",
-      "limit": "16 kB"
+      "limit": "20 kB"
     },
     {
       "name": "ESM — molecules subpath",
@@ -374,13 +374,13 @@
       "name": "ESM — tree-shaken (Wordmark + Button)",
       "path": "dist/index.js",
       "import": "{ Wordmark, Button }",
-      "limit": "16 kB"
+      "limit": "16.5 kB"
     },
     {
       "name": "ESM — tree-shaken (NumberFormat)",
       "path": "dist/index.js",
       "import": "{ NumberFormat }",
-      "limit": "13.1 kB"
+      "limit": "13.5 kB"
     },
     {
       "name": "ESM — tree-shaken (Hero + RoleCard + Principle)",

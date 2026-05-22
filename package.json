@@ -276,6 +276,7 @@
       "require": "./dist/organisms/SiteShell.cjs"
     },
     "./tokens.css": "./dist/tokens.css",
+    "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",
     "./brand/*": "./dist/brand/*",
     "./llms.txt": "./dist/llms.txt",

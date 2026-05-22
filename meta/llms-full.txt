@@ -302,6 +302,30 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Canonical use: between two `<Prose>` siblings where the parent owns no layout; between conditionally-rendered siblings; inside legacy block containers where `gap` is unavailable.
 - Do NOT use between flex/grid siblings (use `gap`), for section-tier rhythm (use Section padding tokens), as a vertical typography hack (fix the type ramp), or as a margin replacement on components that own their margin.
 
+### RadioGroup
+- Container for a mutually-exclusive radio selection. Wraps `@radix-ui/react-radio-group` Root. Radix provides `role="radiogroup"`, keyboard navigation (roving tabindex), and ARIA propagation at zero cost.
+- `value` / `onValueChange` for controlled usage. `defaultValue` for uncontrolled. `name` for native form submission.
+- `orientation` (`"horizontal"` | `"vertical"`, default `"vertical"`) — vertical: `flex-direction: column`, gap `--space-2`; horizontal: `flex-direction: row`, gap `--space-4`.
+- **A11y:** pass either `aria-label` (when no visible heading exists) or `aria-labelledby` (when a visible heading labels the group). In development, a `console.warn` fires when both are absent. Pair with a visible error message linked via `aria-describedby` when in an error state.
+- `disabled` disables all items at the group level. `required` marks the group required for form validation.
+- `forwardRef` to the root `<div>`. `...rest` spread. `displayName = "RadioGroup"`.
+- Tokens consumed: `--space-2`, `--space-4`. No new tokens.
+- Do NOT export as `RadioGroup.Root` — the public API is a flat `<RadioGroup>` named export. No namespace object.
+- Do NOT override Radix keyboard navigation with custom `onKeyDown` handlers — arrow-key routing is Radix-native.
+
+### Radio
+- Individual radio control inside a `RadioGroup`. Wraps `@radix-ui/react-radio-group` Item. Radix provides `role="radio"`, `aria-checked`, and keyboard routing (roving tabindex) within the group.
+- `value` is required — binds this item's checked state to the group's selected value.
+- Checked indicator: a CSS `::after` pseudo on the Radix `Indicator` slot. 8×8 px circle, `background: var(--fg)`. No Lucide, no SVG, no `<Icon>` component.
+- Circle geometry: 16×16 px, `border-radius: 50%`, `border: var(--hairline-w) solid var(--hairline)`, `background: var(--bg)`.
+- States: hover (unselected, enabled) → `border-color: var(--fg-muted)`; checked → Radix mounts Indicator, `::after` dot appears; focus-visible → `outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--radius-1)`; disabled → `opacity: 0.5; cursor: not-allowed; pointer-events: none`; `aria-invalid="true"` → `border-color: var(--danger)`.
+- Label pairing is always the consumer's responsibility — `Radio` renders no label text. Wrap with `<label>` or pair via `htmlFor`/`id`.
+- `forwardRef` to the root `<button>`. `...rest` spread. `displayName = "Radio"`.
+- Tokens consumed: `--bg`, `--fg`, `--fg-muted`, `--hairline`, `--hairline-w`, `--accent`, `--danger`, `--radius-1`, `--dur-fast`, `--easing`. No new tokens.
+- Do NOT export as `RadioGroup.Item` — the public API is a flat `<Radio>` named export.
+- Do NOT add a custom dot SVG, Lucide icon, or `<Icon>` component — the CSS `::after` pseudo is the spec-mandated approach.
+- Do NOT add `onKeyDown` handlers for arrow keys — Radix handles keyboard navigation natively.
+
 ### Stat
 - Requires a caption — numeral alone is not self-explanatory.
 - value must be a numeral or numeral+unit string. source should be citation only.

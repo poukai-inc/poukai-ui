@@ -254,6 +254,19 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - value must be a numeral or numeral+unit string. source should be citation only.
 - Maximum 4 Stats per section. Maximum 1 size="lg" per section.
 
+### NumberFormat
+- Pure presentational formatter backed by native `Intl.NumberFormat`. Renders a `number` as a locale-correct string and nothing else. NEVER use as a layout or visual primitive — it owns no CSS.
+- Required `value: number`. Optional `notation`: `"standard"` (default — grouped digits), `"compact"` (`1.2M`), `"currency"` (requires `currency`), `"percent"` (pass the decimal fraction, e.g. `0.42` → `42%`).
+- `currency` is an ISO 4217 code (`"USD"`, `"EUR"`, `"JPY"`). REQUIRED whenever `notation="currency"` — Intl throws a `RangeError` otherwise. Ignored for all other notations.
+- `locale` is BCP-47 (`"en-US"`, `"de-DE"`). Omit only for app-default locale; pass explicitly in any i18n-aware surface to guarantee server/client parity. NEVER read `navigator.language` from a consumer — pass the resolved locale in.
+- `minimumFractionDigits` and `maximumFractionDigits` pass through to Intl unchanged.
+- Polymorphic `as`: `"span"` (default) | `"div"` | `"dd"`. Closed union — no heading or interactive elements. Use `as="dd"` inside a `<dl>` for definition-list pairings (`<dt>Total users</dt><NumberFormat as="dd" value={48921} />`).
+- No `children` prop. Value is the rendered content; `children` is TypeScript-disallowed.
+- Edge values: `NaN` → "NaN", `Infinity` → "∞", `-Infinity` → "-∞" (whatever the Intl runtime emits — do NOT assert against literals; assert against `Intl.NumberFormat(locale, options).format(value)` for cross-engine stability).
+- Accessibility: emits plain text. No ARIA needed. For screen-reader expansion of compact/currency output, wrap with `<VisuallyHidden>` (`<><NumberFormat value={1_200_000} notation="compact" /> <VisuallyHidden>(1.2 million)</VisuallyHidden></>`).
+- Non-goals: no date/time formatting, no signed display (no `signDisplay` prop), no scientific/engineering notation, no unit formatting, no animated counters, no copy-to-clipboard. Date formatting is a separate atom.
+- Stat migration to use NumberFormat is a follow-up PR — NOT shipped with this atom.
+
 ### Hero
 - One per page. Do NOT nest Hero inside another Hero.
 - status slot: StatusBadge or equivalent only (default variant only; not available in no-title variant).

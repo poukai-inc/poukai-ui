@@ -238,6 +238,7 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - For symbol keys whose glyph does not announce well in screen readers, pass a spelled-out name via `aria-label` (e.g. `<Kbd aria-label="Command">⌘</Kbd>`).
 - Multi-key combinations are composed by the consumer as side-by-side `<Kbd>` instances (e.g. `<Kbd>⌘</Kbd> <Kbd>K</Kbd>`).
 - Do NOT use Kbd for code literals — use `<Code>`.
+
 ### SkipLink
 - Keyboard skip-to-content anchor. Visually hidden at rest (canonical sr-only clip pattern), becomes a fixed-position high-contrast pill when keyboard-focused. Required first focusable element in any layout shell.
 - Root is always `<a>`, non-polymorphic. No `as` prop — fragment navigation is anchor semantics, full stop. Composes neither `<Link>` nor `<VisuallyHidden>` — owns its own clip + focus CSS in one module so the `:focus-visible` un-clip rule does not fight cross-module specificity.
@@ -248,6 +249,16 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - a11y: zero axe violations rest + focused. No `aria-*` required on root. Must be the first focusable element when placed at the top of a layout shell (before nav, header, logo, or any interactive chrome).
 - Usage: place as first child of the layout shell. Note: SiteShell consumer migration is a follow-up audit PR — this atom ships standalone.
 - `forwardRef<HTMLAnchorElement, SkipLinkProps>`, `displayName="SkipLink"`. Remaining `AnchorHTMLAttributes<HTMLAnchorElement>` spread onto the root.
+
+### Mark
+- Editorial highlight chip — an inline `<mark>` that flags a run of prose as the part the reader should notice. Tints the background with `--accent-glow` (the same value the system uses for `::selection`) so the highlight reads as kindred to selected prose rather than as a foreign decoration.
+- Root is always `<mark>` (non-polymorphic). Non-interactive — no hover, focus, or active states.
+- Inherits `font-family`, `font-size`, `font-weight`, `line-height`, and `color` from the surrounding context, so the chip scales with parent text on every surface (body copy, pull-quote, field note, Prose, warm editorial band).
+- `children` is the highlighted content. Typically a short prose fragment; ReactNode accepted for parity with the rest of the atomic system.
+- `box-decoration-break: clone` (plus the WebKit prefix) ensures the highlight tiles cleanly across line wraps — each line-fragment gets its own padding and rounded corners.
+- Token contract: `--accent-glow` (background) + `--space-1` (inline padding) + `--radius-1` (2px corner). No new tokens.
+- Do NOT use Mark for inline code literals — use `<Code>`. Do NOT use Mark for keyboard keys — use `<Kbd>`. Do NOT use Mark for status indication (error/warning/success) — use `<Banner>` or `<StatusBadge>`.
+- Do NOT nest interactive elements inside Mark (no `<button>`, `<a>`, `<input>` children). If the highlighted run must be clickable, the consumer wraps Mark with an anchor that owns the interaction.
 
 ### Stat
 - Requires a caption — numeral alone is not self-explanatory.

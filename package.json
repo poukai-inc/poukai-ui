@@ -140,6 +140,11 @@
       "import": "./dist/atoms/NumberFormat.js",
       "require": "./dist/atoms/NumberFormat.cjs"
     },
+    "./atoms/Mark": {
+      "types": "./dist/atoms/Mark.d.ts",
+      "import": "./dist/atoms/Mark.js",
+      "require": "./dist/atoms/Mark.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",

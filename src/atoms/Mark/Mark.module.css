@@ -1,0 +1,44 @@
+/* ============================================================
+   Mark — editorial highlight chip atom
+   ============================================================ */
+
+.root {
+  /* Typography — inherit everything from the surrounding context so the
+     highlight scales with parent text on every surface (body copy,
+     pull-quote, field note, Prose, warm editorial band). Per Mark design
+     spec (meta/design/Mark.md) §4. */
+  font: inherit;
+  /* `font: inherit` covers family/size/weight/line-height/style, but does
+     not cover `color` — declare it explicitly so the text inside the
+     highlight adopts the surrounding --fg / --fg-on-warm / etc. */
+  color: inherit;
+
+  /* Layout — pure inline flow. */
+  display: inline;
+  margin: 0;
+
+  /* Spacing — inline-only padding preserves baseline alignment.
+     Adding block padding would inflate the highlight above the text
+     baseline and create a small "lump" in running prose, especially
+     visible across line wraps. */
+  padding-block: 0;
+  padding-inline: var(--space-1);
+
+  /* Surface — the selection-tinted highlight. --accent-glow flips
+     correctly in dark mode via the global :root { @media (prefers-color-scheme: dark) }
+     block in tokens.css, so no per-component dark-mode override is needed. */
+  background-color: var(--accent-glow);
+
+  /* Soft micro-rounding — not a selection-rect (0), not a pill (999px),
+     not the chip rung (--radius-2: 4px) that Code/Kbd use. --radius-1
+     lands the highlight as a softly-rounded prose run. */
+  border-radius: var(--radius-1);
+
+  /* `clone` ensures the highlight tiles cleanly across line wraps:
+     each line-fragment receives its own padding and rounded corners.
+     Without this, only the first fragment renders the background +
+     padding, leaving wrapped portions visually unfinished. WebKit
+     prefix retained for Safari parity. */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}

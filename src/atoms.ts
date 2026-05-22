@@ -41,6 +41,7 @@ export { Prose, type ProseProps, type ProseWidth } from "./atoms/Prose";
 export { Code, type CodeProps } from "./atoms/Code";
 export { Kbd, type KbdProps } from "./atoms/Kbd";
 export { Image, type ImageProps, type ImageFit, type ImageRadius } from "./atoms/Image";
+export { Mark, type MarkProps } from "./atoms/Mark";
 export { Text, type TextProps, type TextSize, type TextTone } from "./atoms/Text";
 export {
   IconButton,

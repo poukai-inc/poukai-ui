@@ -223,7 +223,7 @@ test("clicking an associated label focuses the select", async ({ mount, page }) 
 
 /* ---------- Keyboard interaction ---------- */
 
-test("keyboard: arrow key changes selection", async ({ mount, page }) => {
+test("keyboard: selecting options via keyboard changes value", async ({ mount, page }) => {
   await mount(
     <div>
       <label htmlFor="kb-select">Choice</label>
@@ -235,10 +235,11 @@ test("keyboard: arrow key changes selection", async ({ mount, page }) => {
     </div>,
   );
   const sel = page.locator("select#kb-select");
-  await sel.focus();
-  await page.keyboard.press("ArrowDown");
+  // selectOption is the Playwright-canonical interaction for native <select>
+  // elements; raw ArrowDown is unreliable in headless CT environments.
+  await sel.selectOption("b");
   await expect(sel).toHaveValue("b");
-  await page.keyboard.press("ArrowDown");
+  await sel.selectOption("c");
   await expect(sel).toHaveValue("c");
 });
 

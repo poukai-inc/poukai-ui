@@ -1,5 +1,93 @@
 # @poukai-inc/ui
 
+## 1.9.0
+
+### Minor Changes
+
+- 80d18e6: Add `Logo` atom — partner-logo cell with tone + size scale.
+  - Composes `<Image>` internally; no extra DOM wrapper — the root is always the `<img>`.
+  - `tone` prop (`"color"` | `"mono"` | `"muted"`, default `"mono"`): `"color"` renders as-is; `"mono"` applies `grayscale(1) brightness(0)` for a black silhouette; `"muted"` adds 0.55 opacity at rest with hover/focus-visible reveal to full opacity.
+  - `size` prop (`"sm"` | `"md"` | `"lg"`, default `"md"`): constrains rendered height via `max-height` — 24px / 32px / 40px respectively. Width is always auto.
+  - `width` / `height` optional props (defaults 200 × 80) passed to `<Image>` for CLS-safe `aspect-ratio` reservation. Override with true intrinsic dimensions when known.
+  - Hover/focus-visible contract on `tone="muted"`: `opacity: 1`, transition `opacity var(--dur-fast) var(--easing)`. Reduced-motion handled globally via `tokens.css`.
+  - No new tokens introduced — reuses `--dur-fast` and `--easing`.
+  - `forwardRef<HTMLImageElement>`, `displayName="Logo"`, full `...rest` spread via `<Image>`.
+  - Full Playwright CT suite (14 cases): render, src/alt, default tone/size classes, all tone classes, size max-height values, muted hover opacity, ref forwarding, className merge, width/height defaults.
+  - Added to `src/a11y.test.tsx` central gate (4 cases: default, tone=color, tone=muted, all sizes).
+  - Subpath export `./atoms/Logo` added to `package.json`.
+
+- e77e5f9: Add `ProgressBar` atom — linear progress with determinate + indeterminate modes.
+  - Determinate mode: `value` prop (0–100, clamped). Fill uses `transform: scaleX` driven by a CSS custom property (`--progress-fraction`). Never animates `width` — compositor-only motion contract.
+  - Indeterminate mode: two bars (`poukai-progress-bar1` / `poukai-progress-bar2`) sweep left→right using `translateX` keyframes at `--dur-progress-indeterminate` (1400ms) with `--easing` (expo-out). Bar 2 starts at `translateX(-200%)` to eliminate dead-track gaps.
+  - Reduced-motion (indeterminate): animated bars hidden; a static `scaleX(0.5)` fill revealed via CSS-only toggle. Reduced-motion (determinate): transition removed (snap).
+  - Four tones: `default` (`--fg`), `success` (`--success`), `warning` (`--warning`), `danger` (`--danger`). Two sizes: `sm` (2px track), `md` (4px track, default).
+  - Labeling enforced at TypeScript type level: exactly one of `aria-label` / `aria-labelledby` required via discriminated union.
+  - `aria-valuenow` omitted entirely when indeterminate (not set to `undefined` — attribute absent from DOM).
+  - Full Playwright CT suite: ARIA contract, tone colors, size heights, transform regression guard (no `width`), animation token regression (1400ms), reduced-motion assertions (staticFill at scaleX(0.5), bars hidden), axe scans (aria-label + aria-labelledby × determinate + indeterminate).
+  - Added to `src/a11y.test.tsx` central gate (6 cases covering all tones, both labeling strategies, reduced-motion).
+  - New tokens added to `src/tokens/tokens.css`:
+    - `--success: #248a3d` / `--bg-success: #f0faf3` / `--fg-on-success: #0d3d1e` (light)
+    - `--success: #30d158` / `--bg-success: #041a09` / `--fg-on-success: #a8f0be` (dark)
+    - `--dur-progress-indeterminate: 1400ms`
+
+- b2ec61a: Add `Select` atom — native styled `<select>` with sm/md/lg sizes and CSS-painted caret.
+  - Root is always `<select>`. Non-polymorphic. Ref forwarded to `HTMLSelectElement`. Children are consumer-supplied `<option>` / `<optgroup>` nodes.
+  - `size` prop (`"sm"` | `"md"` | `"lg"`, default `"md"`): visual height via shared `--btn-h-*` ladder — aligns with `<Input>` and `<Button>` at matching nominal sizes.
+  - `invalid` prop: sets `data-invalid="true"` and `aria-invalid="true"`; border → `--danger`. Wire through `<Field error="…">` for full label + describedby integration.
+  - Trailing caret: chevron-down rendered via CSS `background-image` SVG data URL (16×16, 1.5px round stroke). Color hardcoded per color scheme (`#1d1d1f` light, `#f5f5f7` dark) — `currentColor` is unavailable in SVG background images. RTL flips caret to inline-start. `[multiple]` hides caret and restores native appearance.
+  - Visual register matches `Input` exactly: same border, radius, focus ring, hover state, disabled treatment, and token surface. No new tokens introduced.
+  - `Omit<ComponentPropsWithoutRef<"select">, "size">` spread — native `size` attribute intentionally shadowed by DS `size` prop.
+  - Full Playwright CT suite: render, root tag, children, size classes, invalid attrs, disabled, defaultValue, controlled value, className merge, prop forwarding (data-_, aria-_, required, name, multiple), ref forwarding, label association, keyboard arrow navigation, axe clean (default, invalid, disabled, sm, lg, multiple).
+  - Added to `src/a11y.test.tsx` central gate (3 cases: default, invalid, Field composition).
+  - Subpath export `./atoms/Select` added to `package.json`.
+  - Design spec at `meta/design/Select.md`.
+
+- fb79b19: Add `Spacer` atom — explicit-gap element for contexts where flex/grid `gap` cannot reach.
+
+  `Spacer` is a deliberately minimal atom: one required prop (`size`, closed union `"1" | "2" | "3" | "4" | "6" | "8" | "10"` mapped to `--space-1` … `--space-10`), one optional axis (`axis="block"` default, `axis="inline"`), and one optional element variant (`as="div"` default, `as="span"`). It always renders `aria-hidden="true"`, owns no background, border, motion, or content — it occupies space and nothing else.
+
+  The size union is intentionally clamped to atom-tier spacing tokens. Layout-tier values (`--space-12`+) are excluded by design: a 3rem+ explicit gap is the wrong shape for an inline atom — that decision belongs to a section or template primitive.
+
+  Canonical use is inside `<Prose>` long-form HTML where the parent context does not own layout, between conditionally-rendered siblings where a stable spacer slot is needed, and inside legacy block containers where `gap` is architecturally unavailable. Do not use between flex/grid siblings (use `gap`), for section-tier rhythm (use Section padding), or as a vertical typography hack (fix the type ramp).
+
+  No new tokens are introduced.
+
+- 1b39b93: Lift `Input` to the atom layer.
+
+  `Input` is now an atom at `src/atoms/Input/` with a new `size` prop (`"sm" | "md" | "lg"`, default `"md"`) that maps to the shared `--btn-h-*` height ladder, so `<Input>` visually pairs with `<Button>` at matching sizes.
+
+  **Migration:** consumers importing from `@poukai-inc/ui/molecules/Input` should switch to `@poukai-inc/ui/atoms/Input`. The `./molecules/Input` subpath and the root `@poukai-inc/ui` export are unchanged in 1.x. The molecule path will be removed in 2.0.
+
+  ```diff
+  - import { Input } from "@poukai-inc/ui/molecules/Input";
+  + import { Input } from "@poukai-inc/ui/atoms/Input";
+  ```
+
+- be5c0ce: Lift `Textarea` to the atom layer.
+
+  `Textarea` is now a true atom under `src/atoms/Textarea/` — a pure styled `<textarea>` primitive that owns visual register, focus choreography, and invalid styling, and nothing else. Label / helper text / error message continue to live in `<Field>`. Canonical import paths:
+
+  ```ts
+  import { Textarea } from "@poukai-inc/ui";
+  // or
+  import { Textarea } from "@poukai-inc/ui/atoms/Textarea";
+  ```
+
+  **New / changed surface**
+  - New prop `resize: "vertical" | "none" | "both"` — maps directly to CSS `resize`. Default `"vertical"`.
+  - Default `rows` is now `3` (was `4`). Consumers depending on the previous default can pass `rows={4}` explicitly.
+  - Padding is symmetric — `--space-3` on all four sides. Previously block/inline padding were asymmetric (`--space-2` / `--space-3`). The new contract gives multi-line content equal vertical headroom and is the only visual delta from the prior molecule.
+  - Hard-coded `min-height` rule (4 × line-height of body) is removed. `rows` is now the canonical height knob.
+  - Invalid state uses `--danger` (introduced in 1.3.0). Prior molecule already aligned with this token; no consumer-visible change beyond the layer move.
+
+  **Migration**
+
+  `@poukai-inc/ui/molecules/Textarea` is kept as a `@deprecated` re-export shim that points at the atom. Existing imports continue to compile and render identically. The shim will be removed in **v2.0** — migrate to either the root export (`@poukai-inc/ui`) or the atom subpath (`@poukai-inc/ui/atoms/Textarea`).
+
+  **Not included**
+  - No autosize / content-height tracking. A future `useAutosizeTextarea` utility hook will compose on top of the atom; tracked separately.
+  - No character-count display. Consumer responsibility.
+
 ## 1.8.0
 
 ### Minor Changes

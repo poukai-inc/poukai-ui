@@ -57,6 +57,7 @@ export {
   type IconButtonVariant,
   type IconButtonSize,
 } from "./atoms/IconButton";
+export { Checkbox, type CheckboxProps, type CheckboxCheckedState } from "./atoms/Checkbox";
 export { Label, type LabelProps, type LabelTone } from "./atoms/Label";
 export { SkipLink, type SkipLinkProps } from "./atoms/SkipLink";
 export {

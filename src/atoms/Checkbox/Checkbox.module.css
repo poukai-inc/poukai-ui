@@ -1,0 +1,102 @@
+/* ============================================================
+   Checkbox — Root (button) + Indicator + icon glyphs.
+   Spec: meta/design/Checkbox.md §3–§6.
+
+   Size: --icon-sm (16px) x --icon-sm (16px). Fixed. No variants.
+   Radius: --radius-1 (2px) — tightest micro-scale radius.
+
+   Only background-color and border-color transition.
+   No transform. No motion on the indicator — Radix mounts/unmounts it.
+   ============================================================ */
+
+/* ---------- Root (the hit target + styled box) ---------- */
+.root {
+  /* Geometry */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  flex-shrink: 0;
+  box-sizing: border-box;
+
+  /* Visual — unchecked resting */
+  background-color: var(--bg);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-1);
+
+  /* Cursor */
+  cursor: pointer;
+
+  /* Transitions — color/bg only; no transform, no transition: all */
+  transition:
+    background-color var(--dur-fast) var(--easing),
+    border-color var(--dur-fast) var(--easing);
+}
+
+/* Checked state */
+.root[data-state="checked"] {
+  background-color: var(--fg);
+  border-color: var(--fg);
+}
+
+/* Indeterminate state */
+.root[data-state="indeterminate"] {
+  background-color: var(--fg);
+  border-color: var(--fg);
+}
+
+/* Hover — unchecked only, pointer devices */
+@media (hover: hover) {
+  .root[data-state="unchecked"]:not([data-disabled]):hover {
+    border-color: var(--fg-muted);
+  }
+}
+
+/* Focus-visible ring — matches Button and Input convention */
+.root:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Disabled — dims the whole control; pointer events handled by native button disabled */
+.root[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Invalid — border shifts to --danger; background and indicator unchanged */
+.root[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+/* ---------- Indicator (Radix mounts only when checked or indeterminate) ---------- */
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  /* Indicator fills the root — icon is centered inside the 16px frame */
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Icon glyphs ---------- */
+/* Both icons are mounted inside the indicator; CSS shows the correct one. */
+
+.iconCheck,
+.iconMinus {
+  /* Icon color inverts the root fill: --bg over --fg background */
+  color: var(--bg);
+  display: none;
+  flex-shrink: 0;
+}
+
+/* Show Check icon when checked */
+.root[data-state="checked"] .iconCheck {
+  display: block;
+}
+
+/* Show Minus icon when indeterminate */
+.root[data-state="indeterminate"] .iconMinus {
+  display: block;
+}

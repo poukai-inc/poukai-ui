@@ -170,6 +170,11 @@
       "import": "./dist/atoms/Spacer.js",
       "require": "./dist/atoms/Spacer.cjs"
     },
+    "./atoms/Checkbox": {
+      "types": "./dist/atoms/Checkbox.d.ts",
+      "import": "./dist/atoms/Checkbox.js",
+      "require": "./dist/atoms/Checkbox.cjs"
+    },
     "./atoms/Input": {
       "types": "./dist/atoms/Input.d.ts",
       "import": "./dist/atoms/Input.js",
@@ -302,6 +307,7 @@
     "react-dom": ">=18 || >=19"
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
@@ -347,12 +353,12 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "39.25 kB"
+      "limit": "42 kB"
     },
     {
       "name": "ESM — atoms subpath",
       "path": "dist/atoms.js",
-      "limit": "16 kB"
+      "limit": "20 kB"
     },
     {
       "name": "ESM — molecules subpath",
@@ -368,13 +374,13 @@
       "name": "ESM — tree-shaken (Wordmark + Button)",
       "path": "dist/index.js",
       "import": "{ Wordmark, Button }",
-      "limit": "16 kB"
+      "limit": "16.5 kB"
     },
     {
       "name": "ESM — tree-shaken (NumberFormat)",
       "path": "dist/index.js",
       "import": "{ NumberFormat }",
-      "limit": "13.1 kB"
+      "limit": "13.5 kB"
     },
     {
       "name": "ESM — tree-shaken (Hero + RoleCard + Principle)",

@@ -1,6 +1,6 @@
 {
   "name": "@poukai-inc/ui",
-  "version": "1.3.0",
+  "version": "1.6.0",
   "description": "Poukai design system — React component library, design tokens, and brand assets.",
   "license": "UNLICENSED",
   "publishConfig": {
@@ -49,6 +49,11 @@
       "types": "./dist/atoms/IconButton.d.ts",
       "import": "./dist/atoms/IconButton.js",
       "require": "./dist/atoms/IconButton.cjs"
+    },
+    "./atoms/Label": {
+      "types": "./dist/atoms/Label.d.ts",
+      "import": "./dist/atoms/Label.js",
+      "require": "./dist/atoms/Label.cjs"
     },
     "./atoms/Button": {
       "types": "./dist/atoms/Button.d.ts",
@@ -216,6 +221,7 @@
     "build:tokens": "cpy --flat src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
     "build:brand": "cpy 'src/brand/**' dist/brand",
     "build:llms": "node scripts/build-llms-txt.mjs",
+    "check:llms": "node scripts/check-llms-tokens-sync.mjs",
     "test": "playwright test -c playwright-ct.config.ts",
     "playwright:install": "playwright install chromium firefox webkit",
     "test:ui": "playwright test -c playwright-ct.config.ts --ui",

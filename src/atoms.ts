@@ -48,3 +48,4 @@ export {
   type IconButtonVariant,
   type IconButtonSize,
 } from "./atoms/IconButton";
+export { Label, type LabelProps, type LabelTone } from "./atoms/Label";

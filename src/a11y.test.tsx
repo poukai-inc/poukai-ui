@@ -42,6 +42,7 @@ import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
+import { Label } from "./atoms/Label";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -365,6 +366,28 @@ test("a11y — VisuallyHidden (as=div, aria-live)", async ({ mount, page }) => {
       <VisuallyHidden as="div" aria-live="polite" aria-atomic="true">
         Slide 2 of 5
       </VisuallyHidden>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Label (default tone, bound to input)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Label htmlFor="a11y-label-default">Email address</Label>
+      <input id="a11y-label-default" type="email" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Label (required indicator, bound to input)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Label htmlFor="a11y-label-required" required>
+        Email address
+      </Label>
+      <input id="a11y-label-required" type="email" aria-required="true" />
     </div>,
   );
   await expectAxeClean(page);

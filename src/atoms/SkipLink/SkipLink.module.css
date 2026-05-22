@@ -1,0 +1,87 @@
+/**
+ * SkipLink — keyboard skip-to-content anchor.
+ *
+ * Two states live in a single module so the :focus-visible override can
+ * un-clip the same element without fighting cross-module specificity.
+ *
+ * REST STATE
+ * ----------
+ * These values are fixed a11y constants, NOT design tokens. They are drawn
+ * from the WCAG / Bootstrap / Tailwind canonical sr-only technique and must
+ * not be replaced with token references.
+ *
+ * margin: -1px is load-bearing: it prevents the 1×1px ghost element from
+ * contributing to scroll dimensions in some browser/layout combinations.
+ *
+ * clip is the legacy property for older browser compat.
+ * clip-path: inset(50%) is the modern equivalent — both are applied for
+ * maximum coverage.
+ *
+ * FOCUSED STATE
+ * -------------
+ * outline: none is intentional — the --fg pill background is itself the
+ * focus indicator. The high-contrast #1D1D1F chip appearing against --bg
+ * is unambiguous as a focus event. Stacking the global a:focus-visible
+ * accent ring on top produces double-indicator noise. This is a documented
+ * deviation from the global focus rule (see design spec §3, §7).
+ *
+ * z-index: 9999 — Dialog layers at 100/101; Toast at 200. SkipLink must
+ * never be occluded by any DS surface. A skip link buried under a dialog
+ * or sheet is an a11y violation. Value is intentionally high per spec §14.
+ *
+ * font-weight: 500 — no --font-weight-* tokens exist in the DS. Raw literal
+ * shared with Kbd and Tag. Migrate to --font-weight-medium when added.
+ *
+ * box-shadow: 0 4px 12px rgb(0 0 0 / 0.08) — same elevated-chip shadow as
+ * Toast. No --shadow-elevated token yet. Migrate when token is added.
+ */
+.root {
+  /* --- rest: canonical sr-only clip pattern --- */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.root:focus-visible {
+  /* --- focused: fixed-position high-contrast pill --- */
+  position: fixed;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 9999;
+
+  /* un-clip */
+  width: auto;
+  height: auto;
+  clip-path: none;
+  clip: auto;
+  overflow: visible;
+  white-space: normal;
+  margin: 0;
+
+  /* pill geometry */
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-2);
+  border: 0;
+
+  /* max-contrast inversion pair — AAA in light and dark mode */
+  background: var(--fg);
+  color: var(--bg);
+
+  /* typography */
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  text-decoration: none;
+
+  /* elevation */
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+
+  /* suppress global a:focus-visible ring — the pill IS the focus indicator */
+  outline: none;
+}

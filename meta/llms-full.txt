@@ -238,6 +238,16 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - For symbol keys whose glyph does not announce well in screen readers, pass a spelled-out name via `aria-label` (e.g. `<Kbd aria-label="Command">⌘</Kbd>`).
 - Multi-key combinations are composed by the consumer as side-by-side `<Kbd>` instances (e.g. `<Kbd>⌘</Kbd> <Kbd>K</Kbd>`).
 - Do NOT use Kbd for code literals — use `<Code>`.
+### SkipLink
+- Keyboard skip-to-content anchor. Visually hidden at rest (canonical sr-only clip pattern), becomes a fixed-position high-contrast pill when keyboard-focused. Required first focusable element in any layout shell.
+- Root is always `<a>`, non-polymorphic. No `as` prop — fragment navigation is anchor semantics, full stop. Composes neither `<Link>` nor `<VisuallyHidden>` — owns its own clip + focus CSS in one module so the `:focus-visible` un-clip rule does not fight cross-module specificity.
+- `href` (required string) — the fragment target (e.g. `#main`, `#docs-content`). Consumer supplies; the DS does not compute or default. The target element must exist in the DOM with the matching `id`.
+- `children` (optional ReactNode, default `"Skip to content"`) — override for layouts with multiple navigable regions (e.g. `<SkipLink href="#docs-content">Skip to documentation</SkipLink>`).
+- Focused pill geometry: `position: fixed`, `top: var(--space-2)`, `left: var(--space-2)`, `z-index: 9999` (above Dialog 100/101 and Toast 200 — skip link must never be occluded). `background: var(--fg)`, `color: var(--bg)` (DS-wide max-contrast inversion pair, ~16:1, AAA in light and dark mode). `padding: var(--space-2) var(--space-4)`, `border-radius: var(--radius-2)`, `font-size: var(--fs-meta)`, `font-weight: 500`, `box-shadow: 0 4px 12px rgb(0 0 0 / 0.08)` (same elevated-chip shadow as Toast), `outline: none` (the pill IS the focus indicator — documented deviation from the global `a:focus-visible` accent ring).
+- No motion. No transition. No `:hover` style (skip link is keyboard-only by design — mouse users never see it). Reduced-motion: nothing to suppress.
+- a11y: zero axe violations rest + focused. No `aria-*` required on root. Must be the first focusable element when placed at the top of a layout shell (before nav, header, logo, or any interactive chrome).
+- Usage: place as first child of the layout shell. Note: SiteShell consumer migration is a follow-up audit PR — this atom ships standalone.
+- `forwardRef<HTMLAnchorElement, SkipLinkProps>`, `displayName="SkipLink"`. Remaining `AnchorHTMLAttributes<HTMLAnchorElement>` spread onto the root.
 
 ### Stat
 - Requires a caption — numeral alone is not self-explanatory.

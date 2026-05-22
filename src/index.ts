@@ -56,6 +56,7 @@ export {
   type IconButtonSize,
 } from "./atoms/IconButton";
 export { Label, type LabelProps, type LabelTone } from "./atoms/Label";
+export { SkipLink, type SkipLinkProps } from "./atoms/SkipLink";
 
 /* ---------- molecules ---------- */
 export {

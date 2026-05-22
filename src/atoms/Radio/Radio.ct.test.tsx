@@ -135,7 +135,7 @@ test("onValueChange fires with the new value on click", async ({ mount }) => {
 /*  Keyboard navigation — vertical (default)                           */
 /* ------------------------------------------------------------------ */
 
-test("ArrowDown moves selection to next item in vertical group", async ({ mount }) => {
+test("ArrowDown moves selection to next item in vertical group", async ({ mount, page }) => {
   const component = await mount(
     <RadioGroup defaultValue="a" aria-label="Test group">
       <Radio value="a" />
@@ -144,14 +144,20 @@ test("ArrowDown moves selection to next item in vertical group", async ({ mount 
     </RadioGroup>,
   );
   const itemA = component.locator("button").nth(0);
-  // Use locator.press() — dispatches key directly to element, reliable across all CT browsers
-  await itemA.click();
-  await itemA.press("ArrowDown");
+  // Hold keydown for ~50 ms. Radix `RovingFocusGroup` schedules `focus()` on
+  // the next item via `setTimeout(0)` and Radix `RadioGroup` only fires the
+  // selection-follows-focus click while a `document`-level keydown flag is
+  // set (flag flips back to false on keyup). A zero-gap press flips the flag
+  // off before the deferred focus lands, so we keep keydown depressed long
+  // enough for the focus→onFocus→click chain to run while the flag is true.
+  await itemA.focus();
+  await expect(itemA).toBeFocused();
+  await page.keyboard.press("ArrowDown", { delay: 50 });
   const itemB = component.locator("button").nth(1);
   await expect(itemB).toHaveAttribute("aria-checked", "true");
 });
 
-test("ArrowUp moves selection to previous item in vertical group", async ({ mount }) => {
+test("ArrowUp moves selection to previous item in vertical group", async ({ mount, page }) => {
   const component = await mount(
     <RadioGroup defaultValue="b" aria-label="Test group">
       <Radio value="a" />
@@ -160,8 +166,9 @@ test("ArrowUp moves selection to previous item in vertical group", async ({ moun
     </RadioGroup>,
   );
   const itemB = component.locator("button").nth(1);
-  await itemB.click();
-  await itemB.press("ArrowUp");
+  await itemB.focus();
+  await expect(itemB).toBeFocused();
+  await page.keyboard.press("ArrowUp", { delay: 50 });
   const itemA = component.locator("button").nth(0);
   await expect(itemA).toHaveAttribute("aria-checked", "true");
 });
@@ -170,7 +177,7 @@ test("ArrowUp moves selection to previous item in vertical group", async ({ moun
 /*  Keyboard navigation — horizontal                                   */
 /* ------------------------------------------------------------------ */
 
-test("ArrowRight moves selection to next item in horizontal group", async ({ mount }) => {
+test("ArrowRight moves selection to next item in horizontal group", async ({ mount, page }) => {
   const component = await mount(
     <RadioGroup defaultValue="a" orientation="horizontal" aria-label="Test group">
       <Radio value="a" />
@@ -179,13 +186,14 @@ test("ArrowRight moves selection to next item in horizontal group", async ({ mou
     </RadioGroup>,
   );
   const itemA = component.locator("button").nth(0);
-  await itemA.click();
-  await itemA.press("ArrowRight");
+  await itemA.focus();
+  await expect(itemA).toBeFocused();
+  await page.keyboard.press("ArrowRight", { delay: 50 });
   const itemB = component.locator("button").nth(1);
   await expect(itemB).toHaveAttribute("aria-checked", "true");
 });
 
-test("ArrowLeft moves selection to previous item in horizontal group", async ({ mount }) => {
+test("ArrowLeft moves selection to previous item in horizontal group", async ({ mount, page }) => {
   const component = await mount(
     <RadioGroup defaultValue="b" orientation="horizontal" aria-label="Test group">
       <Radio value="a" />
@@ -194,8 +202,9 @@ test("ArrowLeft moves selection to previous item in horizontal group", async ({ 
     </RadioGroup>,
   );
   const itemB = component.locator("button").nth(1);
-  await itemB.click();
-  await itemB.press("ArrowLeft");
+  await itemB.focus();
+  await expect(itemB).toBeFocused();
+  await page.keyboard.press("ArrowLeft", { delay: 50 });
   const itemA = component.locator("button").nth(0);
   await expect(itemA).toHaveAttribute("aria-checked", "true");
 });

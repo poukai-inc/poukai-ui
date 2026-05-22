@@ -33,6 +33,7 @@ import { VisuallyHidden } from "./atoms/VisuallyHidden";
 import { Code } from "./atoms/Code";
 import { Kbd } from "./atoms/Kbd";
 import { Image } from "./atoms/Image";
+import { Logo } from "./atoms/Logo";
 import { SkipLink } from "./atoms/SkipLink";
 import { Mark } from "./atoms/Mark";
 import { Spacer } from "./atoms/Spacer";
@@ -1176,6 +1177,37 @@ test("a11y — ProgressBar (all tones, determinate)", async ({ mount, page }) =>
       <ProgressBar value={60} tone="success" aria-label="Success tone progress" />
       <ProgressBar value={60} tone="warning" aria-label="Warning tone progress" />
       <ProgressBar value={60} tone="danger" aria-label="Danger tone progress" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- Logo ---------- */
+
+const PIXEL =
+  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+
+test("a11y — Logo (default tone + size)", async ({ mount, page }) => {
+  await mount(<Logo src={PIXEL} alt="Acme Corp" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Logo (tone=color)", async ({ mount, page }) => {
+  await mount(<Logo src={PIXEL} alt="Acme Corp" tone="color" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Logo (tone=muted)", async ({ mount, page }) => {
+  await mount(<Logo src={PIXEL} alt="Acme Corp" tone="muted" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Logo (all sizes)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Logo src={PIXEL} alt="Small logo" size="sm" />
+      <Logo src={PIXEL} alt="Medium logo" size="md" />
+      <Logo src={PIXEL} alt="Large logo" size="lg" />
     </div>,
   );
   await expectAxeClean(page);

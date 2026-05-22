@@ -135,6 +135,11 @@
       "import": "./dist/atoms/Image.js",
       "require": "./dist/atoms/Image.cjs"
     },
+    "./atoms/Logo": {
+      "types": "./dist/atoms/Logo.d.ts",
+      "import": "./dist/atoms/Logo.js",
+      "require": "./dist/atoms/Logo.cjs"
+    },
     "./atoms/SkipLink": {
       "types": "./dist/atoms/SkipLink.d.ts",
       "import": "./dist/atoms/SkipLink.js",

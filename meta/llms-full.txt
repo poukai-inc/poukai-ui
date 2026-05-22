@@ -805,6 +805,24 @@ import { Icon } from "@poukai-inc/ui";
 </span>
 ```
 
+### Logo
+- Partner / customer logo cell. Composes `<Image>` — the root is always a single `<img>` with no wrapper element.
+- `src` (required string) — logo image URL passed directly to `<Image>`.
+- `alt` (required string) — the organisation's name (e.g. `alt="Stripe"`). Required at the type level. Pass `alt=""` for purely decorative logos where the name is stated in adjacent text. NEVER omit.
+- `tone` (`"color"` | `"mono"` | `"muted"`, default `"mono"`) — visual treatment via CSS `filter` and `opacity`. `"color"`: no filter, full opacity. `"mono"`: `grayscale(1) brightness(0)` (true black silhouette), full opacity, static. `"muted"`: same filter + 0.55 opacity at rest; hover/focus-visible raises opacity to 1 with `transition: opacity var(--dur-fast) var(--easing)`.
+- `size` (`"sm"` | `"md"` | `"lg"`, default `"md"`) — max-height constraint: `"sm"` → 24px, `"md"` → 32px, `"lg"` → 40px. Width is always `auto` — logos scale proportionally within the height cap.
+- `width` (optional number, default 200) + `height` (optional number, default 80) — passed to `<Image>` to drive `aspect-ratio` for CLS-safe slot reservation. Override with true intrinsic pixel dimensions when known. Defaults (200 × 80, 2.5:1 ratio) are a centroid for landscape wordmark logos.
+- Inline style overrides passed to `<Image>`: `maxWidth: "none"` (removes Image's `max-width: 100%` so `width: auto` + `max-height` govern dimensions), `width: "auto"`. These combine with Image's baseline `height: auto` and `aspect-ratio`.
+- Hover/focus-visible contract applies only to `tone="muted"`. `tone="color"` and `tone="mono"` are static — no hover state.
+- Reduced-motion: global `@media (prefers-reduced-motion: reduce)` in `tokens.css` collapses the opacity transition to 0.01ms. The opacity change is preserved; only the animation collapses. No component-level reduced-motion handling needed.
+- No new tokens introduced. Reuses `--dur-fast` (180ms) and `--easing` for the muted opacity transition.
+- `forwardRef<HTMLImageElement, LogoProps>`, `displayName="Logo"`. `className` merged via `clsx` onto the root `<img>`. Remaining props (`data-*`, `aria-*`, `loading`, `decoding`) spread through `<Image>` to the `<img>`.
+- Composition: wrap in `<a>` for linked logos — use `tone="muted"` when inside a link so the hover state signals interactivity. The `<a>` is the interactive element; `<Logo>` is never a button or link itself.
+- Do NOT wrap in a `<figure>` — Logo is not captioned content. Do NOT use for person avatars/headshots — use `<Avatar>`. Do NOT use for editorial photography — use `<Image>` or `<Portrait>`. Logo is specifically for the logo-strip use case.
+- Do NOT pass conflicting inline `style` for `maxHeight`, `width`, or `filter` — those are Logo's sizing and tone contract. If you need to override, manage it in a consumer wrapper.
+- Do NOT omit `alt`. Use `alt=""` for purely decorative logos, never omit the prop.
+- Do NOT use `tone="muted"` when `<Logo>` is not inside an interactive element — the hover affordance would be misleading.
+
 ### Input
 - Single-line text input primitive. Root is always `<input>`. Non-polymorphic. Ref forwarded to `HTMLInputElement`.
 - `type` (`"text"` | `"email"` | `"url"` | `"tel"` | `"password"` | `"search"` | `"number"`, default `"text"`) — constrained to single-line text-like types.

@@ -20,19 +20,35 @@ export const Relative: Story = () => (
   <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-3)" }}>
     <p>
       Just now:{" "}
-      <Time dateTime={new Date(Date.now() - 20 * 1000).toISOString()} format="relative" locale="en-US" />
+      <Time
+        dateTime={new Date(Date.now() - 20 * 1000).toISOString()}
+        format="relative"
+        locale="en-US"
+      />
     </p>
     <p>
       3 hours ago:{" "}
-      <Time dateTime={new Date(Date.now() - 3 * 3600 * 1000).toISOString()} format="relative" locale="en-US" />
+      <Time
+        dateTime={new Date(Date.now() - 3 * 3600 * 1000).toISOString()}
+        format="relative"
+        locale="en-US"
+      />
     </p>
     <p>
       8 days ago:{" "}
-      <Time dateTime={new Date(Date.now() - 8 * 86400 * 1000).toISOString()} format="relative" locale="en-US" />
+      <Time
+        dateTime={new Date(Date.now() - 8 * 86400 * 1000).toISOString()}
+        format="relative"
+        locale="en-US"
+      />
     </p>
     <p>
       2 years ago:{" "}
-      <Time dateTime={new Date(Date.now() - 2 * 365 * 86400 * 1000).toISOString()} format="relative" locale="en-US" />
+      <Time
+        dateTime={new Date(Date.now() - 2 * 365 * 86400 * 1000).toISOString()}
+        format="relative"
+        locale="en-US"
+      />
     </p>
   </div>
 );
@@ -67,10 +83,26 @@ export const Matrix: Story = () => (
   <table style={{ borderCollapse: "collapse", fontFamily: "var(--font-sans)" }}>
     <thead>
       <tr>
-        <th style={{ textAlign: "left", padding: "var(--space-2) var(--space-4)", borderBottom: "1px solid var(--hairline)", color: "var(--fg-muted)", fontWeight: 500 }}>
+        <th
+          style={{
+            textAlign: "left",
+            padding: "var(--space-2) var(--space-4)",
+            borderBottom: "1px solid var(--hairline)",
+            color: "var(--fg-muted)",
+            fontWeight: 500,
+          }}
+        >
           Format
         </th>
-        <th style={{ textAlign: "left", padding: "var(--space-2) var(--space-4)", borderBottom: "1px solid var(--hairline)", color: "var(--fg-muted)", fontWeight: 500 }}>
+        <th
+          style={{
+            textAlign: "left",
+            padding: "var(--space-2) var(--space-4)",
+            borderBottom: "1px solid var(--hairline)",
+            color: "var(--fg-muted)",
+            fontWeight: 500,
+          }}
+        >
           Output (en-US)
         </th>
       </tr>
@@ -83,7 +115,9 @@ export const Matrix: Story = () => (
           </td>
           <td style={{ padding: "var(--space-2) var(--space-4)" }}>
             <Time
-              dateTime={fmt === "relative" ? new Date(Date.now() - 3 * 3600 * 1000).toISOString() : ANCHOR}
+              dateTime={
+                fmt === "relative" ? new Date(Date.now() - 3 * 3600 * 1000).toISOString() : ANCHOR
+              }
               format={fmt}
               locale="en-US"
             />

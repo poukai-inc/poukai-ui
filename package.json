@@ -115,6 +115,11 @@
       "import": "./dist/atoms/Kbd.js",
       "require": "./dist/atoms/Kbd.cjs"
     },
+    "./atoms/Image": {
+      "types": "./dist/atoms/Image.d.ts",
+      "import": "./dist/atoms/Image.js",
+      "require": "./dist/atoms/Image.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",
@@ -281,7 +286,7 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "36 kB"
+      "limit": "37 kB"
     },
     {
       "name": "ESM — atoms subpath",

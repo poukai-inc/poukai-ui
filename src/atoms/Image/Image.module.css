@@ -1,0 +1,51 @@
+/* ============================================================
+   Image — token-aware <img> atom.
+   Baseline CLS-safe sizing is applied via inline styles in the
+   component (max-width: 100%, height: auto, aspect-ratio).
+   This module handles radius and object-fit class variants only.
+   Tokens: --radius-1, --radius-2, --radius-3.
+   ============================================================ */
+
+.root {
+  display: block;
+}
+
+/* ---------- radius ---------- */
+
+.radius-none {
+  border-radius: 0;
+}
+
+.radius-sm {
+  border-radius: var(--radius-1);
+}
+
+.radius-md {
+  border-radius: var(--radius-2);
+}
+
+.radius-lg {
+  border-radius: var(--radius-3);
+}
+
+/* ---------- object-fit ---------- */
+
+.fit-cover {
+  object-fit: cover;
+}
+
+.fit-contain {
+  object-fit: contain;
+}
+
+.fit-fill {
+  object-fit: fill;
+}
+
+.fit-none {
+  object-fit: none;
+}
+
+.fit-scale-down {
+  object-fit: scale-down;
+}

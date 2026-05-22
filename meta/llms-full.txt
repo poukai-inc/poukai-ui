@@ -245,6 +245,25 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - `loading` defaults to `"lazy"`; use `"eager"` for above-the-fold portraits. `fetchPriority` defaults to `"auto"`; pair `loading="eager"` with `fetchPriority="high"` for the LCP image. `sizes` defaults to `"100vw"`. `objectPosition` defaults to `"center"`.
 - `src` accepts either a string URL or an object shaped like Astro's `ImageMetadata` (`.src` is extracted). Do NOT pass `import.meta` imports without unwrapping.
 
+### Image
+- Token-aware plain `<img>` atom for logos, screenshots, illustrations, and decorative photography. Non-polymorphic — root is always `<img>`. No `as` prop, no wrapper.
+- Distinct from `<Portrait>`. Image = single URL, known dimensions, static asset. Portrait = editorial photography with AVIF/WebP/JPEG srcset. Do NOT reach for Image when the asset needs srcset, `<picture>`, or format negotiation — that belongs to Portrait.
+- `src` (required string) — image URL passed directly to the `<img>` src attribute.
+- `alt` (required string) — required at the type level. Pass a descriptive string for meaningful images (`alt="Poukai logo"`); pass an empty string for decorative images (`alt=""`). NEVER omit — the type is `string`, not `string | undefined`.
+- `width` (required number) + `height` (required number) — the asset's intrinsic pixel dimensions from the source file. Both are required: they drive (1) the HTML `width`/`height` attributes for the browser's pre-CSS layout hint, and (2) the inline `aspect-ratio` style for CLS-safe slot reservation before the image bytes arrive.
+- `loading` (`"lazy"` | `"eager"`, default `"lazy"`) — controls the browser's native lazy-loading behavior. Use `"eager"` for above-the-fold / LCP images.
+- `decoding` (`"async"` | `"sync"` | `"auto"`, default `"async"`) — image decoding hint. `"async"` is correct for almost every case; allows off-main-thread decoding without blocking rendering.
+- `fit` (`"cover"` | `"contain"` | `"fill"` | `"none"` | `"scale-down"`, optional) — maps to `object-fit`. NO DS default — when omitted, no `object-fit` style is written and the browser's CSS default (`fill`) applies. Set explicitly when the image occupies a fixed-dimension slot and needs to fill or contain without distortion.
+- `radius` (`"none"` | `"sm"` | `"md"` | `"lg"`, default `"none"`) — maps to `border-radius`. `"none"` → `0`, `"sm"` → `var(--radius-1)` (2px), `"md"` → `var(--radius-2)` (4px), `"lg"` → `var(--radius-3)` (8px). No new tokens introduced.
+- Inline-style baseline (always applied): `max-width: 100%`, `height: auto`, `aspect-ratio: ${width} / ${height}`. The aspect-ratio reservation is the CLS prevention mechanism. Consumer `style` is merged on top — caller can override `maxWidth`/`height` if needed.
+- `forwardRef<HTMLImageElement, ImageProps>`, `displayName="Image"`. Remaining props spread onto the `<img>` element (`className`, `style`, `data-*`, `aria-*`, `fetchPriority`, etc.).
+- Loading state = blank reserved space (from `aspect-ratio`). No skeleton shimmer, no placeholder color. Error state = browser's native broken-image indicator. No `onError`, no fallback URL — consumers who need error handling manage it in their own wrapper.
+- Composition: wrap in `<a>` for linked images, wrap in `<figure>` + `<figcaption>` for captioned images. Image never emits the wrapper. For person attribution disks (24–40px, circular), use `<Avatar>`, not Image.
+- Do NOT add `srcset`, `sizes`, or `<picture>` — that is Portrait's domain.
+- Do NOT add motion, hover effects, or fade-in transitions — Image is a static presentational atom.
+- Do NOT make `alt` optional. Use `alt=""` for decorative images instead.
+- Do NOT use Image for editorial photography with multiple format variants — use `<Portrait>`.
+
 ### Eyebrow
 - Canonical micro-label atom. Uppercase, tracked (`--tracking-eyebrow: 0.06em`), `--font-sans`, `--fs-meta` (14px), weight 500, `--lh-meta` (1.2).
 - `variant="muted"` (default) — color `--fg-muted`. Standard section/category/role label register.

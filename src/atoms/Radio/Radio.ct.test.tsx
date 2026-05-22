@@ -135,7 +135,7 @@ test("onValueChange fires with the new value on click", async ({ mount }) => {
 /*  Keyboard navigation — vertical (default)                           */
 /* ------------------------------------------------------------------ */
 
-test("ArrowDown moves selection to next item in vertical group", async ({ mount, page }) => {
+test("ArrowDown moves selection to next item in vertical group", async ({ mount }) => {
   const component = await mount(
     <RadioGroup defaultValue="a" aria-label="Test group">
       <Radio value="a" />
@@ -143,14 +143,15 @@ test("ArrowDown moves selection to next item in vertical group", async ({ mount,
       <Radio value="c" />
     </RadioGroup>,
   );
-  // Click to establish real page focus before keyboard events
-  await component.locator("button").nth(0).click();
-  await page.keyboard.press("ArrowDown");
+  const itemA = component.locator("button").nth(0);
+  // Use locator.press() — dispatches key directly to element, reliable across all CT browsers
+  await itemA.click();
+  await itemA.press("ArrowDown");
   const itemB = component.locator("button").nth(1);
   await expect(itemB).toHaveAttribute("aria-checked", "true");
 });
 
-test("ArrowUp moves selection to previous item in vertical group", async ({ mount, page }) => {
+test("ArrowUp moves selection to previous item in vertical group", async ({ mount }) => {
   const component = await mount(
     <RadioGroup defaultValue="b" aria-label="Test group">
       <Radio value="a" />
@@ -158,8 +159,9 @@ test("ArrowUp moves selection to previous item in vertical group", async ({ moun
       <Radio value="c" />
     </RadioGroup>,
   );
-  await component.locator("button").nth(1).click();
-  await page.keyboard.press("ArrowUp");
+  const itemB = component.locator("button").nth(1);
+  await itemB.click();
+  await itemB.press("ArrowUp");
   const itemA = component.locator("button").nth(0);
   await expect(itemA).toHaveAttribute("aria-checked", "true");
 });
@@ -168,7 +170,7 @@ test("ArrowUp moves selection to previous item in vertical group", async ({ moun
 /*  Keyboard navigation — horizontal                                   */
 /* ------------------------------------------------------------------ */
 
-test("ArrowRight moves selection to next item in horizontal group", async ({ mount, page }) => {
+test("ArrowRight moves selection to next item in horizontal group", async ({ mount }) => {
   const component = await mount(
     <RadioGroup defaultValue="a" orientation="horizontal" aria-label="Test group">
       <Radio value="a" />
@@ -176,13 +178,14 @@ test("ArrowRight moves selection to next item in horizontal group", async ({ mou
       <Radio value="c" />
     </RadioGroup>,
   );
-  await component.locator("button").nth(0).click();
-  await page.keyboard.press("ArrowRight");
+  const itemA = component.locator("button").nth(0);
+  await itemA.click();
+  await itemA.press("ArrowRight");
   const itemB = component.locator("button").nth(1);
   await expect(itemB).toHaveAttribute("aria-checked", "true");
 });
 
-test("ArrowLeft moves selection to previous item in horizontal group", async ({ mount, page }) => {
+test("ArrowLeft moves selection to previous item in horizontal group", async ({ mount }) => {
   const component = await mount(
     <RadioGroup defaultValue="b" orientation="horizontal" aria-label="Test group">
       <Radio value="a" />
@@ -190,8 +193,9 @@ test("ArrowLeft moves selection to previous item in horizontal group", async ({ 
       <Radio value="c" />
     </RadioGroup>,
   );
-  await component.locator("button").nth(1).click();
-  await page.keyboard.press("ArrowLeft");
+  const itemB = component.locator("button").nth(1);
+  await itemB.click();
+  await itemB.press("ArrowLeft");
   const itemA = component.locator("button").nth(0);
   await expect(itemA).toHaveAttribute("aria-checked", "true");
 });

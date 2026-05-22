@@ -73,6 +73,13 @@ export {
   type SpacerAs,
 } from "./atoms/Spacer";
 
+export {
+  ProgressBar,
+  type ProgressBarProps,
+  type ProgressBarSize,
+  type ProgressBarTone,
+} from "./atoms/ProgressBar";
+
 /* ---------- molecules ---------- */
 export {
   Hero,

@@ -38,7 +38,7 @@ type DivProps = SpacerProps & Omit<ComponentPropsWithoutRef<"div">, "aria-hidden
 type SpanProps = SpacerProps &
   Omit<ComponentPropsWithoutRef<"span">, "aria-hidden"> & { as: "span" };
 
-const SIZE_AXIS_CLASS: Record<SpacerSize, Record<SpacerAxis, string>> = {
+const SIZE_AXIS_CLASS = {
   "1": { block: styles.size1Block, inline: styles.size1Inline },
   "2": { block: styles.size2Block, inline: styles.size2Inline },
   "3": { block: styles.size3Block, inline: styles.size3Inline },
@@ -46,7 +46,7 @@ const SIZE_AXIS_CLASS: Record<SpacerSize, Record<SpacerAxis, string>> = {
   "6": { block: styles.size6Block, inline: styles.size6Inline },
   "8": { block: styles.size8Block, inline: styles.size8Inline },
   "10": { block: styles.size10Block, inline: styles.size10Inline },
-};
+} as Record<SpacerSize, Record<SpacerAxis, string>>;
 
 /**
  * `<Spacer>` — explicit-gap atom for contexts where flex/grid `gap` cannot reach.
@@ -79,9 +79,7 @@ export const Spacer = forwardRef<HTMLDivElement | HTMLSpanElement, DivProps | Sp
       axis = "block",
       as = "div",
       className,
-      // Absorb and discard — aria-hidden is unconditionally applied by this component.
-
-      "aria-hidden": _ariaHidden,
+      // aria-hidden is unconditionally applied by this component; omitted from prop types.
       ...rest
     },
     ref,

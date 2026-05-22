@@ -59,6 +59,7 @@ export default defineConfig({
               "atoms/Stat": resolve(__dirname, "src/atoms/Stat/index.ts"),
               "atoms/StatusBadge": resolve(__dirname, "src/atoms/StatusBadge/index.ts"),
               "atoms/Tag": resolve(__dirname, "src/atoms/Tag/index.ts"),
+              "atoms/Textarea": resolve(__dirname, "src/atoms/Textarea/index.ts"),
               "atoms/Wordmark": resolve(__dirname, "src/atoms/Wordmark/index.ts"),
               "atoms/NumberFormat": resolve(__dirname, "src/atoms/NumberFormat/index.ts"),
               "atoms/Spacer": resolve(__dirname, "src/atoms/Spacer/index.ts"),

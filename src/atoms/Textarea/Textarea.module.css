@@ -4,15 +4,12 @@
   background-color: var(--bg-elevated);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-2);
-  padding-block: var(--space-2);
-  padding-inline: var(--space-3);
+  padding: var(--space-3);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   color: var(--fg);
   box-sizing: border-box;
-  resize: vertical;
-  min-height: calc(var(--lh-body) * var(--fs-body) * 4);
   transition: border-color var(--dur-fast) var(--easing);
 }
 
@@ -40,4 +37,17 @@
 .root:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Resize axis — set by Textarea component via the `resize` prop. */
+.resizeVertical {
+  resize: vertical;
+}
+
+.resizeNone {
+  resize: none;
+}
+
+.resizeBoth {
+  resize: both;
 }

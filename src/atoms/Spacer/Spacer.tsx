@@ -108,9 +108,9 @@ export const Spacer = forwardRef<HTMLDivElement | HTMLSpanElement, DivProps | Sp
       return (
         <span
           ref={ref as React.Ref<HTMLSpanElement>}
-          aria-hidden="true"
           className={rootClass}
           {...(rest as ComponentPropsWithoutRef<"span">)}
+          aria-hidden="true"
         />
       );
     }
@@ -118,9 +118,9 @@ export const Spacer = forwardRef<HTMLDivElement | HTMLSpanElement, DivProps | Sp
     return (
       <div
         ref={ref as React.Ref<HTMLDivElement>}
-        aria-hidden="true"
         className={rootClass}
         {...(rest as ComponentPropsWithoutRef<"div">)}
+        aria-hidden="true"
       />
     );
   },

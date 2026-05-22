@@ -63,9 +63,10 @@ When merging `origin/main` into a feature branch, **always keep both sides** —
 - [ ] `src/atoms/<Name>/<Name>.module.css` — tokens only, no raw values
 - [ ] `src/atoms/<Name>/index.ts` — barrel re-export
 - [ ] `src/atoms/<Name>/<Name>.stories.tsx` — Ladle stories
-- [ ] `src/atoms/<Name>/<Name>.ct.test.tsx` — Playwright CT
-- [ ] `src/a11y.test.tsx` — append axe cases
+- [ ] `src/atoms/<Name>/<Name>.test.tsx` — Playwright CT (matched by `testMatch: **/*.test.tsx` in `playwright-ct.config.ts`)
+- [ ] `src/a11y.test.tsx` — append axe cases (consolidated a11y CT suite — every atom must appear here)
 - [ ] `src/index.ts` — append named export
+- [ ] `vite.config.ts` — add `"atoms/<Name>": resolve(__dirname, "src/atoms/<Name>/index.ts")` to `build.lib.entry` so Rollup emits a standalone chunk (without this the atom is inlined into the barrel and the `./atoms/<Name>` subpath export resolves to a non-existent file)
 - [ ] `package.json` exports — add `./atoms/<Name>` subpath
 - [ ] `package.json` deps — add any new Radix peer under `peerDependencies` + `devDependencies`, and as direct `dependencies` if it is a first-class runtime dep
 - [ ] `meta/llms-full.txt` — append component doc block

@@ -52,6 +52,9 @@ import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
 import { NumberFormat } from "./atoms/NumberFormat";
+import { Heading } from "./atoms/Heading";
+import { IconButtonVariantFixture } from "./atoms/IconButton/IconButton.fixtures";
+import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 
@@ -1392,6 +1395,71 @@ test("a11y — Logo (all sizes)", async ({ mount, page }) => {
       <Logo src={PIXEL} alt="Medium logo" size="md" />
       <Logo src={PIXEL} alt="Large logo" size="lg" />
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- Heading ---------- */
+
+test("a11y — Heading (h1 through h6 in document order)", async ({ mount, page }) => {
+  await mount(
+    <article>
+      <Heading as="h1">Page title</Heading>
+      <Heading as="h2">Section</Heading>
+      <Heading as="h3">Subsection</Heading>
+      <Heading as="h4">Tertiary</Heading>
+      <Heading as="h5">Quaternary</Heading>
+      <Heading as="h6">Quinary</Heading>
+    </article>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Heading (decoupled as + size — h2 element styled as h1)", async ({ mount, page }) => {
+  await mount(
+    <article>
+      <Heading as="h1">Real document title</Heading>
+      <Heading as="h2" size="h1">
+        Visual h1 rendered as h2 for outline integrity
+      </Heading>
+    </article>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- IconButton ---------- */
+
+test("a11y — IconButton (all variants × sizes, each with aria-label)", async ({ mount, page }) => {
+  await mount(<IconButtonVariantFixture />);
+  await expectAxeClean(page);
+});
+
+/* ---------- Prose ---------- */
+
+test("a11y — Prose (long-form HTML, width=reading)", async ({ mount, page }) => {
+  await mount(
+    <Prose width="reading">
+      <h2>A short essay</h2>
+      <p>
+        First paragraph with <a href="#anchor">an inline link</a>, <em>emphasis</em>, and{" "}
+        <strong>strong emphasis</strong>.
+      </p>
+      <ul>
+        <li>One item</li>
+        <li>Another item</li>
+      </ul>
+      <blockquote>A quoted aside that sits between paragraphs.</blockquote>
+      <p>Closing paragraph.</p>
+    </Prose>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Prose (default width=full, inline content only)", async ({ mount, page }) => {
+  await mount(
+    <Prose>
+      <p>Standalone paragraph in default-width Prose.</p>
+    </Prose>,
   );
   await expectAxeClean(page);
 });

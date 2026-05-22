@@ -1,7 +1,7 @@
 # Design spec: Code
 
 **Atomic layer**: atom
-**Status**: Draft
+**Status**: Shipped in v1.5.0
 **Author**: poukai-design
 **Last updated**: 2026-05-21
 

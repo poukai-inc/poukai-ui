@@ -17,12 +17,19 @@ The package is published to GitHub Packages (`@poukai-inc` scope). Configure you
 
 ## Use
 
-Import the tokens stylesheet **once** at your app root:
+Import the two stylesheets **once** at your app root:
 
 ```ts
 // app/layout.tsx (Next.js) or main.tsx (Vite)
 import "@poukai-inc/ui/tokens.css";
+import "@poukai-inc/ui/styles.css";
 ```
+
+`tokens.css` ships the design tokens (color, type, spacing, motion). `styles.css`
+is the combined component stylesheet — every atom / molecule / organism in the
+library pulls from this single file, so component JS chunks stay free of CSS
+side effects and tree-shake cleanly. (Prior versions auto-injected CSS through
+the JS bundle. That defeated tree-shaking and is gone in this release.)
 
 Then import components as needed. Fonts are bundled and referenced from
 `@poukai-inc/ui/fonts/*` automatically by `tokens.css`.

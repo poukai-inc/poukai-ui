@@ -143,8 +143,8 @@ test("ArrowDown moves selection to next item in vertical group", async ({ mount,
       <Radio value="c" />
     </RadioGroup>,
   );
-  // Focus the first (selected) item
-  await component.locator("button").nth(0).focus();
+  // Click to establish real page focus before keyboard events
+  await component.locator("button").nth(0).click();
   await page.keyboard.press("ArrowDown");
   const itemB = component.locator("button").nth(1);
   await expect(itemB).toHaveAttribute("aria-checked", "true");
@@ -158,7 +158,7 @@ test("ArrowUp moves selection to previous item in vertical group", async ({ moun
       <Radio value="c" />
     </RadioGroup>,
   );
-  await component.locator("button").nth(1).focus();
+  await component.locator("button").nth(1).click();
   await page.keyboard.press("ArrowUp");
   const itemA = component.locator("button").nth(0);
   await expect(itemA).toHaveAttribute("aria-checked", "true");
@@ -176,7 +176,7 @@ test("ArrowRight moves selection to next item in horizontal group", async ({ mou
       <Radio value="c" />
     </RadioGroup>,
   );
-  await component.locator("button").nth(0).focus();
+  await component.locator("button").nth(0).click();
   await page.keyboard.press("ArrowRight");
   const itemB = component.locator("button").nth(1);
   await expect(itemB).toHaveAttribute("aria-checked", "true");
@@ -190,7 +190,7 @@ test("ArrowLeft moves selection to previous item in horizontal group", async ({ 
       <Radio value="c" />
     </RadioGroup>,
   );
-  await component.locator("button").nth(1).focus();
+  await component.locator("button").nth(1).click();
   await page.keyboard.press("ArrowLeft");
   const itemA = component.locator("button").nth(0);
   await expect(itemA).toHaveAttribute("aria-checked", "true");
@@ -322,8 +322,8 @@ test("horizontal group has flex-direction row", async ({ mount }) => {
 test("a11y — RadioGroup + Radio (unselected)", async ({ mount, page }) => {
   await mount(
     <RadioGroup aria-label="A11y gate: unselected">
-      <Radio value="a" />
-      <Radio value="b" />
+      <Radio value="a" aria-label="Option A" />
+      <Radio value="b" aria-label="Option B" />
     </RadioGroup>,
   );
   await expectAxeClean(page);
@@ -332,8 +332,8 @@ test("a11y — RadioGroup + Radio (unselected)", async ({ mount, page }) => {
 test("a11y — RadioGroup + Radio (with selection)", async ({ mount, page }) => {
   await mount(
     <RadioGroup value="a" onValueChange={() => undefined} aria-label="A11y gate: selected">
-      <Radio value="a" />
-      <Radio value="b" />
+      <Radio value="a" aria-label="Option A" />
+      <Radio value="b" aria-label="Option B" />
     </RadioGroup>,
   );
   await expectAxeClean(page);
@@ -342,9 +342,9 @@ test("a11y — RadioGroup + Radio (with selection)", async ({ mount, page }) => 
 test("a11y — RadioGroup horizontal orientation", async ({ mount, page }) => {
   await mount(
     <RadioGroup defaultValue="m" orientation="horizontal" aria-label="A11y gate: horizontal">
-      <Radio value="s" />
-      <Radio value="m" />
-      <Radio value="l" />
+      <Radio value="s" aria-label="Small" />
+      <Radio value="m" aria-label="Medium" />
+      <Radio value="l" aria-label="Large" />
     </RadioGroup>,
   );
   await expectAxeClean(page);
@@ -353,8 +353,8 @@ test("a11y — RadioGroup horizontal orientation", async ({ mount, page }) => {
 test("a11y — RadioGroup with disabled item", async ({ mount, page }) => {
   await mount(
     <RadioGroup defaultValue="a" aria-label="A11y gate: disabled item">
-      <Radio value="a" />
-      <Radio value="b" disabled />
+      <Radio value="a" aria-label="Option A" />
+      <Radio value="b" aria-label="Option B" disabled />
     </RadioGroup>,
   );
   await expectAxeClean(page);
@@ -363,8 +363,8 @@ test("a11y — RadioGroup with disabled item", async ({ mount, page }) => {
 test("a11y — RadioGroup with disabled group", async ({ mount, page }) => {
   await mount(
     <RadioGroup disabled defaultValue="a" aria-label="A11y gate: disabled group">
-      <Radio value="a" />
-      <Radio value="b" />
+      <Radio value="a" aria-label="Option A" />
+      <Radio value="b" aria-label="Option B" />
     </RadioGroup>,
   );
   await expectAxeClean(page);

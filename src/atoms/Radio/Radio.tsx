@@ -115,6 +115,17 @@ export interface RadioProps {
   id?: string;
   /** Additional class names merged onto the root button element. */
   className?: string;
+  /**
+   * Accessible label for the radio item when no visible `<label>` is used.
+   * Prefer wrapping with `<label>` when possible; use this as a fallback.
+   */
+  "aria-label"?: string;
+  /** ID of the visible element that labels this radio item. */
+  "aria-labelledby"?: string;
+  /** Marks the item as invalid for form validation UIs. */
+  "aria-invalid"?: boolean | "true" | "false" | "grammar" | "spelling";
+  /** Allows additional data-* or aria-* attributes to be forwarded. */
+  [key: `data-${string}`]: unknown;
 }
 
 /**

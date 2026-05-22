@@ -72,3 +72,4 @@ export {
   type ProgressBarTone,
 } from "./atoms/ProgressBar";
 export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Textarea";
+export { Input, type InputProps, type InputSize } from "./atoms/Input";

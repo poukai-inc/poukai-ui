@@ -831,18 +831,19 @@ import { Icon } from "@poukai-inc/ui";
 - Do NOT use `tone="muted"` when `<Logo>` is not inside an interactive element — the hover affordance would be misleading.
 
 ### Input
-- Single-line text input primitive. Root is always `<input>`. Non-polymorphic. Ref forwarded to `HTMLInputElement`.
+**Atomic layer: atom.** Import from `@poukai-inc/ui/atoms/Input`. Molecule path `@poukai-inc/ui/molecules/Input` is a deprecated re-export (works in 1.x, removed in 2.0).
+- Single-line text input atom. Root is always `<input>`. Non-polymorphic. Ref forwarded to `HTMLInputElement`.
 - `type` (`"text"` | `"email"` | `"url"` | `"tel"` | `"password"` | `"search"` | `"number"`, default `"text"`) — constrained to single-line text-like types.
-- `invalid` (optional boolean) — when true, sets `data-invalid="true"` and `aria-invalid="true"` on the root element, applies accent border via CSS. Prefer wiring through `<Field error="…">` which also links `aria-describedby`.
-- Standard `ComponentPropsWithoutRef<"input">` spread: `value`, `onChange`, `placeholder`, `disabled`, `readOnly`, `required`, `autoComplete`, `aria-*`, `data-*`, etc.
+- `size` (`"sm"` | `"md"` | `"lg"`, default `"md"`) — visual height via shared `--btn-h-*` ladder. Pairs with `<Button size="…">` on the same row.
+- `invalid` (optional boolean) — sets `data-invalid="true"` and `aria-invalid="true"`; border → `--danger`. Prefer wiring through `<Field error="…">`.
+- `Omit<ComponentPropsWithoutRef<"input">, "size">` spread. Native HTML `size` attribute intentionally shadowed by DS `size` prop.
 - `clsx` className merge via `className` prop.
-- States: default (`--hairline` border, `--bg-elevated` bg), hover (border → `--fg-muted`), focus-visible (2px `--accent` outline + border), invalid (`--accent` border), disabled (`opacity: 0.5; cursor: not-allowed`).
-- Error border uses `--accent` — the DS does not ship a danger token in v1. This is the correct brand register.
-- Tokens consumed: `--bg-elevated`, `--hairline`, `--fg-muted`, `--fg`, `--accent`, `--font-sans`, `--fs-body`, `--lh-body`, `--space-2`, `--space-3`, `--radius-2`, `--dur-fast`, `--easing`. No new tokens.
+- States: default (`--hairline` border, `--bg-elevated` bg), hover (border → `--fg-muted`, skipped on disabled/readonly), focus-visible (2px `--accent` outline + border), invalid (`--danger` border), disabled (`opacity: 0.5; cursor: not-allowed`), readonly (`cursor: default`).
+- Tokens: `--bg-elevated`, `--hairline`, `--fg-muted`, `--fg`, `--accent`, `--danger`, `--font-sans`, `--fs-body`, `--lh-body`, `--space-2`, `--space-3`, `--radius-2`, `--dur-fast`, `--easing`, `--btn-h-sm`, `--btn-h-md`, `--btn-h-lg`. No new tokens.
 - Idiomatic usage wraps Input in `<Field>`. Standalone usage is valid; consumer owns label association.
-- Do NOT use Input for multi-line text — use `<Textarea>`.
-- Do NOT pass `type="checkbox"`, `type="radio"`, `type="file"`, `type="range"`, `type="date"` — those are not in the allowed type union and require separate primitives.
-- Do NOT add prefix/suffix icon slots in v1 — keep the surface minimal.
+- Do NOT use for multi-line text — use `<Textarea>`.
+- Do NOT pass `type="checkbox"`, `type="radio"`, `type="file"`, `type="range"`, `type="date"` — separate atoms.
+- Do NOT add leading/trailing icon slots — belongs to future `SearchField` molecule.
 
 ```tsx
 // Inside Field (recommended):

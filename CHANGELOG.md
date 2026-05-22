@@ -1,5 +1,81 @@
 # @poukai-inc/ui
 
+## 1.8.0
+
+### Minor Changes
+
+- 5d80026: Add `Mark` atom — editorial `<mark>` highlight.
+
+  `Mark` is the canonical inline highlight chip for long-form prose. It replaces the ad-hoc inline `<span style="background: …">` overrides that editorial surfaces (Pull, Quote, FieldNote, FeatureCard body, Prose) had been using to flag a run of text as "the part the reader should notice."
+
+  The chip tints the background with `--accent-glow` (the same low-opacity blue the system uses for `::selection`) so the highlight reads as kindred to selected prose rather than as a foreign decoration. Padding is inline-only (`--space-1`) so the highlight preserves text baseline alignment in running prose; the corner is rounded with `--radius-1` (2px) — softer than a selection-rect, far short of a pill. `box-decoration-break: clone` (with the WebKit prefix) ensures the highlight tiles cleanly across line wraps.
+
+  Root is always `<mark>` (non-polymorphic). Non-interactive — no hover, focus, or active states. Inherits `font-family`, `font-size`, `font-weight`, `line-height`, and `color` from the surrounding context, so the chip scales with parent text on every surface and resolves correctly inside the warm editorial band. `--accent-glow` already flips under `prefers-color-scheme: dark` via the global `:root` block, so no per-component dark-mode override is required.
+
+  No new tokens are introduced. Spec: `meta/design/Mark.md`.
+
+- 67313e4: Add `NumberFormat` atom — pure presentational formatter backed by native `Intl.NumberFormat`.
+
+  Renders a `number` value as a locale-correct string and nothing else. Owns no tokens, no CSS, no layout. Lifts the formatter previously inlined in `Stat`/`StatList` consumers into a single canonical primitive so every editorial surface formats numbers identically.
+
+  Props: required `value: number`; optional `notation` (`"standard"` (default — grouped digits) | `"compact"` (`1.2M`) | `"currency"` (requires `currency`) | `"percent"` (multiplies by 100 — pass `0.42` to render `42%`)), `currency` (ISO 4217 — required when `notation="currency"`), `locale` (BCP-47 — pass explicitly for SSR safety), `minimumFractionDigits` / `maximumFractionDigits` passthrough, polymorphic `as` (`"span"` (default) | `"div"` | `"dd"`, closed union). `className`, `data-*`, `aria-*`, `id`, `ref` all forwarded. No `children` (value is the rendered content).
+
+  SSR-safe: output is `new Intl.NumberFormat(locale, options).format(value)` computed once during render — no `useEffect`, no `navigator.language`. Pass `locale` explicitly in i18n-aware surfaces to guarantee server/client parity.
+
+  Edge values: `NaN` → "NaN", `±Infinity` → "∞" / "-∞" (whatever the Intl runtime emits — assertions in the test suite compare against `Intl.NumberFormat(...).format(NaN)` rather than literals, so the atom remains stable across Node and browser engines).
+
+  Follow-up (separate PR): migrate `Stat.value` consumers to use `NumberFormat`.
+
+- 30913f0: Add SkipLink atom — keyboard skip-to-content anchor.
+
+  Visually hidden at rest (canonical sr-only clip pattern), becomes a
+  fixed-position high-contrast pill when keyboard-focused. The standard a11y
+  primitive for layout shells: lets keyboard users bypass nav and chrome to
+  jump straight to the page's main content region.
+
+  Root is always `<a>`, non-polymorphic — fragment navigation is anchor
+  semantics, full stop. `href` (required) is the consumer-supplied fragment
+  target (e.g. `#main`). `children` defaults to `"Skip to content"`; override
+  for layouts with multiple navigable regions.
+
+  Focused pill uses the DS-wide max-contrast inversion pair (`--fg` on `--bg`,
+  ~16:1 AAA), `z-index: 9999` so it can never be occluded by Dialog or Toast
+  layers, and `outline: none` because the high-contrast pill itself is the
+  focus indicator (documented deviation from the global `a:focus-visible`
+  accent ring). No motion. No `:hover` style — keyboard-only by design.
+
+  Composes neither `<Link>` nor `<VisuallyHidden>`: owns its own clip + focus
+  CSS in one module so the `:focus-visible` un-clip rule does not fight
+  cross-module specificity. `forwardRef<HTMLAnchorElement, SkipLinkProps>`,
+  `displayName="SkipLink"`.
+
+  Spec: `meta/design/SkipLink.md`.
+
+  **Migration note:** SiteShell consumer migration is a follow-up audit PR —
+  this PR ships the atom only and does not modify SiteShell.
+
+- 570d39f: Add `Time` atom — semantic `<time datetime>` with locale-aware formatted label.
+
+  **New exports**: `Time`, `TimeProps`, `TimeFormat`.
+
+  **Four format modes** via native `Intl` only (no external date library):
+  - `absolute` (default) — `Intl.DateTimeFormat` short month + day + year: `May 21, 2026`.
+  - `relative` — `Intl.RelativeTimeFormat` with descending threshold table (year → month → week → day → hour → minute → "just now" for |diff| < 60 s).
+  - `long` — `Intl.DateTimeFormat` long month + year: `May 2026`.
+  - `time-only` — `Intl.DateTimeFormat` hour + minute: `02:30 PM`.
+
+  **`dateTime` prop** accepts `string | Date`. String values pass verbatim to the `datetime` attribute (date-only strings such as `"2026-05-21"` are not round-tripped through `new Date()`). `Date` objects serialize via `.toISOString()`.
+
+  **`children` override**: when `children` is provided, it replaces the computed label; `format` and `locale` are ignored. The `datetime` attribute still emits the ISO string.
+
+  **SSR contract**: locale defaults to `navigator.language` in the browser and `"en-US"` on the server. `format="relative"` is not guaranteed to match between server and client; consumers requiring stable SSR for relative labels should provide `children` or use `format="absolute"`.
+
+  **A11y posture**: no `aria-label` injection, no motion, no color variants. The component inherits `color: inherit`. Zero new tokens.
+
+  **Subpath export**: `@poukai-inc/ui/atoms/Time`.
+
+  Downstream consumers: `Byline`, `ArticleHeader`, `TimelineItem`.
+
 ## 1.7.0
 
 ### Minor Changes

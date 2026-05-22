@@ -44,6 +44,7 @@ import { Banner } from "./molecules/Banner";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
+import { NumberFormat } from "./atoms/NumberFormat";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1048,5 +1049,27 @@ test("a11y — Toast (danger tone, open)", async ({ mount, page }) => {
     </ToastHarness>,
   );
   await expect(page.locator("[data-tone]", { hasText: "A11y gate: danger toast." })).toBeVisible();
+  await expectAxeClean(page);
+});
+
+/* ---------- NumberFormat ---------- */
+
+test("a11y — NumberFormat (notations + dl semantics)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <p>
+        Revenue: <NumberFormat value={1_234_567} locale="en-US" />. Margin:{" "}
+        <NumberFormat value={0.42} notation="percent" locale="en-US" />. Cap:{" "}
+        <NumberFormat value={1_234.56} notation="currency" currency="USD" locale="en-US" />.
+        Compact: <NumberFormat value={4_500_000} notation="compact" locale="en-US" />.
+      </p>
+      <dl>
+        <dt>Total users</dt>
+        <NumberFormat as="dd" value={48_921} locale="en-US" />
+        <dt>MRR</dt>
+        <NumberFormat as="dd" value={12_750} notation="currency" currency="USD" locale="en-US" />
+      </dl>
+    </div>,
+  );
   await expectAxeClean(page);
 });

@@ -50,3 +50,9 @@ export {
 } from "./atoms/IconButton";
 export { Label, type LabelProps, type LabelTone } from "./atoms/Label";
 export { SkipLink, type SkipLinkProps } from "./atoms/SkipLink";
+export {
+  NumberFormat,
+  type NumberFormatProps,
+  type NumberFormatNotation,
+  type NumberFormatAs,
+} from "./atoms/NumberFormat";

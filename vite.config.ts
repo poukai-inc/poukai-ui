@@ -60,6 +60,7 @@ export default defineConfig({
               "atoms/StatusBadge": resolve(__dirname, "src/atoms/StatusBadge/index.ts"),
               "atoms/Tag": resolve(__dirname, "src/atoms/Tag/index.ts"),
               "atoms/Wordmark": resolve(__dirname, "src/atoms/Wordmark/index.ts"),
+              "atoms/NumberFormat": resolve(__dirname, "src/atoms/NumberFormat/index.ts"),
               "molecules/FailureMode": resolve(__dirname, "src/molecules/FailureMode/index.ts"),
               "molecules/FeatureCard": resolve(__dirname, "src/molecules/FeatureCard/index.ts"),
               "molecules/FieldNote": resolve(__dirname, "src/molecules/FieldNote/index.ts"),

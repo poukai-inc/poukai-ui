@@ -130,6 +130,11 @@
       "import": "./dist/atoms/SkipLink.js",
       "require": "./dist/atoms/SkipLink.cjs"
     },
+    "./atoms/NumberFormat": {
+      "types": "./dist/atoms/NumberFormat.d.ts",
+      "import": "./dist/atoms/NumberFormat.js",
+      "require": "./dist/atoms/NumberFormat.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",
@@ -319,6 +324,12 @@
       "path": "dist/index.js",
       "import": "{ Wordmark, Button }",
       "limit": "14 kB"
+    },
+    {
+      "name": "ESM — tree-shaken (NumberFormat)",
+      "path": "dist/index.js",
+      "import": "{ NumberFormat }",
+      "limit": "8 kB"
     },
     {
       "name": "ESM — tree-shaken (Hero + RoleCard + Principle)",

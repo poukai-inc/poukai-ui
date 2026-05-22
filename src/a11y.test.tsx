@@ -42,6 +42,7 @@ import { Footer } from "./organisms/Footer";
 import { Dialog, DialogBasic } from "./organisms/Dialog";
 import { Tabs, TabsBasic } from "./organisms/Tabs";
 import { Input } from "./atoms/Input";
+import { Select } from "./atoms/Select";
 import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
@@ -1026,6 +1027,48 @@ test("a11y — Form (with Field + Input + Textarea + Button)", async ({ mount, p
         Send
       </Button>
     </Form>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- Select ---------- */
+
+test("a11y — Select (default, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-select">Country</label>
+      <Select id="a11y-select" defaultValue="us">
+        <option value="us">United States</option>
+        <option value="ca">Canada</option>
+      </Select>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Select (invalid, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-select-invalid">Plan</label>
+      <Select id="a11y-select-invalid" invalid defaultValue="">
+        <option value="" disabled>
+          Select…
+        </option>
+        <option value="pro">Pro</option>
+      </Select>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Field + Select", async ({ mount, page }) => {
+  await mount(
+    <Field label="Country" id="a11y-field-select" helper="Used for tax calculation.">
+      <Select defaultValue="us">
+        <option value="us">United States</option>
+        <option value="ca">Canada</option>
+      </Select>
+    </Field>,
   );
   await expectAxeClean(page);
 });

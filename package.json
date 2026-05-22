@@ -55,6 +55,11 @@
       "import": "./dist/atoms/Label.js",
       "require": "./dist/atoms/Label.cjs"
     },
+    "./atoms/Time": {
+      "types": "./dist/atoms/Time.d.ts",
+      "import": "./dist/atoms/Time.js",
+      "require": "./dist/atoms/Time.cjs"
+    },
     "./atoms/Button": {
       "types": "./dist/atoms/Button.d.ts",
       "import": "./dist/atoms/Button.js",

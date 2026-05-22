@@ -63,6 +63,7 @@ export {
   type NumberFormatNotation,
   type NumberFormatAs,
 } from "./atoms/NumberFormat";
+export { Time, type TimeProps, type TimeFormat } from "./atoms/Time";
 
 /* ---------- molecules ---------- */
 export {

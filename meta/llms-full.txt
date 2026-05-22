@@ -26,8 +26,11 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--fg-on-warm: #fdf5f0` — Primary text on warm bands. Warm-tinted near-white. The only text color permitted as primary copy over `--bg-warm-accent`. NEVER use over `--bg`.
 - `--fg-on-warm-muted: #f5ddd0` — Supporting text on warm bands. Use sparingly; see `meta/brand.md` for the contrast ceiling. NEVER use as primary copy.
 
-**Status color tier — product feedback only (NOT editorial brand).** Six tokens for error/warning state surfaces (Banner danger/warning tones, Form invalid borders, future Toast). Distinct from `--bg-warm-accent` (editorial brand orange) by hue: danger is true red, warning is amber/ochre.
+**Status color tier — product feedback only (NOT editorial brand).** Nine tokens for success/error/warning state surfaces (Banner tones, Form invalid borders, future Toast). Distinct from `--bg-warm-accent` (editorial brand orange) by hue: success is green, danger is true red, warning is amber/ochre.
 
+- `--success: #248a3d` — Apple systemGreen light. Success confirmations, positive feedback. WCAG AA on `--bg` (#FBFBFD): ~4.7:1. NEVER use as surface fill or non-confirmation indicator.
+- `--bg-success: #f0faf3` — Tinted page-tier surface (subtle green). Used by Banner success background. NEVER substitute for `--bg`.
+- `--fg-on-success: #0d3d1e` — Deep forest for text on `--bg-success` (~10.5:1). Use only on `--bg-success` surfaces.
 - `--danger: #b3261e` — True red. Used by Form invalid border (`Input`/`Textarea`/`Field` `[aria-invalid="true"]`), Banner danger left-rule, future destructive button variant. WCAG AA on `--bg` (#FBFBFD): ~7.0:1. NEVER use as surface fill, body text, or non-error indicator.
 - `--bg-danger: #fef0f0` — Tinted page-tier surface (subtle pink). Used by Banner danger background. NEVER use as primary page background; this is reserved for the danger-banner surface.
 - `--fg-on-danger: #5c1310` — Deep oxblood for text on `--bg-danger` (~9.1:1). Use only on `--bg-danger` surfaces.
@@ -65,6 +68,9 @@ Dark mode is implemented as a `@media (prefers-color-scheme: dark)` block append
 | `--danger` | `#FF453A` | Apple `systemRed` dark. |
 | `--bg-danger` | `#1C0A0A` | Near-black, red undertone. |
 | `--fg-on-danger` | `#FFB4B0` | Contrast on `--bg-danger`: **11.63:1** (AAA). |
+| `--success` | `#30D158` | Apple `systemGreen` dark. Contrast on `--bg`: ~10.9:1 (AAA). |
+| `--bg-success` | `#041A09` | Near-black, green undertone. |
+| `--fg-on-success` | `#A8F0BE` | Soft mint. Contrast on `--bg-success`: ~13.1:1 (AAA). |
 | `--warning` | `#FF9F0A` | Apple `systemOrange` dark. |
 | `--bg-warning` | `#1C1408` | Near-black, amber undertone. |
 | `--fg-on-warning` | `#FFD6A0` | Contrast on `--bg-warning`: **13.74:1** (AAA). |
@@ -78,6 +84,7 @@ Dark mode is implemented as a `@media (prefers-color-scheme: dark)` block append
 | `--accent` on `--bg` | 5.86:1 | 3:1 (non-text) | AA normal |
 | `--fg-on-warm` on `--bg-warm-accent` | 7.75:1 | 4.5:1 | AAA |
 | `--fg-on-warm-muted` on `--bg-warm-accent` | ~4.8:1 | 4.5:1 | AA |
+| `--fg-on-success` on `--bg-success` | ~13.1:1 | 4.5:1 | AAA |
 | `--fg-on-danger` on `--bg-danger` | 11.63:1 | 4.5:1 | AAA |
 | `--fg-on-warning` on `--bg-warning` | 13.74:1 | 4.5:1 | AAA |
 
@@ -804,6 +811,24 @@ import { Icon } from "@poukai-inc/ui";
   <Icon icon={Mail} size="sm" />
 </span>
 ```
+
+### Logo
+- Partner / customer logo cell. Composes `<Image>` — the root is always a single `<img>` with no wrapper element.
+- `src` (required string) — logo image URL passed directly to `<Image>`.
+- `alt` (required string) — the organisation's name (e.g. `alt="Stripe"`). Required at the type level. Pass `alt=""` for purely decorative logos where the name is stated in adjacent text. NEVER omit.
+- `tone` (`"color"` | `"mono"` | `"muted"`, default `"mono"`) — visual treatment via CSS `filter` and `opacity`. `"color"`: no filter, full opacity. `"mono"`: `grayscale(1) brightness(0)` (true black silhouette), full opacity, static. `"muted"`: same filter + 0.55 opacity at rest; hover/focus-visible raises opacity to 1 with `transition: opacity var(--dur-fast) var(--easing)`.
+- `size` (`"sm"` | `"md"` | `"lg"`, default `"md"`) — max-height constraint: `"sm"` → 24px, `"md"` → 32px, `"lg"` → 40px. Width is always `auto` — logos scale proportionally within the height cap.
+- `width` (optional number, default 200) + `height` (optional number, default 80) — passed to `<Image>` to drive `aspect-ratio` for CLS-safe slot reservation. Override with true intrinsic pixel dimensions when known. Defaults (200 × 80, 2.5:1 ratio) are a centroid for landscape wordmark logos.
+- Inline style overrides passed to `<Image>`: `maxWidth: "none"` (removes Image's `max-width: 100%` so `width: auto` + `max-height` govern dimensions), `width: "auto"`. These combine with Image's baseline `height: auto` and `aspect-ratio`.
+- Hover/focus-visible contract applies only to `tone="muted"`. `tone="color"` and `tone="mono"` are static — no hover state.
+- Reduced-motion: global `@media (prefers-reduced-motion: reduce)` in `tokens.css` collapses the opacity transition to 0.01ms. The opacity change is preserved; only the animation collapses. No component-level reduced-motion handling needed.
+- No new tokens introduced. Reuses `--dur-fast` (180ms) and `--easing` for the muted opacity transition.
+- `forwardRef<HTMLImageElement, LogoProps>`, `displayName="Logo"`. `className` merged via `clsx` onto the root `<img>`. Remaining props (`data-*`, `aria-*`, `loading`, `decoding`) spread through `<Image>` to the `<img>`.
+- Composition: wrap in `<a>` for linked logos — use `tone="muted"` when inside a link so the hover state signals interactivity. The `<a>` is the interactive element; `<Logo>` is never a button or link itself.
+- Do NOT wrap in a `<figure>` — Logo is not captioned content. Do NOT use for person avatars/headshots — use `<Avatar>`. Do NOT use for editorial photography — use `<Image>` or `<Portrait>`. Logo is specifically for the logo-strip use case.
+- Do NOT pass conflicting inline `style` for `maxHeight`, `width`, or `filter` — those are Logo's sizing and tone contract. If you need to override, manage it in a consumer wrapper.
+- Do NOT omit `alt`. Use `alt=""` for purely decorative logos, never omit the prop.
+- Do NOT use `tone="muted"` when `<Logo>` is not inside an interactive element — the hover affordance would be misleading.
 
 ### Input
 - Single-line text input primitive. Root is always `<input>`. Non-polymorphic. Ref forwarded to `HTMLInputElement`.

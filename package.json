@@ -135,6 +135,11 @@
       "import": "./dist/atoms/Image.js",
       "require": "./dist/atoms/Image.cjs"
     },
+    "./atoms/Logo": {
+      "types": "./dist/atoms/Logo.d.ts",
+      "import": "./dist/atoms/Logo.js",
+      "require": "./dist/atoms/Logo.cjs"
+    },
     "./atoms/SkipLink": {
       "types": "./dist/atoms/SkipLink.d.ts",
       "import": "./dist/atoms/SkipLink.js",
@@ -247,7 +252,7 @@
   ],
   "scripts": {
     "dev": "ladle serve",
-    "build": "BUILD_TARGET=lib vite build && tsc --emitDeclarationOnly && pnpm run build:tokens && pnpm run build:brand && pnpm run build:llms",
+    "build": "BUILD_TARGET=lib vite build && tsc --emitDeclarationOnly && pnpm run build:tokens && pnpm run build:brand && pnpm run build:llms && pnpm run check:llms",
     "build:tokens": "cpy --flat src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
     "build:brand": "cpy 'src/brand/**' dist/brand",
     "build:llms": "node scripts/build-llms-txt.mjs",
@@ -322,7 +327,7 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "37.1 kB"
+      "limit": "39 kB"
     },
     {
       "name": "ESM — atoms subpath",
@@ -343,19 +348,19 @@
       "name": "ESM — tree-shaken (Wordmark + Button)",
       "path": "dist/index.js",
       "import": "{ Wordmark, Button }",
-      "limit": "14 kB"
+      "limit": "16 kB"
     },
     {
       "name": "ESM — tree-shaken (NumberFormat)",
       "path": "dist/index.js",
       "import": "{ NumberFormat }",
-      "limit": "8 kB"
+      "limit": "13 kB"
     },
     {
       "name": "ESM — tree-shaken (Hero + RoleCard + Principle)",
       "path": "dist/index.js",
       "import": "{ Hero, RoleCard, Principle }",
-      "limit": "11 kB"
+      "limit": "14 kB"
     },
     {
       "name": "ESM — tree-shaken (ProgressBar)",

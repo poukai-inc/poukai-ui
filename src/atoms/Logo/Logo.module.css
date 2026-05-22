@@ -1,0 +1,45 @@
+/* ============================================================
+   Logo — partner/customer logo cell.
+   Composes <Image>; adds tone treatment and size constraint.
+   Tokens: --dur-fast, --easing.
+   No new tokens introduced.
+   ============================================================ */
+
+/* ---------- tone ---------- */
+
+.tone-color {
+  /* render image as-is — no filter */
+}
+
+.tone-mono {
+  filter: grayscale(1) brightness(0);
+  /* opacity stays 1; no hover affordance */
+}
+
+.tone-muted {
+  filter: grayscale(1) brightness(0);
+  opacity: 0.55;
+  transition: opacity var(--dur-fast) var(--easing);
+}
+
+.tone-muted:hover,
+.tone-muted:focus-visible {
+  opacity: 1;
+}
+
+/* ---------- size ---------- */
+
+.size-sm {
+  max-height: 24px;
+  width: auto;
+}
+
+.size-md {
+  max-height: 32px;
+  width: auto;
+}
+
+.size-lg {
+  max-height: 40px;
+  width: auto;
+}

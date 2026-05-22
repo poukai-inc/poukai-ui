@@ -175,6 +175,11 @@
       "import": "./dist/atoms/Checkbox.js",
       "require": "./dist/atoms/Checkbox.cjs"
     },
+    "./atoms/Switch": {
+      "types": "./dist/atoms/Switch.d.ts",
+      "import": "./dist/atoms/Switch.js",
+      "require": "./dist/atoms/Switch.cjs"
+    },
     "./atoms/Input": {
       "types": "./dist/atoms/Input.d.ts",
       "import": "./dist/atoms/Input.js",
@@ -308,6 +313,7 @@
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.0",
+    "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",

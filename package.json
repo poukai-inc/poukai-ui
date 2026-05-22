@@ -140,6 +140,11 @@
       "import": "./dist/atoms/NumberFormat.js",
       "require": "./dist/atoms/NumberFormat.cjs"
     },
+    "./atoms/Mark": {
+      "types": "./dist/atoms/Mark.d.ts",
+      "import": "./dist/atoms/Mark.js",
+      "require": "./dist/atoms/Mark.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",
@@ -307,7 +312,7 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "37 kB"
+      "limit": "37.1 kB"
     },
     {
       "name": "ESM — atoms subpath",

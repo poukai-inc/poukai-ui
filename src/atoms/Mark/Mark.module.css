@@ -1,0 +1,21 @@
+/* ============================================================
+   Mark — editorial highlight chip atom
+   ============================================================ */
+
+.root {
+  /* Inherit surrounding text color so Mark works on any surface. */
+  color: inherit;
+
+  /* Inline-only padding — zero block to preserve line-height rhythm. */
+  padding: 0 var(--space-1);
+
+  /* Selection-tinted highlight; dark-mode handled by token. */
+  background-color: var(--accent-glow);
+
+  /* Micro-rounding — softer than 0, not a pill. */
+  border-radius: var(--radius-1);
+
+  /* Tile highlight cleanly across line wraps. */
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}

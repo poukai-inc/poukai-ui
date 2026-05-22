@@ -66,6 +66,10 @@
   --fg-on-warm-muted: #f5ddd0; /* supporting text on warm band — see brand.md for ceiling */
 
   /* ---------- Status color tier — product feedback only (not editorial brand) ---------- */
+  /* success: confirmations, completion, positive feedback. Apple systemGreen hue family. */
+  --success: #248a3d; /* WCAG AA on --bg (#FBFBFD): ~4.7:1 */
+  --bg-success: #f0faf3; /* tinted page-tier surface — subtle green */
+  --fg-on-success: #0d3d1e; /* deep forest for text on --bg-success: ~10.5:1 */
   /* danger: errors, destructive actions. True red hue family — distinct from --bg-warm-accent brick-red. */
   --danger: #b3261e; /* WCAG AA on --bg (#FBFBFD): ~7.2:1 */
   --bg-danger: #fef0f0; /* tinted page-tier surface — subtle pink */
@@ -176,6 +180,7 @@
   --dur-stagger-step: 150ms; /* base step for staggered entrance sequences; multiply by slot index (0–3) */
   --dur-pulse: 1800ms; /* StatusBadge available-state pulse animation, intentionally slow + meditative */
   --dur-spinner: 800ms; /* Spinner rotation period — sub-second so the spinner reads as active, not stalled */
+  --dur-progress-indeterminate: 1400ms; /* ProgressBar indeterminate sweep period — two-bar translateX loop */
 
   /* ---------- Radii & rules ---------- */
   --radius-1: 2px; /* focus ring */
@@ -385,6 +390,9 @@ hr {
     --fg-on-warm-muted: #d6b9a8; /* Supporting text on warm band — pulled inward for legibility against dimmed band. Contrast: ~4.8:1 (AA). */
 
     /* ---------- Status color tier ---------- */
+    --success: #30d158; /* Apple systemGreen dark. Contrast on --bg (#000): ~10.9:1 */
+    --bg-success: #041a09; /* Near-black with green undertone. */
+    --fg-on-success: #a8f0be; /* Soft mint. Contrast on --bg-success: ~13.1:1 (AAA). */
     --danger: #ff453a; /* Apple systemRed dark. Brighter than light-mode to read clearly on dark surfaces. */
     --bg-danger: #1c0a0a; /* Near-black with red undertone. Tinted dark surface register. */
     --fg-on-danger: #ffb4b0; /* Softened salmon-pink. Contrast on --bg-danger: 11.63:1 (AAA). */

@@ -1,0 +1,164 @@
+/* ============================================================
+   ProgressBar — linear progress indicator
+   Tokens: --surface, --fg, --success, --warning, --danger,
+           --dur-mid, --dur-progress-indeterminate, --easing
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  display: block;
+  /* Width is the consumer's responsibility — this atom does not set its own width. */
+}
+
+/* ---------- Track ---------- */
+
+.track {
+  position: relative;
+  width: 100%;
+  background: var(--surface);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+/* ---------- Size variants (track height) ---------- */
+
+.sizeSm .track {
+  height: 2px;
+}
+
+.sizeMd .track {
+  height: 4px;
+}
+
+/* ---------- Determinate fill ---------- */
+
+.fill {
+  height: 100%;
+  width: 100%;
+  border-radius: inherit;
+  transform: scaleX(var(--progress-fraction, 0));
+  transform-origin: left center;
+  transition: transform var(--dur-mid) var(--easing);
+}
+
+/* ---------- Indeterminate bars ---------- */
+
+.bar {
+  position: absolute;
+  inset-block: 0;
+  width: 100%;
+  border-radius: inherit;
+  will-change: transform;
+}
+
+.bar1 {
+  animation: poukai-progress-bar1 var(--dur-progress-indeterminate) var(--easing) infinite;
+}
+
+.bar2 {
+  animation: poukai-progress-bar2 var(--dur-progress-indeterminate) var(--easing) infinite;
+}
+
+/* ---------- Keyframes ---------- */
+
+@keyframes poukai-progress-bar1 {
+  0% {
+    transform: translateX(-100%);
+  }
+  20% {
+    transform: translateX(-100%);
+  }
+  60% {
+    transform: translateX(0%);
+  }
+  80% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes poukai-progress-bar2 {
+  0% {
+    transform: translateX(-200%);
+  }
+  40% {
+    transform: translateX(-200%);
+  }
+  80% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ---------- Indeterminate static fallback ----------
+   .staticFill: hidden by default; displayed only under prefers-reduced-motion.
+   Replaces the animated bars with a half-filled static bar to communicate
+   "in progress" without implying a specific value or relying on motion.
+   ------------------------------------------------------------ */
+
+.staticFill {
+  display: none;
+  position: absolute;
+  inset-block: 0;
+  width: 100%;
+  border-radius: inherit;
+  transform: scaleX(0.5);
+  transform-origin: left center;
+}
+
+/* ---------- Tone → fill color ----------
+   Applied to .fill, .bar1, .bar2, and .staticFill via CSS class on root.
+   ------------------------------------------------------------ */
+
+.toneDefault .fill,
+.toneDefault .bar1,
+.toneDefault .bar2,
+.toneDefault .staticFill {
+  background: var(--fg);
+}
+
+.toneSuccess .fill,
+.toneSuccess .bar1,
+.toneSuccess .bar2,
+.toneSuccess .staticFill {
+  background: var(--success);
+}
+
+.toneWarning .fill,
+.toneWarning .bar1,
+.toneWarning .bar2,
+.toneWarning .staticFill {
+  background: var(--warning);
+}
+
+.toneDanger .fill,
+.toneDanger .bar1,
+.toneDanger .bar2,
+.toneDanger .staticFill {
+  background: var(--danger);
+}
+
+/* ---------- Reduced-motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Determinate: snap immediately — no transition */
+  .fill {
+    transition: none;
+  }
+
+  /* Indeterminate: hide animated bars, show static half-fill instead */
+  .bar1,
+  .bar2 {
+    animation: none;
+    display: none;
+  }
+
+  .staticFill {
+    display: block;
+  }
+}

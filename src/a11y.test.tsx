@@ -24,6 +24,7 @@ import { FieldNote } from "./molecules/FieldNote";
 import { Quote } from "./molecules/Quote";
 import { Avatar } from "./atoms/Avatar";
 import { Spinner } from "./atoms/Spinner";
+import { ProgressBar } from "./atoms/ProgressBar";
 import { Skeleton } from "./atoms/Skeleton";
 import { IconFixture } from "./atoms/Icon/Icon.fixtures";
 import { Link } from "./atoms/Link";
@@ -1125,6 +1126,56 @@ test("a11y — NumberFormat (notations + dl semantics)", async ({ mount, page })
         <dt>MRR</dt>
         <NumberFormat as="dd" value={12_750} notation="currency" currency="USD" locale="en-US" />
       </dl>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- ProgressBar ---------- */
+
+test("a11y — ProgressBar (determinate, aria-label)", async ({ mount, page }) => {
+  await mount(<ProgressBar value={60} aria-label="Uploading report" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — ProgressBar (determinate, aria-labelledby)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <p id="pb-a11y-label">Generating AI response</p>
+      <ProgressBar value={42} aria-labelledby="pb-a11y-label" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — ProgressBar (indeterminate, aria-label)", async ({ mount, page }) => {
+  await mount(<ProgressBar aria-label="Loading results" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — ProgressBar (indeterminate, aria-labelledby)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <p id="pb-a11y-indet-label">Background sync in progress</p>
+      <ProgressBar aria-labelledby="pb-a11y-indet-label" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — ProgressBar (reduced-motion, indeterminate)", async ({ mount, page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await mount(<ProgressBar aria-label="Reduced motion progress" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — ProgressBar (all tones, determinate)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <ProgressBar value={60} tone="default" aria-label="Default tone progress" />
+      <ProgressBar value={60} tone="success" aria-label="Success tone progress" />
+      <ProgressBar value={60} tone="warning" aria-label="Warning tone progress" />
+      <ProgressBar value={60} tone="danger" aria-label="Danger tone progress" />
     </div>,
   );
   await expectAxeClean(page);

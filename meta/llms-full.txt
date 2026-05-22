@@ -1434,6 +1434,28 @@ function ContactForm() {
 - Do NOT use `<Spinner>` as ambient decoration — motion doctrine bans ambient motion without semantic meaning tied to a real operation.
 - Button loading pairing: `sm`/`compact` buttons use `size="sm"`; `md`/`lg` buttons use `size="md"`. Never `size="lg"` inside a button — 24px competes with the button label.
 
+### ProgressBar
+- Linear progress indicator atom. Determinate mode (known progress percentage) or indeterminate mode (unknown duration). Pairs with `<Spinner>` — use `<Spinner>` when no percentage is available; use `<ProgressBar>` when a percentage or step-count can be derived.
+- Root element: `<div role="progressbar">` with `aria-valuemin="0"`, `aria-valuemax="100"`. Determinate: `aria-valuenow={clamped value}`. Indeterminate: `aria-valuenow` is absent from the DOM entirely (not `undefined`, not empty — the attribute is not rendered at all).
+- Labeling: exactly one of `aria-label` or `aria-labelledby` is required. Enforced at the TypeScript type level via discriminated union — both absent is a type error. No default label is defined; an unlabeled progress bar is inaccessible.
+- `value` (`number | undefined`, default `undefined`) — 0–100. Omitting activates indeterminate mode. Out-of-range values clamp to `[0, 100]`.
+- `size` (`"sm" | "md"`, default `"md"`) — track height: `sm`=2px, `md`=4px. `border-radius: 999px` on track and fill at all sizes (pill shape, brand-fixed).
+- `tone` (`"default" | "success" | "warning" | "danger"`, default `"default"`) — fill color token: `default`→`--fg`, `success`→`--success`, `warning`→`--warning`, `danger`→`--danger`. Track is always `--surface` regardless of tone.
+- Width: not set by the component. Consumer assigns width via `className` or containing layout. Same convention as `<Spinner>`.
+- Determinate fill: `width: 100%`, `transform: scaleX(var(--progress-fraction, 0))`, `transform-origin: left center`. `--progress-fraction` set inline as a CSS custom property (`value / 100`). Transition: `transform var(--dur-mid) var(--easing)`. NEVER animate `width` — `scaleX` only.
+- Indeterminate: track contains two sibling bars (`position: absolute`, `width: 100%`) animated by `@keyframes poukai-progress-bar1` and `poukai-progress-bar2`. Both loop `var(--dur-progress-indeterminate)` (1400ms) with `--easing` (expo-out). Bar 2 starts at `translateX(-200%)` so it emerges behind bar 1 mid-cycle, producing the "two signals in sequence" sweep with no dead-track gap.
+- Keyframes: `poukai-progress-bar1` (0%: -100%, 20%: -100%, 60%: 0%, 80%: 0%, 100%: +100%) and `poukai-progress-bar2` (0%: -200%, 40%: -200%, 80%: 0%, 100%: +100%). The brief 60%–80% hold at 0% in bar1 creates a "full" pause before exit; the overlap prevents dead track.
+- Reduced-motion — indeterminate: `bar1` and `bar2` are `animation: none; display: none`. A `staticFill` element (`display: none` by default, `display: block` under reduced-motion) renders at `scaleX(0.5)` — half-filled, communicates "in progress" without a specific value or motion. Always present in DOM; toggled CSS-only.
+- Reduced-motion — determinate: `transition: none` on the fill (snap to value immediately).
+- New tokens added in this release: `--success` / `--bg-success` / `--fg-on-success` (light + dark), `--dur-progress-indeterminate: 1400ms`.
+- Tokens consumed: `--surface` (track), `--fg` / `--success` / `--warning` / `--danger` (fill by tone), `--dur-mid` (determinate transition), `--easing` (both transition and animation), `--dur-progress-indeterminate` (indeterminate loop period).
+- Do NOT animate `width`. The motion property contract is `transform` only. Playwright CT guards this regression.
+- Do NOT add `aria-valuenow` when indeterminate — the attribute must be absent, not set to `undefined` or `null`.
+- Do NOT omit both `aria-label` and `aria-labelledby` — TypeScript will reject the call site.
+- Do NOT add a `speed` or `duration` prop — override `--dur-progress-indeterminate` via a scoped CSS custom property on a parent element.
+- Do NOT use `<ProgressBar>` inside a `<Button>` — use `<Spinner>` for button-level loading.
+- Do NOT use as ambient decoration — every animation must communicate a real operation state.
+
 ---
 
 ## Anti-patterns

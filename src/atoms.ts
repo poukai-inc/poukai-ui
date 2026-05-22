@@ -65,3 +65,9 @@ export {
   type SpacerAxis,
   type SpacerAs,
 } from "./atoms/Spacer";
+export {
+  ProgressBar,
+  type ProgressBarProps,
+  type ProgressBarSize,
+  type ProgressBarTone,
+} from "./atoms/ProgressBar";

@@ -115,6 +115,11 @@
       "import": "./dist/atoms/Prose.js",
       "require": "./dist/atoms/Prose.cjs"
     },
+    "./atoms/ProgressBar": {
+      "types": "./dist/atoms/ProgressBar.d.ts",
+      "import": "./dist/atoms/ProgressBar.js",
+      "require": "./dist/atoms/ProgressBar.cjs"
+    },
     "./atoms/Code": {
       "types": "./dist/atoms/Code.d.ts",
       "import": "./dist/atoms/Code.js",
@@ -351,6 +356,12 @@
       "path": "dist/index.js",
       "import": "{ Hero, RoleCard, Principle }",
       "limit": "11 kB"
+    },
+    {
+      "name": "ESM — tree-shaken (ProgressBar)",
+      "path": "dist/index.js",
+      "import": "{ ProgressBar }",
+      "limit": "13 kB"
     }
   ]
 }

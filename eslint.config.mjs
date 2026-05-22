@@ -16,6 +16,8 @@ export default [
       "dist/**",
       "node_modules/**",
       ".ladle/**",
+      ".claude/**",
+      ".codex/**",
       "scripts/**",
       "vite.config.ts",
       "playwright-ct.config.ts",

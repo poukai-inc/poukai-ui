@@ -170,6 +170,11 @@
       "import": "./dist/atoms/Spacer.js",
       "require": "./dist/atoms/Spacer.cjs"
     },
+    "./atoms/Checkbox": {
+      "types": "./dist/atoms/Checkbox.d.ts",
+      "import": "./dist/atoms/Checkbox.js",
+      "require": "./dist/atoms/Checkbox.cjs"
+    },
     "./atoms/Input": {
       "types": "./dist/atoms/Input.d.ts",
       "import": "./dist/atoms/Input.js",
@@ -302,6 +307,7 @@
     "react-dom": ">=18 || >=19"
   },
   "dependencies": {
+    "@radix-ui/react-checkbox": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",

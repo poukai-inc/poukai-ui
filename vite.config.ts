@@ -62,6 +62,7 @@ export default defineConfig({
               "atoms/Textarea": resolve(__dirname, "src/atoms/Textarea/index.ts"),
               "atoms/Wordmark": resolve(__dirname, "src/atoms/Wordmark/index.ts"),
               "atoms/NumberFormat": resolve(__dirname, "src/atoms/NumberFormat/index.ts"),
+              "atoms/Checkbox": resolve(__dirname, "src/atoms/Checkbox/index.ts"),
               "atoms/Spacer": resolve(__dirname, "src/atoms/Spacer/index.ts"),
               "molecules/FailureMode": resolve(__dirname, "src/molecules/FailureMode/index.ts"),
               "molecules/FeatureCard": resolve(__dirname, "src/molecules/FeatureCard/index.ts"),

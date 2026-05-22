@@ -207,6 +207,14 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Composes Button + Icon + VisuallyHidden. No `asChild` in v1 — IconButton always renders a `<button>`. WCAG AAA tap-target posture same as Button: md and lg pass at 44px, sm and compact are AA only.
 - Use for icon-only affordances where the glyph is unambiguous (close, copy, prev/next). For icon+label, use Button with a child Icon, not IconButton.
 
+### Checkbox
+- Wraps `@radix-ui/react-checkbox`. Owns ONLY the control + indicator — label pairing, helper text, error messaging, and `htmlFor` wiring are the molecule layer's job.
+- Fixed 16×16px (`--icon-sm`). No `size` prop. Radius `--radius-1` (2px).
+- States: unchecked (bg `--bg`, border `--hairline`) / checked (bg `--fg`, Lucide `Check` glyph) / indeterminate (bg `--fg`, Lucide `Minus` glyph). Hover (unchecked, pointer): border → `--fg-muted`. Disabled: opacity 0.5. `aria-invalid="true"`: border → `--danger`.
+- `checked` prop is Radix's `CheckedState` (`boolean | "indeterminate"`). Supports controlled (`checked` + `onCheckedChange`) and uncontrolled (`defaultChecked`).
+- Standalone usage fails WCAG 2.5.8 (24px) and 2.5.5 (44px) hit-target rules — practical hit area is control + label, owned by the molecule. Consumers using bare Checkbox must extend the click target externally.
+- Canonical state contract for tests is Radix's `data-state` attribute (`checked` / `unchecked` / `indeterminate`), not icon DOM presence.
+
 ### Heading
 - Canonical heading atom. Owns the H1 → H6 type ramp. Decoupled `as` (rendered HTML element, drives the document outline) and `size` (visual rank, drives type styling). `size` defaults to whatever `as` is, so `<Heading>Foo</Heading>` renders an `<h2>` styled at h2 rank with no extra props.
 - `as` (default `"h2"`) — closed union of `"h1" | "h2" | "h3" | "h4" | "h5" | "h6"`. An explicit H1 must be opt-in (the default does not auto-promote to H1; one H1 per page is the consumer's responsibility).

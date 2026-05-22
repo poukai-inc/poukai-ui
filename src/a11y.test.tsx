@@ -43,6 +43,7 @@ import { Dialog, DialogBasic } from "./organisms/Dialog";
 import { Tabs, TabsBasic } from "./organisms/Tabs";
 import { Input } from "./atoms/Input";
 import { Select } from "./atoms/Select";
+import { Checkbox } from "./atoms/Checkbox";
 import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
@@ -463,6 +464,22 @@ test("a11y — Time (formats + children override)", async ({ mount, page }) => {
       <p>
         <Time dateTime={ANCHOR}>Last Wednesday</Time>
       </p>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Checkbox (unchecked, checked, indeterminate, disabled, invalid)", async ({
+  mount,
+  page,
+}) => {
+  await mount(
+    <div style={{ display: "flex", gap: 12 }}>
+      <Checkbox aria-label="Unchecked" />
+      <Checkbox checked aria-label="Checked" />
+      <Checkbox checked="indeterminate" aria-label="Indeterminate" />
+      <Checkbox disabled aria-label="Disabled" />
+      <Checkbox aria-invalid="true" aria-label="Invalid" />
     </div>,
   );
   await expectAxeClean(page);

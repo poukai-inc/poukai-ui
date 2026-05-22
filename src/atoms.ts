@@ -74,3 +74,4 @@ export {
 export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Textarea";
 export { Input, type InputProps, type InputSize } from "./atoms/Input";
 export { Select, type SelectProps, type SelectSize } from "./atoms/Select";
+export { Checkbox, type CheckboxProps, type CheckboxCheckedState } from "./atoms/Checkbox";

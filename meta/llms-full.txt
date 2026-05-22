@@ -260,6 +260,15 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Do NOT use Mark for inline code literals — use `<Code>`. Do NOT use Mark for keyboard keys — use `<Kbd>`. Do NOT use Mark for status indication (error/warning/success) — use `<Banner>` or `<StatusBadge>`.
 - Do NOT nest interactive elements inside Mark (no `<button>`, `<a>`, `<input>` children). If the highlighted run must be clickable, the consumer wraps Mark with an anchor that owns the interaction.
 
+### Spacer
+- Explicit-gap atom for contexts where flex/grid `gap` cannot reach. NOT a general spacing utility — use `gap` or section padding tokens by default.
+- `size` (required, closed union `"1" | "2" | "3" | "4" | "6" | "8" | "10"`) maps to `--space-1` … `--space-10`. Layout-tier values (`--space-12`+) are intentionally excluded — those belong to template-level rhythm, not an inline atom.
+- `axis="block"` (default): `display: block; height: var(--space-N); width: 100%`. `axis="inline"`: `display: inline-block; width: var(--space-N); height: 1em`.
+- `as="div"` (default) or `as="span"`. Use `as="span"` with `axis="inline"` inside text flow.
+- Always renders `aria-hidden="true"` — decorative, ignored by AT. No background, no border, no content.
+- Canonical use: between two `<Prose>` siblings where the parent owns no layout; between conditionally-rendered siblings; inside legacy block containers where `gap` is unavailable.
+- Do NOT use between flex/grid siblings (use `gap`), for section-tier rhythm (use Section padding tokens), as a vertical typography hack (fix the type ramp), or as a margin replacement on components that own their margin.
+
 ### Stat
 - Requires a caption — numeral alone is not self-explanatory.
 - value must be a numeral or numeral+unit string. source should be citation only.

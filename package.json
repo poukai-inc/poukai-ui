@@ -145,6 +145,11 @@
       "import": "./dist/atoms/Mark.js",
       "require": "./dist/atoms/Mark.cjs"
     },
+    "./atoms/Spacer": {
+      "types": "./dist/atoms/Spacer.d.ts",
+      "import": "./dist/atoms/Spacer.js",
+      "require": "./dist/atoms/Spacer.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",

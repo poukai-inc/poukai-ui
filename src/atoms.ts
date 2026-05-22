@@ -58,3 +58,10 @@ export {
   type NumberFormatAs,
 } from "./atoms/NumberFormat";
 export { Time, type TimeProps, type TimeFormat } from "./atoms/Time";
+export {
+  Spacer,
+  type SpacerProps,
+  type SpacerSize,
+  type SpacerAxis,
+  type SpacerAs,
+} from "./atoms/Spacer";

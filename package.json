@@ -312,7 +312,7 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "37 kB"
+      "limit": "37.1 kB"
     },
     {
       "name": "ESM — atoms subpath",

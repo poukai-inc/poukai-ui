@@ -80,6 +80,7 @@ export {
   type ProgressBarSize,
   type ProgressBarTone,
 } from "./atoms/ProgressBar";
+export { Input, type InputProps, type InputSize } from "./atoms/Input";
 
 export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Textarea";
 
@@ -107,7 +108,6 @@ export { TeamCard, type TeamCardProps } from "./molecules/TeamCard";
 export { FeatureCard, type FeatureCardProps } from "./molecules/FeatureCard";
 export { FieldNote, type FieldNoteProps } from "./molecules/FieldNote";
 export { Quote, type QuoteProps } from "./molecules/Quote";
-export { Input, type InputProps } from "./molecules/Input";
 export { Field, type FieldProps } from "./molecules/Field";
 export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";

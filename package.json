@@ -165,6 +165,11 @@
       "import": "./dist/atoms/Spacer.js",
       "require": "./dist/atoms/Spacer.cjs"
     },
+    "./atoms/Input": {
+      "types": "./dist/atoms/Input.d.ts",
+      "import": "./dist/atoms/Input.js",
+      "require": "./dist/atoms/Input.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",
@@ -179,6 +184,11 @@
       "types": "./dist/molecules/FieldNote.d.ts",
       "import": "./dist/molecules/FieldNote.js",
       "require": "./dist/molecules/FieldNote.cjs"
+    },
+    "./molecules/Input": {
+      "types": "./dist/molecules/Input.d.ts",
+      "import": "./dist/molecules/Input.js",
+      "require": "./dist/molecules/Input.cjs"
     },
     "./molecules/Hero": {
       "types": "./dist/molecules/Hero.d.ts",

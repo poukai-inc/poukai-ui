@@ -1,0 +1,64 @@
+.root {
+  display: block;
+  width: 100%;
+  background-color: var(--bg-elevated);
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius-2);
+  padding-block: var(--space-2);
+  padding-inline: var(--space-3);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+  box-sizing: border-box;
+  transition:
+    border-color var(--dur-fast) var(--easing),
+    box-shadow var(--dur-fast) var(--easing);
+}
+
+.root::placeholder {
+  color: var(--fg-muted);
+}
+
+/* ---- Size ---- */
+/* Height shares the --btn-h-* ladder so Input + Button pair at matching nominal size */
+
+.size-sm {
+  min-height: var(--btn-h-sm);
+}
+
+.size-md {
+  min-height: var(--btn-h-md);
+}
+
+.size-lg {
+  min-height: var(--btn-h-lg);
+}
+
+/* ---- States ---- */
+
+@media (hover: hover) {
+  .root:not(:disabled):not(:read-only):hover {
+    border-color: var(--fg-muted);
+  }
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+
+.root[data-invalid="true"],
+.root[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+
+.root:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.root:read-only {
+  cursor: default;
+}

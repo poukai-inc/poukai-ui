@@ -125,6 +125,11 @@
       "import": "./dist/atoms/Image.js",
       "require": "./dist/atoms/Image.cjs"
     },
+    "./atoms/SkipLink": {
+      "types": "./dist/atoms/SkipLink.d.ts",
+      "import": "./dist/atoms/SkipLink.js",
+      "require": "./dist/atoms/SkipLink.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",

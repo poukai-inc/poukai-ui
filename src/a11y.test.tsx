@@ -32,6 +32,7 @@ import { VisuallyHidden } from "./atoms/VisuallyHidden";
 import { Code } from "./atoms/Code";
 import { Kbd } from "./atoms/Kbd";
 import { Image } from "./atoms/Image";
+import { SkipLink } from "./atoms/SkipLink";
 import { SiteShell } from "./organisms/SiteShell";
 import { Footer } from "./organisms/Footer";
 import { Dialog, DialogBasic } from "./organisms/Dialog";
@@ -357,6 +358,20 @@ test("a11y — Image (descriptive alt)", async ({ mount, page }) => {
 
 test("a11y — Image (decorative alt='')", async ({ mount, page }) => {
   await mount(<Image src={IMAGE_PIXEL} alt="" width={800} height={300} radius="lg" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — SkipLink (rest + focused)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <SkipLink href="#main" />
+      <main id="main" tabIndex={-1}>
+        <p>Main content</p>
+      </main>
+    </div>,
+  );
+  await expectAxeClean(page);
+  await page.keyboard.press("Tab");
   await expectAxeClean(page);
 });
 

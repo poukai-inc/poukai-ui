@@ -44,6 +44,7 @@ import { Tabs, TabsBasic } from "./organisms/Tabs";
 import { Input } from "./atoms/Input";
 import { Select } from "./atoms/Select";
 import { Checkbox } from "./atoms/Checkbox";
+import { Switch } from "./atoms/Switch";
 import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
@@ -480,6 +481,28 @@ test("a11y — Checkbox (unchecked, checked, indeterminate, disabled, invalid)",
       <Checkbox checked="indeterminate" aria-label="Indeterminate" />
       <Checkbox disabled aria-label="Disabled" />
       <Checkbox aria-invalid="true" aria-label="Invalid" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Switch (off, on, disabled)", async ({ mount, page }) => {
+  await mount(
+    <div style={{ display: "flex", gap: 12 }}>
+      <Switch aria-label="Off" />
+      <Switch aria-label="On" defaultChecked />
+      <Switch aria-label="Disabled off" disabled />
+      <Switch aria-label="Disabled on" disabled defaultChecked />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Switch with htmlFor label", async ({ mount, page }) => {
+  await mount(
+    <div style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+      <Switch id="a11y-sw" />
+      <label htmlFor="a11y-sw">Enable notifications</label>
     </div>,
   );
   await expectAxeClean(page);

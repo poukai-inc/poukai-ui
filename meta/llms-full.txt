@@ -215,6 +215,24 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Standalone usage fails WCAG 2.5.8 (24px) and 2.5.5 (44px) hit-target rules — practical hit area is control + label, owned by the molecule. Consumers using bare Checkbox must extend the click target externally.
 - Canonical state contract for tests is Radix's `data-state` attribute (`checked` / `unchecked` / `indeterminate`), not icon DOM presence.
 
+### Switch
+- Wraps `@radix-ui/react-switch`. Use when a setting has a persistent on/off state that takes effect immediately — not for one-shot confirmations (use `<Button>`), not for single-item form selection (use `<Checkbox>`).
+- Import: `import { Switch } from "@poukai-inc/ui"` or `import { Switch } from "@poukai-inc/ui/atoms/Switch"`.
+- Track: 32×18px pill. Thumb: 14px circle. Travel: `translateX(0) → translateX(14px)` via CSS transform on `[data-state="checked"]`. No `left` animation.
+- Off: track bg `--surface`, border `--hairline`. On: track bg `--fg`, border transparent. Hover (unchecked, pointer): border → `--fg-muted`. Focus-visible: 2px `--accent` outline on track. Disabled: `opacity 0.5`. Reduced-motion: global `tokens.css` clamps transition — state preserved, animation removed.
+- Supports controlled (`checked` + `onCheckedChange`) and uncontrolled (`defaultChecked`). Forwards all native `<button>` props via `...rest`. `forwardRef` to root button.
+- Label always external — supply `<label htmlFor={id}>` or `aria-label`. Unlabelled Switch = a11y violation.
+- Canonical state contract for tests: Radix `data-state` (`"checked"` / `"unchecked"`).
+- Example:
+  ```tsx
+  // Uncontrolled with sibling label
+  <label htmlFor="notifications">Enable notifications</label>
+  <Switch id="notifications" defaultChecked />
+
+  // Controlled
+  <Switch checked={enabled} onCheckedChange={setEnabled} aria-label="Enable feature" />
+  ```
+
 ### Heading
 - Canonical heading atom. Owns the H1 → H6 type ramp. Decoupled `as` (rendered HTML element, drives the document outline) and `size` (visual rank, drives type styling). `size` defaults to whatever `as` is, so `<Heading>Foo</Heading>` renders an `<h2>` styled at h2 rank with no extra props.
 - `as` (default `"h2"`) — closed union of `"h1" | "h2" | "h3" | "h4" | "h5" | "h6"`. An explicit H1 must be opt-in (the default does not auto-promote to H1; one H1 per page is the consumer's responsibility).

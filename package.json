@@ -275,6 +275,11 @@
       "import": "./dist/molecules/Fieldset.js",
       "require": "./dist/molecules/Fieldset.cjs"
     },
+    "./molecules/CopyButton": {
+      "types": "./dist/molecules/CopyButton.d.ts",
+      "import": "./dist/molecules/CopyButton.js",
+      "require": "./dist/molecules/CopyButton.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

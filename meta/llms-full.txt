@@ -1720,3 +1720,46 @@ ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 
   <Field label="Street" id="street"><Input /></Field>
 </Fieldset>
 ```
+
+
+### Breadcrumb
+- Hierarchical location trail molecule. Renders the route path back through nested dashboard and product pages.
+- Root element: `<nav aria-label="Breadcrumb">`. `forwardRef<HTMLElement, BreadcrumbProps>`. `...rest` spread. `displayName = "Breadcrumb"`.
+- Contains an `<ol>` of `<li>` items with presentational `aria-hidden="true"` separator `<li>` elements interspersed.
+- Two usage patterns: compound `<Breadcrumb.Item>` children (preferred) or data-driven `items` prop array.
+- `items` (optional `Array<{ href?: string; label: ReactNode; current?: boolean }>`) — data-driven path. Mutually exclusive with compound children.
+- `children` (optional `ReactNode`) — compound `<Breadcrumb.Item>` nodes.
+- `separator` (optional `ReactNode`, default `"›"`) — rendered between items; each separator `<li>` carries `aria-hidden="true"`.
+- `className` (optional string) — layout override passthrough to root `<nav>`.
+- `Breadcrumb.Item` sub-component: `href` (optional string), `current` (optional boolean), `children` (required ReactNode). When `current` is true: plain `<span>`, `aria-current="page"` on the `<li>`, no link.
+- A11y: `<nav aria-label="Breadcrumb">` = distinct navigation landmark. `<ol>` = ordered hierarchy. `aria-current="page"` on current item. Separators `aria-hidden="true"`. Ancestor links have visible text accessible name.
+- Tokens: `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg-muted` (ancestor link rest), `--fg` (current item), `--accent` (hover color + focus ring), `--hairline` (separator + link underline), `--hairline-w`, `--space-2` (gap), `--dur-fast`, `--dur-mid`, `--easing`, `--easing-link`, `--radius-1`.
+- Static presentational. No state. No JS-driven truncation in v1.
+- Do NOT link the current (last) item — it is always plain text.
+- Do NOT use for tab navigation or wizard steps — use `Tabs` or `Stepper`.
+- Do NOT render when depth < 2 (single-item trail has no navigational value).
+
+```tsx
+// (a) Compound — 3-level trail:
+<Breadcrumb>
+  <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
+  <Breadcrumb.Item href="/dashboard/pages">Pages</Breadcrumb.Item>
+  <Breadcrumb.Item current>Settings</Breadcrumb.Item>
+</Breadcrumb>
+
+// (b) Data-driven alias:
+<Breadcrumb
+  items={[
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/dashboard/pages", label: "Pages" },
+    { label: "Settings", current: true },
+  ]}
+/>
+
+// (c) Custom separator:
+<Breadcrumb separator="/">
+  <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
+  <Breadcrumb.Item current>Settings</Breadcrumb.Item>
+</Breadcrumb>
+```
+```

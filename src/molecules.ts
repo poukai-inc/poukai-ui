@@ -36,3 +36,10 @@ export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export {
+  Breadcrumb,
+  BreadcrumbItem,
+  type BreadcrumbProps,
+  type BreadcrumbItemProps,
+  type BreadcrumbItemData,
+} from "./molecules/Breadcrumb";

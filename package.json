@@ -275,6 +275,11 @@
       "import": "./dist/molecules/Fieldset.js",
       "require": "./dist/molecules/Fieldset.cjs"
     },
+    "./molecules/Breadcrumb": {
+      "types": "./dist/molecules/Breadcrumb.d.ts",
+      "import": "./dist/molecules/Breadcrumb.js",
+      "require": "./dist/molecules/Breadcrumb.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

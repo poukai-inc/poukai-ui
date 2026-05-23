@@ -60,6 +60,7 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import { EmptyState } from "./molecules/EmptyState";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1563,6 +1564,67 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- EmptyState ---------- */
+
+test("a11y — EmptyState (default tone, title only)", async ({ mount, page }) => {
+  await mount(<EmptyState title="No scheduled posts" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — EmptyState (with icon, description, and action)", async ({ mount, page }) => {
+  await mount(
+    <EmptyState
+      title="No scheduled posts"
+      description="Schedule your first post to start building your content calendar."
+      icon={
+        <svg
+          width={24}
+          height={24}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          aria-hidden="true"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      }
+      action={
+        <button
+          type="button"
+          style={{
+            background: "var(--fg)",
+            color: "var(--bg)",
+            border: "none",
+            borderRadius: "var(--radius-2)",
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--fs-body)",
+            padding: "var(--space-2) var(--space-4)",
+            cursor: "pointer",
+          }}
+        >
+          Schedule a post
+        </button>
+      }
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — EmptyState (tone='subtle')", async ({ mount, page }) => {
+  await mount(
+    <EmptyState
+      tone="subtle"
+      title="No conversations yet"
+      description="When someone messages you, it will appear here."
+    />,
   );
   await expectAxeClean(page);
 });

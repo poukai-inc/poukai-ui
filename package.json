@@ -275,6 +275,11 @@
       "import": "./dist/molecules/Fieldset.js",
       "require": "./dist/molecules/Fieldset.cjs"
     },
+    "./molecules/EmptyState": {
+      "types": "./dist/molecules/EmptyState.d.ts",
+      "import": "./dist/molecules/EmptyState.js",
+      "require": "./dist/molecules/EmptyState.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

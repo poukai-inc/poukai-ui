@@ -1720,3 +1720,35 @@ ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 
   <Field label="Street" id="street"><Input /></Field>
 </Fieldset>
 ```
+
+---
+
+### EmptyState
+
+**Layer**: molecule | **File**: `src/molecules/EmptyState/`
+
+Zero-data placeholder — shown when a list, table, or content region has no records. Centered vertical stack: optional decorative icon, required title `<p>`, optional description `<p>`, optional action slot.
+
+**Props**: `title: string` (required) · `icon?: ReactNode` · `description?: string | ReactNode` · `action?: ReactNode` · `tone?: "default" | "subtle"` (default `"default"`) · all `<div>` HTML attributes forwarded to root.
+
+**Tokens used**: `--fs-body` · `--font-sans` · `--fg` (title) · `--fg-muted` (description, icon) · `--lh-body` · `--space-2` (title→description gap) · `--space-3` (icon→title gap) · `--space-6` (description→action gap) · `--space-16` (vertical padding) · `--surface` + `--radius-3` (tone="subtle").
+
+**A11y**: root is plain `<div>` (not `role="alert"`). Icon wrapper is `aria-hidden="true"`. Title is `<p>` — not a heading; document outline is consumer responsibility. Inline links in description inherit global focus ring.
+
+**Anti-patterns**: do not use for loading/error states · do not omit `title` · do not hardcode color on icon · do not use as full-page first-run surface.
+
+```tsx
+// (a) Title only:
+<EmptyState title="No scheduled posts" />
+
+// (b) Full anatomy:
+<EmptyState
+  title="No scheduled posts"
+  description="Schedule your first post to start building your content calendar."
+  icon={<CalendarIcon width={24} height={24} aria-hidden="true" />}
+  action={<Button variant="primary" size="md">Schedule a post</Button>}
+/>
+
+// (c) Inside a card (subtle tone):
+<EmptyState tone="subtle" title="No conversations yet" description="Messages appear here." />
+```

@@ -270,6 +270,11 @@
       "import": "./dist/molecules/TeamCard.js",
       "require": "./dist/molecules/TeamCard.cjs"
     },
+    "./molecules/Fieldset": {
+      "types": "./dist/molecules/Fieldset.d.ts",
+      "import": "./dist/molecules/Fieldset.js",
+      "require": "./dist/molecules/Fieldset.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

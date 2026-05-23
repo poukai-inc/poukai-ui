@@ -1683,3 +1683,40 @@ ADR-0008: SiteShell Wordmark height=56. Brand floor; do not pass height < 40.
 ADR-0009: Horizontal lockup is canonical. Stacked for square-format only.
 ADR-0010: Proposal-loop architecture. proposal:approved label is a human gate.
 ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 1184 290.
+
+### Fieldset
+- Groups related `<Field>` molecules under a shared semantic `<legend>`, enforcing consistent vertical spacing and a clear visual boundary around the group.
+- Root element: `<fieldset>`. Non-polymorphic. `forwardRef<HTMLFieldSetElement, FieldsetProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, `style`, etc.
+- `legend` (required string) — group label text. Rendered as `<legend>` as first child of `<fieldset>` for correct AT announcement.
+- `spacing` (optional `"default" | "spacious"`, default `"default"`) — `"default"` → `--space-4` gap between fields; `"spacious"` → `--space-6`.
+- `bordered` (optional boolean, default `false`) — adds `--surface` background, `--hairline` border, `--radius-3` corners, `--space-8` block / `--space-6` inline padding.
+- `legendTone` (optional `"default" | "muted"`, default `"default"`) — `"muted"` renders legend in `--fg-muted` for secondary sections.
+- `disabled` (optional boolean, default `false`) — maps to native `<fieldset disabled>`, propagating disabled state to all descendant form controls automatically.
+- `children` (required ReactNode) — `<Field>` or `<FormRow>` molecules.
+- A11y: native `<fieldset>` + `<legend>` provides `role="group"` with accessible name — no `aria-labelledby` needed. `<legend>` must remain first child.
+- Layout: fields container is `display: flex; flex-direction: column; gap: var(--space-4)` (default) or `var(--space-6)` (spacious).
+- Legend typography: `--fs-meta`, `font-weight: 500`, `--fg` (or `--fg-muted` when `legendTone="muted"`), `--lh-meta`, `margin-bottom: var(--space-1)`.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg`, `--fg-muted`, `--surface`, `--hairline`, `--hairline-w`, `--radius-3`, `--space-1`, `--space-4`, `--space-6`, `--space-8`.
+- Do NOT use Fieldset for a single `<Field>` — no semantic benefit.
+- Do NOT use Fieldset as a general-purpose bordered box for non-form content.
+- Do NOT use Fieldset as a page section (`<Section>`) or heading replacement.
+
+```tsx
+// (a) Billing address group:
+<Fieldset legend="Billing address">
+  <Field label="Street" id="street"><Input /></Field>
+  <Field label="City" id="city"><Input /></Field>
+  <Field label="Postal code" id="postal"><Input /></Field>
+</Fieldset>
+
+// (b) Bordered payment block:
+<Fieldset legend="Payment details" bordered spacing="spacious">
+  <Field label="Card number" id="card"><Input /></Field>
+  <Field label="Expiry" id="expiry"><Input /></Field>
+</Fieldset>
+
+// (c) Disabled group (all fields disabled automatically):
+<Fieldset legend="Shipping address" disabled>
+  <Field label="Street" id="street"><Input /></Field>
+</Fieldset>
+```

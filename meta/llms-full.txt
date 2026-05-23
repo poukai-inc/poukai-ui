@@ -1644,3 +1644,16 @@ ADR-0008: SiteShell Wordmark height=56. Brand floor; do not pass height < 40.
 ADR-0009: Horizontal lockup is canonical. Stacked for square-format only.
 ADR-0010: Proposal-loop architecture. proposal:approved label is a human gate.
 ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 1184 290.
+
+### StatList
+
+Layer: molecule. Groups two or more `Stat` atoms into a shared horizontal rhythm.
+Root: `<div role="list">`. Each child wrapped in `<div role="listitem">`.
+Props: `dividers` (boolean, default false) — opt-in hairline rules between items via CSS `::before` pseudo.
+       `align` ("start" | "center", default "center") — row justification within container.
+       `children` (ReactNode, required) — expects `Stat` atoms.
+Tokens: `--space-8` (mobile gap), `--space-12` (desktop row gap), `--hairline`, `--hairline-w`, `--bp-md`.
+Responsive: stacks column below `--bp-md` (768px); dividers become horizontal rules in stacked state.
+Motion: none. Static layout shell.
+A11y: `role="list"` + `role="listitem"` pair; dividers are CSS-only pseudo-elements, unreachable by AT.
+Anti-patterns: single Stat, non-Stat children, nested StatLists, status indicators, form-field rows.

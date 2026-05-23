@@ -48,6 +48,7 @@ import { Switch } from "./atoms/Switch";
 import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
+import { StatList } from "./molecules/StatList";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -1460,6 +1461,28 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
     <Prose>
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatList", async ({ mount, page }) => {
+  await mount(
+    <StatList>
+      <Stat value="85%" caption="of AI pilots never ship." source="MIT Sloan, 2025" />
+      <Stat value="$300B" caption="annual enterprise AI spend." source="IDC, 2025" />
+      <Stat value="3.2×" caption="faster delivery with a working dev loop." />
+    </StatList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatList with dividers", async ({ mount, page }) => {
+  await mount(
+    <StatList dividers>
+      <Stat value="12k" caption="Users" />
+      <Stat value="200" caption="Customers" />
+      <Stat value="99.9%" caption="Uptime" />
+    </StatList>,
   );
   await expectAxeClean(page);
 });

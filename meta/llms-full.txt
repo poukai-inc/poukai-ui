@@ -1096,6 +1096,28 @@ import { Icon } from "@poukai-inc/ui";
 - Do NOT use Byline for team grids or person cards — that is TeamCard.
 - Do NOT add authorHref, timeFormat prop, responsive collapse, or skeleton state — all out of scope in v1.
 
+### TimelineItem
+- Single entry in a sequential chronological list. Renders a date, title, and optional body copy with a left-rail marker dot and optional connector line to the next item.
+- Must live inside a `<ol>` supplied by a parent Timeline organism. Do NOT use standalone.
+- Composes Time atom (semantic `<time dateTime>`), Heading atom (title slot), and Text atom (body slot). Marker dot and connector rendered via CSS `::before` / `::after` pseudo-elements — no extra DOM nodes.
+- date (required string) — ISO 8601 string; forwarded to Time dateTime. Displayed as-is in the date slot (uppercase micro register).
+- title (required ReactNode) — entry heading. Rendered via Heading atom at the level specified by headingLevel.
+- body (optional ReactNode) — supporting copy. Omitted when absent; some milestone entries are title-only.
+- connector (boolean, default true) — whether to render the downward connector stub. Pass false for the last item in the list.
+- headingLevel (HeadingLevel, default "h3") — semantic heading level for the title. Decoupled from visual size so the document outline can differ from the visual rank.
+- Root: `<li>`, forwardRef<HTMLLIElement, TimelineItemProps>. ...rest spread to root. displayName = "TimelineItem".
+- Date slot: `--fs-meta`, `--lh-meta`, `--tracking-micro`, text-transform uppercase, color `--fg-muted`. margin-bottom `--space-1`.
+- Title slot: `--fs-h3` (via Heading atom sizeH3 class). margin-bottom `--space-2`.
+- Body slot: `--fs-body`, `--lh-body`, color `--fg-muted` (via Text atom toneMuted class).
+- Marker dot: 8px circle, `--accent` fill, `::before` pseudo-element — purely decorative, no ARIA.
+- Connector: `--hairline-w` wide, `--hairline` color vertical rule, `::after` pseudo-element — present when connector=true, absent when connector=false.
+- Left-rail gutter: padding-left `--space-6` (24px). Bottom margin between entries: padding-bottom `--space-8` (32px).
+- Tokens consumed: `--fs-meta`, `--fs-h3`, `--fs-body`, `--font-sans`, `--fg`, `--fg-muted`, `--accent`, `--hairline`, `--hairline-w`, `--lh-body`, `--lh-meta`, `--space-1`, `--space-2`, `--space-6`, `--space-8`, `--tracking-micro`. Zero new tokens.
+- A11y: outer `<li>` inside consumer `<ol>`. `<time datetime>` for machine-readable date. `<h3>` (default) matches heading hierarchy. Pseudo-elements are decorative — no content, no ARIA.
+- Do NOT use for status feeds, activity streams, or real-time logs — static editorial primitive only.
+- Do NOT use for navigation menus or step indicators — use Stepper for interactive flows.
+- Do NOT place more than one sentence in the date slot — it is a label, not a paragraph.
+
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.
 - Emits plain <a href> tags — framework-router consumers intercept at app level.

@@ -270,6 +270,11 @@
       "import": "./dist/molecules/TeamCard.js",
       "require": "./dist/molecules/TeamCard.cjs"
     },
+    "./molecules/TimelineItem": {
+      "types": "./dist/molecules/TimelineItem.d.ts",
+      "import": "./dist/molecules/TimelineItem.js",
+      "require": "./dist/molecules/TimelineItem.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

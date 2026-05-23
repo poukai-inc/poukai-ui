@@ -1,0 +1,53 @@
+.root {
+  position: relative;
+  list-style: none;
+  padding-left: var(--space-6);
+  padding-bottom: var(--space-8);
+}
+
+/* Marker dot — purely decorative, no ARIA needed */
+.root::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent);
+  transform: translateX(-50%);
+  margin-left: calc(var(--hairline-w) * 0.5);
+}
+
+/* Connector line — extends downward from marker to next item.
+   Owned by TimelineItem when connector=true; last item passes connector=false. */
+.connector::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: calc(0.35em + 8px + 4px);
+  bottom: 0;
+  width: var(--hairline-w);
+  background-color: var(--hairline);
+  transform: translateX(-50%);
+  margin-left: calc(var(--hairline-w) * 0.5);
+}
+
+.date {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  letter-spacing: var(--tracking-micro);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: var(--space-1);
+}
+
+.title {
+  margin-bottom: var(--space-2);
+}
+
+.body {
+  line-height: var(--lh-body);
+}

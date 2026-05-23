@@ -59,6 +59,7 @@ import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
+import { TimelineItem } from "./molecules/TimelineItem";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -884,6 +885,25 @@ test("a11y — TagList (gap=sm)", async ({ mount, page }) => {
       <Tag>Engineering</Tag>
       <Tag>Design Systems</Tag>
     </TagList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimelineItem (with body)", async ({ mount, page }) => {
+  await mount(
+    <ol>
+      <TimelineItem date="2026-05-22" title="Series A closed" body="$12M led by Acme Ventures." />
+      <TimelineItem date="2025-01-10" title="Company founded" connector={false} />
+    </ol>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimelineItem (title only, no connector)", async ({ mount, page }) => {
+  await mount(
+    <ol>
+      <TimelineItem date="2025-01-10" title="Company founded" connector={false} />
+    </ol>,
   );
   await expectAxeClean(page);
 });

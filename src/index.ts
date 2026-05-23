@@ -115,6 +115,13 @@ export { Quote, type QuoteProps } from "./molecules/Quote";
 export { Field, type FieldProps } from "./molecules/Field";
 export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";
+export {
+  CtaBlock,
+  type CtaBlockProps,
+  type CtaBlockOrientation,
+  type CtaBlockAlign,
+  type CtaBlockHeadingAs,
+} from "./molecules/CtaBlock";
 
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";

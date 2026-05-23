@@ -85,6 +85,7 @@ export default defineConfig({
               "atoms/VisuallyHidden": resolve(__dirname, "src/atoms/VisuallyHidden/index.ts"),
               "atoms/Wordmark": resolve(__dirname, "src/atoms/Wordmark/index.ts"),
               "molecules/Banner": resolve(__dirname, "src/molecules/Banner/index.ts"),
+              "molecules/CtaBlock": resolve(__dirname, "src/molecules/CtaBlock/index.ts"),
               "molecules/FailureMode": resolve(__dirname, "src/molecules/FailureMode/index.ts"),
               "molecules/FeatureCard": resolve(__dirname, "src/molecules/FeatureCard/index.ts"),
               "molecules/Field": resolve(__dirname, "src/molecules/Field/index.ts"),

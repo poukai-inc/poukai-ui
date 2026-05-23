@@ -60,6 +60,7 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import { Figure } from "./molecules/Figure";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1563,6 +1564,24 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Figure (with caption)", async ({ mount, page }) => {
+  await mount(
+    <Figure caption="Photographer: Jane Doe">
+      <img src="https://placehold.co/400x300" alt="A placeholder image for axe testing" />
+    </Figure>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Figure (no caption)", async ({ mount, page }) => {
+  await mount(
+    <Figure>
+      <img src="https://placehold.co/400x300" alt="A placeholder image without a caption" />
+    </Figure>,
   );
   await expectAxeClean(page);
 });

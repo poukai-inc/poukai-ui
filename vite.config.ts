@@ -87,6 +87,7 @@ export default defineConfig({
               "molecules/Banner": resolve(__dirname, "src/molecules/Banner/index.ts"),
               "molecules/Byline": resolve(__dirname, "src/molecules/Byline/index.ts"),
               "molecules/FailureMode": resolve(__dirname, "src/molecules/FailureMode/index.ts"),
+              "molecules/Figure": resolve(__dirname, "src/molecules/Figure/index.ts"),
               "molecules/FeatureCard": resolve(__dirname, "src/molecules/FeatureCard/index.ts"),
               "molecules/Field": resolve(__dirname, "src/molecules/Field/index.ts"),
               "molecules/FieldNote": resolve(__dirname, "src/molecules/FieldNote/index.ts"),

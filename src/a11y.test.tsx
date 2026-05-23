@@ -48,6 +48,7 @@ import { Switch } from "./atoms/Switch";
 import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
+import { Caption } from "./molecules/Caption";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -1461,5 +1462,10 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
   );
+  await expectAxeClean(page);
+});
+
+test("a11y — Caption", async ({ mount, page }) => {
+  await mount(<Caption>Caption</Caption>);
   await expectAxeClean(page);
 });

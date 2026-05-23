@@ -1644,3 +1644,15 @@ ADR-0008: SiteShell Wordmark height=56. Brand floor; do not pass height < 40.
 ADR-0009: Horizontal lockup is canonical. Stacked for square-format only.
 ADR-0010: Proposal-loop architecture. proposal:approved label is a human gate.
 ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 1184 290.
+
+### Caption
+- Muted micro-tracked label for supplementary attribution or contextual annotation beneath a visual or content block. Answers "what is the source or context of this artifact?" beneath figures, code blocks, audio players, and similar surfaces.
+- Root element is polymorphic via `as` prop (`"figcaption"` | `"p"` | `"span"`, default `"figcaption"`). Use `"figcaption"` inside `<figure>` — the browser natively associates it with figure content, no ARIA needed. Use `"p"` for standalone use outside a figure. Use `"span"` for inline contexts.
+- `children` (required ReactNode) — the caption text. Plain string is idiomatic. ReactNode accepted for rare inline `<a>` links; no block-level elements.
+- No `tone` prop — one visual register only. No `size` prop — `--fs-micro` is fixed. No icon slot — captions are text primitives.
+- Typography: `--font-sans` (Geist), `--fs-micro` (12px fixed), `line-height: var(--lh-meta)` (1.2), `letter-spacing: var(--tracking-micro)` (0.04em), `color: var(--fg-muted)`.
+- No padding, no margin authored by the component. Top margin (`--space-2`, 0.5rem) separating the caption from its preceding element is the consumer's responsibility.
+- No states, no motion, no transitions. Caption is a non-interactive static text element. Not a tab stop.
+- Contrast: `--fg-muted` on `--bg` = 4.91:1 (AA, light). `--fg-muted` on `--bg` dark = 6.10:1 (AA, dark). Passes WCAG 2.1 AA for normal text at 12px (threshold 4.5:1).
+- Tokens consumed: `--font-sans`, `--fs-micro`, `--lh-meta`, `--tracking-micro`, `--fg-muted`. Zero new tokens introduced.
+- Caption is NOT `<FieldNote>` (FieldNote is an editorial inline aside inside prose flow, not a below-artifact label). NOT a heading or field label. NOT for long-form body copy.

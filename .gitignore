@@ -18,6 +18,7 @@ test-results
 .claude/tasks/
 .claude/state/
 .claude/logs/
+.claude/settings.local.json
 
 .DS_Store
 .env

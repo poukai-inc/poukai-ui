@@ -119,6 +119,23 @@ export { Byline, type BylineProps } from "./molecules/Byline/index.js";
 export { TagList, type TagListProps } from "./molecules/TagList/index.js";
 
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableHeaderCell,
+  TableCell,
+  type TableProps,
+  type TableHeadProps,
+  type TableBodyProps,
+  type TableRowProps,
+  type TableHeaderCellProps,
+  type TableCellProps,
+  type TableDensity,
+  type TableTone,
+  type TableAlign,
+} from "./molecules/Table";
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";

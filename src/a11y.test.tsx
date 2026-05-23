@@ -60,6 +60,14 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableHeaderCell,
+  TableCell,
+} from "./molecules/Table";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1563,6 +1571,55 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- Table ---------- */
+
+test("a11y — Table (comfortable density, default tone)", async ({ mount, page }) => {
+  await mount(
+    <Table aria-label="Team members">
+      <TableHead>
+        <TableRow>
+          <TableHeaderCell>Name</TableHeaderCell>
+          <TableHeaderCell>Role</TableHeaderCell>
+          <TableHeaderCell align="end">Joined</TableHeaderCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <TableCell>Arian Zargaran</TableCell>
+          <TableCell>Founder</TableCell>
+          <TableCell align="end">2023</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Sam Rivera</TableCell>
+          <TableCell>Engineer</TableCell>
+          <TableCell align="end">2024</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Table (compact density, subtle tone)", async ({ mount, page }) => {
+  await mount(
+    <Table aria-label="Engagement metrics" density="compact" tone="subtle">
+      <TableHead>
+        <TableRow>
+          <TableHeaderCell>Post</TableHeaderCell>
+          <TableHeaderCell align="end">Views</TableHeaderCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <TableCell>Why AI fails</TableCell>
+          <TableCell align="end">12,400</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>,
   );
   await expectAxeClean(page);
 });

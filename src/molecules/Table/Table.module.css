@@ -1,0 +1,99 @@
+/* ============================================================
+   Table — semantic data-display primitive
+   All values via design tokens. No hex, raw px, or magic numbers.
+   ============================================================ */
+
+/* ---------- Root <table> ---------- */
+
+.root {
+  font-family: var(--font-sans);
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+}
+
+/* ---------- Density variants (vertical cell padding) ---------- */
+
+.root.compact .cell,
+.root.compact .headerCell {
+  padding-block: var(--space-2);
+}
+
+.root.comfortable .cell,
+.root.comfortable .headerCell {
+  padding-block: var(--space-3);
+}
+
+/* ---------- Horizontal padding (both densities) ---------- */
+
+.cell,
+.headerCell {
+  padding-inline: var(--space-4);
+}
+
+/* ---------- Table.Head <thead> ---------- */
+
+.head {
+  /* Semantic grouping only — no visual treatment beyond child typography. */
+}
+
+/* ---------- Table.Body <tbody> ---------- */
+
+.body {
+  /* Semantic grouping only. */
+}
+
+/* ---------- Table.Row <tr> ---------- */
+
+.row {
+  transition: background-color var(--dur-fast) var(--easing);
+}
+
+/* Row hover only inside tbody — not in thead. */
+.body .row:hover {
+  background-color: var(--surface);
+}
+
+/* Subtle tone: row hover uses --surface-section. */
+.root.subtle .body .row:hover {
+  background-color: var(--surface-section);
+}
+
+/* ---------- Table.HeaderCell <th scope="col"> ---------- */
+
+.headerCell {
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  line-height: var(--lh-meta);
+  letter-spacing: var(--tracking-micro);
+  text-transform: uppercase;
+  color: var(--fg);
+  text-align: start;
+  border-bottom: var(--hairline-w) solid var(--hairline);
+  white-space: nowrap;
+}
+
+/* ---------- Table.Cell <td> ---------- */
+
+.cell {
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+  text-align: start;
+}
+
+/* ---------- Alignment modifiers ---------- */
+
+.align-start {
+  text-align: start;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-end {
+  text-align: end;
+}

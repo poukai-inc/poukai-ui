@@ -1096,6 +1096,39 @@ import { Icon } from "@poukai-inc/ui";
 - Do NOT use Byline for team grids or person cards — that is TeamCard.
 - Do NOT add authorHref, timeFormat prop, responsive collapse, or skeleton state — all out of scope in v1.
 
+### MenuItem
+- Individual menu-row primitive. Composed inside DropdownMenu and ContextMenu wrappers. Not for standalone use.
+- Owns visual row shape only: typography, spacing, icon alignment, shortcut placement. ARIA roles, keyboard nav, focus management, and portal behaviour are entirely delegated to the parent Radix wrapper.
+- Root element: `<div>`. `forwardRef<HTMLDivElement, MenuItemProps>`. `...rest` spread. `displayName = "MenuItem"`.
+- `children` (required `ReactNode`) — visible label. Plain string expected; `ReactNode` for occasional `<strong>` emphasis.
+- `icon` (optional `ReactNode`) — leading icon slot at `--icon-sm` (16px). Consumer supplies icon with `aria-hidden="true"`. Decorative only.
+- `shortcut` (optional `string`) — rendered as `<Kbd aria-hidden="true">`. Display-only; not a functional key binding.
+- `tone` (optional `"default" | "danger"`, default `"default"`) — `"danger"` shifts label color to `--danger` for destructive rows.
+- `disabled` (optional `boolean`, default `false`) — `opacity: 0.4`, `pointer-events: none`. Row stays visible. Radix propagates `aria-disabled`.
+- Hover: `background-color: var(--surface)`; transition `var(--dur-fast) var(--easing)`. Active: `opacity: 0.85` for `var(--dur-press)`.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg`, `--fg-muted`, `--danger`, `--surface`, `--space-2`, `--space-3`, `--radius-2`, `--icon-sm`, `--dur-fast`, `--dur-press`, `--easing`. Zero new tokens.
+- A11y: no ARIA role on root — parent Radix host carries `role="menuitem"`. Icon slot wrapped in `aria-hidden="true"` span. Kbd shortcut has `aria-hidden="true"`.
+- Do NOT use MenuItem outside a Radix DropdownMenu / ContextMenu wrapper. It has no open/close logic.
+- Do NOT nest `<Button>` or `<a>` inside MenuItem — creates duplicate tab stops and ARIA violations.
+- Do NOT use for navigation links in a nav bar — that is NavLink.
+
+```tsx
+// (a) Label only:
+<MenuItem>Copy</MenuItem>
+
+// (b) With icon:
+<MenuItem icon={<Copy size={16} aria-hidden="true" />}>Copy</MenuItem>
+
+// (c) With shortcut:
+<MenuItem shortcut="⌘C">Copy</MenuItem>
+
+// (d) Full anatomy:
+<MenuItem icon={<Copy size={16} aria-hidden="true" />} shortcut="⌘C">Copy</MenuItem>
+
+// (e) Danger tone:
+<MenuItem tone="danger">Delete post</MenuItem>
+```
+
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.
 - Emits plain <a href> tags — framework-router consumers intercept at app level.
@@ -1683,3 +1716,4 @@ ADR-0008: SiteShell Wordmark height=56. Brand floor; do not pass height < 40.
 ADR-0009: Horizontal lockup is canonical. Stacked for square-format only.
 ADR-0010: Proposal-loop architecture. proposal:approved label is a human gate.
 ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 1184 290.
+ADR-0012: MenuItem owns visual row shape only. ARIA roles, keyboard nav, portal delegated to parent Radix wrapper.

@@ -49,6 +49,7 @@ import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
 import { Byline } from "./molecules/Byline";
+import { LinkList } from "./molecules/LinkList";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -1486,6 +1487,32 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
     <Prose>
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — LinkList (default, no heading)", async ({ mount, page }) => {
+  await mount(
+    <LinkList>
+      <LinkList.Item href="/about">About</LinkList.Item>
+      <LinkList.Item href="/work">Work</LinkList.Item>
+      <LinkList.Item href="/writing">Writing</LinkList.Item>
+    </LinkList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — LinkList (with heading, divider, current, external)", async ({ mount, page }) => {
+  await mount(
+    <LinkList heading="Company" headingLevel={3} divider>
+      <LinkList.Item href="/about" current>
+        About
+      </LinkList.Item>
+      <LinkList.Item href="/work">Work</LinkList.Item>
+      <LinkList.Item href="https://example.com" external>
+        External reference
+      </LinkList.Item>
+    </LinkList>,
   );
   await expectAxeClean(page);
 });

@@ -225,6 +225,11 @@
       "import": "./dist/molecules/LinkCard.js",
       "require": "./dist/molecules/LinkCard.cjs"
     },
+    "./molecules/LinkList": {
+      "types": "./dist/molecules/LinkList.d.ts",
+      "import": "./dist/molecules/LinkList.js",
+      "require": "./dist/molecules/LinkList.cjs"
+    },
     "./molecules/Portrait": {
       "types": "./dist/molecules/Portrait.d.ts",
       "import": "./dist/molecules/Portrait.js",

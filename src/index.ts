@@ -116,6 +116,12 @@ export { Field, type FieldProps } from "./molecules/Field";
 export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
+export {
+  LinkList,
+  type LinkListProps,
+  type LinkListItemProps,
+  type LinkListSize,
+} from "./molecules/LinkList";
 
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";

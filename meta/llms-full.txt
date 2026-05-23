@@ -1655,6 +1655,21 @@ Precise, direct, technically confident. Never hedges, inflates, or reassures. No
 
 ---
 
+### MetaList
+- Semantic `<dl>` of label/value pairs. Canonical answer to the "key: value, stacked" pattern — replaces ad-hoc `<p>` pairs and table-in-disguise layouts.
+- Use for: article sidebars (published date, reading time, author), project spec panels (version, license, size), pricing detail blocks (billing cycle, seats, support tier).
+- Root is `<dl>`; each pair is `<div><dt>…</dt><dd>…</dd></div>`. The `<div>` wrapper satisfies the HTML5 dl content model.
+- Props: `items: Array<{ label: ReactNode; value: ReactNode }>` (required), `orientation: "stacked" | "horizontal"` (default `"stacked"`), `dividers: boolean` (default `false`), `labelWidth: string` (CSS value for dt column in horizontal mode, e.g. `"8rem"`).
+- Typography: `--font-sans`, `--fs-meta` (14px), `--lh-meta` (1.2) on both dt and dd. Label (`dt`) uses `--fg-muted`; value (`dd`) uses `--fg`. Never bold.
+- Spacing: `--space-2` row gap; `--space-3` dt-to-dd gap in horizontal mode.
+- Dividers: opt-in `border-top: var(--hairline-w) solid var(--hairline)` on each row (first row has no top border).
+- `margin-inline-start: 0` on `<dd>` resets browser default 40px indent without affecting semantics.
+- A11y: native dl/dt/dd semantics. No ARIA additions needed. Contrast: `--fg-muted` on `--bg` = 4.56:1 (AA at 14px); `--fg` on `--bg` = 16.29:1 (AAA).
+- Static/read-only. No interactive states. Interactive children (e.g. Link, StatusBadge) in value slots carry their own semantics.
+- NOT for tabular data (use Table), navigation (use LinkList), forms (use Field/Fieldset), or status signals (pass StatusBadge as value ReactNode).
+
+---
+
 ## Decision provenance
 
 ADR-0001: Atomic design taxonomy (atoms/molecules/organisms). No fourth layer. Subpath exports are semver-governed.

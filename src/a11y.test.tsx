@@ -49,6 +49,7 @@ import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
 import { Byline } from "./molecules/Byline";
+import { SearchField } from "./molecules/SearchField";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -1487,5 +1488,10 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
   );
+  await expectAxeClean(page);
+});
+
+test("a11y — SearchField", async ({ mount, page }) => {
+  await mount(<SearchField label="Search" value="" onValueChange={() => {}} />);
   await expectAxeClean(page);
 });

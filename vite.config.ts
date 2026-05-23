@@ -100,6 +100,7 @@ export default defineConfig({
               "molecules/Section": resolve(__dirname, "src/molecules/Section/index.ts"),
               "molecules/Statement": resolve(__dirname, "src/molecules/Statement/index.ts"),
               "molecules/TeamCard": resolve(__dirname, "src/molecules/TeamCard/index.ts"),
+              "molecules/SearchField": resolve(__dirname, "src/molecules/SearchField/index.ts"),
               "organisms/Dialog": resolve(__dirname, "src/organisms/Dialog/index.ts"),
               "organisms/Footer": resolve(__dirname, "src/organisms/Footer/index.ts"),
               "organisms/Form": resolve(__dirname, "src/organisms/Form/index.ts"),

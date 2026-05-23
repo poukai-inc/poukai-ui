@@ -1668,3 +1668,17 @@ ADR-0008: SiteShell Wordmark height=56. Brand floor; do not pass height < 40.
 ADR-0009: Horizontal lockup is canonical. Stacked for square-format only.
 ADR-0010: Proposal-loop architecture. proposal:approved label is a human gate.
 ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 1184 290.
+
+### SearchField
+
+Molecule. Canonical table-filter and dashboard-search primitive.
+
+**Anatomy**: `<div role="search">` root → `Field` wrapper (label, a11y wiring) → `inputWrap` flex row → leading `Icon` (Search, `--icon-sm`, `aria-hidden`) → `Input` (`type="search"`) → trailing `IconButton` (X, "Clear search", visible only when value non-empty).
+
+**Props**: `value`, `defaultValue`, `onValueChange`, `placeholder` (default "Search…"), `size` ("sm"|"md", default "md"), `disabled`, `label` (default "Search"), `name`.
+
+**Tokens**: `--font-sans`, `--fs-body`, `--fs-meta`, `--fg`, `--fg-muted`, `--bg`, `--surface`, `--hairline`, `--accent`, `--hairline-w`, `--radius-2`, `--icon-sm`, `--icon-xs`, `--space-2`, `--space-3`, `--btn-h-sm`, `--btn-h-md`, `--dur-fast`, `--easing`.
+
+**A11y**: `role="search"` landmark on root; `label` always present (visually hidden via Field); leading icon `aria-hidden`; clear button `aria-label="Clear search"`; `type="search"` gives browser implicit search role; Escape key clears field.
+
+**Anti-patterns**: Not for submit-on-enter forms (use `Input` + `<form>`). Not a Combobox. Not for multi-criteria filter state. Not a navigation search bar (use CommandPalette). Never use for non-search inputs — `role="search"` misleads screen readers.

@@ -117,6 +117,7 @@ export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";
 
 /* ---------- organisms ---------- */
+export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
 export {

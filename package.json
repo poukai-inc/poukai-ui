@@ -260,6 +260,11 @@
       "import": "./dist/molecules/TeamCard.js",
       "require": "./dist/molecules/TeamCard.cjs"
     },
+    "./organisms/HeroSection": {
+      "types": "./dist/organisms/HeroSection.d.ts",
+      "import": "./dist/organisms/HeroSection.js",
+      "require": "./dist/organisms/HeroSection.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

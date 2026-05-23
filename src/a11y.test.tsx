@@ -855,7 +855,47 @@ test("a11y — FeatureCard (as='section')", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+import { HeroSection } from "./organisms/HeroSection";
+
 /* ---------- organisms ---------- */
+
+test("a11y — HeroSection (default, no media)", async ({ mount, page }) => {
+  await mount(
+    <HeroSection
+      status={<StatusBadge status="available">Taking conversations for Q3.</StatusBadge>}
+      title={
+        <>
+          Technical consulting for teams shipping with <em>AI</em>.
+        </>
+      }
+      lede="We work alongside founders and platform teams to close the gap between pilot and production."
+      cta={
+        <Button asChild>
+          <a href="mailto:hello@pouk.ai">hello@pouk.ai</a>
+        </Button>
+      }
+    />,
+  );
+  await expectAxeClean(page, { fullPageSemantics: false });
+});
+
+test("a11y — HeroSection (with media slot)", async ({ mount, page }) => {
+  await mount(
+    <HeroSection
+      title="Technical consulting for teams."
+      lede="Close the gap between pilot and production."
+      media={
+        <Portrait
+          src="https://picsum.photos/seed/a11y-herosection/900/1200"
+          alt="Founder in a natural light workspace"
+          aspect="3:4"
+          width={900}
+        />
+      }
+    />,
+  );
+  await expectAxeClean(page, { fullPageSemantics: false });
+});
 
 test("a11y — Footer (as=div, with links)", async ({ mount, page }) => {
   await mount(

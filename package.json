@@ -265,6 +265,11 @@
       "import": "./dist/molecules/TeamCard.js",
       "require": "./dist/molecules/TeamCard.cjs"
     },
+    "./molecules/NewsletterField": {
+      "types": "./dist/molecules/NewsletterField.d.ts",
+      "import": "./dist/molecules/NewsletterField.js",
+      "require": "./dist/molecules/NewsletterField.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

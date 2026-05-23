@@ -116,6 +116,7 @@ export { Field, type FieldProps } from "./molecules/Field";
 export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";
 
+export { NavLink, type NavLinkProps } from "./molecules/NavLink";
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";

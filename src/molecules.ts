@@ -34,3 +34,4 @@ export { Textarea, type TextareaProps } from "./molecules/Textarea";
 export { Field, type FieldProps } from "./molecules/Field";
 export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";
+export { NavLink, type NavLinkProps } from "./molecules/NavLink";

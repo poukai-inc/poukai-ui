@@ -1,0 +1,87 @@
+/* ============================================================
+   NavLink — top-nav anchor with active state
+   ============================================================
+
+   Interaction model:
+     Rest:   label in --fg-muted; hairline underline at 0% width (invisible).
+     Hover:  label shifts to --fg; accent underline grows 0%→100% via
+             background-size transition — identical mechanic to the global
+             <a> rule in tokens.css.
+     Active: label in --fg; 2px border-bottom in --accent always visible.
+             Underline grow is suppressed (no double-underline).
+
+   The global `a` rule in tokens.css already applies background-image layers
+   to every <a>. This module resets and re-declares them so .root wins.
+   ============================================================ */
+
+.root {
+  /* Typography */
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+
+  /* Reset the global <a> underline layers — re-declared below */
+  text-decoration: none;
+  background-image:
+    linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--hairline), var(--hairline));
+  background-repeat: no-repeat, no-repeat;
+  background-position:
+    0 100%,
+    0 100%;
+  background-size:
+    0% 1px,
+    0% 1px;
+  padding-bottom: var(--space-3);
+  padding-top: var(--space-3);
+
+  /* No resting hairline layer (NavLink differs from body links:
+     hairline is invisible at rest, accent grows on hover only) */
+
+  /* Border-bottom placeholder — zero width at rest, shown when active */
+  border-bottom: var(--hairline-w) solid transparent;
+
+  /* Transitions */
+  transition:
+    color var(--dur-fast) var(--easing),
+    background-size var(--dur-mid) var(--easing-link);
+
+  /* Suppress double-ring from global a:focus */
+  outline: none;
+}
+
+/* Hover — only on pointer devices */
+@media (hover: hover) {
+  .root:hover {
+    color: var(--fg);
+    background-size:
+      100% 1px,
+      0% 1px;
+  }
+}
+
+/* Focus ring — matches global a:focus-visible rule in tokens.css */
+.root:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}
+
+/* Active state — label in --fg; 2px --accent border-bottom always visible.
+   Underline grow suppressed (active indicator is the border, not background-size). */
+.active {
+  color: var(--fg);
+  border-bottom-color: var(--accent);
+  /* Hold underline at 0% — the border-bottom is the active indicator */
+  background-size:
+    0% 1px,
+    0% 1px;
+}
+
+/* Active + hover — active wins; no background-size growth */
+@media (hover: hover) {
+  .active:hover {
+    background-size:
+      0% 1px,
+      0% 1px;
+  }
+}

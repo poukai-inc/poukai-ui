@@ -48,6 +48,7 @@ import { Switch } from "./atoms/Switch";
 import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
+import { NavLink } from "./molecules/NavLink";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -1460,6 +1461,18 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
     <Prose>
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — NavLink (rest + active)", async ({ mount, page }) => {
+  await mount(
+    <nav aria-label="Primary">
+      <NavLink href="/about">About</NavLink>
+      <NavLink href="/work" active>
+        Work
+      </NavLink>
+    </nav>,
   );
   await expectAxeClean(page);
 });

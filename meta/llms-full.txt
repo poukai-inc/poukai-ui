@@ -1720,3 +1720,34 @@ ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 
   <Field label="Street" id="street"><Input /></Field>
 </Fieldset>
 ```
+
+### Pagination
+- Stateless, controlled page-navigation control. Renders `<nav aria-label="Pagination">` with first/prev/page-numerals/next/last buttons. Returns `null` when `pageCount <= 1`.
+- Root element: `<nav>`. `forwardRef<HTMLElement, PaginationProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, etc.
+- `page` (required number, 1-indexed) — current page.
+- `pageCount` (required number) — total page count.
+- `onPageChange` (required `(page: number) => void`) — controlled; component holds no state.
+- `siblingCount` (optional number, default `1`) — pages shown each side of current page.
+- `boundaryCount` (optional number, default `1`) — pages shown at each end.
+- `size` (optional `"sm" | "md"`, default `"md"`) — `"sm"` uses `--fs-micro` + `--btn-h-sm`; `"md"` uses `--fs-meta` + `--btn-h-compact`.
+- `disabled` (optional boolean, default `false`) — disables all controls (loading state).
+- A11y: `<nav aria-label="Pagination">` landmark. Current page: `aria-current="page"`. Prev/Next/First/Last: `aria-label` for icon-only accessible names. Ellipsis: `aria-hidden="true"`. Disabled uses native `disabled` attribute.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--fs-micro`, `--fg`, `--fg-muted`, `--surface`, `--bg-elevated`, `--hairline`, `--hairline-w`, `--accent`, `--radius-1`, `--radius-2`, `--space-1`, `--space-2`, `--btn-h-sm`, `--btn-h-compact`, `--dur-fast`, `--dur-press`, `--easing`.
+- Do NOT use for in-page anchor navigation — use `TableOfContents`.
+- Do NOT use as a substitute for infinite scroll.
+- Do NOT render when `pageCount <= 1` — the component guards this internally.
+- Do NOT manage page state internally — this is a controlled component.
+
+```tsx
+// (a) Basic usage:
+<Pagination page={currentPage} pageCount={10} onPageChange={setCurrentPage} />
+
+// (b) Compact size for dense dashboard rows:
+<Pagination page={page} pageCount={20} size="sm" onPageChange={setPage} />
+
+// (c) Loading state — all controls disabled:
+<Pagination page={page} pageCount={10} disabled onPageChange={setPage} />
+
+// (d) Wide layout — more siblings:
+<Pagination page={5} pageCount={20} siblingCount={2} onPageChange={setPage} />
+```

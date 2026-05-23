@@ -60,6 +60,7 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import { Pagination } from "./molecules/Pagination";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1564,5 +1565,10 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
       </Field>
     </Fieldset>,
   );
+  await expectAxeClean(page);
+});
+
+test("a11y — Pagination (page 5 of 10)", async ({ mount, page }) => {
+  await mount(<Pagination page={5} pageCount={10} onPageChange={() => undefined} />);
   await expectAxeClean(page);
 });

@@ -275,6 +275,11 @@
       "import": "./dist/molecules/Fieldset.js",
       "require": "./dist/molecules/Fieldset.cjs"
     },
+    "./molecules/Pagination": {
+      "types": "./dist/molecules/Pagination.d.ts",
+      "import": "./dist/molecules/Pagination.js",
+      "require": "./dist/molecules/Pagination.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

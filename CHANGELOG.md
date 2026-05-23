@@ -1,5 +1,11 @@
 # @poukai-inc/ui
 
+## 2.1.0
+
+### Minor Changes
+
+- 1f2f482: feat(molecule): add Byline — avatar + name + role + optional Time
+
 ## 2.0.1
 
 ### Patch Changes

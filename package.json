@@ -294,6 +294,7 @@
   ],
   "scripts": {
     "dev": "ladle serve",
+    "scaffold:component": "node scripts/scaffold-component.mjs",
     "build": "BUILD_TARGET=lib vite build && tsc --emitDeclarationOnly && pnpm run build:tokens && pnpm run build:brand && pnpm run build:llms && pnpm run check:llms",
     "build:tokens": "cpy --flat src/tokens/tokens.css dist/ && cpy 'src/tokens/fonts/**' dist/fonts",
     "build:brand": "cpy 'src/brand/**' dist/brand",

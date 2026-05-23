@@ -59,6 +59,7 @@ import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
+import { Disclosure } from "./molecules/Disclosure";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1520,6 +1521,38 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
     <Prose>
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Disclosure (closed, default tone)", async ({ mount, page }) => {
+  await mount(
+    <Disclosure summary="What is Poukai?">
+      <p>Poukai is a senior-only AI consulting practice that ships production AI systems.</p>
+    </Disclosure>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Disclosure (open, muted tone)", async ({ mount, page }) => {
+  await mount(
+    <Disclosure summary="Advanced settings" defaultOpen tone="muted">
+      <p>Additional configuration options for advanced users.</p>
+    </Disclosure>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Disclosure (divider variant)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Disclosure summary="First section" divider>
+        <p>First section content.</p>
+      </Disclosure>
+      <Disclosure summary="Second section" divider>
+        <p>Second section content.</p>
+      </Disclosure>
+    </div>,
   );
   await expectAxeClean(page);
 });

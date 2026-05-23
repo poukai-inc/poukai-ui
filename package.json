@@ -270,6 +270,11 @@
       "import": "./dist/molecules/TeamCard.js",
       "require": "./dist/molecules/TeamCard.cjs"
     },
+    "./molecules/Disclosure": {
+      "types": "./dist/molecules/Disclosure.d.ts",
+      "import": "./dist/molecules/Disclosure.js",
+      "require": "./dist/molecules/Disclosure.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

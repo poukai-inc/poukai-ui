@@ -58,6 +58,7 @@ import { IconButtonVariantFixture } from "./atoms/IconButton/IconButton.fixtures
 import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
+import { TagList } from "./molecules/TagList";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -850,6 +851,39 @@ test("a11y — Byline (name only, no trailing content)", async ({ mount, page })
 test("a11y — Byline (initials fallback)", async ({ mount, page }) => {
   await mount(
     <Byline initials="JD" name="Jane Doe" role="Editor" publishedAt="2026-05-21T10:00:00Z" />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TagList (default, multiple Tags)", async ({ mount, page }) => {
+  await mount(
+    <TagList>
+      <Tag>Engineering</Tag>
+      <Tag>Design Systems</Tag>
+      <Tag tone="muted">Draft</Tag>
+    </TagList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TagList (with max overflow pill)", async ({ mount, page }) => {
+  await mount(
+    <TagList max={2}>
+      <Tag>Engineering</Tag>
+      <Tag>Design Systems</Tag>
+      <Tag>A11y</Tag>
+      <Tag>React</Tag>
+    </TagList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TagList (gap=sm)", async ({ mount, page }) => {
+  await mount(
+    <TagList gap="sm">
+      <Tag>Engineering</Tag>
+      <Tag>Design Systems</Tag>
+    </TagList>,
   );
   await expectAxeClean(page);
 });

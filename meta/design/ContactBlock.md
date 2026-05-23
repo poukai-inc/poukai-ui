@@ -45,13 +45,13 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `email` | `string` | required | Passed to `EmailLink`. The primary contact address. |
-| `emailLabel` | `string` | `undefined` | Optional visible label override for `EmailLink` (e.g. `"Say hello"`). When absent, the raw address renders. |
-| `status` | `ReactNode` | `undefined` | `StatusBadge` slot. When absent, the status row is not rendered. |
-| `actions` | `ReactNode` | `undefined` | CTA Button(s). When absent, actions row is not rendered. |
-| `heading` | `string` | `undefined` | Optional short heading above the email (e.g. `"Get in touch"`). Renders at `--fs-h2` in Instrument Serif when provided. |
+| Prop         | Type        | Default     | Rationale                                                                                                               |
+| ------------ | ----------- | ----------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `email`      | `string`    | required    | Passed to `EmailLink`. The primary contact address.                                                                     |
+| `emailLabel` | `string`    | `undefined` | Optional visible label override for `EmailLink` (e.g. `"Say hello"`). When absent, the raw address renders.             |
+| `status`     | `ReactNode` | `undefined` | `StatusBadge` slot. When absent, the status row is not rendered.                                                        |
+| `actions`    | `ReactNode` | `undefined` | CTA Button(s). When absent, actions row is not rendered.                                                                |
+| `heading`    | `string`    | `undefined` | Optional short heading above the email (e.g. `"Get in touch"`). Renders at `--fs-h2` in Instrument Serif when provided. |
 
 No `tone` or `variant` prop. `ContactBlock` has one visual register — centered, editorial, generous whitespace. Differentiation is achieved through the `heading` text and `status` content, not a parallel styling branch.
 

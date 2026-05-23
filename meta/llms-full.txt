@@ -1057,6 +1057,30 @@ import { Icon } from "@poukai-inc/ui";
 </Banner>
 ```
 
+
+### Byline
+- Single-author article attribution molecule. The horizontal "by Jane Doe · Editor · May 21, 2026 · 6 min read" row that appears directly below article headings or blog post titles.
+- Composes Avatar, semantic text elements (name as strong, role as span), Time, and read-time text into a stable horizontal flex row. Byline owns layout and typographic register; introduces zero new tokens.
+- Static presentational molecule. Not interactive. No state.
+- name (required string) — rendered inside strong. Primary text, --fg, --fs-meta, weight 500.
+- avatar (optional string) — image URL. When present, Avatar renders in mode="image" with alt="" (decorative — name is already visible as text).
+- initials (optional string) — 1-2 char fallback. Used when avatar is absent. Renders Avatar in mode="initials". Ignored when avatar is provided.
+- When neither avatar nor initials is provided, Avatar renders in mode="empty" (blank placeholder).
+- role (optional string) — author role label (e.g. "Editor"). Rendered as span in micro uppercase below name. Omitted when absent. Uses --fs-micro, --tracking-micro, text-transform: uppercase, --fg-muted.
+- publishedAt (optional string | Date) — forwarded to Time dateTime with format="absolute". Omitted when absent.
+- readTime (optional string) — consumer-formatted read-time string (e.g. "6 min read"). Rendered verbatim. Omitted when absent.
+- Separator dots rendered as span[aria-hidden="true"] with padding-inline: var(--space-2). Dots appear only when trailing content (publishedAt or readTime) is present.
+- Trailing content state matrix: publishedAt + readTime: "· Time · N min read"; publishedAt only: "· Time"; readTime only: "· N min read"; neither: no dots, no trailing content.
+- Root: div, forwardRef<HTMLDivElement, BylineProps>. ...rest spread to root. displayName = "Byline".
+- Layout: display: flex, align-items: center, flex-wrap: nowrap, gap: var(--space-3). Color baseline: --fg-muted, --font-sans, --fs-meta, --lh-meta.
+- Text column: display: flex, flex-direction: column, gap: var(--space-1), min-width: 0.
+- Tokens consumed: --fs-meta, --fs-micro, --tracking-micro, --fg, --fg-muted, --font-sans, --lh-meta, --space-1, --space-2, --space-3. Zero new tokens.
+- A11y: root div with no ARIA role. Avatar is decorative (aria-hidden by default). Dots have aria-hidden="true". Time renders native time[datetime]. Name in strong for semantic emphasis.
+- Sits outside Prose. Parent owns spacing between h1/h2 and Byline. Single-author only.
+- Do NOT pass an accessible name or alt to the Avatar inside Byline — the author name is already visible as text.
+- Do NOT use Byline for team grids or person cards — that is TeamCard.
+- Do NOT add authorHref, timeFormat prop, responsive collapse, or skeleton state — all out of scope in v1.
+
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.
 - Emits plain <a href> tags — framework-router consumers intercept at app level.

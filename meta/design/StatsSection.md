@@ -44,12 +44,12 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `heading` | `string` (optional) | — | Omit on pure-data surfaces; include for editorial "By the numbers" moments |
-| `dividers` | `boolean` | `false` | Hairline rules between stats; use when stat count ≥ 3 for visual separation |
-| `fill` | `boolean` | `false` | Applies `--surface-section` background to band; default is transparent (`--bg`) |
-| `children` | `ReactNode` | required | One or more `Stat` atoms composed inside `StatList` |
+| Prop       | Type                | Default  | Rationale                                                                       |
+| ---------- | ------------------- | -------- | ------------------------------------------------------------------------------- |
+| `heading`  | `string` (optional) | —        | Omit on pure-data surfaces; include for editorial "By the numbers" moments      |
+| `dividers` | `boolean`           | `false`  | Hairline rules between stats; use when stat count ≥ 3 for visual separation     |
+| `fill`     | `boolean`           | `false`  | Applies `--surface-section` background to band; default is transparent (`--bg`) |
+| `children` | `ReactNode`         | required | One or more `Stat` atoms composed inside `StatList`                             |
 
 No `centered` prop — alignment follows the brand register (left-aligned on all surfaces consistent with Section and Footer conventions).
 

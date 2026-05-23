@@ -31,11 +31,11 @@
 
 ## 4. Variants / Props
 
-| Prop      | Type                 | Default    | Rationale                                                                        |
-|-----------|----------------------|------------|----------------------------------------------------------------------------------|
-| `gap`     | `"default" \| "tight"` | `"default"` | `"default"` = `--space-4` column gap; `"tight"` = `--space-2` for dense forms  |
-| `columns` | `number`             | auto       | Explicit column count; defaults to equal-width auto tracks (`1fr` per child)     |
-| `children` | `ReactNode`         | —          | `Field` instances; 2–4 recommended; more than 4 columns read as cramped         |
+| Prop       | Type                   | Default     | Rationale                                                                     |
+| ---------- | ---------------------- | ----------- | ----------------------------------------------------------------------------- |
+| `gap`      | `"default" \| "tight"` | `"default"` | `"default"` = `--space-4` column gap; `"tight"` = `--space-2` for dense forms |
+| `columns`  | `number`               | auto        | Explicit column count; defaults to equal-width auto tracks (`1fr` per child)  |
+| `children` | `ReactNode`            | —           | `Field` instances; 2–4 recommended; more than 4 columns read as cramped       |
 
 `gap="default"` (`--space-4`) is the editorial standard matching the vertical gap between stacked Fields. `gap="tight"` (`--space-2`) exists for utility-dense contexts (address lines, filter bars).
 

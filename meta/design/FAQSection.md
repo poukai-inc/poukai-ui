@@ -52,16 +52,16 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `eyebrow` | `string \| ReactNode` | — | Optional Section eyebrow — e.g. `"FAQ"`. Passed through to `Section`. |
-| `title` | `ReactNode` | `"Frequently asked questions"` | Section `h2`. A default value prevents empty landmark if consumer forgets. |
-| `titleAs` | `"h1" \| "h2" \| "h3"` | `"h2"` | Heading level, delegated to Section. Override to `"h3"` if nested below another `h2`. |
-| `lede` | `ReactNode` | — | Optional supporting copy below the title. |
-| `size` | `"default" \| "tight"` | `"default"` | Section block padding — 64px or 48px. |
-| `type` | `"single" \| "multiple"` | `"single"` | Passed to `Accordion`. `"single"` collapses sibling when one opens. `"multiple"` allows concurrent open items. |
-| `defaultValue` | `string \| string[]` | — | Pre-opened item(s). Passed to `Accordion`. |
-| `children` | `ReactNode` | — | Required. One or more `<FAQItem>` elements. |
+| Prop           | Type                     | Default                        | Rationale                                                                                                      |
+| -------------- | ------------------------ | ------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `eyebrow`      | `string \| ReactNode`    | —                              | Optional Section eyebrow — e.g. `"FAQ"`. Passed through to `Section`.                                          |
+| `title`        | `ReactNode`              | `"Frequently asked questions"` | Section `h2`. A default value prevents empty landmark if consumer forgets.                                     |
+| `titleAs`      | `"h1" \| "h2" \| "h3"`   | `"h2"`                         | Heading level, delegated to Section. Override to `"h3"` if nested below another `h2`.                          |
+| `lede`         | `ReactNode`              | —                              | Optional supporting copy below the title.                                                                      |
+| `size`         | `"default" \| "tight"`   | `"default"`                    | Section block padding — 64px or 48px.                                                                          |
+| `type`         | `"single" \| "multiple"` | `"single"`                     | Passed to `Accordion`. `"single"` collapses sibling when one opens. `"multiple"` allows concurrent open items. |
+| `defaultValue` | `string \| string[]`     | —                              | Pre-opened item(s). Passed to `Accordion`.                                                                     |
+| `children`     | `ReactNode`              | —                              | Required. One or more `<FAQItem>` elements.                                                                    |
 
 `collapsible` on the Accordion is always `true` when `type="single"` — all items can be closed so users are never trapped in an expanded state.
 

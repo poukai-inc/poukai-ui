@@ -37,13 +37,13 @@ RoleGrid is a Section-framed organism that arranges a set of `RoleCard` molecule
 
 ## 4. Variants / Props
 
-| Prop        | Type                       | Default       | Rationale                                                                         |
-| ----------- | -------------------------- | ------------- | --------------------------------------------------------------------------------- |
-| `heading`   | `string`                   | required      | Section heading; names the audience group ("Who it's for").                       |
-| `eyebrow`   | `string`                   | `undefined`   | Optional eyebrow label above the heading; passed through to Section.              |
-| `surface`   | `"default" \| "section"`   | `"default"`   | `"section"` applies `--surface-section` band background via Section's surface prop. |
-| `columns`   | `2 \| 3 \| 4`              | `3`           | Max column count at `--bp-md` and above. Below `--bp-md` always 1 column; at `sm+` 2 columns if `columns >= 2`. |
-| `children`  | `ReactNode`                | required      | The `RoleCard` instances.                                                         |
+| Prop       | Type                     | Default     | Rationale                                                                                                       |
+| ---------- | ------------------------ | ----------- | --------------------------------------------------------------------------------------------------------------- |
+| `heading`  | `string`                 | required    | Section heading; names the audience group ("Who it's for").                                                     |
+| `eyebrow`  | `string`                 | `undefined` | Optional eyebrow label above the heading; passed through to Section.                                            |
+| `surface`  | `"default" \| "section"` | `"default"` | `"section"` applies `--surface-section` band background via Section's surface prop.                             |
+| `columns`  | `2 \| 3 \| 4`            | `3`         | Max column count at `--bp-md` and above. Below `--bp-md` always 1 column; at `sm+` 2 columns if `columns >= 2`. |
+| `children` | `ReactNode`              | required    | The `RoleCard` instances.                                                                                       |
 
 `columns` defaults to `3` because three cards is the canonical "who this is for" trio in the design reference. Two is valid for a binary audience split; four is the ceiling before the cards become visually narrow at `--content-max`.
 

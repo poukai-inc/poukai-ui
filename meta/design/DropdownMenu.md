@@ -50,30 +50,30 @@ A `DropdownMenuBasic` convenience wrapper (parallel to `DialogBasic`) flattens c
 
 **DropdownMenu.Content**
 
-| Prop | Default | Notes |
-|---|---|---|
-| `align` | `"start"` | Radix align: `"start"` \| `"center"` \| `"end"`. End-aligned for action menus anchored to a trailing icon button. |
-| `side` | `"bottom"` | Radix side: `"top"` \| `"bottom"` \| `"left"` \| `"right"`. Auto-flips when viewport edge is hit. |
-| `sideOffset` | `4` | Pixel gap between trigger and Content panel. |
-| `minWidth` | `160px` | Inline literal — prevents undersized panels on short labels. |
+| Prop         | Default    | Notes                                                                                                             |
+| ------------ | ---------- | ----------------------------------------------------------------------------------------------------------------- |
+| `align`      | `"start"`  | Radix align: `"start"` \| `"center"` \| `"end"`. End-aligned for action menus anchored to a trailing icon button. |
+| `side`       | `"bottom"` | Radix side: `"top"` \| `"bottom"` \| `"left"` \| `"right"`. Auto-flips when viewport edge is hit.                 |
+| `sideOffset` | `4`        | Pixel gap between trigger and Content panel.                                                                      |
+| `minWidth`   | `160px`    | Inline literal — prevents undersized panels on short labels.                                                      |
 
 **DropdownMenu.Item**
 
-| Prop | Default | Notes |
-|---|---|---|
-| `tone` | `"default"` | `"default"` \| `"danger"`. Danger renders `--danger` text + `--bg-danger` hover. |
-| `disabled` | `false` | Disables Radix item; `--fg-muted` text, `pointer-events: none`. |
-| `onSelect` | — | Radix `onSelect` — called on pointer click or keyboard `Enter`/`Space`. |
-| `icon` | — | Optional leading `ReactNode` slot (lucide-react icon, `--icon-sm` / 16px). |
-| `shortcut` | — | Optional trailing shortcut string or `<Kbd>` node rendered at `--fg-muted`. |
+| Prop       | Default     | Notes                                                                            |
+| ---------- | ----------- | -------------------------------------------------------------------------------- |
+| `tone`     | `"default"` | `"default"` \| `"danger"`. Danger renders `--danger` text + `--bg-danger` hover. |
+| `disabled` | `false`     | Disables Radix item; `--fg-muted` text, `pointer-events: none`.                  |
+| `onSelect` | —           | Radix `onSelect` — called on pointer click or keyboard `Enter`/`Space`.          |
+| `icon`     | —           | Optional leading `ReactNode` slot (lucide-react icon, `--icon-sm` / 16px).       |
+| `shortcut` | —           | Optional trailing shortcut string or `<Kbd>` node rendered at `--fg-muted`.      |
 
 **DropdownMenuBasic** (convenience)
 
-| Prop | Default | Notes |
-|---|---|---|
-| `trigger` | — | `ReactNode` for the trigger slot |
-| `items` | — | `Array<{ label, onSelect, tone?, disabled?, icon?, shortcut? }>` |
-| `align` | `"start"` | Forwarded to Content |
+| Prop      | Default   | Notes                                                            |
+| --------- | --------- | ---------------------------------------------------------------- |
+| `trigger` | —         | `ReactNode` for the trigger slot                                 |
+| `items`   | —         | `Array<{ label, onSelect, tone?, disabled?, icon?, shortcut? }>` |
+| `align`   | `"start"` | Forwarded to Content                                             |
 
 ## 5. Interaction
 

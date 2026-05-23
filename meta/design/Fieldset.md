@@ -44,13 +44,13 @@
 
 ## 4. Variants / Props
 
-| Prop       | Type                          | Default       | Rationale                                                                                              |
-| ---------- | ----------------------------- | ------------- | ------------------------------------------------------------------------------------------------------ |
-| `legend`   | `string`                      | required      | The group label text. Always a string; structural legend markup belongs in the legend element itself.  |
-| `spacing`  | `"default" \| "spacious"`     | `"default"`   | `default` uses `--space-4` gap; `spacious` uses `--space-6` for forms with more visual breathing room. |
-| `bordered` | `boolean`                     | `false`       | Adds `--surface` background, `--hairline` border, `--radius-3` corner, and `--space-8`/`--space-6` padding for visually contained groups (e.g. a payment block inside a larger form). |
-| `legendTone` | `"default" \| "muted"`      | `"default"`   | `"muted"` renders the legend in `--fg-muted` — for secondary/optional sections that should recede.    |
-| `disabled` | `boolean`                     | `false`       | Maps to the native `<fieldset disabled>` attribute, which propagates the disabled state to all descendant form controls automatically. |
+| Prop         | Type                      | Default     | Rationale                                                                                                                                                                             |
+| ------------ | ------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `legend`     | `string`                  | required    | The group label text. Always a string; structural legend markup belongs in the legend element itself.                                                                                 |
+| `spacing`    | `"default" \| "spacious"` | `"default"` | `default` uses `--space-4` gap; `spacious` uses `--space-6` for forms with more visual breathing room.                                                                                |
+| `bordered`   | `boolean`                 | `false`     | Adds `--surface` background, `--hairline` border, `--radius-3` corner, and `--space-8`/`--space-6` padding for visually contained groups (e.g. a payment block inside a larger form). |
+| `legendTone` | `"default" \| "muted"`    | `"default"` | `"muted"` renders the legend in `--fg-muted` — for secondary/optional sections that should recede.                                                                                    |
+| `disabled`   | `boolean`                 | `false`     | Maps to the native `<fieldset disabled>` attribute, which propagates the disabled state to all descendant form controls automatically.                                                |
 
 No `size` prop: field sizing is owned by individual `<Field>` instances. No `columns` prop: multi-column layout is delegated to `<FormRow>`.
 

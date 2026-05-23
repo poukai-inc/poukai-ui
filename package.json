@@ -190,6 +190,11 @@
       "import": "./dist/atoms/Radio.js",
       "require": "./dist/atoms/Radio.cjs"
     },
+    "./molecules/Byline": {
+      "types": "./dist/molecules/Byline.d.ts",
+      "import": "./dist/molecules/Byline.js",
+      "require": "./dist/molecules/Byline.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",

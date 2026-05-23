@@ -33,14 +33,14 @@ VideoEmbed is a responsive iframe wrapper that renders YouTube, Vimeo, or any ge
 
 ## 4. Variants / Props
 
-| Prop          | Type                             | Default   | Rationale                                                                                  |
-| ------------- | -------------------------------- | --------- | ------------------------------------------------------------------------------------------ |
-| `src`         | `string`                         | —         | Required. The embed URL (YouTube `/embed/`, Vimeo player, or generic).                     |
-| `title`       | `string`                         | —         | Required for a11y. Passed to `<iframe title>`.                                             |
+| Prop          | Type                                 | Default  | Rationale                                                                                                            |
+| ------------- | ------------------------------------ | -------- | -------------------------------------------------------------------------------------------------------------------- |
+| `src`         | `string`                             | —        | Required. The embed URL (YouTube `/embed/`, Vimeo player, or generic).                                               |
+| `title`       | `string`                             | —        | Required for a11y. Passed to `<iframe title>`.                                                                       |
 | `aspectRatio` | `"16/9" \| "4/3" \| "1/1" \| string` | `"16/9"` | CSS `aspect-ratio` value. `"16/9"` covers YouTube/Vimeo. `"4/3"` for legacy formats. Free string for unusual ratios. |
-| `lazy`        | `boolean`                        | `true`    | Sets `loading="lazy"` on the iframe. Set `false` for above-fold video.                     |
-| `bordered`    | `boolean`                        | `false`   | Adds `--hairline-w solid --hairline` border around the ratio box. Useful in docs contexts. |
-| `caption`     | `ReactNode`                      | —         | Optional Caption slot rendered below the ratio box inside the `<figure>`.                  |
+| `lazy`        | `boolean`                            | `true`   | Sets `loading="lazy"` on the iframe. Set `false` for above-fold video.                                               |
+| `bordered`    | `boolean`                            | `false`  | Adds `--hairline-w solid --hairline` border around the ratio box. Useful in docs contexts.                           |
+| `caption`     | `ReactNode`                          | —        | Optional Caption slot rendered below the ratio box inside the `<figure>`.                                            |
 
 ## 5. Interaction
 

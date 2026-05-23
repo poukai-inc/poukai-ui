@@ -35,14 +35,14 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|------|------|---------|-----------|
-| `heading` | `string` | required | Section heading — e.g. `"The team"`. Required; a nameless team grid is not a valid surface. |
-| `eyebrow` | `string` | `undefined` | Optional micro-label above the heading, passed to Section. |
-| `lede` | `string` | `undefined` | Optional supporting sentence below heading, passed to Section. |
-| `columns` | `2 \| 3` | `3` | Maximum column count at wide viewports. `2` for small teams (2–4 people); `3` for larger rosters. Below `--bp-md` the grid is always 1 column. Between `--bp-md` and a secondary breakpoint (~1024px) it is always 2 columns regardless of `columns` value. |
-| `tone` | `"default" \| "section"` | `"default"` | Passed to Section. `"section"` applies `--surface-section` band background for visual rhythm against adjacent default-bg sections. |
-| `children` | `ReactNode` | required | The `TeamCard` instances. Count is the consumer's responsibility. |
+| Prop       | Type                     | Default     | Rationale                                                                                                                                                                                                                                                   |
+| ---------- | ------------------------ | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `heading`  | `string`                 | required    | Section heading — e.g. `"The team"`. Required; a nameless team grid is not a valid surface.                                                                                                                                                                 |
+| `eyebrow`  | `string`                 | `undefined` | Optional micro-label above the heading, passed to Section.                                                                                                                                                                                                  |
+| `lede`     | `string`                 | `undefined` | Optional supporting sentence below heading, passed to Section.                                                                                                                                                                                              |
+| `columns`  | `2 \| 3`                 | `3`         | Maximum column count at wide viewports. `2` for small teams (2–4 people); `3` for larger rosters. Below `--bp-md` the grid is always 1 column. Between `--bp-md` and a secondary breakpoint (~1024px) it is always 2 columns regardless of `columns` value. |
+| `tone`     | `"default" \| "section"` | `"default"` | Passed to Section. `"section"` applies `--surface-section` band background for visual rhythm against adjacent default-bg sections.                                                                                                                          |
+| `children` | `ReactNode`              | required    | The `TeamCard` instances. Count is the consumer's responsibility.                                                                                                                                                                                           |
 
 ## 5. Interaction
 

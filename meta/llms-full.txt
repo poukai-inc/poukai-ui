@@ -486,6 +486,21 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Do NOT use Tag as a heading or section label — use `<Eyebrow>`.
 - Do NOT add `text-overflow: ellipsis` or truncation. Tags are always short strings by design.
 
+### TagList
+- Canonical wrapper molecule for a collection of `<Tag>` atoms. Owns the flex-wrap layout and gap rhythm between Tags, and enforces a consistent overflow strategy via the optional `max` prop.
+- Root element: `<div>`. Non-interactive — no hover, click, focus, or drag semantics. No landmark role; correct for a presentational flex row of inline labels.
+- `children` (required `ReactNode`) — one or more `<Tag>` atoms. TagList does not clone or inspect children; it wraps whatever is passed. Expected child is `<Tag>`; passing other element types breaks the visual contract and the `max` overflow logic.
+- `max` (optional `number`) — when set, renders only the first `max` children; surplus Tags collapse into a single `<Tag tone="muted">+{N}</Tag>` overflow pill. Hidden Tags are sliced from the DOM entirely (not CSS-hidden). Omit to show all Tags.
+- `gap` (`"sm" | "md"`, default `"md"`) — gap between Tag pills on both axes. `"md"` = `--space-2` (8px), the canonical editorial tag-row gap. `"sm"` = `--space-1` (4px) for dense surfaces (table cells, compact card footers).
+- `className` (optional `string`) — layout overrides by consumer (margin, alignment). TagList has no self-margin.
+- Tokens consumed: `--space-1`, `--space-2`. No new tokens introduced.
+- Layout: `display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2)` (or `--space-1` for `gap="sm"`).
+- Overflow pill: `<Tag tone="muted">+{N}</Tag>` where N = total child count minus `max`. The pill's visual treatment (transparent bg, hairline border, muted fg) is inherited from `Tag tone="muted"` — TagList owns no overflow styles of its own.
+- Do NOT use TagList to group `<StatusBadge>` elements — StatusBadge encodes liveness state; Tag encodes category. Distinct semantic registers.
+- Do NOT use TagList as a navigation row — use `<nav>` with anchor children.
+- Do NOT use TagList for a single Tag — a lone Tag does not need a wrapper.
+- Do NOT use `max` as a content strategy — prefer curating the tag list to ~5 items.
+
 ### Section
 - Canonical page-section wrapper molecule. Owns the vertical rhythm around a section's header block (eyebrow + title + lede) and exposes a children slot for section body content.
 - No visual surface — no background, border, or shadow in default configuration. Structural scaffolding only.

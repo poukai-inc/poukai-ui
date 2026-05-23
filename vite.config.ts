@@ -99,6 +99,7 @@ export default defineConfig({
               "molecules/RoleCard": resolve(__dirname, "src/molecules/RoleCard/index.ts"),
               "molecules/Section": resolve(__dirname, "src/molecules/Section/index.ts"),
               "molecules/Statement": resolve(__dirname, "src/molecules/Statement/index.ts"),
+              "molecules/TagList": resolve(__dirname, "src/molecules/TagList/index.ts"),
               "molecules/TeamCard": resolve(__dirname, "src/molecules/TeamCard/index.ts"),
               "organisms/Dialog": resolve(__dirname, "src/organisms/Dialog/index.ts"),
               "organisms/Footer": resolve(__dirname, "src/organisms/Footer/index.ts"),

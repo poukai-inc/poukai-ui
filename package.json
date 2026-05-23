@@ -260,6 +260,11 @@
       "import": "./dist/molecules/Statement.js",
       "require": "./dist/molecules/Statement.cjs"
     },
+    "./molecules/TagList": {
+      "types": "./dist/molecules/TagList.d.ts",
+      "import": "./dist/molecules/TagList.js",
+      "require": "./dist/molecules/TagList.cjs"
+    },
     "./molecules/TeamCard": {
       "types": "./dist/molecules/TeamCard.d.ts",
       "import": "./dist/molecules/TeamCard.js",

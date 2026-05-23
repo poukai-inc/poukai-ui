@@ -59,6 +59,7 @@ import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
+import { FormRow } from "./molecules/FormRow";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -884,6 +885,37 @@ test("a11y — TagList (gap=sm)", async ({ mount, page }) => {
       <Tag>Engineering</Tag>
       <Tag>Design Systems</Tag>
     </TagList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FormRow (two Fields, default gap)", async ({ mount, page }) => {
+  await mount(
+    <FormRow>
+      <Field label="First name" id="a11y-formrow-first">
+        <Input placeholder="Arian" />
+      </Field>
+      <Field label="Last name" id="a11y-formrow-last">
+        <Input placeholder="Zargaran" />
+      </Field>
+    </FormRow>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FormRow (three Fields, tight gap, explicit columns)", async ({ mount, page }) => {
+  await mount(
+    <FormRow gap="tight" columns={3}>
+      <Field label="City" id="a11y-formrow-city">
+        <Input placeholder="San Francisco" />
+      </Field>
+      <Field label="State" id="a11y-formrow-state">
+        <Input placeholder="CA" />
+      </Field>
+      <Field label="ZIP" id="a11y-formrow-zip">
+        <Input placeholder="94103" />
+      </Field>
+    </FormRow>,
   );
   await expectAxeClean(page);
 });

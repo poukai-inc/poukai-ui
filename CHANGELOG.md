@@ -1,5 +1,11 @@
 # @poukai-inc/ui
 
+## 2.0.1
+
+### Patch Changes
+
+- bd3b892: Fix license field: change from `UNLICENSED` to `SEE LICENSE IN LICENSE` and ship `LICENSE` file in the published tarball.
+
 ## 2.0.0
 
 ### Major Changes

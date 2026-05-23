@@ -49,6 +49,7 @@ import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
 import { Byline } from "./molecules/Byline";
+import { Stepper } from "./molecules/Stepper";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -872,6 +873,29 @@ test("a11y — Portrait (lazy default, eager above-fold)", async ({ mount, page 
         fetchPriority="high"
       />
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Stepper (middle step active)", async ({ mount, page }) => {
+  await mount(
+    <Stepper
+      steps={[{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }]}
+      current={1}
+      aria-label="Onboarding steps"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Stepper (size='sm', labels hidden)", async ({ mount, page }) => {
+  await mount(
+    <Stepper
+      steps={[{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }]}
+      current={0}
+      size="sm"
+      aria-label="Checkout progress"
+    />,
   );
   await expectAxeClean(page);
 });

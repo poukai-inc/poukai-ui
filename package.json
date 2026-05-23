@@ -195,6 +195,11 @@
       "import": "./dist/molecules/Byline.js",
       "require": "./dist/molecules/Byline.cjs"
     },
+    "./molecules/Stepper": {
+      "types": "./dist/molecules/Stepper.d.ts",
+      "import": "./dist/molecules/Stepper.js",
+      "require": "./dist/molecules/Stepper.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",

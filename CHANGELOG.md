@@ -1,5 +1,11 @@
 # @poukai-inc/ui
 
+## 2.3.0
+
+### Minor Changes
+
+- 0c8c980: feat(molecule): add Fieldset — groups related Field molecules under a semantic legend with consistent vertical spacing and optional bordered variant
+
 ## 2.2.0
 
 ### Minor Changes

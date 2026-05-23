@@ -84,6 +84,7 @@ export default defineConfig({
               "atoms/Time": resolve(__dirname, "src/atoms/Time/index.ts"),
               "atoms/VisuallyHidden": resolve(__dirname, "src/atoms/VisuallyHidden/index.ts"),
               "atoms/Wordmark": resolve(__dirname, "src/atoms/Wordmark/index.ts"),
+              "molecules/Alert": resolve(__dirname, "src/molecules/Alert/index.ts"),
               "molecules/Banner": resolve(__dirname, "src/molecules/Banner/index.ts"),
               "molecules/Byline": resolve(__dirname, "src/molecules/Byline/index.ts"),
               "molecules/FailureMode": resolve(__dirname, "src/molecules/FailureMode/index.ts"),

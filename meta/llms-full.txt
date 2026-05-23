@@ -647,6 +647,30 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 </FieldNote>
 ```
 
+### Alert
+- Inline semantic banner molecule. Five variants: `info`, `success`, `warn`, `error`, `note`. Communicates product feedback with a defined emotional register. Distinct from `FieldNote` (no live-region semantics) and `Banner` (full-width). Alert is inline, persistent, block-level.
+- Root element: `<div>` with explicit `role` per variant. Not polymorphic. Always `<div>`.
+- `variant` (optional): `"info" | "success" | "warn" | "error" | "note"`. Default: `"info"`. Maps to surface color, icon, and ARIA role.
+- `title` (optional string): Scannable label above body. Rendered as `<strong>` — NOT a heading. No heading levels inside inline banners.
+- `children` (required ReactNode): Body copy. Rendered inside `<p>`.
+- `icon` (optional ReactNode | null): Override default icon. Pass `null` to suppress entirely. Default auto-selects a lucide-react icon per variant.
+- ARIA roles: `info/success/warn` → `role="status"` (polite). `error` → `role="alert"` (assertive). `note` → `role="note"` (static landmark). Never use `role="alert"` for non-urgent messages.
+- Variant surfaces: `info/note` → `--surface`. `success` → `--bg-success` / `--fg-on-success`. `warn` → `--bg-warning` / `--fg-on-warning`. `error` → `--bg-danger` / `--fg-on-danger`. `note` uses `--fg-muted` text.
+- Icon colors: `info` → `--accent`. `success` → `--success`. `warn` → `--warning`. `error` → `--danger`. `note` → `--fg-muted`.
+- Leading icon carries `aria-hidden="true"` — decorative. Variant conveys semantic register.
+- Tokens consumed: `--surface`, `--bg-success`, `--fg-on-success`, `--bg-danger`, `--fg-on-danger`, `--bg-warning`, `--fg-on-warning`, `--fg`, `--fg-muted`, `--accent`, `--success`, `--danger`, `--warning`, `--hairline`, `--hairline-w`, `--font-sans`, `--fs-meta`, `--lh-body`, `--space-1`, `--space-2`, `--space-3`, `--space-4`, `--radius-2`, `--icon-sm`. No new tokens introduced.
+- Do NOT use Alert for toast/transient notifications. Use `<Toast>`. Do NOT use Alert to replace `<FieldNote>` — FieldNote has no live-region semantics. Do NOT nest Alert inside `<p>`. Do NOT use `note` variant for urgent feedback.
+
+```tsx
+<Alert variant="error" title="Submission failed">
+  Please fix the highlighted fields and try again.
+</Alert>
+
+<Alert variant="success">Profile updated successfully.</Alert>
+
+<Alert variant="info" icon={null}>Icon suppressed.</Alert>
+```
+
 ### Quote
 - Attributed customer testimonial molecule. A short prose block (1–4 sentences) from a named person, with optional role/title and optional avatar slot. Primary surface: customer story pages and social-proof sections.
 - Root element: `<figure>`. Not polymorphic — `<figure>` is the single correct semantic root for attributed quotations per HTML5. Inside: `<blockquote>` for the quoted body, `<figcaption>` for the attribution row. This structure correctly associates the attribution with the quote at the HTML semantic level — no extra ARIA needed.

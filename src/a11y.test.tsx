@@ -59,6 +59,7 @@ import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
+import { Alert } from "./molecules/Alert";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1520,6 +1521,27 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
     <Prose>
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- Alert ---------- */
+
+test("a11y — Alert (all variants)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Alert variant="info">Your session will expire in 15 minutes.</Alert>
+      <Alert variant="success" title="Success">
+        Profile updated successfully.
+      </Alert>
+      <Alert variant="warn" title="Warning">
+        Your trial ends in 3 days.
+      </Alert>
+      <Alert variant="error" title="Submission failed">
+        Please fix the highlighted fields and try again.
+      </Alert>
+      <Alert variant="note">This feature is in beta.</Alert>
+    </div>,
   );
   await expectAxeClean(page);
 });

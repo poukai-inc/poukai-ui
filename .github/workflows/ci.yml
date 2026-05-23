@@ -101,3 +101,14 @@ jobs:
             {
               "version": "${{ fromJson(steps.changesets.outputs.publishedPackages)[0].version }}"
             }
+      - name: Dispatch ds-package-published to poukai-inc/autopost
+        if: steps.changesets.outputs.published == 'true'
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.CONSUMER_DISPATCH_TOKEN }}
+          repository: poukai-inc/autopost
+          event-type: ds-package-published
+          client-payload: |
+            {
+              "version": "${{ fromJson(steps.changesets.outputs.publishedPackages)[0].version }}"
+            }

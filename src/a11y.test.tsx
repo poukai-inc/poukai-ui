@@ -48,6 +48,7 @@ import { Switch } from "./atoms/Switch";
 import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
+import { Byline } from "./molecules/Byline";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -824,6 +825,31 @@ test("a11y — Banner (all four tones)", async ({ mount, page }) => {
       <Banner tone="danger">Deployment failed. Check the logs.</Banner>
       <Banner tone="success">Deployment complete. Changes are live.</Banner>
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Byline (all props)", async ({ mount, page }) => {
+  await mount(
+    <Byline
+      avatar="https://i.pravatar.cc/64?img=5"
+      name="Jane Doe"
+      role="Editor"
+      publishedAt="2026-05-21T10:00:00Z"
+      readTime="6 min read"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Byline (name only, no trailing content)", async ({ mount, page }) => {
+  await mount(<Byline name="Jane Doe" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Byline (initials fallback)", async ({ mount, page }) => {
+  await mount(
+    <Byline initials="JD" name="Jane Doe" role="Editor" publishedAt="2026-05-21T10:00:00Z" />,
   );
   await expectAxeClean(page);
 });

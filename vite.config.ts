@@ -102,6 +102,7 @@ export default defineConfig({
               "molecules/TagList": resolve(__dirname, "src/molecules/TagList/index.ts"),
               "molecules/TeamCard": resolve(__dirname, "src/molecules/TeamCard/index.ts"),
               "molecules/Fieldset": resolve(__dirname, "src/molecules/Fieldset/index.ts"),
+              "molecules/Breadcrumb": resolve(__dirname, "src/molecules/Breadcrumb/index.ts"),
               "organisms/Dialog": resolve(__dirname, "src/organisms/Dialog/index.ts"),
               "organisms/Footer": resolve(__dirname, "src/organisms/Footer/index.ts"),
               "organisms/Form": resolve(__dirname, "src/organisms/Form/index.ts"),

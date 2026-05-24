@@ -1,0 +1,121 @@
+/* ============================================================
+   LogoCloud — organism
+   Canonical "trusted by" / partner logo surface.
+   Composes Section molecule with Logo atoms in grid or strip layout.
+   ============================================================ */
+
+.root {
+  /* No additional root styles — Section owns all outer rhythm. */
+}
+
+/* ── Container ─────────────────────────────────────────────── */
+
+.container {
+  padding-block: var(--space-12);
+}
+
+.hasDivider {
+  border-top: var(--hairline-w) solid var(--hairline);
+}
+
+/* ── Grid variant ──────────────────────────────────────────── */
+
+.variantGrid {
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+  justify-items: center;
+}
+
+/* Column count classes — responsive: halved at < --bp-md */
+
+.cols2 {
+  grid-template-columns: repeat(1, 1fr);
+}
+.cols3 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.cols4 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.cols5 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.cols6 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (min-width: 768px) {
+  .cols2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cols3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .cols4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .cols5 {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .cols6 {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* ── Strip variant ─────────────────────────────────────────── */
+
+.variantStrip {
+  display: flex;
+  overflow: hidden;
+  /* Fade edges using a mask so logos don't hard-clip */
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 8%,
+    black 92%,
+    transparent 100%
+  );
+}
+
+/* Pause strip on hover or keyboard focus */
+.variantStrip:hover .track,
+.variantStrip:focus-within .track {
+  animation-play-state: paused;
+}
+
+/* ── Track (strip only) ────────────────────────────────────── */
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  /* Each track contains one full copy of logos.
+     Two tracks side-by-side = 2× visible width.
+     Animation translates by -50% → seamless loop. */
+  flex-shrink: 0;
+  animation: logoScroll calc(var(--dur-slow) * 10) linear infinite;
+}
+
+@keyframes logoScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Reduced motion: collapse strip to static scrollable row */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+
+  .variantStrip {
+    overflow-x: auto;
+    mask-image: none;
+    -webkit-mask-image: none;
+  }
+}

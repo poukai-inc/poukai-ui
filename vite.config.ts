@@ -111,6 +111,7 @@ export default defineConfig({
               "organisms/SiteShell": resolve(__dirname, "src/organisms/SiteShell/index.ts"),
               "organisms/Tabs": resolve(__dirname, "src/organisms/Tabs/index.ts"),
               "organisms/Toast": resolve(__dirname, "src/organisms/Toast/index.ts"),
+              "organisms/LogoCloud": resolve(__dirname, "src/organisms/LogoCloud/index.ts"),
             },
             name: "PoukaiUI",
             formats: ["es", "cjs"] as const,

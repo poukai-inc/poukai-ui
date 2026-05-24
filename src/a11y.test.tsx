@@ -62,6 +62,7 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import { LogoCloud } from "./organisms/LogoCloud";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1592,6 +1593,37 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — LogoCloud (grid, with heading)", async ({ mount, page }) => {
+  await mount(
+    <LogoCloud heading="Trusted by" eyebrow="Customers">
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Acme" alt="Acme" />
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Globex" alt="Globex" />
+    </LogoCloud>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — LogoCloud (grid, aria-label, no heading)", async ({ mount, page }) => {
+  await mount(
+    <LogoCloud aria-label="Our partners">
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Acme" alt="Acme" />
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Globex" alt="Globex" />
+    </LogoCloud>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — LogoCloud (strip, aria-label)", async ({ mount, page }) => {
+  await mount(
+    <LogoCloud variant="strip" aria-label="Partner logos">
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Acme" alt="Acme" />
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Globex" alt="Globex" />
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Initech" alt="Initech" />
+    </LogoCloud>,
   );
   await expectAxeClean(page);
 });

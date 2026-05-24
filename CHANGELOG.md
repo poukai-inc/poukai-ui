@@ -1,5 +1,17 @@
 # @poukai-inc/ui
 
+## 2.8.0
+
+### Minor Changes
+
+- f06d848: feat(atom): add TimePicker — time-of-day input primitive
+
+  Styled wrapper around native `<input type="time">`. Supports controlled/uncontrolled value, `onValueChange`, `step`, `min`, `max`, `invalid`, `disabled`, and three sizes (sm/md/lg) aligned to the `--btn-h-*` ladder. No Radix dependency.
+
+- c9091e2: Add `Sidebar` organism — vertical navigation surface for docs layouts and app shells.
+
+  Compound API: `Sidebar` root + `Sidebar.Group`. Composes `LinkList` molecule and `Heading` atom into a semantic `<aside>` + `<nav>` structure. Supports sticky positioning, optional group headings, and collapsible groups via `Disclosure`.
+
 ## 2.7.0
 
 ### Minor Changes

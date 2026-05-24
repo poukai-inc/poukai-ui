@@ -48,6 +48,7 @@ import { Switch } from "./atoms/Switch";
 import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
+import { NavLink } from "./molecules/NavLink";
 import { StatList } from "./molecules/StatList";
 import { Caption } from "./molecules/Caption";
 import { Byline } from "./molecules/Byline";
@@ -1564,6 +1565,18 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
     <Prose>
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — NavLink (rest + active)", async ({ mount, page }) => {
+  await mount(
+    <nav aria-label="Primary">
+      <NavLink href="/about">About</NavLink>
+      <NavLink href="/work" active>
+        Work
+      </NavLink>
+    </nav>,
   );
   await expectAxeClean(page);
 });

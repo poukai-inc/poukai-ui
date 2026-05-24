@@ -1720,6 +1720,20 @@ ADR-0009: Horizontal lockup is canonical. Stacked for square-format only.
 ADR-0010: Proposal-loop architecture. proposal:approved label is a human gate.
 ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 1184 290.
 
+### NavLink
+
+**Layer**: molecule | **File**: `src/molecules/NavLink/NavLink.tsx`
+
+Top-nav anchor primitive. Renders a semantic `<a>` styled for primary navigation chrome. Label is `--fg-muted` at rest; shifts to `--fg` on hover with an accent underline growing via `background-size` transition (matches the global `<a>` mechanic in `tokens.css`). When `active` is true, `aria-current="page"` is set and a 2px `--accent` `border-bottom` is always visible.
+
+**Props**: `href` (string, required) · `active` (boolean, default false) · `children` (ReactNode, required) · all `AnchorHTMLAttributes<HTMLAnchorElement>` via `...rest`.
+
+**A11y**: `aria-current="page"` when active; omitted (not `"false"`) when inactive. Parent organism owns the `<nav aria-label="Primary">` landmark — NavLink does not.
+
+**Tokens**: `--font-sans` `--fs-meta` `--fg` `--fg-muted` `--accent` `--hairline` `--hairline-w` `--dur-fast` `--dur-mid` `--easing` `--easing-link` `--radius-1` `--space-3`
+
+**Do not use** for sidebar links, footer links, primary CTAs, breadcrumbs, or in-page anchors.
+
 ### StatList
 
 Layer: molecule. Groups two or more `Stat` atoms into a shared horizontal rhythm.

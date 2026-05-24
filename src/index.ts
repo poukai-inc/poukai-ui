@@ -125,6 +125,7 @@ export {
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
 export { TagList, type TagListProps } from "./molecules/TagList/index.js";
 
+export { NavLink, type NavLinkProps } from "./molecules/NavLink";
 export { StatList, type StatListProps } from "./molecules/StatList";
 export { Caption, type CaptionProps } from "./molecules/Caption";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";

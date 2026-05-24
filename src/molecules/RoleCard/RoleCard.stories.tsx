@@ -24,7 +24,7 @@ const PlaceholderIcon = () => (
 );
 
 export default {
-  title: "Components / Cards / RoleCard",
+  title: "Molecules / Cards / RoleCard",
   args: {
     eyebrow: "Role 01",
     title: "Builder",

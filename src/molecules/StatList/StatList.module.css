@@ -1,0 +1,59 @@
+/* ============================================================
+   StatList — grouped Stat row with rhythm + optional dividers
+   ============================================================ */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 768px) {
+  .root {
+    flex-direction: row;
+    gap: var(--space-12);
+  }
+}
+
+/* Alignment of the row within its container */
+.alignCenter {
+  justify-content: center;
+  align-items: center;
+}
+
+.alignStart {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+/* Each item wrapper */
+.item {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Dividers — vertical rule via ::before on every item except the first.
+   Mobile: horizontal rule spanning full width beneath each item (except last). */
+.dividers .item:not(:first-child)::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: var(--hairline-w);
+  background: var(--hairline);
+  position: absolute;
+  top: calc(var(--space-8) * -0.5);
+  left: 0;
+}
+
+@media (min-width: 768px) {
+  .dividers .item:not(:first-child)::before {
+    width: var(--hairline-w);
+    height: 100%;
+    top: 0;
+    left: calc(var(--space-12) * -0.5);
+  }
+}

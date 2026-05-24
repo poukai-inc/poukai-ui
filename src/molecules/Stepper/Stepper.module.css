@@ -1,0 +1,200 @@
+/* ============================================================
+   Stepper — numbered step indicator molecule
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Reset UA list styles */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  font-family: var(--font-sans);
+}
+
+/* ---------- Horizontal orientation (default) ---------- */
+
+.horizontal {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+}
+
+/* ---------- Vertical orientation ---------- */
+
+.vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-8);
+}
+
+/* ---------- Step item ---------- */
+
+.step {
+  /* Flex column: connector + stepInner stacked vertically in horizontal mode */
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+
+.vertical .step {
+  flex: none;
+  width: 100%;
+  align-items: flex-start;
+}
+
+/* ---------- Connector ---------- */
+
+.connector {
+  flex: 1;
+  height: var(--hairline-w);
+  background: var(--hairline);
+  min-width: var(--space-4);
+  align-self: flex-start;
+  /* Vertically center with marker in horizontal mode.
+     md marker = 28px, sm marker = 20px.
+     Connector sits at half-marker-height; we use a margin-top calc'd per size. */
+  margin-top: 14px; /* half of 28px md marker — overridden in .sm below */
+  flex-shrink: 0;
+}
+
+.sm .connector {
+  margin-top: 10px; /* half of 20px sm marker */
+}
+
+.vertical .connector {
+  /* In vertical mode, connector goes below the marker, vertical line */
+  flex: none;
+  width: var(--hairline-w);
+  height: var(--space-8);
+  margin-top: 0;
+  margin-left: 14px; /* center on md marker; overridden in .sm below */
+  align-self: auto;
+}
+
+.vertical.sm .connector {
+  margin-left: 10px; /* center on sm marker */
+}
+
+/* ---------- StepInner: marker + label stacked ---------- */
+
+.stepInner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.vertical .stepInner {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ---------- Marker circle ---------- */
+
+.marker {
+  /* Fixed diameter per size; no --size token exists — values from spec §3 open question */
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  /* Base: upcoming defaults — overridden by state modifiers below */
+  background: var(--surface);
+  color: var(--fg-muted);
+  border: var(--hairline-w) solid var(--fg-muted);
+
+  /* Prevent font antialiasing artifacts on circular container */
+  -webkit-font-smoothing: antialiased;
+}
+
+.sm .marker {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---------- Step numeral ---------- */
+
+.numeral {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: 1;
+  letter-spacing: var(--tracking-micro);
+  color: inherit;
+}
+
+/* ---------- Step label ---------- */
+
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg-muted);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.vertical .label {
+  text-align: left;
+  white-space: normal;
+}
+
+/* ---------- Visually hidden (SR-only) ---------- */
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ---------- State: upcoming (default, no modifier needed) ---------- */
+
+/* Upcoming state is the .marker default above */
+
+/* ---------- State: active ---------- */
+
+.active .marker {
+  background: var(--bg-elevated);
+  color: var(--fg);
+  border: 2px solid var(--accent);
+}
+
+.active .label {
+  color: var(--fg);
+}
+
+/* ---------- State: complete ---------- */
+
+.complete .marker {
+  background: var(--bg-elevated);
+  color: var(--fg);
+  border: var(--hairline-w) solid var(--hairline);
+}
+
+.complete .label {
+  color: var(--fg-muted);
+}
+
+/* `.upcoming` is the default visual state — no overrides needed.
+   Declared as an empty rule so the CSS-module export emits the class
+   name, allowing consumers (and tests) to query it from the rendered DOM. */
+.upcoming {
+}

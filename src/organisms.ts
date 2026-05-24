@@ -88,3 +88,10 @@ export {
   type AnnouncementBarProps,
   type AnnouncementBarTone,
 } from "./organisms/AnnouncementBar";
+export {
+  BlogPostCard,
+  type BlogPostCardProps,
+  type BlogPostCardTone,
+  type BlogPostCardHeadingLevel,
+  type BlogPostCardCover,
+} from "./organisms/BlogPostCard";

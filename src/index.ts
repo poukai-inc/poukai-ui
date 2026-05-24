@@ -306,3 +306,9 @@ export {
   type AnnouncementBarProps,
   type AnnouncementBarTone,
 } from "./organisms/AnnouncementBar";
+  BlogPostCard,
+  type BlogPostCardProps,
+  type BlogPostCardTone,
+  type BlogPostCardHeadingLevel,
+  type BlogPostCardCover,
+} from "./organisms/BlogPostCard";

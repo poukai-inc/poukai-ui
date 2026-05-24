@@ -2721,6 +2721,39 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   quote="Accelerated our roadmap by a quarter."
   byline={<Byline name="Alex Kim" role="CTO, Startupco" />}
   portrait={<Portrait src="…" alt="" aspect="1:1" width={120} />}
+### BlogPostCard
+- Index-card preview organism for a single blog post. Surfaces cover thumbnail (optional), linked title, lede excerpt, Byline, and TagList.
+- Root element: `<a>` via `LinkCard` (full-surface anchor). `forwardRef<HTMLAnchorElement, BlogPostCardProps>`. `...rest` spread. `displayName = "BlogPostCard"`.
+- `href` (required string) — destination URL forwarded to LinkCard root anchor.
+- `title` (required string) — post heading; rendered as `h2` by default or `h3` when `headingLevel={3}`.
+- `lede` (required string) — short excerpt; capped to 3 lines via `-webkit-line-clamp: 3`.
+- `byline` (required ReactNode) — accepts a `Byline` instance (avatar + name + date + read time).
+- `tags` (optional ReactNode) — accepts a `TagList` instance; omitted when undefined.
+- `cover` (optional `{ src: string; alt: string }`) — cover image at 16:9 aspect ratio above body; omitted when undefined.
+- `headingLevel` (optional `2 | 3`, default `2`) — semantic heading level; set to `3` when BlogList provides its own section `h2`.
+- `tone` (optional `"default" | "subtle"`, default `"default"`) — `subtle` uses transparent background for banded section contexts.
+- Tokens: `--surface`, `--bg-elevated`, `--hairline`, `--hairline-w`, `--radius-3`, `--space-4`, `--space-3`, `--space-2`, `--font-serif`, `--fs-card-title`, `--fs-body`, `--fg`, `--fg-muted`, `--dur-fast`, `--easing`.
+- One tab stop per card. No internal focusable children. Focus ring via `LinkCard` focus-visible styles.
+- Do NOT nest interactive elements inside the card. Do NOT use for non-editorial content (use `LinkCard` directly). Do NOT truncate the title.
+
+```tsx
+// (a) Text only:
+<BlogPostCard
+  href="/blog/shipping-with-ai"
+  title="Shipping with AI"
+  lede="How we closed the gap between pilot and production."
+  byline={<Byline name="Arian Zargaran" publishedAt="2024-06-01" readTime="5 min read" />}
+  tags={<TagList><Tag>AI</Tag><Tag>Engineering</Tag></TagList>}
+/>
+
+// (b) With cover image:
+<BlogPostCard
+  href="/blog/design-systems"
+  title="Design Systems at Scale"
+  lede="Token-first architecture for teams shipping across multiple surfaces."
+  byline={<Byline name="Arian Zargaran" publishedAt="2024-04-15" />}
+  cover={{ src: "/images/ds-cover.jpg", alt: "Design system diagram" }}
+  headingLevel={3}
 />
 ```
 ### NewsletterSection

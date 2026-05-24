@@ -40,16 +40,16 @@
 
 ## 4. Variants / Props
 
-| Prop             | Type      | Default     | Rationale                                                      |
-| ---------------- | --------- | ----------- | -------------------------------------------------------------- |
-| `src`            | `string`  | required    | The audio file URL passed to `<audio src>`.                    |
-| `caption`        | `string`  | `undefined` | Short label below controls; rendered via `<Caption>`.          |
-| `transcriptHref` | `string`  | `undefined` | When present, renders a "Read transcript" link below Caption.  |
-| `transcriptLabel`| `string`  | `"Read transcript"` | Overridable link text for localisation.              |
-| `autoPlay`       | `boolean` | `false`     | Forwarded to `<audio>`; off by default (WCAG 1.4.2).           |
-| `loop`           | `boolean` | `false`     | Forwarded to `<audio>`.                                        |
-| `muted`          | `boolean` | `false`     | Forwarded to `<audio>`.                                        |
-| `preload`        | `"none" \| "metadata" \| "auto"` | `"metadata"` | Limits initial network cost while enabling duration display. |
+| Prop              | Type                             | Default             | Rationale                                                     |
+| ----------------- | -------------------------------- | ------------------- | ------------------------------------------------------------- |
+| `src`             | `string`                         | required            | The audio file URL passed to `<audio src>`.                   |
+| `caption`         | `string`                         | `undefined`         | Short label below controls; rendered via `<Caption>`.         |
+| `transcriptHref`  | `string`                         | `undefined`         | When present, renders a "Read transcript" link below Caption. |
+| `transcriptLabel` | `string`                         | `"Read transcript"` | Overridable link text for localisation.                       |
+| `autoPlay`        | `boolean`                        | `false`             | Forwarded to `<audio>`; off by default (WCAG 1.4.2).          |
+| `loop`            | `boolean`                        | `false`             | Forwarded to `<audio>`.                                       |
+| `muted`           | `boolean`                        | `false`             | Forwarded to `<audio>`.                                       |
+| `preload`         | `"none" \| "metadata" \| "auto"` | `"metadata"`        | Limits initial network cost while enabling duration display.  |
 
 No custom control skin is introduced in this spec. Native `<audio controls>` is the baseline. If `::-webkit-media-controls-*` styling proves insufficient for brand alignment a custom control layer can be specced separately.
 

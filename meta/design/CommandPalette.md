@@ -66,12 +66,12 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `open` | `boolean` | — | Controlled open state forwarded to `Dialog` |
-| `onOpenChange` | `(open: boolean) => void` | — | Dismiss callback |
-| `placeholder` | `string` | `"Search…"` | Input hint text |
-| `children` | `ReactNode` | — | `CommandPalette.Group` + `CommandPalette.Item` nodes |
+| Prop           | Type                      | Default     | Rationale                                            |
+| -------------- | ------------------------- | ----------- | ---------------------------------------------------- |
+| `open`         | `boolean`                 | —           | Controlled open state forwarded to `Dialog`          |
+| `onOpenChange` | `(open: boolean) => void` | —           | Dismiss callback                                     |
+| `placeholder`  | `string`                  | `"Search…"` | Input hint text                                      |
+| `children`     | `ReactNode`               | —           | `CommandPalette.Group` + `CommandPalette.Item` nodes |
 
 Compound sub-components:
 

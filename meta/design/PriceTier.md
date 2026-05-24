@@ -58,16 +58,16 @@
 
 ## 4. Variants / Props
 
-| Prop          | Type                   | Default       | Rationale                                                          |
-| ------------- | ---------------------- | ------------- | ------------------------------------------------------------------ |
-| `name`        | `string`               | — (required)  | Tier label rendered as `<h3>`                                      |
-| `price`       | `string`               | — (required)  | Displayed at stat scale; e.g. `"$29"`, `"Free"`, `"Custom"`       |
-| `per`         | `string`               | `undefined`   | Period label below price; e.g. `"month"`, `"year"`. Omit for free/custom tiers. |
-| `bullets`     | `string[]`             | `[]`          | Feature list rendered as `<ul>` items                              |
-| `bulletIcon`  | `ReactNode`            | `undefined`   | Leading icon per bullet; typically a lucide check icon. Optional.  |
-| `cta`         | `ReactNode`            | — (required)  | CTA button slot; renders full-width at card bottom                 |
-| `featured`    | `boolean`              | `false`       | Elevates card to `--bg-elevated`, shows featured badge             |
-| `featuredLabel` | `string`             | `"Recommended"` | Override badge text when `featured`                              |
+| Prop            | Type        | Default         | Rationale                                                                       |
+| --------------- | ----------- | --------------- | ------------------------------------------------------------------------------- |
+| `name`          | `string`    | — (required)    | Tier label rendered as `<h3>`                                                   |
+| `price`         | `string`    | — (required)    | Displayed at stat scale; e.g. `"$29"`, `"Free"`, `"Custom"`                     |
+| `per`           | `string`    | `undefined`     | Period label below price; e.g. `"month"`, `"year"`. Omit for free/custom tiers. |
+| `bullets`       | `string[]`  | `[]`            | Feature list rendered as `<ul>` items                                           |
+| `bulletIcon`    | `ReactNode` | `undefined`     | Leading icon per bullet; typically a lucide check icon. Optional.               |
+| `cta`           | `ReactNode` | — (required)    | CTA button slot; renders full-width at card bottom                              |
+| `featured`      | `boolean`   | `false`         | Elevates card to `--bg-elevated`, shows featured badge                          |
+| `featuredLabel` | `string`    | `"Recommended"` | Override badge text when `featured`                                             |
 
 ## 5. Interaction
 

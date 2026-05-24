@@ -21,6 +21,7 @@
 ```
 
 Parts:
+
 - **Section wrapper** — `<section>` with `--surface-section` band; handles outer padding via `--page-pad`.
 - **Heading slot** — optional, accepts a ReactNode above the grid (e.g. a `<Heading>` + billing-period toggle).
 - **Tier grid** — CSS grid; each cell is a `PriceTier`. Featured tier is visually elevated.
@@ -56,13 +57,13 @@ Parts:
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `heading` | `ReactNode` | `undefined` | Optional section headline + toggle slot above the grid |
-| `children` | `ReactNode` | required | One or more `PriceTier` children |
-| `comparison` | `ReactNode` | `undefined` | Slot for `ComparisonTable` / `ComparisonRow` below the grid |
-| `columns` | `2 \| 3 \| "auto"` | `"auto"` | `"auto"` uses CSS `minmax` to collapse 3-up to 1-up responsively; explicit values lock column count |
-| `align` | `"top" \| "stretch"` | `"stretch"` | `"stretch"` equalizes card heights so CTA buttons align across tiers; `"top"` lets cards size to content |
+| Prop         | Type                 | Default     | Rationale                                                                                                |
+| ------------ | -------------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
+| `heading`    | `ReactNode`          | `undefined` | Optional section headline + toggle slot above the grid                                                   |
+| `children`   | `ReactNode`          | required    | One or more `PriceTier` children                                                                         |
+| `comparison` | `ReactNode`          | `undefined` | Slot for `ComparisonTable` / `ComparisonRow` below the grid                                              |
+| `columns`    | `2 \| 3 \| "auto"`   | `"auto"`    | `"auto"` uses CSS `minmax` to collapse 3-up to 1-up responsively; explicit values lock column count      |
+| `align`      | `"top" \| "stretch"` | `"stretch"` | `"stretch"` equalizes card heights so CTA buttons align across tiers; `"top"` lets cards size to content |
 
 `columns="auto"` is the dominant use case (pricing pages rarely know column count at design time). Explicit values are escape hatches for locked editorial layouts.
 

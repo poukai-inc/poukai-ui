@@ -33,12 +33,12 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `children` | `ReactNode` | — | Media content occupying the figure slot. Required. |
-| `caption` | `ReactNode` | `undefined` | Shorthand caption string or node. Rendered inside `Figure.Caption`. |
-| `align` | `"start" \| "center"` | `"start"` | Caption text-alignment. `"start"` for inline editorial; `"center"` for standalone figure moments. |
-| `className` | `string` | — | Merged onto root `<figure>`. |
+| Prop        | Type                  | Default     | Rationale                                                                                         |
+| ----------- | --------------------- | ----------- | ------------------------------------------------------------------------------------------------- |
+| `children`  | `ReactNode`           | —           | Media content occupying the figure slot. Required.                                                |
+| `caption`   | `ReactNode`           | `undefined` | Shorthand caption string or node. Rendered inside `Figure.Caption`.                               |
+| `align`     | `"start" \| "center"` | `"start"`   | Caption text-alignment. `"start"` for inline editorial; `"center"` for standalone figure moments. |
+| `className` | `string`              | —           | Merged onto root `<figure>`.                                                                      |
 
 `Figure.Caption` sub-component accepts `children: ReactNode` and forwards remaining props to the underlying `Caption` atom. This allows compound usage when caption content is richer than a plain string.
 

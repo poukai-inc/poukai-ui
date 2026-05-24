@@ -51,13 +51,13 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `tiers` | `Array<{ label: string; featured?: boolean }>` or `string[]` | required | Column headers. `featured` flags one tier for accent styling. |
-| `rows` | `Array<Row \| GroupHeading>` | required | `Row: { feature: string; values: string[] }`. `GroupHeading: { group: string }`. Discriminated by presence of `group` key. |
-| `striped` | `boolean` | `false` | Alternate-row fill via `--surface`. Off by default — the brand register prefers hairlines over fills for table rhythm. |
-| `stickyHeader` | `boolean` | `true` | Sticky `<thead>`. Disable only when the table sits inside a container with `overflow: hidden` that breaks `position: sticky`. |
-| `caption` | `string` | `undefined` | Visible or visually-hidden `<caption>` for accessibility. When absent a `aria-label` on the `<table>` must be supplied by the consumer. |
+| Prop           | Type                                                         | Default     | Rationale                                                                                                                               |
+| -------------- | ------------------------------------------------------------ | ----------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `tiers`        | `Array<{ label: string; featured?: boolean }>` or `string[]` | required    | Column headers. `featured` flags one tier for accent styling.                                                                           |
+| `rows`         | `Array<Row \| GroupHeading>`                                 | required    | `Row: { feature: string; values: string[] }`. `GroupHeading: { group: string }`. Discriminated by presence of `group` key.              |
+| `striped`      | `boolean`                                                    | `false`     | Alternate-row fill via `--surface`. Off by default — the brand register prefers hairlines over fills for table rhythm.                  |
+| `stickyHeader` | `boolean`                                                    | `true`      | Sticky `<thead>`. Disable only when the table sits inside a container with `overflow: hidden` that breaks `position: sticky`.           |
+| `caption`      | `string`                                                     | `undefined` | Visible or visually-hidden `<caption>` for accessibility. When absent a `aria-label` on the `<table>` must be supplied by the consumer. |
 
 `tiers` accepts both plain `string[]` (shorthand) and `Array<{ label: string; featured?: boolean }>` (full form). The engineer discriminates via `typeof tiers[0] === 'string'`.
 

@@ -1,6 +1,6 @@
 # Breadcrumb
 
-**Status:** Draft (poukai-design — Phase 1 batch scaffold; pending approval).
+**Status:** Approved (Phase 2 — orchestrator sign-off for pilot wave; poukai-design human review pending).
 
 ## 1. Intent
 
@@ -40,11 +40,13 @@ Compound API (preferred):
 Data-driven alias also accepted:
 
 ```tsx
-<Breadcrumb items={[
-  { href: "/dashboard/pages", label: "Pages" },
-  { href: `/dashboard/pages/${id}`, label: pageName },
-  { label: "Settings", current: true },
-]} />
+<Breadcrumb
+  items={[
+    { href: "/dashboard/pages", label: "Pages" },
+    { href: `/dashboard/pages/${id}`, label: pageName },
+    { label: "Settings", current: true },
+  ]}
+/>
 ```
 
 ## 3. Tokens
@@ -63,20 +65,20 @@ Data-driven alias also accepted:
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `items` | `Array<{ href?: string; label: ReactNode; current?: boolean }>` | — | Data-driven path; mutually exclusive with compound children |
-| `children` | `ReactNode` | — | Compound `Breadcrumb.Item` nodes; preferred for dynamic labels |
-| `separator` | `ReactNode` | `"›"` | Override with custom char or icon; default chevron is universally understood |
-| `className` | `string` | — | Layout override passthrough |
+| Prop        | Type                                                            | Default | Rationale                                                                    |
+| ----------- | --------------------------------------------------------------- | ------- | ---------------------------------------------------------------------------- |
+| `items`     | `Array<{ href?: string; label: ReactNode; current?: boolean }>` | —       | Data-driven path; mutually exclusive with compound children                  |
+| `children`  | `ReactNode`                                                     | —       | Compound `Breadcrumb.Item` nodes; preferred for dynamic labels               |
+| `separator` | `ReactNode`                                                     | `"›"`   | Override with custom char or icon; default chevron is universally understood |
+| `className` | `string`                                                        | —       | Layout override passthrough                                                  |
 
 `Breadcrumb.Item` sub-component props:
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `href` | `string` | — | When present renders `<a>`; absent on current item |
-| `current` | `boolean` | `false` | Marks terminal item; suppresses link, adds `aria-current="page"` |
-| `children` | `ReactNode` | — | Item label |
+| Prop       | Type        | Default | Rationale                                                        |
+| ---------- | ----------- | ------- | ---------------------------------------------------------------- |
+| `href`     | `string`    | —       | When present renders `<a>`; absent on current item               |
+| `current`  | `boolean`   | `false` | Marks terminal item; suppresses link, adds `aria-current="page"` |
+| `children` | `ReactNode` | —       | Item label                                                       |
 
 No `size` prop — `--fs-meta` is the single correct register for nav metadata. No `tone` prop — ancestor/current states are the only meaningful visual distinction.
 

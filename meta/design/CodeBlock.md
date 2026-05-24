@@ -46,13 +46,13 @@
 
 ## 4. Variants / Props
 
-| Prop        | Type                    | Default     | Rationale                                                                                         |
-| ----------- | ----------------------- | ----------- | ------------------------------------------------------------------------------------------------- |
-| `children`  | `ReactNode`             | —           | The code content. Plain string idiomatic; also accepts pre-highlighted markup from consumer.      |
-| `language`  | `string \| undefined`   | `undefined` | Short language identifier (e.g. `"tsx"`, `"bash"`). Renders the language label when provided.    |
-| `hideCopy`  | `boolean`               | `false`     | Suppresses the CopyButton. For decorative/display-only snippets where copy is noise.              |
-| `caption`   | `ReactNode \| undefined`| `undefined` | Rendered as `<figcaption>` below the pane. File path, attribution, or explanatory note.          |
-| `className` | `string \| undefined`   | `undefined` | Merged via `clsx` onto the root `<figure>`. Consumer layout override.                            |
+| Prop        | Type                     | Default     | Rationale                                                                                     |
+| ----------- | ------------------------ | ----------- | --------------------------------------------------------------------------------------------- |
+| `children`  | `ReactNode`              | —           | The code content. Plain string idiomatic; also accepts pre-highlighted markup from consumer.  |
+| `language`  | `string \| undefined`    | `undefined` | Short language identifier (e.g. `"tsx"`, `"bash"`). Renders the language label when provided. |
+| `hideCopy`  | `boolean`                | `false`     | Suppresses the CopyButton. For decorative/display-only snippets where copy is noise.          |
+| `caption`   | `ReactNode \| undefined` | `undefined` | Rendered as `<figcaption>` below the pane. File path, attribution, or explanatory note.       |
+| `className` | `string \| undefined`    | `undefined` | Merged via `clsx` onto the root `<figure>`. Consumer layout override.                         |
 
 No size ladder. Code blocks fill their container width. Height grows with content; consumers constrain height externally if truncation is needed.
 

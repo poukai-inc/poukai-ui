@@ -39,17 +39,17 @@
 
 ## 4. Variants / Props
 
-| Prop           | Type                        | Default       | Rationale                                                   |
-| -------------- | --------------------------- | ------------- | ----------------------------------------------------------- |
-| `value`        | `string \| undefined`       | —             | Controlled `HH:mm` value                                   |
-| `defaultValue` | `string`                    | —             | Uncontrolled seed (`"HH:mm"`)                               |
-| `onValueChange`| `(value: string) => void`   | —             | Fires on `change`; provides current `input.value`           |
-| `step`         | `number`                    | `60`          | Seconds; `900` = 15-min steps, `1800` = 30-min, `3600` = 1h |
-| `min`          | `string`                    | —             | Minimum time (`"HH:mm"`)                                    |
-| `max`          | `string`                    | —             | Maximum time (`"HH:mm"`)                                    |
-| `disabled`     | `boolean`                   | `false`       | Dims + blocks interaction; `--surface` bg                   |
-| `invalid`      | `boolean`                   | `false`       | Red border via `--danger`; consumer passes after validation |
-| `size`         | `"sm" \| "md" \| "lg"`      | `"md"`        | Height aligns with `--btn-h-sm / -md / -lg`; matching Input |
+| Prop            | Type                      | Default | Rationale                                                   |
+| --------------- | ------------------------- | ------- | ----------------------------------------------------------- |
+| `value`         | `string \| undefined`     | —       | Controlled `HH:mm` value                                    |
+| `defaultValue`  | `string`                  | —       | Uncontrolled seed (`"HH:mm"`)                               |
+| `onValueChange` | `(value: string) => void` | —       | Fires on `change`; provides current `input.value`           |
+| `step`          | `number`                  | `60`    | Seconds; `900` = 15-min steps, `1800` = 30-min, `3600` = 1h |
+| `min`           | `string`                  | —       | Minimum time (`"HH:mm"`)                                    |
+| `max`           | `string`                  | —       | Maximum time (`"HH:mm"`)                                    |
+| `disabled`      | `boolean`                 | `false` | Dims + blocks interaction; `--surface` bg                   |
+| `invalid`       | `boolean`                 | `false` | Red border via `--danger`; consumer passes after validation |
+| `size`          | `"sm" \| "md" \| "lg"`    | `"md"`  | Height aligns with `--btn-h-sm / -md / -lg`; matching Input |
 
 `size="md"` default matches the Input atom default — TimePicker in the same form row as other inputs has identical height without manual alignment.
 

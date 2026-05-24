@@ -122,7 +122,19 @@ export {
   type CtaBlockAlign,
   type CtaBlockHeadingAs,
 } from "./molecules/CtaBlock";
+export { Byline, type BylineProps } from "./molecules/Byline/index.js";
+export { TagList, type TagListProps } from "./molecules/TagList/index.js";
 
+export { StatList, type StatListProps } from "./molecules/StatList";
+export { Caption, type CaptionProps } from "./molecules/Caption";
+export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export {
+  Breadcrumb,
+  BreadcrumbItem,
+  type BreadcrumbProps,
+  type BreadcrumbItemProps,
+  type BreadcrumbItemData,
+} from "./molecules/Breadcrumb";
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";

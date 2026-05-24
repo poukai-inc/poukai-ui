@@ -48,20 +48,20 @@ Each item is a `<figure>` element. The grid and Section header are owned by the 
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `heading` | `string` | — | Optional Section eyebrow/title; omit for anonymous grids |
-| `columns` | `2 \| 3 \| 4` | `3` | Controls CSS grid `repeat(n, 1fr)`; collapses to 1 at `< 480px`, 2 at `480–767px` regardless of prop |
-| `gap` | `"default" \| "tight"` | `"default"` | `"default"` uses `--space-4`; `"tight"` uses `--space-2` for denser editorial grids |
-| `children` | `ReactNode` | — | `GalleryGrid.Item` nodes only |
+| Prop       | Type                   | Default     | Rationale                                                                                            |
+| ---------- | ---------------------- | ----------- | ---------------------------------------------------------------------------------------------------- |
+| `heading`  | `string`               | —           | Optional Section eyebrow/title; omit for anonymous grids                                             |
+| `columns`  | `2 \| 3 \| 4`          | `3`         | Controls CSS grid `repeat(n, 1fr)`; collapses to 1 at `< 480px`, 2 at `480–767px` regardless of prop |
+| `gap`      | `"default" \| "tight"` | `"default"` | `"default"` uses `--space-4`; `"tight"` uses `--space-2` for denser editorial grids                  |
+| `children` | `ReactNode`            | —           | `GalleryGrid.Item` nodes only                                                                        |
 
 **`GalleryGrid.Item` sub-component props:**
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `src` | `string` | required | Image URL; passed to Portrait |
-| `alt` | `string` | required | Alt text; required for a11y |
-| `caption` | `string` | — | Optional label below thumbnail and inside Dialog |
+| Prop      | Type     | Default  | Rationale                                        |
+| --------- | -------- | -------- | ------------------------------------------------ |
+| `src`     | `string` | required | Image URL; passed to Portrait                    |
+| `alt`     | `string` | required | Alt text; required for a11y                      |
+| `caption` | `string` | —        | Optional label below thumbnail and inside Dialog |
 
 ## 5. Interaction
 

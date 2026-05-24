@@ -44,12 +44,12 @@
 
 ## 4. Variants / Props
 
-| Prop        | Type        | Default     | Rationale                                                                 |
-| ----------- | ----------- | ----------- | ------------------------------------------------------------------------- |
-| `date`      | `string`    | —           | ISO 8601 string; becomes `dateTime` attr on `<time>`. Required.           |
-| `title`     | `ReactNode` | —           | Entry heading. Required.                                                  |
-| `body`      | `ReactNode` | `undefined` | Supporting copy. Optional — some milestone entries are title-only.        |
-| `connector` | `boolean`   | `true`      | Whether to render the downward connector stub. Last item passes `false`.  |
+| Prop        | Type        | Default     | Rationale                                                                |
+| ----------- | ----------- | ----------- | ------------------------------------------------------------------------ |
+| `date`      | `string`    | —           | ISO 8601 string; becomes `dateTime` attr on `<time>`. Required.          |
+| `title`     | `ReactNode` | —           | Entry heading. Required.                                                 |
+| `body`      | `ReactNode` | `undefined` | Supporting copy. Optional — some milestone entries are title-only.       |
+| `connector` | `boolean`   | `true`      | Whether to render the downward connector stub. Last item passes `false`. |
 
 No `size` or `tone` variants in this version. Single register matches the brand's restraint rule.
 

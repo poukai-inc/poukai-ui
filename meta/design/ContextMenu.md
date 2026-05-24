@@ -44,13 +44,13 @@ ContextMenu.Root
 
 ## 4. Variants / Props
 
-| Prop / Part | Default | Notes |
-|---|---|---|
-| `ContextMenu.Root` | — | Stateless wrapper; no visual props |
-| `ContextMenu.Trigger asChild` | `true` | Always `asChild` — DS never adds a visible trigger element |
-| `ContextMenu.Content align` | `"start"` | Radix alignment; `"start" \| "center" \| "end"` |
-| `ContextMenu.Content sideOffset` | `4` | px gap between pointer and panel edge |
-| `MenuItem tone` | `"default"` | `"default" \| "danger"` — danger uses `--danger` for label + icon |
+| Prop / Part                      | Default     | Notes                                                             |
+| -------------------------------- | ----------- | ----------------------------------------------------------------- |
+| `ContextMenu.Root`               | —           | Stateless wrapper; no visual props                                |
+| `ContextMenu.Trigger asChild`    | `true`      | Always `asChild` — DS never adds a visible trigger element        |
+| `ContextMenu.Content align`      | `"start"`   | Radix alignment; `"start" \| "center" \| "end"`                   |
+| `ContextMenu.Content sideOffset` | `4`         | px gap between pointer and panel edge                             |
+| `MenuItem tone`                  | `"default"` | `"default" \| "danger"` — danger uses `--danger` for label + icon |
 
 `tone="danger"` on a `MenuItem` replaces `--fg` with `--danger`. No additional token needed; `--danger` is in the existing vocabulary.
 

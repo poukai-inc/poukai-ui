@@ -43,15 +43,15 @@ Convenience wrapper: a `<Tooltip content="…">` single-component form (wrapping
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `content` | `ReactNode` | — | Label text for the simple wrapper form. Required when using `<Tooltip content="…">`. |
-| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"top"` | Preferred placement; Radix auto-flips on viewport collision. Top is the canonical hover-hint position. |
-| `sideOffset` | `number` | `6` | px gap between trigger and Content panel. 6px sits within `--space-2` ballpark without needing a new token. |
-| `delayDuration` | `number` | `700` | ms before tooltip opens on hover. 700ms is the Radix default and matches platform conventions. |
-| `open` | `boolean` | — | Controlled open state (compound form only). |
-| `defaultOpen` | `boolean` | `false` | Uncontrolled initial state. |
-| `onOpenChange` | `(open: boolean) => void` | — | Open-state callback. |
+| Prop            | Type                                     | Default | Rationale                                                                                                   |
+| --------------- | ---------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------- |
+| `content`       | `ReactNode`                              | —       | Label text for the simple wrapper form. Required when using `<Tooltip content="…">`.                        |
+| `side`          | `"top" \| "right" \| "bottom" \| "left"` | `"top"` | Preferred placement; Radix auto-flips on viewport collision. Top is the canonical hover-hint position.      |
+| `sideOffset`    | `number`                                 | `6`     | px gap between trigger and Content panel. 6px sits within `--space-2` ballpark without needing a new token. |
+| `delayDuration` | `number`                                 | `700`   | ms before tooltip opens on hover. 700ms is the Radix default and matches platform conventions.              |
+| `open`          | `boolean`                                | —       | Controlled open state (compound form only).                                                                 |
+| `defaultOpen`   | `boolean`                                | `false` | Uncontrolled initial state.                                                                                 |
+| `onOpenChange`  | `(open: boolean) => void`                | —       | Open-state callback.                                                                                        |
 
 The compound form (`Tooltip.Root` / `Tooltip.Trigger` / `Tooltip.Content`) accepts all Radix props verbatim on each sub-component, forwarding them through.
 

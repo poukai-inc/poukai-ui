@@ -39,14 +39,14 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `autoplay` | `boolean` | `false` | Off by default; motion must be opt-in per reduced-motion principle |
-| `loop` | `boolean` | `false` | Linear navigation is the safe default; loop risks disorientation |
-| `slidesVisible` | `number` | `1` | Full-width single slide is the common case |
-| `gap` | keyof spacing | `--space-4` | Inter-slide gap inside the track |
-| `indicators` | `boolean` | `true` | Dots shown by default; can suppress for minimal presentations |
-| `className` | `string` | — | Root override for layout positioning of controls |
+| Prop            | Type          | Default     | Rationale                                                          |
+| --------------- | ------------- | ----------- | ------------------------------------------------------------------ |
+| `autoplay`      | `boolean`     | `false`     | Off by default; motion must be opt-in per reduced-motion principle |
+| `loop`          | `boolean`     | `false`     | Linear navigation is the safe default; loop risks disorientation   |
+| `slidesVisible` | `number`      | `1`         | Full-width single slide is the common case                         |
+| `gap`           | keyof spacing | `--space-4` | Inter-slide gap inside the track                                   |
+| `indicators`    | `boolean`     | `true`      | Dots shown by default; can suppress for minimal presentations      |
+| `className`     | `string`      | —           | Root override for layout positioning of controls                   |
 
 `autoplay` must pause on `:hover`, `:focus-within`, and under `prefers-reduced-motion: reduce` (via `animation-play-state: paused` or timer clearance). The interval is fixed at 4 000 ms — no token exists for `--dur-carousel-interval`; see Open questions.
 

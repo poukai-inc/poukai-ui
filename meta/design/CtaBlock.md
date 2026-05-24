@@ -45,14 +45,14 @@ In `orientation="horizontal"` the heading + body column sits on the left; the ac
 
 ## 4. Variants / Props
 
-| Prop            | Type                           | Default        | Rationale                                                                        |
-| --------------- | ------------------------------ | -------------- | -------------------------------------------------------------------------------- |
-| `heading`       | `ReactNode`                    | —              | Required. Primary CTA text.                                                      |
-| `headingAs`     | `"h1" \| "h2" \| "h3"`         | `"h2"`         | `h2` is correct when CtaBlock sits below a Hero h1. Override for nested contexts. |
-| `body`          | `ReactNode`                    | `undefined`    | Optional. Absent: heading jumps directly to actions gap (`--space-8`).           |
-| `actions`       | `ReactNode`                    | —              | Required. The CTA button(s). Consumer owns the Button composition.               |
-| `orientation`   | `"stacked" \| "horizontal"`    | `"stacked"`    | `stacked` is the safe default; `horizontal` is the wide-viewport editorial form. |
-| `align`         | `"start" \| "center"`          | `"start"`      | `start` matches the brand's restrained left-aligned register. `center` for symmetrical moments (e.g. a full-bleed CTASection). |
+| Prop          | Type                        | Default     | Rationale                                                                                                                      |
+| ------------- | --------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `heading`     | `ReactNode`                 | —           | Required. Primary CTA text.                                                                                                    |
+| `headingAs`   | `"h1" \| "h2" \| "h3"`      | `"h2"`      | `h2` is correct when CtaBlock sits below a Hero h1. Override for nested contexts.                                              |
+| `body`        | `ReactNode`                 | `undefined` | Optional. Absent: heading jumps directly to actions gap (`--space-8`).                                                         |
+| `actions`     | `ReactNode`                 | —           | Required. The CTA button(s). Consumer owns the Button composition.                                                             |
+| `orientation` | `"stacked" \| "horizontal"` | `"stacked"` | `stacked` is the safe default; `horizontal` is the wide-viewport editorial form.                                               |
+| `align`       | `"start" \| "center"`       | `"start"`   | `start` matches the brand's restrained left-aligned register. `center` for symmetrical moments (e.g. a full-bleed CTASection). |
 
 ## 5. Interaction
 

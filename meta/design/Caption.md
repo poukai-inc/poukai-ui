@@ -1,6 +1,6 @@
 # Caption
 
-**Status:** Draft (poukai-design — Phase 1 batch scaffold; pending approval).
+**Status:** Approved (Phase 2 pilot — user-stakeholder sign-off; pending poukai-design canonical pass).
 
 ## 1. Intent
 
@@ -31,11 +31,11 @@
 
 ## 4. Variants / Props
 
-| Prop       | Type                        | Default        | Rationale                                                              |
-| ---------- | --------------------------- | -------------- | ---------------------------------------------------------------------- |
-| `as`       | `"figcaption" \| "p" \| "span"` | `"figcaption"` | `figcaption` is semantically correct inside `<figure>`; `p` for standalone use outside one |
-| `children` | `ReactNode`                 | —              | The caption text. Plain string is idiomatic.                           |
-| `className` | `string`                   | —              | Merge via `clsx`; follows DS atom convention.                          |
+| Prop        | Type                            | Default        | Rationale                                                                                  |
+| ----------- | ------------------------------- | -------------- | ------------------------------------------------------------------------------------------ |
+| `as`        | `"figcaption" \| "p" \| "span"` | `"figcaption"` | `figcaption` is semantically correct inside `<figure>`; `p` for standalone use outside one |
+| `children`  | `ReactNode`                     | —              | The caption text. Plain string is idiomatic.                                               |
+| `className` | `string`                        | —              | Merge via `clsx`; follows DS atom convention.                                              |
 
 No `tone` prop — there is only one visual register for a caption. No `size` prop — `--fs-micro` is fixed. No `icon` slot — captions are text primitives.
 

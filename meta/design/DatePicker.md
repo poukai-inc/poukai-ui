@@ -58,20 +58,20 @@ DatePicker is a controlled or uncontrolled calendar-based date input that replac
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `value` | `Date \| null` | — | Controlled selected date |
-| `defaultValue` | `Date \| null` | `null` | Uncontrolled initial date |
-| `onValueChange` | `(date: Date \| null) => void` | — | Fires on day selection |
-| `min` | `Date` | — | Disables days before this date |
-| `max` | `Date` | — | Disables days after this date |
-| `disabled` | `boolean` | `false` | Disables trigger and all interaction |
-| `locale` | `string` | `"en-US"` | `Intl.DateTimeFormat` locale for day/month names and display format |
-| `format` | `string` | `"MMM d, yyyy"` | Display format string for the trigger label |
-| `placeholder` | `string` | `"Pick a date"` | Trigger text when no date selected |
-| `invalid` | `boolean` | `false` | Error state — red border on trigger, maps to `aria-invalid` |
-| `id` | `string` | — | Forwarded to the trigger button; used by parent `Field` for label association |
-| `name` | `string` | — | Hidden `<input type="hidden">` for native form submission |
+| Prop            | Type                           | Default         | Rationale                                                                     |
+| --------------- | ------------------------------ | --------------- | ----------------------------------------------------------------------------- |
+| `value`         | `Date \| null`                 | —               | Controlled selected date                                                      |
+| `defaultValue`  | `Date \| null`                 | `null`          | Uncontrolled initial date                                                     |
+| `onValueChange` | `(date: Date \| null) => void` | —               | Fires on day selection                                                        |
+| `min`           | `Date`                         | —               | Disables days before this date                                                |
+| `max`           | `Date`                         | —               | Disables days after this date                                                 |
+| `disabled`      | `boolean`                      | `false`         | Disables trigger and all interaction                                          |
+| `locale`        | `string`                       | `"en-US"`       | `Intl.DateTimeFormat` locale for day/month names and display format           |
+| `format`        | `string`                       | `"MMM d, yyyy"` | Display format string for the trigger label                                   |
+| `placeholder`   | `string`                       | `"Pick a date"` | Trigger text when no date selected                                            |
+| `invalid`       | `boolean`                      | `false`         | Error state — red border on trigger, maps to `aria-invalid`                   |
+| `id`            | `string`                       | —               | Forwarded to the trigger button; used by parent `Field` for label association |
+| `name`          | `string`                       | —               | Hidden `<input type="hidden">` for native form submission                     |
 
 ## 5. Interaction
 

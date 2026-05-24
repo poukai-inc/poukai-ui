@@ -44,10 +44,10 @@
 ```tsx
 // INTENT ONLY — engineer designs the actual API
 interface DocsLayoutProps {
-  sidebar: ReactNode;          // Sidebar organism; required
-  toc?: ReactNode;             // TableOfContents molecule; optional — omit to suppress right rail
-  sidebarLabel?: string;       // aria-label + trigger label for mobile Sheet; default "Menu"
-  children: ReactNode;         // center content — typically <ArticleLayout>
+  sidebar: ReactNode; // Sidebar organism; required
+  toc?: ReactNode; // TableOfContents molecule; optional — omit to suppress right rail
+  sidebarLabel?: string; // aria-label + trigger label for mobile Sheet; default "Menu"
+  children: ReactNode; // center content — typically <ArticleLayout>
 }
 ```
 

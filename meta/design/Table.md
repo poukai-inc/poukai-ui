@@ -54,21 +54,21 @@
 
 **`Table` root**
 
-| Prop | Values | Default | Rationale |
-|---|---|---|---|
-| `density` | `"compact" \| "comfortable"` | `"comfortable"` | Dashboard list pages read better with comfortable padding; `compact` for dense audit tables or mobile viewports |
-| `tone` | `"default" \| "subtle"` | `"default"` | `default` puts row hover on `--surface`; `subtle` uses `--surface-section` for tables embedded inside a section band |
+| Prop      | Values                       | Default         | Rationale                                                                                                            |
+| --------- | ---------------------------- | --------------- | -------------------------------------------------------------------------------------------------------------------- |
+| `density` | `"compact" \| "comfortable"` | `"comfortable"` | Dashboard list pages read better with comfortable padding; `compact` for dense audit tables or mobile viewports      |
+| `tone`    | `"default" \| "subtle"`      | `"default"`     | `default` puts row hover on `--surface`; `subtle` uses `--surface-section` for tables embedded inside a section band |
 
 **`Table.HeaderCell`**
 
-| Prop | Values | Default | Rationale |
-|---|---|---|---|
+| Prop    | Values                         | Default   | Rationale                                            |
+| ------- | ------------------------------ | --------- | ---------------------------------------------------- |
 | `align` | `"start" \| "center" \| "end"` | `"start"` | Numeric columns align end; action columns may centre |
 
 **`Table.Cell`**
 
-| Prop | Values | Default | Rationale |
-|---|---|---|---|
+| Prop    | Values                         | Default   | Rationale                                                             |
+| ------- | ------------------------------ | --------- | --------------------------------------------------------------------- |
 | `align` | `"start" \| "center" \| "end"` | `"start"` | Mirrors `HeaderCell`; consumers must keep column alignment consistent |
 
 All parts forward a `ref` and spread `className` so consumers can override layout on a per-column basis (e.g. `min-width` on a content-preview column).

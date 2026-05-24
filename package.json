@@ -275,6 +275,11 @@
       "import": "./dist/molecules/Statement.js",
       "require": "./dist/molecules/Statement.cjs"
     },
+    "./molecules/MenuItem": {
+      "types": "./dist/molecules/MenuItem.d.ts",
+      "import": "./dist/molecules/MenuItem.js",
+      "require": "./dist/molecules/MenuItem.cjs"
+    },
     "./molecules/MetaList": {
       "types": "./dist/molecules/MetaList.d.ts",
       "import": "./dist/molecules/MetaList.js",

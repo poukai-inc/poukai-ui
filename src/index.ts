@@ -143,6 +143,7 @@ export {
 } from "./molecules/LinkList";
 export { MetaList, type MetaListProps, type MetaListItem } from "./molecules/MetaList";
 export { TagList, type TagListProps } from "./molecules/TagList/index.js";
+export { MenuItem, type MenuItemProps, type MenuItemTone } from "./molecules/MenuItem";
 export { Alert, type AlertProps, type AlertVariant } from "./molecules/Alert";
 export { FormRow, type FormRowProps, type FormRowGap } from "./molecules/FormRow";
 export { TimelineItem, type TimelineItemProps } from "./molecules/TimelineItem";

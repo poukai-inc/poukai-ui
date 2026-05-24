@@ -68,6 +68,7 @@ import { Radio, RadioGroup } from "./atoms/Radio";
 import { NewsletterField } from "./molecules/NewsletterField";
 import { CtaBlock } from "./molecules/CtaBlock";
 import { TagList } from "./molecules/TagList";
+import { MenuItem } from "./molecules/MenuItem";
 import { Alert } from "./molecules/Alert";
 import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
@@ -1689,6 +1690,46 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
     </Prose>,
   );
   await expectAxeClean(page);
+});
+
+/* ---------- MenuItem ---------- */
+
+test("a11y — MenuItem (default, label only)", async ({ mount, page }) => {
+  await mount(<MenuItem>Copy</MenuItem>);
+  await expectAxeClean(page);
+});
+
+test("a11y — MenuItem (with icon and shortcut)", async ({ mount, page }) => {
+  await mount(
+    <MenuItem
+      shortcut="⌘C"
+      icon={
+        <svg width={16} height={16} aria-hidden="true" viewBox="0 0 24 24">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+        </svg>
+      }
+    >
+      Copy
+    </MenuItem>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — MenuItem (tone='danger')", async ({ mount, page }) => {
+  await mount(<MenuItem tone="danger">Delete post</MenuItem>);
+  await expectAxeClean(page);
+});
+
+test("a11y — MenuItem (disabled)", async ({ mount, page }) => {
+  await mount(<MenuItem disabled>Paste</MenuItem>);
+  // color-contrast suppressed: WCAG 1.4.3 exempts disabled UI components.
+  // opacity: 0.4 is per spec §4 — communicates unavailability by convention.
+  // All suppressed rules passed in one disableRules call so they don't clobber
+  // the landmark rules already disabled by expectAxeClean.
+  const { violations } = await new AxeBuilder({ page })
+    .disableRules(["landmark-one-main", "page-has-heading-one", "region", "color-contrast"])
+    .analyze();
+  expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
 });
 
 /* ---------- Alert ---------- */

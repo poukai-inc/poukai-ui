@@ -45,6 +45,7 @@ export {
 export { StatList, type StatListProps } from "./molecules/StatList";
 export { Caption, type CaptionProps } from "./molecules/Caption";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
+export { MenuItem, type MenuItemProps, type MenuItemTone } from "./molecules/MenuItem";
 export { Alert, type AlertProps, type AlertVariant } from "./molecules/Alert";
 export { Disclosure, type DisclosureProps } from "./molecules/Disclosure";
 export { TagList, type TagListProps } from "./molecules/TagList/index.js";

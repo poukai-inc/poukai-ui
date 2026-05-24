@@ -1,0 +1,160 @@
+/* ============================================================
+   ToastItem — declarative compound Toast molecule.
+   Token contract: meta/design/ToastItem.md §4
+   All values reference CSS custom properties from tokens.css.
+   The box-shadow is intentionally inline — no shadow token exists
+   in the DS vocabulary (consistent with Toast organism and Dialog).
+   ============================================================ */
+
+/* ─── Root ────────────────────────────────────────────────────── */
+
+.root {
+  pointer-events: auto;
+  position: relative;
+  width: min(420px, calc(100vw - 2 * var(--page-pad)));
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-2);
+  box-shadow: 0 4px 12px rgb(0 0 0 / 0.08);
+  font-family: var(--font-sans);
+}
+
+/* ─── Tone variants ───────────────────────────────────────────── */
+
+/* info: elevated bg, hairline border, --fg text */
+.toneInfo {
+  background: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+  color: var(--fg);
+}
+
+/* success: elevated bg, 2px accent left-rule, --fg text */
+.toneSuccess {
+  background: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+  border-inline-start: 2px solid var(--accent);
+  color: var(--fg);
+}
+
+/* warning: --bg-warning bg, 2px --warning left-rule */
+.toneWarning {
+  background: var(--bg-warning);
+  border: none;
+  border-inline-start: 2px solid var(--warning);
+  color: var(--fg-on-warning);
+}
+
+/* danger: --bg-danger bg, 2px --danger left-rule */
+.toneDanger {
+  background: var(--bg-danger);
+  border: none;
+  border-inline-start: 2px solid var(--danger);
+  color: var(--fg-on-danger);
+}
+
+/* ─── Inner layout ────────────────────────────────────────────── */
+
+.inner {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+/* ─── Text block ──────────────────────────────────────────────── */
+
+.title {
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  line-height: var(--lh-meta);
+  margin-block-end: var(--space-1);
+}
+
+.description {
+  font-size: var(--fs-meta);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Controls ────────────────────────────────────────────────── */
+
+.action {
+  /* Minimal ghost action — inherits tone color */
+  display: inline-flex;
+  align-items: center;
+  padding: 0 var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  line-height: var(--lh-meta);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  border-radius: var(--radius-1);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  flex-shrink: 0;
+}
+
+.action:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  border-radius: var(--radius-1);
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.close:hover {
+  opacity: 1;
+}
+
+.close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  opacity: 1;
+}
+
+/* ─── Entrance / exit animation ───────────────────────────────── */
+
+.root[data-state="open"] {
+  animation: toastSlideIn var(--dur-fast) var(--easing) forwards;
+}
+
+.root[data-state="closed"] {
+  animation: toastFadeOut var(--dur-fast) ease forwards;
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(calc(100% + var(--space-6)));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes toastFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

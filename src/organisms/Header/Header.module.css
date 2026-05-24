@@ -1,0 +1,95 @@
+/* ─── Root ──────────────────────────────────────────────────────── */
+
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--page-pad);
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  /* Border-bottom starts transparent; transitions on .bordered. */
+  border-bottom: var(--hairline-w) solid transparent;
+  transition: border-color var(--dur-mid);
+}
+
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.bordered {
+  border-bottom-color: var(--hairline);
+}
+
+/* ─── Constrained inner band ──────────────────────────────────── */
+
+.constrained {
+  /* The root still stretches full-width; only the inner band is capped. */
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  width: 100%;
+  max-width: var(--content-max);
+  margin-inline: auto;
+}
+
+/* ─── Brand ───────────────────────────────────────────────────── */
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  color: var(--fg);
+  /* Suppress the global underline-grow — it is a logo, not a body link. */
+  background-image: none;
+  padding-bottom: 0;
+  flex-shrink: 0;
+}
+
+.brand:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}
+
+/* ─── Nav ─────────────────────────────────────────────────────── */
+
+.nav {
+  display: flex;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.navList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-6);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ─── Actions ─────────────────────────────────────────────────── */
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex-shrink: 0;
+}
+
+/* ─── Mobile — hide nav items below --bp-md ───────────────────── */
+/* Sheet/Drawer for mobile menu is deferred until that organism lands. */
+
+@media (max-width: 768px) {
+  .nav {
+    display: none;
+  }
+}

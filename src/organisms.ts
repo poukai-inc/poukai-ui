@@ -8,6 +8,16 @@ export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";
 export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";
 export { ContactBlock, type ContactBlockProps } from "./organisms/ContactBlock";
+export {
+  Header,
+  HeaderBrand,
+  HeaderNav,
+  HeaderActions,
+  type HeaderProps,
+  type HeaderBrandProps,
+  type HeaderNavProps,
+  type HeaderActionsProps,
+} from "./organisms/Header";
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
 export {
   CTASection,

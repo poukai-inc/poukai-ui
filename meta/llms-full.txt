@@ -2734,3 +2734,30 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 - Do NOT use for multi-field forms, product signup, or as a primary page hero (`HeroSection` is the h1 moment).
 - Do NOT center-align heading or body copy — left-alignment is the brand register.
 - Import: `import { NewsletterSection } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/NewsletterSection"`.
+
+### Header
+
+`src/organisms/Header/` — standalone site nav-bar organism. Use on surfaces that need a top navigation row **outside of** `SiteShell`. Do NOT nest inside `SiteShell`.
+
+Compound API: `<Header>`, `<Header.Brand>`, `<Header.Nav>`, `<Header.Actions>`.
+
+```tsx
+<Header homeHref="/" sticky bordered>
+  <Header.Nav>
+    <li><NavLink href="/why-ai">Why AI</NavLink></li>
+    <li><NavLink href="/roles" active>Roles</NavLink></li>
+  </Header.Nav>
+  <Header.Actions>
+    <Button asChild variant="primary"><a href="mailto:hello@pouk.ai">Contact</a></Button>
+  </Header.Actions>
+</Header>
+```
+
+Props (`HeaderProps`): `homeHref?: string` (default `"/"`), `logo?: ReactNode` (overrides `<Wordmark>`), `navLabel?: string` (default `"Primary"`, forwarded to `<nav aria-label>`), `sticky?: boolean` (default `false` — `position: sticky; top: 0`; adds hairline via `IntersectionObserver` on scroll), `bordered?: boolean` (default `false` — always-on hairline bottom border), `constrained?: boolean` (default `false` — caps band at `--content-max`).
+
+- Root: semantic `<header>` with implicit `banner` landmark. One per page.
+- `Header.Brand`: `<a aria-label="Poukai — home">` wrapping `<Wordmark height={56}>` (or `logo` prop). Focus ring: `2px solid var(--accent)` at `4px` offset.
+- `Header.Nav`: `<nav aria-label="Primary">` containing `<ul>` of children. Hides below 768px (mobile menu deferred to Sheet/Drawer organism).
+- `Header.Actions`: flex container, renders children directly. Omit when no actions needed.
+- Tokens: `--bg`, `--fg`, `--fg-muted`, `--hairline`, `--hairline-w`, `--accent`, `--radius-1`, `--font-sans`, `--fs-meta`, `--dur-fast`, `--dur-mid`, `--space-4`, `--space-6`, `--page-pad`, `--content-max`.
+- No state unless `sticky=true` (scroll sentinel via `IntersectionObserver`).

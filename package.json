@@ -435,6 +435,11 @@
       "import": "./dist/organisms/CTASection.js",
       "require": "./dist/organisms/CTASection.cjs"
     },
+    "./organisms/Header": {
+      "types": "./dist/organisms/Header.d.ts",
+      "import": "./dist/organisms/Header.js",
+      "require": "./dist/organisms/Header.cjs"
+    },
     "./organisms/ContactBlock": {
       "types": "./dist/organisms/ContactBlock.d.ts",
       "import": "./dist/organisms/ContactBlock.js",
@@ -610,7 +615,7 @@
     {
       "name": "ESM — organisms subpath",
       "path": "dist/organisms.js",
-      "limit": "28 kB"
+      "limit": "32 kB"
     },
     {
       "name": "ESM — tree-shaken (Wordmark + Button)",

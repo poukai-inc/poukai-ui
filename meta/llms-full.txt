@@ -1028,6 +1028,33 @@ import { Icon } from "@poukai-inc/ui";
 </Field>
 ```
 
+### FormRow
+- Horizontal multi-Field layout molecule. Places two or more `Field` instances side-by-side with consistent column widths and gap rhythm; collapses to single-column stack below `--bp-md` (768px).
+- Root element: `<div>`. No landmark semantics — purely a layout wrapper. `forwardRef<HTMLDivElement, FormRowProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, `style`, etc. `displayName = "FormRow"`.
+- `gap` (optional `"default" | "tight"`, default `"default"`) — column gap between Fields. `"default"` = `--space-4`; `"tight"` = `--space-2` for dense forms.
+- `columns` (optional `number`) — explicit column count. Defaults to `auto-fill` (1fr per child). Sets `--formrow-columns` CSS custom property and activates explicit `repeat(N, 1fr)` grid track.
+- `children` (`ReactNode`) — one or more `Field` molecules. 2–4 recommended; more than 4 reads as cramped.
+- CSS grid layout: `display: grid; grid-template-columns: repeat(auto-fill, minmax(0, 1fr))`. With explicit `columns` prop: `repeat(var(--formrow-columns), 1fr)`.
+- Collapses to `grid-template-columns: 1fr` below `@media (max-width: 767px)` (just under `--bp-md`).
+- Tokens consumed: `--space-2`, `--space-4`, `--space-6`, `--bp-md`. No new tokens.
+- Not a fieldset replacement — provides no semantic grouping. Wrap in `Fieldset` when `<fieldset>`/`<legend>` grouping is needed.
+- Do NOT use for more than 4 columns. Do NOT use for unrelated fields. Do NOT use as a data-table row.
+
+```tsx
+// (a) First name / Last name:
+<FormRow>
+  <Field label="First name" id="first-name"><Input /></Field>
+  <Field label="Last name" id="last-name"><Input /></Field>
+</FormRow>
+
+// (b) City / State / ZIP (tight gap, explicit 3 columns):
+<FormRow gap="tight" columns={3}>
+  <Field label="City" id="city"><Input /></Field>
+  <Field label="State" id="state"><Input /></Field>
+  <Field label="ZIP" id="zip"><Input /></Field>
+</FormRow>
+```
+
 ### Banner
 - Persistent inline notice molecule. Sits in document flow; not a toast, not a modal, not a status indicator.
 - Root element: `<div>`. `forwardRef<HTMLDivElement, BannerProps>`. `...rest` spread. `displayName = "Banner"`.

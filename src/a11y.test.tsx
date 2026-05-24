@@ -68,6 +68,7 @@ import { Radio, RadioGroup } from "./atoms/Radio";
 import { NewsletterField } from "./molecules/NewsletterField";
 import { CtaBlock } from "./molecules/CtaBlock";
 import { TagList } from "./molecules/TagList";
+import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
 
@@ -939,12 +940,43 @@ test("a11y — TagList (gap=sm)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — FormRow (two Fields, default gap)", async ({ mount, page }) => {
+  await mount(
+    <FormRow>
+      <Field label="First name" id="a11y-formrow-first">
+        <Input placeholder="Arian" />
+      </Field>
+      <Field label="Last name" id="a11y-formrow-last">
+        <Input placeholder="Zargaran" />
+      </Field>
+    </FormRow>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — TimelineItem (with body)", async ({ mount, page }) => {
   await mount(
     <ol>
       <TimelineItem date="2026-05-22" title="Series A closed" body="$12M led by Acme Ventures." />
       <TimelineItem date="2025-01-10" title="Company founded" connector={false} />
     </ol>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FormRow (three Fields, tight gap, explicit columns)", async ({ mount, page }) => {
+  await mount(
+    <FormRow gap="tight" columns={3}>
+      <Field label="City" id="a11y-formrow-city">
+        <Input placeholder="San Francisco" />
+      </Field>
+      <Field label="State" id="a11y-formrow-state">
+        <Input placeholder="CA" />
+      </Field>
+      <Field label="ZIP" id="a11y-formrow-zip">
+        <Input placeholder="94103" />
+      </Field>
+    </FormRow>,
   );
   await expectAxeClean(page);
 });

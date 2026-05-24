@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Mark, type MarkProps } from "./Mark";
 
 export default {
-  title: "Components / Mark",
+  title: "Atoms / Mark",
   args: { children: "six months of staging" },
   argTypes: {
     children: { control: { type: "text" } },

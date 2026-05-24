@@ -101,7 +101,16 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
       <th
         ref={ref}
         scope="col"
-        className={clsx(styles.headerCell, styles[`align-${align}`], className)}
+        className={clsx(
+          styles.headerCell,
+          styles[
+            `align${align[0].toUpperCase()}${align.slice(1)}` as
+              | "alignStart"
+              | "alignCenter"
+              | "alignEnd"
+          ],
+          className,
+        )}
         {...rest}
       >
         {children}
@@ -124,7 +133,20 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(functi
   ref,
 ) {
   return (
-    <td ref={ref} className={clsx(styles.cell, styles[`align-${align}`], className)} {...rest}>
+    <td
+      ref={ref}
+      className={clsx(
+        styles.cell,
+        styles[
+          `align${align[0].toUpperCase()}${align.slice(1)}` as
+            | "alignStart"
+            | "alignCenter"
+            | "alignEnd"
+        ],
+        className,
+      )}
+      {...rest}
+    >
       {children}
     </td>
   );

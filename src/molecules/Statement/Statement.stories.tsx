@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Statement } from "./Statement";
 
 export default {
-  title: "Components / Statement",
+  title: "Molecules / Statement",
   args: {
     statement: "Custom AI builds. Automations. Advisory engagements.",
     supporting: "",

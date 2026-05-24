@@ -14,6 +14,19 @@
   color: var(--fg);
 }
 
+/* ---------- Tone marker classes ----------
+   These exist so CSS modules exports the `default` / `subtle` keys for
+   the JS layer to attach. Visual rules live on the compound selectors
+   below (e.g. `.root.subtle .body .row:hover`). */
+
+.default {
+  /* default tone — base table register, no compound rules currently. */
+}
+
+.subtle {
+  /* subtle tone — see `.root.subtle .body .row:hover` for hover register. */
+}
+
 /* ---------- Density variants (vertical cell padding) ---------- */
 
 .root.compact .cell,

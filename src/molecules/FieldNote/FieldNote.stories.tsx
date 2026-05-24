@@ -3,7 +3,7 @@ import { Pull } from "../Pull/Pull";
 import { FieldNote } from "./FieldNote";
 
 export default {
-  title: "Components / FieldNote",
+  title: "Molecules / FieldNote",
 } satisfies StoryDefault;
 
 /** Default — body text only, no label.

@@ -115,10 +115,30 @@ export { Quote, type QuoteProps } from "./molecules/Quote";
 export { Field, type FieldProps } from "./molecules/Field";
 export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";
+export {
+  CtaBlock,
+  type CtaBlockProps,
+  type CtaBlockOrientation,
+  type CtaBlockAlign,
+  type CtaBlockHeadingAs,
+} from "./molecules/CtaBlock";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
 export { MetaList, type MetaListProps, type MetaListItem } from "./molecules/MetaList";
+export { TagList, type TagListProps } from "./molecules/TagList/index.js";
 
+export { NavLink, type NavLinkProps } from "./molecules/NavLink";
+export { StatList, type StatListProps } from "./molecules/StatList";
+export { Caption, type CaptionProps } from "./molecules/Caption";
+export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export {
+  Breadcrumb,
+  BreadcrumbItem,
+  type BreadcrumbProps,
+  type BreadcrumbItemProps,
+  type BreadcrumbItemData,
+} from "./molecules/Breadcrumb";
 /* ---------- organisms ---------- */
+export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
 export {

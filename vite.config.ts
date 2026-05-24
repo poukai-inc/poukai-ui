@@ -115,6 +115,7 @@ export default defineConfig({
               "molecules/StatList": resolve(__dirname, "src/molecules/StatList/index.ts"),
               "molecules/Caption": resolve(__dirname, "src/molecules/Caption/index.ts"),
               "molecules/Fieldset": resolve(__dirname, "src/molecules/Fieldset/index.ts"),
+              "molecules/EmptyState": resolve(__dirname, "src/molecules/EmptyState/index.ts"),
               "molecules/Breadcrumb": resolve(__dirname, "src/molecules/Breadcrumb/index.ts"),
               "molecules/NewsletterField": resolve(
                 __dirname,

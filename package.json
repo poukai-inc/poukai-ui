@@ -345,6 +345,11 @@
       "import": "./dist/molecules/Fieldset.js",
       "require": "./dist/molecules/Fieldset.cjs"
     },
+    "./molecules/EmptyState": {
+      "types": "./dist/molecules/EmptyState.d.ts",
+      "import": "./dist/molecules/EmptyState.js",
+      "require": "./dist/molecules/EmptyState.cjs"
+    },
     "./molecules/Breadcrumb": {
       "types": "./dist/molecules/Breadcrumb.d.ts",
       "import": "./dist/molecules/Breadcrumb.js",

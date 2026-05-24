@@ -72,6 +72,7 @@ export {
 } from "./molecules/LinkList";
 export { MetaList, type MetaListProps, type MetaListItem } from "./molecules/MetaList";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export { EmptyState, type EmptyStateProps, type EmptyStateTone } from "./molecules/EmptyState";
 export {
   Breadcrumb,
   BreadcrumbItem,

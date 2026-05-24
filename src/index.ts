@@ -119,6 +119,15 @@ export { Byline, type BylineProps } from "./molecules/Byline/index.js";
 export { TagList, type TagListProps } from "./molecules/TagList/index.js";
 
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export {
+  HoverCard,
+  type HoverCardRootProps,
+  type HoverCardTriggerProps,
+  type HoverCardContentProps,
+  type HoverCardSide,
+  type HoverCardAlign,
+  type HoverCardWidth,
+} from "./molecules/HoverCard";
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";

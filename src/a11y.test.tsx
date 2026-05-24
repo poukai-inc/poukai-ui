@@ -49,6 +49,7 @@ import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
 import { Byline } from "./molecules/Byline";
+import { HoverCard } from "./molecules/HoverCard";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -1563,6 +1564,18 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — HoverCard (trigger rest state)", async ({ mount, page }) => {
+  await mount(
+    <HoverCard.Root>
+      <HoverCard.Trigger asChild>
+        <a href="/people/jane">Jane Doe</a>
+      </HoverCard.Trigger>
+      <HoverCard.Content>Author preview content</HoverCard.Content>
+    </HoverCard.Root>,
   );
   await expectAxeClean(page);
 });

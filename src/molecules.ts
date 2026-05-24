@@ -36,3 +36,12 @@ export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export {
+  HoverCard,
+  type HoverCardRootProps,
+  type HoverCardTriggerProps,
+  type HoverCardContentProps,
+  type HoverCardSide,
+  type HoverCardAlign,
+  type HoverCardWidth,
+} from "./molecules/HoverCard";

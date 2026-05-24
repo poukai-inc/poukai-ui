@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Avatar, type AvatarSize, type AvatarShape } from "./Avatar";
 
 export default {
-  title: "Components / Avatar",
+  title: "Atoms / Avatar",
   args: {
     size: "md",
     shape: "circle",

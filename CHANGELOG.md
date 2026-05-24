@@ -1,5 +1,40 @@
 # @poukai-inc/ui
 
+## 2.6.0
+
+### Minor Changes
+
+- 852582b: feat(molecule): add StatList — grouped Stat row with rhythm and optional hairline dividers
+
+  Groups two or more `Stat` atoms into a horizontal rhythm with consistent gap cadence (`--space-8` mobile, `--space-12` desktop). Optional `dividers` prop renders CSS-only hairline rules (`--hairline` / `--hairline-w`) between items via `::before` pseudo-elements. Collapses to a single column below `--bp-md`. Root renders `role="list"` with each item in `role="listitem"` for proper AT semantics.
+
+## 2.5.0
+
+### Minor Changes
+
+- 339fc57: feat(molecule): add Caption — muted micro-tracked figure label
+
+  Implements the Caption molecule per the approved spec at `meta/design/Caption.md`.
+  Renders `<figcaption>` by default (semantic inside `<figure>`); polymorphic `as` prop
+  accepts `"p"` or `"span"` for other contexts. Token-only CSS: `--font-sans`, `--fs-micro`,
+  `--lh-meta`, `--tracking-micro`, `--fg-muted`. Zero new tokens introduced.
+
+## 2.4.0
+
+### Minor Changes
+
+- 1a396a8: feat(molecule): add Breadcrumb — hierarchical location trail
+
+  `<Breadcrumb>` renders a `<nav aria-label="Breadcrumb">` + `<ol>` + `<li>` item trail for nested dashboard and product routes. Supports compound `<Breadcrumb.Item>` children and a data-driven `items` prop. Separator is configurable (default `›`). Current (terminal) item carries `aria-current="page"` and is rendered as plain text, not a link. Full axe-core a11y pass, Playwright CT, and Ladle stories included.
+
+  Closes #157.
+
+## 2.3.0
+
+### Minor Changes
+
+- 0c8c980: feat(molecule): add Fieldset — groups related Field molecules under a semantic legend with consistent vertical spacing and optional bordered variant
+
 ## 2.2.0
 
 ### Minor Changes

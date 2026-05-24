@@ -4,7 +4,7 @@ import { Eyebrow } from "../../atoms/Eyebrow";
 import { LinkCard } from "./LinkCard";
 
 export default {
-  title: "Components / Cards / LinkCard / All Variants",
+  title: "Molecules / Cards / LinkCard / All Variants",
 } satisfies StoryDefault;
 
 /** AllVariants — both variants side by side with full slots.

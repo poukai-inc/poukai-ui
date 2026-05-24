@@ -3,7 +3,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Wordmark } from "./Wordmark";
 
 export default {
-  title: "Components / Wordmark",
+  title: "Atoms / Wordmark",
 } satisfies StoryDefault;
 
 const monoSmall: CSSProperties = {

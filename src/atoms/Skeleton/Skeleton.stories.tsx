@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Skeleton, type SkeletonRadius } from "./Skeleton";
 
 export default {
-  title: "Components / Skeleton",
+  title: "Atoms / Skeleton",
   args: {
     width: 200,
     height: 20,

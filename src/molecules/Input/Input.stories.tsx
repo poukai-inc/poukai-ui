@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Input, type InputProps } from "./Input";
 
 export default {
-  title: "Components / Input",
+  title: "Molecules / Input",
   args: {
     type: "text",
     placeholder: "Enter text…",

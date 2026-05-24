@@ -7,7 +7,7 @@ import { Textarea } from "../../molecules/Textarea";
 import { Button } from "../../atoms/Button";
 
 export default {
-  title: "Components / Form",
+  title: "Organisms / Form",
 } satisfies StoryDefault;
 
 /* ─── Simple — single Field + Input ────────────────────────── */

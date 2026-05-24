@@ -1,6 +1,6 @@
 {
   "name": "@poukai-inc/ui",
-  "version": "2.1.0",
+  "version": "2.6.0",
   "description": "Poukai design system — React component library, design tokens, and brand assets.",
   "license": "SEE LICENSE IN LICENSE",
   "publishConfig": {
@@ -265,10 +265,55 @@
       "import": "./dist/molecules/Statement.js",
       "require": "./dist/molecules/Statement.cjs"
     },
+    "./molecules/MetaList": {
+      "types": "./dist/molecules/MetaList.d.ts",
+      "import": "./dist/molecules/MetaList.js",
+      "require": "./dist/molecules/MetaList.cjs"
+    },
+    "./molecules/TagList": {
+      "types": "./dist/molecules/TagList.d.ts",
+      "import": "./dist/molecules/TagList.js",
+      "require": "./dist/molecules/TagList.cjs"
+    },
     "./molecules/TeamCard": {
       "types": "./dist/molecules/TeamCard.d.ts",
       "import": "./dist/molecules/TeamCard.js",
       "require": "./dist/molecules/TeamCard.cjs"
+    },
+    "./molecules/NavLink": {
+      "types": "./dist/molecules/NavLink.d.ts",
+      "import": "./dist/molecules/NavLink.js",
+      "require": "./dist/molecules/NavLink.cjs"
+    },
+    "./molecules/CtaBlock": {
+      "types": "./dist/molecules/CtaBlock.d.ts",
+      "import": "./dist/molecules/CtaBlock.js",
+      "require": "./dist/molecules/CtaBlock.cjs"
+    },
+    "./molecules/StatList": {
+      "types": "./dist/molecules/StatList.d.ts",
+      "import": "./dist/molecules/StatList.js",
+      "require": "./dist/molecules/StatList.cjs"
+    },
+    "./molecules/Caption": {
+      "types": "./dist/molecules/Caption.d.ts",
+      "import": "./dist/molecules/Caption.js",
+      "require": "./dist/molecules/Caption.cjs"
+    },
+    "./molecules/Fieldset": {
+      "types": "./dist/molecules/Fieldset.d.ts",
+      "import": "./dist/molecules/Fieldset.js",
+      "require": "./dist/molecules/Fieldset.cjs"
+    },
+    "./molecules/Breadcrumb": {
+      "types": "./dist/molecules/Breadcrumb.d.ts",
+      "import": "./dist/molecules/Breadcrumb.js",
+      "require": "./dist/molecules/Breadcrumb.cjs"
+    },
+    "./organisms/HeroSection": {
+      "types": "./dist/organisms/HeroSection.d.ts",
+      "import": "./dist/organisms/HeroSection.js",
+      "require": "./dist/organisms/HeroSection.cjs"
     },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",

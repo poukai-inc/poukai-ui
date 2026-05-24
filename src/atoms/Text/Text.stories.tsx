@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Text, type TextSize, type TextTone } from "./Text";
 
 export default {
-  title: "Components / Text",
+  title: "Atoms / Text",
   args: {
     size: "body",
     tone: "default",

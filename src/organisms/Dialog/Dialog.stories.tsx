@@ -5,7 +5,7 @@ import { DialogBasic } from "./DialogBasic";
 import { Button } from "../../atoms/Button";
 
 export default {
-  title: "Components / Dialog",
+  title: "Organisms / Dialog",
 } satisfies StoryDefault;
 
 /* ─── Default — DialogBasic with all slots ─────────────────── */

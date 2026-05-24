@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Prose, type ProseWidth } from "./Prose";
 
 export default {
-  title: "Components / Prose",
+  title: "Atoms / Prose",
   args: { width: "reading" },
   argTypes: {
     width: {

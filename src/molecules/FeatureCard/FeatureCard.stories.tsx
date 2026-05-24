@@ -23,7 +23,7 @@ const ZapIcon = ({ size = 24 }: { size?: number }) => (
 );
 
 export default {
-  title: "Components / Cards / FeatureCard",
+  title: "Molecules / Cards / FeatureCard",
 } satisfies StoryDefault;
 
 /**

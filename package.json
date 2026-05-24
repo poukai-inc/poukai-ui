@@ -490,6 +490,11 @@
       "import": "./dist/organisms/RoleGrid.js",
       "require": "./dist/organisms/RoleGrid.cjs"
     },
+    "./organisms/NewsletterSection": {
+      "types": "./dist/organisms/NewsletterSection.d.ts",
+      "import": "./dist/organisms/NewsletterSection.js",
+      "require": "./dist/organisms/NewsletterSection.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",

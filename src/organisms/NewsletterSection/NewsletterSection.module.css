@@ -1,0 +1,10 @@
+/* ============================================================
+   NewsletterSection — organism
+   All vertical rhythm, padding, header-block layout, and
+   typography are delegated to the Section molecule.
+   This file owns only the optional surface-section background.
+   ============================================================ */
+
+.surface {
+  background: var(--surface-section);
+}

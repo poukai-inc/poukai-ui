@@ -1110,6 +1110,7 @@ import { HeroSection } from "./organisms/HeroSection";
 import { StepsSection } from "./organisms/StepsSection";
 import { Sidebar } from "./organisms/Sidebar";
 import { CTASection } from "./organisms/CTASection";
+import { NewsletterSection } from "./organisms/NewsletterSection";
 
 /* ---------- organisms ---------- */
 
@@ -2293,6 +2294,17 @@ test("a11y — TableOfContents (heading + active item)", async ({ mount, page })
         { id: "results", label: "Results" },
       ]}
       activeId="approach"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterSection", async ({ mount, page }) => {
+  await mount(
+    <NewsletterSection
+      heading="Get monthly updates"
+      body="One email a month. No spam."
+      field={<NewsletterField action="/api/subscribe" />}
     />,
   );
   await expectAxeClean(page);

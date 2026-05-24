@@ -2695,3 +2695,14 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   portrait={<Portrait src="…" alt="" aspect="1:1" width={120} />}
 />
 ```
+### NewsletterSection
+- Organism layer. Section-framed email signup surface — the canonical "end-of-post / footer signup" moment.
+- Composes `Section` molecule (landmark, vertical rhythm, header block) with a `NewsletterField` molecule passed as the `field` prop slot.
+- Props: `heading` (required string — h2 text), `field` (required ReactNode — a `<NewsletterField>` instance), `body` (optional string | ReactNode — lede), `eyebrow` (optional string | ReactNode), `size` (`"default"` | `"tight"`), `surface` (boolean — applies `--surface-section` bg), `titleAs` (`"h2"` | `"h3"`), `as` (`"section"` | `"article"` | `"div"`).
+- `surface` maps to exactly one token (`--surface-section`). No other background tinting.
+- `titleAs="h3"` when nested below an existing `h2` surface (e.g. inside an `<article>`).
+- A11y: root `<section>` is a region landmark via `aria-labelledby` (wired by Section). `heading` is required so the landmark is always named.
+- Do NOT proxy `NewsletterField` props through this organism — consumer configures the field directly.
+- Do NOT use for multi-field forms, product signup, or as a primary page hero (`HeroSection` is the h1 moment).
+- Do NOT center-align heading or body copy — left-alignment is the brand register.
+- Import: `import { NewsletterSection } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/NewsletterSection"`.

@@ -290,3 +290,4 @@ export {
   type TestimonialBlockOrientation,
   type TestimonialBlockAlign,
 } from "./organisms/TestimonialBlock";
+export { NewsletterSection, type NewsletterSectionProps } from "./organisms/NewsletterSection";

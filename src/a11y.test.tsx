@@ -48,7 +48,14 @@ import { Switch } from "./atoms/Switch";
 import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
+import { NavLink } from "./molecules/NavLink";
+import { StatList } from "./molecules/StatList";
+import { Caption } from "./molecules/Caption";
 import { Byline } from "./molecules/Byline";
+import { Stepper } from "./molecules/Stepper";
+import { SearchField } from "./molecules/SearchField";
+import { LinkList } from "./molecules/LinkList";
+import { MetaList } from "./molecules/MetaList";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -58,9 +65,19 @@ import { IconButtonVariantFixture } from "./atoms/IconButton/IconButton.fixtures
 import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
+import { NewsletterField } from "./molecules/NewsletterField";
+import { CtaBlock } from "./molecules/CtaBlock";
 import { TagList } from "./molecules/TagList";
+import { MenuItem } from "./molecules/MenuItem";
+import { Alert } from "./molecules/Alert";
+import { Disclosure } from "./molecules/Disclosure";
+import { FormRow } from "./molecules/FormRow";
+import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
 import { CopyButton } from "./molecules/CopyButton";
+import { Pagination } from "./molecules/Pagination";
+import { EmptyState } from "./molecules/EmptyState";
+import { TimePicker } from "./atoms/TimePicker";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -820,6 +837,46 @@ test("a11y — FeatureCard (as='li' inside ul)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — CtaBlock (stacked, with body)", async ({ mount, page }) => {
+  await mount(
+    <CtaBlock
+      heading="Ready to start?"
+      body="We work with senior-only teams who'd rather ship than speculate."
+      actions={<button type="button">Get a demo</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — CtaBlock (horizontal, center-aligned, two actions)", async ({ mount, page }) => {
+  await mount(
+    <CtaBlock
+      orientation="horizontal"
+      align="center"
+      heading="Interested in working together?"
+      body="Senior-only teams. Production from day one."
+      actions={
+        <>
+          <button type="button">Start a project</button>
+          <button type="button">Learn more</button>
+        </>
+      }
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — CtaBlock (no body, headingAs=h3)", async ({ mount, page }) => {
+  await mount(
+    <CtaBlock
+      headingAs="h3"
+      heading="Section closing moment."
+      actions={<button type="button">Act</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — Banner (all four tones)", async ({ mount, page }) => {
   await mount(
     <div>
@@ -890,6 +947,56 @@ test("a11y — TagList (gap=sm)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — FormRow (two Fields, default gap)", async ({ mount, page }) => {
+  await mount(
+    <FormRow>
+      <Field label="First name" id="a11y-formrow-first">
+        <Input placeholder="Arian" />
+      </Field>
+      <Field label="Last name" id="a11y-formrow-last">
+        <Input placeholder="Zargaran" />
+      </Field>
+    </FormRow>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimelineItem (with body)", async ({ mount, page }) => {
+  await mount(
+    <ol>
+      <TimelineItem date="2026-05-22" title="Series A closed" body="$12M led by Acme Ventures." />
+      <TimelineItem date="2025-01-10" title="Company founded" connector={false} />
+    </ol>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FormRow (three Fields, tight gap, explicit columns)", async ({ mount, page }) => {
+  await mount(
+    <FormRow gap="tight" columns={3}>
+      <Field label="City" id="a11y-formrow-city">
+        <Input placeholder="San Francisco" />
+      </Field>
+      <Field label="State" id="a11y-formrow-state">
+        <Input placeholder="CA" />
+      </Field>
+      <Field label="ZIP" id="a11y-formrow-zip">
+        <Input placeholder="94103" />
+      </Field>
+    </FormRow>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimelineItem (title only, no connector)", async ({ mount, page }) => {
+  await mount(
+    <ol>
+      <TimelineItem date="2025-01-10" title="Company founded" connector={false} />
+    </ol>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — Portrait (lazy default, eager above-fold)", async ({ mount, page }) => {
   await mount(
     <div>
@@ -912,12 +1019,106 @@ test("a11y — Portrait (lazy default, eager above-fold)", async ({ mount, page 
   await expectAxeClean(page);
 });
 
+test("a11y — Stepper (middle step active)", async ({ mount, page }) => {
+  await mount(
+    <Stepper
+      steps={[{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }]}
+      current={1}
+      aria-label="Onboarding steps"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Stepper (size='sm', labels hidden)", async ({ mount, page }) => {
+  await mount(
+    <Stepper
+      steps={[{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }]}
+      current={0}
+      size="sm"
+      aria-label="Checkout progress"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — FeatureCard (as='section')", async ({ mount, page }) => {
   await mount(<FeatureCard as="section" title="Section feature" body="Section body copy." />);
   await expectAxeClean(page);
 });
 
+import { HeroSection } from "./organisms/HeroSection";
+import { Sidebar } from "./organisms/Sidebar";
+
 /* ---------- organisms ---------- */
+
+test("a11y — Sidebar (grouped sections, active link)", async ({ mount, page }) => {
+  await mount(
+    <Sidebar label="Documentation">
+      <Sidebar.Group heading="Getting started">
+        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+        <LinkList.Item href="/docs/install" current>
+          Installation
+        </LinkList.Item>
+      </Sidebar.Group>
+      <Sidebar.Group heading="Components">
+        <LinkList.Item href="/docs/button">Button</LinkList.Item>
+        <LinkList.Item href="/docs/heading">Heading</LinkList.Item>
+      </Sidebar.Group>
+    </Sidebar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Sidebar (no group headings)", async ({ mount, page }) => {
+  await mount(
+    <Sidebar>
+      <Sidebar.Group>
+        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+        <LinkList.Item href="/docs/install">Installation</LinkList.Item>
+      </Sidebar.Group>
+    </Sidebar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — HeroSection (default, no media)", async ({ mount, page }) => {
+  await mount(
+    <HeroSection
+      status={<StatusBadge status="available">Taking conversations for Q3.</StatusBadge>}
+      title={
+        <>
+          Technical consulting for teams shipping with <em>AI</em>.
+        </>
+      }
+      lede="We work alongside founders and platform teams to close the gap between pilot and production."
+      cta={
+        <Button asChild>
+          <a href="mailto:hello@pouk.ai">hello@pouk.ai</a>
+        </Button>
+      }
+    />,
+  );
+  await expectAxeClean(page, { fullPageSemantics: false });
+});
+
+test("a11y — HeroSection (with media slot)", async ({ mount, page }) => {
+  await mount(
+    <HeroSection
+      title="Technical consulting for teams."
+      lede="Close the gap between pilot and production."
+      media={
+        <Portrait
+          src="https://picsum.photos/seed/a11y-herosection/900/1200"
+          alt="Founder in a natural light workspace"
+          aspect="3:4"
+          width={900}
+        />
+      }
+    />,
+  );
+  await expectAxeClean(page, { fullPageSemantics: false });
+});
 
 test("a11y — Footer (as=div, with links)", async ({ mount, page }) => {
   await mount(
@@ -1526,6 +1727,206 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
   await expectAxeClean(page);
 });
 
+/* ---------- MenuItem ---------- */
+
+test("a11y — MenuItem (default, label only)", async ({ mount, page }) => {
+  await mount(<MenuItem>Copy</MenuItem>);
+  await expectAxeClean(page);
+});
+
+test("a11y — MenuItem (with icon and shortcut)", async ({ mount, page }) => {
+  await mount(
+    <MenuItem
+      shortcut="⌘C"
+      icon={
+        <svg width={16} height={16} aria-hidden="true" viewBox="0 0 24 24">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+        </svg>
+      }
+    >
+      Copy
+    </MenuItem>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — MenuItem (tone='danger')", async ({ mount, page }) => {
+  await mount(<MenuItem tone="danger">Delete post</MenuItem>);
+  await expectAxeClean(page);
+});
+
+test("a11y — MenuItem (disabled)", async ({ mount, page }) => {
+  await mount(<MenuItem disabled>Paste</MenuItem>);
+  // color-contrast suppressed: WCAG 1.4.3 exempts disabled UI components.
+  // opacity: 0.4 is per spec §4 — communicates unavailability by convention.
+  // All suppressed rules passed in one disableRules call so they don't clobber
+  // the landmark rules already disabled by expectAxeClean.
+  const { violations } = await new AxeBuilder({ page })
+    .disableRules(["landmark-one-main", "page-has-heading-one", "region", "color-contrast"])
+    .analyze();
+  expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+});
+
+/* ---------- Alert ---------- */
+
+test("a11y — Alert (all variants)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Alert variant="info">Your session will expire in 15 minutes.</Alert>
+      <Alert variant="success" title="Success">
+        Profile updated successfully.
+      </Alert>
+      <Alert variant="warn" title="Warning">
+        Your trial ends in 3 days.
+      </Alert>
+      <Alert variant="error" title="Submission failed">
+        Please fix the highlighted fields and try again.
+      </Alert>
+      <Alert variant="note">This feature is in beta.</Alert>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Disclosure (closed, default tone)", async ({ mount, page }) => {
+  await mount(
+    <Disclosure summary="What is Poukai?">
+      <p>Poukai is a senior-only AI consulting practice that ships production AI systems.</p>
+    </Disclosure>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Disclosure (open, muted tone)", async ({ mount, page }) => {
+  await mount(
+    <Disclosure summary="Advanced settings" defaultOpen tone="muted">
+      <p>Additional configuration options for advanced users.</p>
+    </Disclosure>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Disclosure (divider variant)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Disclosure summary="First section" divider>
+        <p>First section content.</p>
+      </Disclosure>
+      <Disclosure summary="Second section" divider>
+        <p>Second section content.</p>
+      </Disclosure>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField (default)", async ({ mount, page }) => {
+  await mount(<NewsletterField />);
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField with note slot", async ({ mount, page }) => {
+  await mount(<NewsletterField note="No spam. Unsubscribe any time." />);
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField disabled", async ({ mount, page }) => {
+  await mount(<NewsletterField disabled />);
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField size=md with custom cta", async ({ mount, page }) => {
+  await mount(<NewsletterField size="md" cta="Get early access" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — SearchField", async ({ mount, page }) => {
+  await mount(<SearchField label="Search" value="" onValueChange={() => {}} />);
+  await expectAxeClean(page);
+});
+
+test("a11y — LinkList (default, no heading)", async ({ mount, page }) => {
+  await mount(
+    <LinkList>
+      <LinkList.Item href="/about">About</LinkList.Item>
+      <LinkList.Item href="/work">Work</LinkList.Item>
+      <LinkList.Item href="/writing">Writing</LinkList.Item>
+    </LinkList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — MetaList (stacked, no dividers)", async ({ mount, page }) => {
+  await mount(
+    <MetaList
+      items={[
+        { label: "Published", value: "2026-05-22" },
+        { label: "Reading time", value: "6 min" },
+        { label: "Author", value: "Arian Zargaran" },
+      ]}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — LinkList (with heading, divider, current, external)", async ({ mount, page }) => {
+  await mount(
+    <LinkList heading="Company" headingLevel={3} divider>
+      <LinkList.Item href="/about" current>
+        About
+      </LinkList.Item>
+      <LinkList.Item href="/work">Work</LinkList.Item>
+      <LinkList.Item href="https://example.com" external>
+        External reference
+      </LinkList.Item>
+    </LinkList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — NavLink (rest + active)", async ({ mount, page }) => {
+  await mount(
+    <nav aria-label="Primary">
+      <NavLink href="/about">About</NavLink>
+      <NavLink href="/work" active>
+        Work
+      </NavLink>
+    </nav>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — MetaList (horizontal, dividers)", async ({ mount, page }) => {
+  await mount(
+    <MetaList
+      orientation="horizontal"
+      labelWidth="8rem"
+      dividers
+      items={[
+        { label: "Version", value: "2.1.0" },
+        { label: "License", value: "MIT" },
+      ]}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatList", async ({ mount, page }) => {
+  await mount(
+    <StatList>
+      <Stat value="85%" caption="of AI pilots never ship." source="MIT Sloan, 2025" />
+      <Stat value="$300B" caption="annual enterprise AI spend." source="IDC, 2025" />
+      <Stat value="3.2×" caption="faster delivery with a working dev loop." />
+    </StatList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Caption", async ({ mount, page }) => {
+  await mount(<Caption>Caption</Caption>);
+  await expectAxeClean(page);
+});
+
 test("a11y — Fieldset (default — billing address)", async ({ mount, page }) => {
   await mount(
     <Fieldset legend="Billing address">
@@ -1539,6 +1940,17 @@ test("a11y — Fieldset (default — billing address)", async ({ mount, page }) 
         <Input placeholder="94105" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatList with dividers", async ({ mount, page }) => {
+  await mount(
+    <StatList dividers>
+      <Stat value="12k" caption="Users" />
+      <Stat value="200" caption="Customers" />
+      <Stat value="99.9%" caption="Uptime" />
+    </StatList>,
   );
   await expectAxeClean(page);
 });
@@ -1582,5 +1994,103 @@ test("a11y — CopyButton (icon-only with aria-label)", async ({ mount, page }) 
 
 test("a11y — CopyButton (disabled)", async ({ mount, page }) => {
   await mount(<CopyButton value="test" disabled />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Pagination (page 5 of 10)", async ({ mount, page }) => {
+  await mount(<Pagination page={5} pageCount={10} onPageChange={() => undefined} />);
+  await expectAxeClean(page);
+});
+
+/* ---------- EmptyState ---------- */
+
+test("a11y — EmptyState (default tone, title only)", async ({ mount, page }) => {
+  await mount(<EmptyState title="No scheduled posts" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — EmptyState (with icon, description, and action)", async ({ mount, page }) => {
+  await mount(
+    <EmptyState
+      title="No scheduled posts"
+      description="Schedule your first post to start building your content calendar."
+      icon={
+        <svg
+          width={24}
+          height={24}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          aria-hidden="true"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      }
+      action={
+        <button
+          type="button"
+          style={{
+            background: "var(--fg)",
+            color: "var(--bg)",
+            border: "none",
+            borderRadius: "var(--radius-2)",
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--fs-body)",
+            padding: "var(--space-2) var(--space-4)",
+            cursor: "pointer",
+          }}
+        >
+          Schedule a post
+        </button>
+      }
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — EmptyState (tone='subtle')", async ({ mount, page }) => {
+  await mount(
+    <EmptyState
+      tone="subtle"
+      title="No conversations yet"
+      description="When someone messages you, it will appear here."
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- TimePicker ---------- */
+
+test("a11y — TimePicker (default, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-main">Start time</label>
+      <TimePicker id="a11y-tp-main" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimePicker (invalid, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-inv">Start time</label>
+      <TimePicker id="a11y-tp-inv" invalid />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-dis">Start time</label>
+      <TimePicker id="a11y-tp-dis" disabled />
+    </div>,
+  );
   await expectAxeClean(page);
 });

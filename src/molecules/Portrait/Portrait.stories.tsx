@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Portrait, type AspectRatio } from "./Portrait";
 
 export default {
-  title: "Components / Portrait",
+  title: "Molecules / Portrait",
   args: {
     src: "https://picsum.photos/seed/portrait/1800/2400",
     alt: "Arian Becker, founder of Poukai — headshot in natural light",

@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Logo, type LogoTone, type LogoSize } from "./Logo";
 
 export default {
-  title: "Components / Logo",
+  title: "Atoms / Logo",
 } satisfies StoryDefault;
 
 const PLACEHOLDER =

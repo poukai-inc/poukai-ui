@@ -1,0 +1,102 @@
+/* ============================================================
+   MenuItem — dropdown / context-menu row molecule
+   Owns visual shape only. ARIA roles, keyboard nav, and portal
+   behaviour are delegated to the parent Radix wrapper.
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Reset UA margin/padding. */
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+
+  /* Flex row: [icon] label … [shortcut] */
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  /* Typography */
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg);
+  white-space: nowrap;
+
+  /* Highlight surface */
+  border-radius: var(--radius-2);
+  background-color: transparent;
+  transition: background-color var(--dur-fast) var(--easing);
+
+  /* Row is the interactive target — no extra cursor needed;
+     Radix host element handles pointer semantics. */
+  cursor: default;
+  user-select: none;
+}
+
+/* Hover: fill to --surface */
+@media (hover: hover) {
+  .root:hover {
+    background-color: var(--surface);
+  }
+}
+
+/* Focus-visible: same surface fill as hover (Radix supplies [data-highlighted]) */
+.root:focus-visible {
+  outline: none;
+  background-color: var(--surface);
+}
+
+/* Active / pressed: tactile opacity dip */
+.root:active {
+  opacity: 0.85;
+  transition:
+    background-color var(--dur-fast) var(--easing),
+    opacity var(--dur-press) ease;
+}
+
+/* ---------- Tone: danger ---------- */
+
+.danger {
+  color: var(--danger);
+}
+
+/* ---------- Disabled ---------- */
+
+.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* ---------- Icon slot ---------- */
+
+.icon {
+  /* Flex-shrink: 0 keeps the icon from compressing. Inline-flex
+     centres the SVG within its natural size. */
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  /* Icon rung: --icon-sm (16px) pairs with --fs-meta (14px) label. */
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+/* ---------- Label ---------- */
+
+.label {
+  /* Takes all remaining space, pushing the shortcut to the far right. */
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------- Shortcut (Kbd) ---------- */
+
+.shortcut {
+  /* Sits after the label spacer — far-right position. */
+  flex-shrink: 0;
+  /* Muted so the shortcut doesn't compete visually with the label. */
+  color: var(--fg-muted);
+}

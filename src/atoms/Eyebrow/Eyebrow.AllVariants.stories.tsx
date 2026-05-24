@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Eyebrow } from "./Eyebrow";
 
 export default {
-  title: "Components / Eyebrow / All Variants",
+  title: "Atoms / Eyebrow / All Variants",
 } satisfies StoryDefault;
 
 /** Full variant matrix — muted, solid, numbered — stacked for visual comparison. */

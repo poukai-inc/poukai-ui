@@ -1,0 +1,71 @@
+/* ============================================================
+   EmptyState — zero-data placeholder molecule
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Centered column stack. */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  /* Breathing room inside a data region. */
+  padding-block: var(--space-16);
+  padding-inline: var(--space-4);
+
+  font-family: var(--font-sans);
+}
+
+/* ---------- Tone: subtle ---------- */
+
+/* --surface fill + --radius-3 for card/panel contexts. */
+.subtle {
+  background: var(--surface);
+  border-radius: var(--radius-3);
+}
+
+/* ---------- Icon slot ---------- */
+
+/* Decorative wrapper — aria-hidden on the parent <span>. */
+.iconWrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-muted);
+  /* Gap between icon and title. */
+  margin-bottom: var(--space-3);
+}
+
+/* ---------- Title ---------- */
+
+/* <p> at --fs-body weight 500. Not a heading; avoids polluting document outline. */
+.title {
+  margin: 0;
+  font-size: var(--fs-body);
+  font-weight: 500;
+  color: var(--fg);
+  line-height: var(--lh-body);
+}
+
+/* ---------- Description ---------- */
+
+.description {
+  margin: 0;
+  margin-top: var(--space-2);
+  font-size: var(--fs-body);
+  color: var(--fg-muted);
+  line-height: var(--lh-body);
+  max-width: 32rem;
+}
+
+/* ---------- Action slot ---------- */
+
+.actionWrap {
+  /* Gap between description (or title when no description) and action. */
+  margin-top: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

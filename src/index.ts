@@ -155,6 +155,7 @@ export { NavLink, type NavLinkProps } from "./molecules/NavLink";
 export { StatList, type StatListProps } from "./molecules/StatList";
 export { Caption, type CaptionProps } from "./molecules/Caption";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export { Pagination, type PaginationProps, type PaginationSize } from "./molecules/Pagination";
 export { EmptyState, type EmptyStateProps, type EmptyStateTone } from "./molecules/EmptyState";
 export {
   Breadcrumb,

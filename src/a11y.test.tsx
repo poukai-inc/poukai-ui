@@ -74,6 +74,7 @@ import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
+import { Pagination } from "./molecules/Pagination";
 import { EmptyState } from "./molecules/EmptyState";
 import { TimePicker } from "./atoms/TimePicker";
 
@@ -1975,6 +1976,11 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
       </Field>
     </Fieldset>,
   );
+  await expectAxeClean(page);
+});
+
+test("a11y — Pagination (page 5 of 10)", async ({ mount, page }) => {
+  await mount(<Pagination page={5} pageCount={10} onPageChange={() => undefined} />);
   await expectAxeClean(page);
 });
 

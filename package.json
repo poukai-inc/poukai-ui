@@ -350,6 +350,11 @@
       "import": "./dist/molecules/Fieldset.js",
       "require": "./dist/molecules/Fieldset.cjs"
     },
+    "./molecules/Pagination": {
+      "types": "./dist/molecules/Pagination.d.ts",
+      "import": "./dist/molecules/Pagination.js",
+      "require": "./dist/molecules/Pagination.cjs"
+    },
     "./molecules/EmptyState": {
       "types": "./dist/molecules/EmptyState.d.ts",
       "import": "./dist/molecules/EmptyState.js",

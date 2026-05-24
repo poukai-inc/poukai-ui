@@ -486,6 +486,21 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Do NOT use Tag as a heading or section label — use `<Eyebrow>`.
 - Do NOT add `text-overflow: ellipsis` or truncation. Tags are always short strings by design.
 
+### TagList
+- Canonical wrapper molecule for a collection of `<Tag>` atoms. Owns the flex-wrap layout and gap rhythm between Tags, and enforces a consistent overflow strategy via the optional `max` prop.
+- Root element: `<div>`. Non-interactive — no hover, click, focus, or drag semantics. No landmark role; correct for a presentational flex row of inline labels.
+- `children` (required `ReactNode`) — one or more `<Tag>` atoms. TagList does not clone or inspect children; it wraps whatever is passed. Expected child is `<Tag>`; passing other element types breaks the visual contract and the `max` overflow logic.
+- `max` (optional `number`) — when set, renders only the first `max` children; surplus Tags collapse into a single `<Tag tone="muted">+{N}</Tag>` overflow pill. Hidden Tags are sliced from the DOM entirely (not CSS-hidden). Omit to show all Tags.
+- `gap` (`"sm" | "md"`, default `"md"`) — gap between Tag pills on both axes. `"md"` = `--space-2` (8px), the canonical editorial tag-row gap. `"sm"` = `--space-1` (4px) for dense surfaces (table cells, compact card footers).
+- `className` (optional `string`) — layout overrides by consumer (margin, alignment). TagList has no self-margin.
+- Tokens consumed: `--space-1`, `--space-2`. No new tokens introduced.
+- Layout: `display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2)` (or `--space-1` for `gap="sm"`).
+- Overflow pill: `<Tag tone="muted">+{N}</Tag>` where N = total child count minus `max`. The pill's visual treatment (transparent bg, hairline border, muted fg) is inherited from `Tag tone="muted"` — TagList owns no overflow styles of its own.
+- Do NOT use TagList to group `<StatusBadge>` elements — StatusBadge encodes liveness state; Tag encodes category. Distinct semantic registers.
+- Do NOT use TagList as a navigation row — use `<nav>` with anchor children.
+- Do NOT use TagList for a single Tag — a lone Tag does not need a wrapper.
+- Do NOT use `max` as a content strategy — prefer curating the tag list to ~5 items.
+
 ### Section
 - Canonical page-section wrapper molecule. Owns the vertical rhythm around a section's header block (eyebrow + title + lede) and exposes a children slot for section body content.
 - No visual surface — no background, border, or shadow in default configuration. Structural scaffolding only.
@@ -1056,6 +1071,30 @@ import { Icon } from "@poukai-inc/ui";
   API key expires in 3 days.
 </Banner>
 ```
+
+
+### Byline
+- Single-author article attribution molecule. The horizontal "by Jane Doe · Editor · May 21, 2026 · 6 min read" row that appears directly below article headings or blog post titles.
+- Composes Avatar, semantic text elements (name as strong, role as span), Time, and read-time text into a stable horizontal flex row. Byline owns layout and typographic register; introduces zero new tokens.
+- Static presentational molecule. Not interactive. No state.
+- name (required string) — rendered inside strong. Primary text, --fg, --fs-meta, weight 500.
+- avatar (optional string) — image URL. When present, Avatar renders in mode="image" with alt="" (decorative — name is already visible as text).
+- initials (optional string) — 1-2 char fallback. Used when avatar is absent. Renders Avatar in mode="initials". Ignored when avatar is provided.
+- When neither avatar nor initials is provided, Avatar renders in mode="empty" (blank placeholder).
+- role (optional string) — author role label (e.g. "Editor"). Rendered as span in micro uppercase below name. Omitted when absent. Uses --fs-micro, --tracking-micro, text-transform: uppercase, --fg-muted.
+- publishedAt (optional string | Date) — forwarded to Time dateTime with format="absolute". Omitted when absent.
+- readTime (optional string) — consumer-formatted read-time string (e.g. "6 min read"). Rendered verbatim. Omitted when absent.
+- Separator dots rendered as span[aria-hidden="true"] with padding-inline: var(--space-2). Dots appear only when trailing content (publishedAt or readTime) is present.
+- Trailing content state matrix: publishedAt + readTime: "· Time · N min read"; publishedAt only: "· Time"; readTime only: "· N min read"; neither: no dots, no trailing content.
+- Root: div, forwardRef<HTMLDivElement, BylineProps>. ...rest spread to root. displayName = "Byline".
+- Layout: display: flex, align-items: center, flex-wrap: nowrap, gap: var(--space-3). Color baseline: --fg-muted, --font-sans, --fs-meta, --lh-meta.
+- Text column: display: flex, flex-direction: column, gap: var(--space-1), min-width: 0.
+- Tokens consumed: --fs-meta, --fs-micro, --tracking-micro, --fg, --fg-muted, --font-sans, --lh-meta, --space-1, --space-2, --space-3. Zero new tokens.
+- A11y: root div with no ARIA role. Avatar is decorative (aria-hidden by default). Dots have aria-hidden="true". Time renders native time[datetime]. Name in strong for semantic emphasis.
+- Sits outside Prose. Parent owns spacing between h1/h2 and Byline. Single-author only.
+- Do NOT pass an accessible name or alt to the Avatar inside Byline — the author name is already visible as text.
+- Do NOT use Byline for team grids or person cards — that is TeamCard.
+- Do NOT add authorHref, timeFormat prop, responsive collapse, or skeleton state — all out of scope in v1.
 
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.
@@ -1644,3 +1683,108 @@ ADR-0008: SiteShell Wordmark height=56. Brand floor; do not pass height < 40.
 ADR-0009: Horizontal lockup is canonical. Stacked for square-format only.
 ADR-0010: Proposal-loop architecture. proposal:approved label is a human gate.
 ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 1184 290.
+
+### StatList
+
+Layer: molecule. Groups two or more `Stat` atoms into a shared horizontal rhythm.
+Root: `<div role="list">`. Each child wrapped in `<div role="listitem">`.
+Props: `dividers` (boolean, default false) — opt-in hairline rules between items via CSS `::before` pseudo.
+       `align` ("start" | "center", default "center") — row justification within container.
+       `children` (ReactNode, required) — expects `Stat` atoms.
+Tokens: `--space-8` (mobile gap), `--space-12` (desktop row gap), `--hairline`, `--hairline-w`, `--bp-md`.
+Responsive: stacks column below `--bp-md` (768px); dividers become horizontal rules in stacked state.
+Motion: none. Static layout shell.
+A11y: `role="list"` + `role="listitem"` pair; dividers are CSS-only pseudo-elements, unreachable by AT.
+Anti-patterns: single Stat, non-Stat children, nested StatLists, status indicators, form-field rows.
+
+### Caption
+- Muted micro-tracked label for supplementary attribution or contextual annotation beneath a visual or content block. Answers "what is the source or context of this artifact?" beneath figures, code blocks, audio players, and similar surfaces.
+- Root element is polymorphic via `as` prop (`"figcaption"` | `"p"` | `"span"`, default `"figcaption"`). Use `"figcaption"` inside `<figure>` — the browser natively associates it with figure content, no ARIA needed. Use `"p"` for standalone use outside a figure. Use `"span"` for inline contexts.
+- `children` (required ReactNode) — the caption text. Plain string is idiomatic. ReactNode accepted for rare inline `<a>` links; no block-level elements.
+- No `tone` prop — one visual register only. No `size` prop — `--fs-micro` is fixed. No icon slot — captions are text primitives.
+- Typography: `--font-sans` (Geist), `--fs-micro` (12px fixed), `line-height: var(--lh-meta)` (1.2), `letter-spacing: var(--tracking-micro)` (0.04em), `color: var(--fg-muted)`.
+- No padding, no margin authored by the component. Top margin (`--space-2`, 0.5rem) separating the caption from its preceding element is the consumer's responsibility.
+- No states, no motion, no transitions. Caption is a non-interactive static text element. Not a tab stop.
+- Contrast: `--fg-muted` on `--bg` = 4.91:1 (AA, light). `--fg-muted` on `--bg` dark = 6.10:1 (AA, dark). Passes WCAG 2.1 AA for normal text at 12px (threshold 4.5:1).
+- Tokens consumed: `--font-sans`, `--fs-micro`, `--lh-meta`, `--tracking-micro`, `--fg-muted`. Zero new tokens introduced.
+- Caption is NOT `<FieldNote>` (FieldNote is an editorial inline aside inside prose flow, not a below-artifact label). NOT a heading or field label. NOT for long-form body copy.
+
+### Fieldset
+- Groups related `<Field>` molecules under a shared semantic `<legend>`, enforcing consistent vertical spacing and a clear visual boundary around the group.
+- Root element: `<fieldset>`. Non-polymorphic. `forwardRef<HTMLFieldSetElement, FieldsetProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, `style`, etc.
+- `legend` (required string) — group label text. Rendered as `<legend>` as first child of `<fieldset>` for correct AT announcement.
+- `spacing` (optional `"default" | "spacious"`, default `"default"`) — `"default"` → `--space-4` gap between fields; `"spacious"` → `--space-6`.
+- `bordered` (optional boolean, default `false`) — adds `--surface` background, `--hairline` border, `--radius-3` corners, `--space-8` block / `--space-6` inline padding.
+- `legendTone` (optional `"default" | "muted"`, default `"default"`) — `"muted"` renders legend in `--fg-muted` for secondary sections.
+- `disabled` (optional boolean, default `false`) — maps to native `<fieldset disabled>`, propagating disabled state to all descendant form controls automatically.
+- `children` (required ReactNode) — `<Field>` or `<FormRow>` molecules.
+- A11y: native `<fieldset>` + `<legend>` provides `role="group"` with accessible name — no `aria-labelledby` needed. `<legend>` must remain first child.
+- Layout: fields container is `display: flex; flex-direction: column; gap: var(--space-4)` (default) or `var(--space-6)` (spacious).
+- Legend typography: `--fs-meta`, `font-weight: 500`, `--fg` (or `--fg-muted` when `legendTone="muted"`), `--lh-meta`, `margin-bottom: var(--space-1)`.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg`, `--fg-muted`, `--surface`, `--hairline`, `--hairline-w`, `--radius-3`, `--space-1`, `--space-4`, `--space-6`, `--space-8`.
+- Do NOT use Fieldset for a single `<Field>` — no semantic benefit.
+- Do NOT use Fieldset as a general-purpose bordered box for non-form content.
+- Do NOT use Fieldset as a page section (`<Section>`) or heading replacement.
+
+```tsx
+// (a) Billing address group:
+<Fieldset legend="Billing address">
+  <Field label="Street" id="street"><Input /></Field>
+  <Field label="City" id="city"><Input /></Field>
+  <Field label="Postal code" id="postal"><Input /></Field>
+</Fieldset>
+
+// (b) Bordered payment block:
+<Fieldset legend="Payment details" bordered spacing="spacious">
+  <Field label="Card number" id="card"><Input /></Field>
+  <Field label="Expiry" id="expiry"><Input /></Field>
+</Fieldset>
+
+// (c) Disabled group (all fields disabled automatically):
+<Fieldset legend="Shipping address" disabled>
+  <Field label="Street" id="street"><Input /></Field>
+</Fieldset>
+```
+
+
+### Breadcrumb
+- Hierarchical location trail molecule. Renders the route path back through nested dashboard and product pages.
+- Root element: `<nav aria-label="Breadcrumb">`. `forwardRef<HTMLElement, BreadcrumbProps>`. `...rest` spread. `displayName = "Breadcrumb"`.
+- Contains an `<ol>` of `<li>` items with presentational `aria-hidden="true"` separator `<li>` elements interspersed.
+- Two usage patterns: compound `<Breadcrumb.Item>` children (preferred) or data-driven `items` prop array.
+- `items` (optional `Array<{ href?: string; label: ReactNode; current?: boolean }>`) — data-driven path. Mutually exclusive with compound children.
+- `children` (optional `ReactNode`) — compound `<Breadcrumb.Item>` nodes.
+- `separator` (optional `ReactNode`, default `"›"`) — rendered between items; each separator `<li>` carries `aria-hidden="true"`.
+- `className` (optional string) — layout override passthrough to root `<nav>`.
+- `Breadcrumb.Item` sub-component: `href` (optional string), `current` (optional boolean), `children` (required ReactNode). When `current` is true: plain `<span>`, `aria-current="page"` on the `<li>`, no link.
+- A11y: `<nav aria-label="Breadcrumb">` = distinct navigation landmark. `<ol>` = ordered hierarchy. `aria-current="page"` on current item. Separators `aria-hidden="true"`. Ancestor links have visible text accessible name.
+- Tokens: `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg-muted` (ancestor link rest), `--fg` (current item), `--accent` (hover color + focus ring), `--hairline` (separator + link underline), `--hairline-w`, `--space-2` (gap), `--dur-fast`, `--dur-mid`, `--easing`, `--easing-link`, `--radius-1`.
+- Static presentational. No state. No JS-driven truncation in v1.
+- Do NOT link the current (last) item — it is always plain text.
+- Do NOT use for tab navigation or wizard steps — use `Tabs` or `Stepper`.
+- Do NOT render when depth < 2 (single-item trail has no navigational value).
+
+```tsx
+// (a) Compound — 3-level trail:
+<Breadcrumb>
+  <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
+  <Breadcrumb.Item href="/dashboard/pages">Pages</Breadcrumb.Item>
+  <Breadcrumb.Item current>Settings</Breadcrumb.Item>
+</Breadcrumb>
+
+// (b) Data-driven alias:
+<Breadcrumb
+  items={[
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/dashboard/pages", label: "Pages" },
+    { label: "Settings", current: true },
+  ]}
+/>
+
+// (c) Custom separator:
+<Breadcrumb separator="/">
+  <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
+  <Breadcrumb.Item current>Settings</Breadcrumb.Item>
+</Breadcrumb>
+```
+```

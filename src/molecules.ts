@@ -34,3 +34,14 @@ export { Textarea, type TextareaProps } from "./molecules/Textarea";
 export { Field, type FieldProps } from "./molecules/Field";
 export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";
+export { StatList, type StatListProps } from "./molecules/StatList";
+export { Caption, type CaptionProps } from "./molecules/Caption";
+export { Byline, type BylineProps } from "./molecules/Byline/index.js";
+export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export {
+  Breadcrumb,
+  BreadcrumbItem,
+  type BreadcrumbProps,
+  type BreadcrumbItemProps,
+  type BreadcrumbItemData,
+} from "./molecules/Breadcrumb";

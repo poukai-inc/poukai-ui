@@ -1,0 +1,46 @@
+.root {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg-muted);
+  gap: var(--space-3);
+}
+
+.textCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.name {
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  color: var(--fg);
+  line-height: var(--lh-meta);
+}
+
+.role {
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-micro);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  line-height: var(--lh-meta);
+}
+
+.dot {
+  padding-inline: var(--space-2);
+  color: var(--fg-muted);
+  user-select: none;
+}
+
+.time {
+  color: var(--fg-muted);
+}
+
+.readTime {
+  color: var(--fg-muted);
+}

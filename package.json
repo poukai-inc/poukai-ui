@@ -460,6 +460,11 @@
       "import": "./dist/molecules/VideoEmbed.js",
       "require": "./dist/molecules/VideoEmbed.cjs"
     },
+    "./molecules/Combobox": {
+      "types": "./dist/molecules/Combobox.d.ts",
+      "import": "./dist/molecules/Combobox.js",
+      "require": "./dist/molecules/Combobox.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

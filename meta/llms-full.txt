@@ -3045,6 +3045,54 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 
 // (c) 4-column dense grid:
 <GalleryGrid heading="Project screenshots" columns={4} items={screenshots} />
+### Combobox
+- Searchable single-select dropdown molecule. Replaces native `<select>` when the option count makes scrolling without search a UX failure (timezone pickers, page/org pickers, data-source selectors). Multi-select deferred to a future variant.
+- Root element: `<div>` containing a `<button role="combobox">` trigger and (when open) a popover `<div>` with a search `<input>` and `<ul role="listbox">`. `forwardRef<HTMLDivElement, ComboboxProps>`. `...rest` spread on root. `displayName = "Combobox"`.
+- `options` (required `Array<{ value: string; label: string; group?: string }>`) — flat array; groups derived from `group` field.
+- `value` (optional string) — controlled selected value. `defaultValue` (optional string) — uncontrolled initial value. `onValueChange` ((value: string) => void) — selection callback.
+- `placeholder` (optional string, default `"Select…"`) — shown in trigger when no value selected.
+- `disabled` (optional boolean, default `false`) — disables trigger; `opacity: 0.5`, no pointer events.
+- `invalid` (optional boolean, default `false`) — applies `--danger` border to trigger; pairs with Field error state.
+- `size` (`"sm" | "md"`, default `"md"`) — `sm` uses `--btn-h-sm` (32px) and `--fs-meta`; `md` uses `--btn-h-md` (44px) and `--fs-body`.
+- `filter` (optional `(option, query) => boolean`) — custom filter; defaults to substring match on `label`.
+- `name` (optional string) — hidden `<input type="hidden">` for native form submission.
+- A11y: trigger is `<button role="combobox" aria-haspopup="listbox" aria-expanded aria-controls="{listbox-id}">`. Listbox is `<ul role="listbox" id="{listbox-id}">`. Options are `<li role="option" aria-selected>`. Groups are `<li role="group" aria-label="{group name}">`. Search input is `<input type="text" role="searchbox" aria-label="Search" aria-autocomplete="list" aria-controls="{listbox-id}">`. Popover open → focus moves to search input. Popover close → focus returns to trigger.
+- Keyboard: `Enter`/`Space`/`ArrowDown` on trigger opens popover. `ArrowDown`/`ArrowUp` navigates options. `Enter` selects focused option. `Escape` closes popover without selection change. `Tab` closes popover and advances focus.
+- Tokens: `--bg-elevated`, `--bg`, `--surface`, `--fg`, `--fg-muted`, `--hairline`, `--hairline-soft`, `--hairline-w`, `--accent`, `--accent-glow`, `--danger`, `--font-sans`, `--fs-body`, `--fs-meta`, `--btn-h-md`, `--btn-h-sm`, `--radius-2`, `--radius-3`, `--space-2`, `--space-3`, `--space-4`, `--space-6`, `--dur-fast`, `--easing`.
+- Motion: popover entrance `opacity 0→1` + `translateY(-4px)→0` over `--dur-fast`. `prefers-reduced-motion` handled globally by token block.
+- No Radix or cmdk dependency — pure React with ARIA combobox pattern. Uncontrolled open state (Phase 1); programmatic control deferred.
+- Compose with `<Field>` for label + error anatomy. Always rendered inside a `<Field>` in standard usage.
+- Do NOT use for fewer than ~10 options (use native `<select>`). Do NOT use for multi-select, command palette, free-text autocomplete, or navigation menus.
+
+```tsx
+// (a) Controlled inside Field:
+const [tz, setTz] = useState("");
+<Field label="Timezone" id="tz">
+  <Combobox id="tz" options={TIMEZONES} value={tz} onValueChange={setTz} placeholder="Select timezone…" />
+</Field>
+
+// (b) Grouped options:
+<Combobox
+  options={[
+    { value: "react", label: "React", group: "Frontend" },
+    { value: "node", label: "Node.js", group: "Backend" },
+  ]}
+  value={value}
+  onValueChange={setValue}
+  placeholder="Select technology…"
+  aria-label="Technology"
+/>
+
+// (c) With form submission:
+<Combobox options={TIMEZONES} value={tz} onValueChange={setTz} name="timezone" aria-label="Timezone" />
+
+// (d) Invalid (Field wires error):
+<Field label="Timezone" id="tz-err" error="Please select a timezone.">
+  <Combobox id="tz-err" options={TIMEZONES} value="" onValueChange={() => {}} />
+</Field>
+
+// (e) Small size:
+<Combobox options={OPTIONS} size="sm" value={v} onValueChange={setV} aria-label="Size" />
 ```
 
 ### PricingTable

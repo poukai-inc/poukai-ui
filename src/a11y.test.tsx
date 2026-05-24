@@ -1045,8 +1045,39 @@ test("a11y — FeatureCard (as='section')", async ({ mount, page }) => {
 });
 
 import { HeroSection } from "./organisms/HeroSection";
+import { Sidebar } from "./organisms/Sidebar";
 
 /* ---------- organisms ---------- */
+
+test("a11y — Sidebar (grouped sections, active link)", async ({ mount, page }) => {
+  await mount(
+    <Sidebar label="Documentation">
+      <Sidebar.Group heading="Getting started">
+        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+        <LinkList.Item href="/docs/install" current>
+          Installation
+        </LinkList.Item>
+      </Sidebar.Group>
+      <Sidebar.Group heading="Components">
+        <LinkList.Item href="/docs/button">Button</LinkList.Item>
+        <LinkList.Item href="/docs/heading">Heading</LinkList.Item>
+      </Sidebar.Group>
+    </Sidebar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Sidebar (no group headings)", async ({ mount, page }) => {
+  await mount(
+    <Sidebar>
+      <Sidebar.Group>
+        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+        <LinkList.Item href="/docs/install">Installation</LinkList.Item>
+      </Sidebar.Group>
+    </Sidebar>,
+  );
+  await expectAxeClean(page);
+});
 
 test("a11y — HeroSection (default, no media)", async ({ mount, page }) => {
   await mount(

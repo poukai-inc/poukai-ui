@@ -1,0 +1,52 @@
+.root {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  width: 100%;
+  overflow-y: auto;
+  max-height: calc(100vh - var(--space-12));
+}
+
+.sticky {
+  position: sticky;
+  top: var(--space-12);
+  height: fit-content;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* ---------- Group ---------- */
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.group + .group {
+  border-top: var(--hairline-w) solid var(--hairline);
+  padding-top: var(--space-8);
+}
+
+.groupHeading {
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  color: var(--fg);
+}
+
+/* ---------- LinkList inside Sidebar ---------- */
+
+.linkList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ---------- Collapsible group ---------- */
+
+.collapsibleDisclosure {
+  /* No additional overrides needed — Disclosure handles the details/summary pattern */
+}

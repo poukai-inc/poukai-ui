@@ -486,6 +486,21 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Do NOT use Tag as a heading or section label — use `<Eyebrow>`.
 - Do NOT add `text-overflow: ellipsis` or truncation. Tags are always short strings by design.
 
+### TagList
+- Canonical wrapper molecule for a collection of `<Tag>` atoms. Owns the flex-wrap layout and gap rhythm between Tags, and enforces a consistent overflow strategy via the optional `max` prop.
+- Root element: `<div>`. Non-interactive — no hover, click, focus, or drag semantics. No landmark role; correct for a presentational flex row of inline labels.
+- `children` (required `ReactNode`) — one or more `<Tag>` atoms. TagList does not clone or inspect children; it wraps whatever is passed. Expected child is `<Tag>`; passing other element types breaks the visual contract and the `max` overflow logic.
+- `max` (optional `number`) — when set, renders only the first `max` children; surplus Tags collapse into a single `<Tag tone="muted">+{N}</Tag>` overflow pill. Hidden Tags are sliced from the DOM entirely (not CSS-hidden). Omit to show all Tags.
+- `gap` (`"sm" | "md"`, default `"md"`) — gap between Tag pills on both axes. `"md"` = `--space-2` (8px), the canonical editorial tag-row gap. `"sm"` = `--space-1` (4px) for dense surfaces (table cells, compact card footers).
+- `className` (optional `string`) — layout overrides by consumer (margin, alignment). TagList has no self-margin.
+- Tokens consumed: `--space-1`, `--space-2`. No new tokens introduced.
+- Layout: `display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2)` (or `--space-1` for `gap="sm"`).
+- Overflow pill: `<Tag tone="muted">+{N}</Tag>` where N = total child count minus `max`. The pill's visual treatment (transparent bg, hairline border, muted fg) is inherited from `Tag tone="muted"` — TagList owns no overflow styles of its own.
+- Do NOT use TagList to group `<StatusBadge>` elements — StatusBadge encodes liveness state; Tag encodes category. Distinct semantic registers.
+- Do NOT use TagList as a navigation row — use `<nav>` with anchor children.
+- Do NOT use TagList for a single Tag — a lone Tag does not need a wrapper.
+- Do NOT use `max` as a content strategy — prefer curating the tag list to ~5 items.
+
 ### Section
 - Canonical page-section wrapper molecule. Owns the vertical rhythm around a section's header block (eyebrow + title + lede) and exposes a children slot for section body content.
 - No visual surface — no background, border, or shadow in default configuration. Structural scaffolding only.
@@ -1057,6 +1072,54 @@ import { Icon } from "@poukai-inc/ui";
 </Banner>
 ```
 
+### HeroSection
+- Organism layer. Marketing-page primary hero band — the sole `<h1>` moment on any page.
+- Composes `Hero` molecule (title, status, lede, CTA, entrance stagger) inside a landmark `<section>`.
+- Optional `media` slot: two-column CSS grid at `md+` (≥ 768px), text left (`--hero-max`), media right (`--hero-illustration-max`). Single stacked column below.
+- Props: `title` (required), `status`, `lede`, `cta`, `media`, `size` (`"display"` | `"intimate"`), `entrance` (`"stagger"`), `sectionSize` (`"default"` | `"tight"`), `as` (`"section"` | `"article"` | `"div"`).
+- `sectionSize` controls block padding independently of Hero's `size`. Default: `--space-16`; tight: `--space-12`.
+- A11y: root `<section>` is a region landmark via `aria-labelledby` pointing at the text column (which contains the `<h1>`). One HeroSection per page only.
+- Media column follows text column in DOM order — do NOT reorder with CSS `order`.
+- Do NOT nest HeroSection inside Section or another HeroSection.
+- Do NOT use HeroSection when no title is needed — use `Hero variant="no-title"` instead.
+- Import: `import { HeroSection } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/HeroSection"`.
+
+### CtaBlock
+- Heading + body + action row molecule. The reusable inline conversion moment — "Ready to start? [Get a demo]" pattern.
+- Root element: `<div>`. `forwardRef<HTMLDivElement, CtaBlockProps>`. `...rest` spread. `displayName = "CtaBlock"`.
+- `heading` (required `ReactNode`) — primary CTA text. Rendered as `headingAs` element.
+- `headingAs` (optional `"h1" | "h2" | "h3"`, default `"h2"`) — semantic heading level. `h2` is correct below a Hero `h1`; override for nested contexts.
+- `body` (optional `ReactNode`) — supporting paragraph. Absent: heading jumps to actions with `--space-8` gap instead of `--space-6`.
+- `actions` (required `ReactNode`) — the CTA button(s). Consumer owns Button composition; CtaBlock provides the slot container and spacing.
+- `orientation` (optional `"stacked" | "horizontal"`, default `"stacked"`) — `stacked` stacks vertically; `horizontal` puts heading+body left, actions trailing-aligned (collapses to stacked below `--bp-md`).
+- `align` (optional `"start" | "center"`, default `"start"`) — `start` matches brand's left-aligned register; `center` for symmetrical moments (e.g. full-bleed CTASection).
+- No background, no border, no padding — NOT a card, NOT a section, NOT a Hero replacement.
+- A11y: heading element determined by `headingAs`; consumer maintains correct heading hierarchy. No ARIA wrapper on root or actions slot.
+- Tokens consumed: `--font-serif`, `--fs-h2`, `--font-sans`, `--fs-body`, `--lh-body`, `--fg`, `--fg-muted`, `--space-2`, `--space-6`, `--space-8`, `--bp-md`. Zero new tokens.
+- For end-of-page placement, compose inside `CTASection` (organism) — CtaBlock has no block padding of its own.
+
+```tsx
+// (a) Stacked default:
+<CtaBlock
+  heading="Ready to start?"
+  body="We work with senior-only teams who'd rather ship than speculate."
+  actions={<Button variant="primary">Get a demo</Button>}
+/>
+
+// (b) Horizontal — heading+body left, action right:
+<CtaBlock
+  orientation="horizontal"
+  heading="Interested in working together?"
+  body="Senior-only teams. Production from day one."
+  actions={<Button variant="primary">hello@pouk.ai</Button>}
+/>
+
+// (c) No body (heading jumps directly to actions with --space-8 gap):
+<CtaBlock
+  heading="Interested in working together?"
+  actions={<Button variant="primary" asChild><a href="mailto:hello@pouk.ai">hello@pouk.ai</a></Button>}
+/>
+```
 
 ### Byline
 - Single-author article attribution molecule. The horizontal "by Jane Doe · Editor · May 21, 2026 · 6 min read" row that appears directly below article headings or blog post titles.
@@ -1080,6 +1143,22 @@ import { Icon } from "@poukai-inc/ui";
 - Do NOT pass an accessible name or alt to the Avatar inside Byline — the author name is already visible as text.
 - Do NOT use Byline for team grids or person cards — that is TeamCard.
 - Do NOT add authorHref, timeFormat prop, responsive collapse, or skeleton state — all out of scope in v1.
+
+### LinkList
+- Canonical vertical list of styled anchor rows. Use for footer columns, sidebar nav sections, and on-this-page TOC panels. A molecule because it pairs the `Link` atom with an optional `Heading` and a semantic `<ul>` / `<li>` structure that a bare Link cannot provide.
+- Compound component: `<LinkList>` (root) + `<LinkList.Item>` (each row).
+- Root renders a `<div>` with an optional `Heading` atom and a `<ul>`. `forwardRef<HTMLDivElement, LinkListProps>`. `displayName = "LinkList"`.
+- `heading` (optional string | ReactNode) — column heading via `Heading` atom at `headingLevel` (default h3).
+- `headingLevel` (optional 2 | 3 | 4, default 3) — semantic heading element level.
+- `size` ("sm" | "md", default "sm") — `"sm"`: `--fs-meta` (14px) for footer/sidebar; `"md"`: `--fs-body` for TOC/reading-flow contexts.
+- `divider` (boolean, default false) — renders `--hairline-w` solid `--hairline` rule below the heading. Requires `heading` to be visible.
+- `LinkList.Item` props: `href` (required), `external?` (adds `target="_blank" rel="noopener noreferrer"` + visually-hidden "(opens in new tab)"), `current?` (sets `aria-current="page"`, renders at full `--fg`), `icon?` (trailing ReactNode icon slot). `forwardRef<HTMLLIElement, LinkListItemProps>`.
+- Link color: `--fg-muted` at rest → `--fg` on hover. Transition: `color var(--dur-fast) var(--easing)`. No underline (`variant="muted-link"`). Current item stays at `--fg` at rest.
+- Focus-visible: `2px solid var(--accent)`, `4px` offset, `var(--radius-1)` border-radius — matches global `a:focus-visible`.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--fs-body`, `--fg-muted`, `--fg`, `--accent`, `--hairline`, `--hairline-w`, `--space-1`, `--space-2`, `--space-3`, `--lh-meta`, `--lh-body`, `--dur-fast`, `--easing`, `--radius-1`.
+- A11y: semantic `<ul>` / `<li>` exposes item count. `aria-current="page"` on active item (WCAG 2.4.8). External items include visually-hidden "(opens in new tab)" — no icon-only signal. Wrap in `<nav aria-label="…">` at the consumer level for navigation regions; the component does not add `<nav>` automatically.
+- Do NOT use LinkList for command menus, action buttons, tag clouds, or top-level primary navigation. Those are DropdownMenu, Button, Tag, and NavLink/Header respectively.
+- Do NOT add onClick-only handlers — items are `<a>` anchors, not `<button>` elements.
 
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.
@@ -1655,6 +1734,21 @@ Precise, direct, technically confident. Never hedges, inflates, or reassures. No
 
 ---
 
+### MetaList
+- Semantic `<dl>` of label/value pairs. Canonical answer to the "key: value, stacked" pattern — replaces ad-hoc `<p>` pairs and table-in-disguise layouts.
+- Use for: article sidebars (published date, reading time, author), project spec panels (version, license, size), pricing detail blocks (billing cycle, seats, support tier).
+- Root is `<dl>`; each pair is `<div><dt>…</dt><dd>…</dd></div>`. The `<div>` wrapper satisfies the HTML5 dl content model.
+- Props: `items: Array<{ label: ReactNode; value: ReactNode }>` (required), `orientation: "stacked" | "horizontal"` (default `"stacked"`), `dividers: boolean` (default `false`), `labelWidth: string` (CSS value for dt column in horizontal mode, e.g. `"8rem"`).
+- Typography: `--font-sans`, `--fs-meta` (14px), `--lh-meta` (1.2) on both dt and dd. Label (`dt`) uses `--fg-muted`; value (`dd`) uses `--fg`. Never bold.
+- Spacing: `--space-2` row gap; `--space-3` dt-to-dd gap in horizontal mode.
+- Dividers: opt-in `border-top: var(--hairline-w) solid var(--hairline)` on each row (first row has no top border).
+- `margin-inline-start: 0` on `<dd>` resets browser default 40px indent without affecting semantics.
+- A11y: native dl/dt/dd semantics. No ARIA additions needed. Contrast: `--fg-muted` on `--bg` = 4.56:1 (AA at 14px); `--fg` on `--bg` = 16.29:1 (AAA).
+- Static/read-only. No interactive states. Interactive children (e.g. Link, StatusBadge) in value slots carry their own semantics.
+- NOT for tabular data (use Table), navigation (use LinkList), forms (use Field/Fieldset), or status signals (pass StatusBadge as value ReactNode).
+
+---
+
 ## Decision provenance
 
 ADR-0001: Atomic design taxonomy (atoms/molecules/organisms). No fourth layer. Subpath exports are semver-governed.
@@ -1682,3 +1776,122 @@ Molecule. Canonical table-filter and dashboard-search primitive.
 **A11y**: `role="search"` landmark on root; `label` always present (visually hidden via Field); leading icon `aria-hidden`; clear button `aria-label="Clear search"`; `type="search"` gives browser implicit search role; Escape key clears field.
 
 **Anti-patterns**: Not for submit-on-enter forms (use `Input` + `<form>`). Not a Combobox. Not for multi-criteria filter state. Not a navigation search bar (use CommandPalette). Never use for non-search inputs — `role="search"` misleads screen readers.
+
+### NavLink
+
+**Layer**: molecule | **File**: `src/molecules/NavLink/NavLink.tsx`
+
+Top-nav anchor primitive. Renders a semantic `<a>` styled for primary navigation chrome. Label is `--fg-muted` at rest; shifts to `--fg` on hover with an accent underline growing via `background-size` transition (matches the global `<a>` mechanic in `tokens.css`). When `active` is true, `aria-current="page"` is set and a 2px `--accent` `border-bottom` is always visible.
+
+**Props**: `href` (string, required) · `active` (boolean, default false) · `children` (ReactNode, required) · all `AnchorHTMLAttributes<HTMLAnchorElement>` via `...rest`.
+
+**A11y**: `aria-current="page"` when active; omitted (not `"false"`) when inactive. Parent organism owns the `<nav aria-label="Primary">` landmark — NavLink does not.
+
+**Tokens**: `--font-sans` `--fs-meta` `--fg` `--fg-muted` `--accent` `--hairline` `--hairline-w` `--dur-fast` `--dur-mid` `--easing` `--easing-link` `--radius-1` `--space-3`
+
+**Do not use** for sidebar links, footer links, primary CTAs, breadcrumbs, or in-page anchors.
+
+### StatList
+
+Layer: molecule. Groups two or more `Stat` atoms into a shared horizontal rhythm.
+Root: `<div role="list">`. Each child wrapped in `<div role="listitem">`.
+Props: `dividers` (boolean, default false) — opt-in hairline rules between items via CSS `::before` pseudo.
+       `align` ("start" | "center", default "center") — row justification within container.
+       `children` (ReactNode, required) — expects `Stat` atoms.
+Tokens: `--space-8` (mobile gap), `--space-12` (desktop row gap), `--hairline`, `--hairline-w`, `--bp-md`.
+Responsive: stacks column below `--bp-md` (768px); dividers become horizontal rules in stacked state.
+Motion: none. Static layout shell.
+A11y: `role="list"` + `role="listitem"` pair; dividers are CSS-only pseudo-elements, unreachable by AT.
+Anti-patterns: single Stat, non-Stat children, nested StatLists, status indicators, form-field rows.
+
+### Caption
+- Muted micro-tracked label for supplementary attribution or contextual annotation beneath a visual or content block. Answers "what is the source or context of this artifact?" beneath figures, code blocks, audio players, and similar surfaces.
+- Root element is polymorphic via `as` prop (`"figcaption"` | `"p"` | `"span"`, default `"figcaption"`). Use `"figcaption"` inside `<figure>` — the browser natively associates it with figure content, no ARIA needed. Use `"p"` for standalone use outside a figure. Use `"span"` for inline contexts.
+- `children` (required ReactNode) — the caption text. Plain string is idiomatic. ReactNode accepted for rare inline `<a>` links; no block-level elements.
+- No `tone` prop — one visual register only. No `size` prop — `--fs-micro` is fixed. No icon slot — captions are text primitives.
+- Typography: `--font-sans` (Geist), `--fs-micro` (12px fixed), `line-height: var(--lh-meta)` (1.2), `letter-spacing: var(--tracking-micro)` (0.04em), `color: var(--fg-muted)`.
+- No padding, no margin authored by the component. Top margin (`--space-2`, 0.5rem) separating the caption from its preceding element is the consumer's responsibility.
+- No states, no motion, no transitions. Caption is a non-interactive static text element. Not a tab stop.
+- Contrast: `--fg-muted` on `--bg` = 4.91:1 (AA, light). `--fg-muted` on `--bg` dark = 6.10:1 (AA, dark). Passes WCAG 2.1 AA for normal text at 12px (threshold 4.5:1).
+- Tokens consumed: `--font-sans`, `--fs-micro`, `--lh-meta`, `--tracking-micro`, `--fg-muted`. Zero new tokens introduced.
+- Caption is NOT `<FieldNote>` (FieldNote is an editorial inline aside inside prose flow, not a below-artifact label). NOT a heading or field label. NOT for long-form body copy.
+
+### Fieldset
+- Groups related `<Field>` molecules under a shared semantic `<legend>`, enforcing consistent vertical spacing and a clear visual boundary around the group.
+- Root element: `<fieldset>`. Non-polymorphic. `forwardRef<HTMLFieldSetElement, FieldsetProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, `style`, etc.
+- `legend` (required string) — group label text. Rendered as `<legend>` as first child of `<fieldset>` for correct AT announcement.
+- `spacing` (optional `"default" | "spacious"`, default `"default"`) — `"default"` → `--space-4` gap between fields; `"spacious"` → `--space-6`.
+- `bordered` (optional boolean, default `false`) — adds `--surface` background, `--hairline` border, `--radius-3` corners, `--space-8` block / `--space-6` inline padding.
+- `legendTone` (optional `"default" | "muted"`, default `"default"`) — `"muted"` renders legend in `--fg-muted` for secondary sections.
+- `disabled` (optional boolean, default `false`) — maps to native `<fieldset disabled>`, propagating disabled state to all descendant form controls automatically.
+- `children` (required ReactNode) — `<Field>` or `<FormRow>` molecules.
+- A11y: native `<fieldset>` + `<legend>` provides `role="group"` with accessible name — no `aria-labelledby` needed. `<legend>` must remain first child.
+- Layout: fields container is `display: flex; flex-direction: column; gap: var(--space-4)` (default) or `var(--space-6)` (spacious).
+- Legend typography: `--fs-meta`, `font-weight: 500`, `--fg` (or `--fg-muted` when `legendTone="muted"`), `--lh-meta`, `margin-bottom: var(--space-1)`.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg`, `--fg-muted`, `--surface`, `--hairline`, `--hairline-w`, `--radius-3`, `--space-1`, `--space-4`, `--space-6`, `--space-8`.
+- Do NOT use Fieldset for a single `<Field>` — no semantic benefit.
+- Do NOT use Fieldset as a general-purpose bordered box for non-form content.
+- Do NOT use Fieldset as a page section (`<Section>`) or heading replacement.
+
+```tsx
+// (a) Billing address group:
+<Fieldset legend="Billing address">
+  <Field label="Street" id="street"><Input /></Field>
+  <Field label="City" id="city"><Input /></Field>
+  <Field label="Postal code" id="postal"><Input /></Field>
+</Fieldset>
+
+// (b) Bordered payment block:
+<Fieldset legend="Payment details" bordered spacing="spacious">
+  <Field label="Card number" id="card"><Input /></Field>
+  <Field label="Expiry" id="expiry"><Input /></Field>
+</Fieldset>
+
+// (c) Disabled group (all fields disabled automatically):
+<Fieldset legend="Shipping address" disabled>
+  <Field label="Street" id="street"><Input /></Field>
+</Fieldset>
+```
+
+
+### Breadcrumb
+- Hierarchical location trail molecule. Renders the route path back through nested dashboard and product pages.
+- Root element: `<nav aria-label="Breadcrumb">`. `forwardRef<HTMLElement, BreadcrumbProps>`. `...rest` spread. `displayName = "Breadcrumb"`.
+- Contains an `<ol>` of `<li>` items with presentational `aria-hidden="true"` separator `<li>` elements interspersed.
+- Two usage patterns: compound `<Breadcrumb.Item>` children (preferred) or data-driven `items` prop array.
+- `items` (optional `Array<{ href?: string; label: ReactNode; current?: boolean }>`) — data-driven path. Mutually exclusive with compound children.
+- `children` (optional `ReactNode`) — compound `<Breadcrumb.Item>` nodes.
+- `separator` (optional `ReactNode`, default `"›"`) — rendered between items; each separator `<li>` carries `aria-hidden="true"`.
+- `className` (optional string) — layout override passthrough to root `<nav>`.
+- `Breadcrumb.Item` sub-component: `href` (optional string), `current` (optional boolean), `children` (required ReactNode). When `current` is true: plain `<span>`, `aria-current="page"` on the `<li>`, no link.
+- A11y: `<nav aria-label="Breadcrumb">` = distinct navigation landmark. `<ol>` = ordered hierarchy. `aria-current="page"` on current item. Separators `aria-hidden="true"`. Ancestor links have visible text accessible name.
+- Tokens: `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg-muted` (ancestor link rest), `--fg` (current item), `--accent` (hover color + focus ring), `--hairline` (separator + link underline), `--hairline-w`, `--space-2` (gap), `--dur-fast`, `--dur-mid`, `--easing`, `--easing-link`, `--radius-1`.
+- Static presentational. No state. No JS-driven truncation in v1.
+- Do NOT link the current (last) item — it is always plain text.
+- Do NOT use for tab navigation or wizard steps — use `Tabs` or `Stepper`.
+- Do NOT render when depth < 2 (single-item trail has no navigational value).
+
+```tsx
+// (a) Compound — 3-level trail:
+<Breadcrumb>
+  <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
+  <Breadcrumb.Item href="/dashboard/pages">Pages</Breadcrumb.Item>
+  <Breadcrumb.Item current>Settings</Breadcrumb.Item>
+</Breadcrumb>
+
+// (b) Data-driven alias:
+<Breadcrumb
+  items={[
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/dashboard/pages", label: "Pages" },
+    { label: "Settings", current: true },
+  ]}
+/>
+
+// (c) Custom separator:
+<Breadcrumb separator="/">
+  <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
+  <Breadcrumb.Item current>Settings</Breadcrumb.Item>
+</Breadcrumb>
+```
+```

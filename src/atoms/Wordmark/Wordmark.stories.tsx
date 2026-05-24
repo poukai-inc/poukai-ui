@@ -2,7 +2,7 @@ import type { Story } from "@ladle/react";
 import { Wordmark } from "./Wordmark";
 
 export default {
-  title: "Components / Wordmark",
+  title: "Atoms / Wordmark",
 };
 
 export const Default: Story = () => <Wordmark height={80} />;

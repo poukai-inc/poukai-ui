@@ -52,6 +52,7 @@ import { NavLink } from "./molecules/NavLink";
 import { StatList } from "./molecules/StatList";
 import { Caption } from "./molecules/Caption";
 import { Byline } from "./molecules/Byline";
+import { Stepper } from "./molecules/Stepper";
 import { SearchField } from "./molecules/SearchField";
 import { LinkList } from "./molecules/LinkList";
 import { MetaList } from "./molecules/MetaList";
@@ -954,6 +955,29 @@ test("a11y — Portrait (lazy default, eager above-fold)", async ({ mount, page 
         fetchPriority="high"
       />
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Stepper (middle step active)", async ({ mount, page }) => {
+  await mount(
+    <Stepper
+      steps={[{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }]}
+      current={1}
+      aria-label="Onboarding steps"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Stepper (size='sm', labels hidden)", async ({ mount, page }) => {
+  await mount(
+    <Stepper
+      steps={[{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }]}
+      current={0}
+      size="sm"
+      aria-label="Checkout progress"
+    />,
   );
   await expectAxeClean(page);
 });

@@ -100,6 +100,7 @@ export default defineConfig({
               "molecules/RoleCard": resolve(__dirname, "src/molecules/RoleCard/index.ts"),
               "molecules/Section": resolve(__dirname, "src/molecules/Section/index.ts"),
               "molecules/Statement": resolve(__dirname, "src/molecules/Statement/index.ts"),
+              "molecules/MetaList": resolve(__dirname, "src/molecules/MetaList/index.ts"),
               "molecules/TagList": resolve(__dirname, "src/molecules/TagList/index.ts"),
               "molecules/TeamCard": resolve(__dirname, "src/molecules/TeamCard/index.ts"),
               "molecules/NavLink": resolve(__dirname, "src/molecules/NavLink/index.ts"),

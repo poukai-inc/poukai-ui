@@ -260,6 +260,11 @@
       "import": "./dist/molecules/Statement.js",
       "require": "./dist/molecules/Statement.cjs"
     },
+    "./molecules/MetaList": {
+      "types": "./dist/molecules/MetaList.d.ts",
+      "import": "./dist/molecules/MetaList.js",
+      "require": "./dist/molecules/MetaList.cjs"
+    },
     "./molecules/TagList": {
       "types": "./dist/molecules/TagList.d.ts",
       "import": "./dist/molecules/TagList.js",

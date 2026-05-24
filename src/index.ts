@@ -123,6 +123,7 @@ export {
   type CtaBlockHeadingAs,
 } from "./molecules/CtaBlock";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
+export { MetaList, type MetaListProps, type MetaListItem } from "./molecules/MetaList";
 export { TagList, type TagListProps } from "./molecules/TagList/index.js";
 
 export { NavLink, type NavLinkProps } from "./molecules/NavLink";

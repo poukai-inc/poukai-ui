@@ -52,6 +52,7 @@ import { NavLink } from "./molecules/NavLink";
 import { StatList } from "./molecules/StatList";
 import { Caption } from "./molecules/Caption";
 import { Byline } from "./molecules/Byline";
+import { MetaList } from "./molecules/MetaList";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -1609,6 +1610,19 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
   await expectAxeClean(page);
 });
 
+test("a11y — MetaList (stacked, no dividers)", async ({ mount, page }) => {
+  await mount(
+    <MetaList
+      items={[
+        { label: "Published", value: "2026-05-22" },
+        { label: "Reading time", value: "6 min" },
+        { label: "Author", value: "Arian Zargaran" },
+      ]}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — NavLink (rest + active)", async ({ mount, page }) => {
   await mount(
     <nav aria-label="Primary">
@@ -1617,6 +1631,21 @@ test("a11y — NavLink (rest + active)", async ({ mount, page }) => {
         Work
       </NavLink>
     </nav>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — MetaList (horizontal, dividers)", async ({ mount, page }) => {
+  await mount(
+    <MetaList
+      orientation="horizontal"
+      labelWidth="8rem"
+      dividers
+      items={[
+        { label: "Version", value: "2.1.0" },
+        { label: "License", value: "MIT" },
+      ]}
+    />,
   );
   await expectAxeClean(page);
 });

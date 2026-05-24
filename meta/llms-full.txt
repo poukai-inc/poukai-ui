@@ -1775,6 +1775,14 @@ ADR-0009: Horizontal lockup is canonical. Stacked for square-format only.
 ADR-0010: Proposal-loop architecture. proposal:approved label is a human gate.
 ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 1184 290.
 
+### NewsletterField
+
+- Inline email + submit molecule. Native `<form>` with `Input type="email" required` and `Button type="submit"`. Supports controlled (`value` + `onValueChange`) and uncontrolled use. Optional `action` attribute for native form POST.
+- Composes Input (atom), Button (atom). Root is `<form>` — `forwardRef<HTMLFormElement, NewsletterFieldProps>`. `...rest` spread to root.
+- Tokens: `--space-2`/`--space-3` for gap, `--font-sans` for type. No new tokens.
+- Recommended usage: footer newsletter signup, end-of-post signup, launch waitlist. The most common inline-form pattern; ship NewsletterField before the broader form layer.
+- Do NOT use as a generic form wrapper — that is `<Form>` (organism). NewsletterField is single-purpose.
+
 ### SearchField
 
 Molecule. Canonical table-filter and dashboard-search primitive.

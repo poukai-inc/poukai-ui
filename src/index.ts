@@ -124,6 +124,11 @@ export {
 } from "./molecules/CtaBlock";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
 export {
+  NewsletterField,
+  type NewsletterFieldProps,
+  type NewsletterFieldSize,
+} from "./molecules/NewsletterField";
+export {
   Stepper,
   type StepperProps,
   type StepperOrientation,

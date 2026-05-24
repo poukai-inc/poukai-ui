@@ -65,6 +65,7 @@ import { IconButtonVariantFixture } from "./atoms/IconButton/IconButton.fixtures
 import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
+import { NewsletterField } from "./molecules/NewsletterField";
 import { CtaBlock } from "./molecules/CtaBlock";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
@@ -1633,6 +1634,26 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
   );
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField (default)", async ({ mount, page }) => {
+  await mount(<NewsletterField />);
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField with note slot", async ({ mount, page }) => {
+  await mount(<NewsletterField note="No spam. Unsubscribe any time." />);
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField disabled", async ({ mount, page }) => {
+  await mount(<NewsletterField disabled />);
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField size=md with custom cta", async ({ mount, page }) => {
+  await mount(<NewsletterField size="md" cta="Get early access" />);
   await expectAxeClean(page);
 });
 

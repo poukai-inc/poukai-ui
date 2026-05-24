@@ -182,8 +182,12 @@ test("section landmark has aria-labelledby pointing at text column", async ({ mo
   const component = await mount(<HeroSection {...defaultProps} />);
   const labelledById = await component.getAttribute("aria-labelledby");
   expect(labelledById).toBeTruthy();
-  // The referenced element should exist and contain the title
-  const labeled = component.locator(`#${CSS.escape(labelledById!)}`);
+  // The referenced element should exist and contain the title.
+  // Use an attribute selector instead of `#id` + `CSS.escape` because
+  // `CSS` is a browser global and is not defined in the Node test runner.
+  // React's `useId()` generates ids containing `:`, so a raw `#${id}` selector
+  // is invalid CSS — `[id="..."]` sidesteps the escaping requirement entirely.
+  const labeled = component.locator(`[id="${labelledById}"]`);
   await expect(labeled).toBeVisible();
   await expect(labeled).toContainText("Technical consulting for teams.");
 });

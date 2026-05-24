@@ -46,7 +46,7 @@ const sampleIllustration = (
 );
 
 export default {
-  title: "Components / Hero",
+  title: "Molecules / Hero",
   args: {
     align: "start",
     size: "display",

@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Stat, type StatAlign, type StatSize } from "./Stat";
 
 export default {
-  title: "Components / Stat",
+  title: "Atoms / Stat",
   args: {
     value: "85%",
     caption: "of teams adopting AI plateau at pilot.",

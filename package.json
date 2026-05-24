@@ -1,6 +1,6 @@
 {
   "name": "@poukai-inc/ui",
-  "version": "2.2.0",
+  "version": "2.6.0",
   "description": "Poukai design system — React component library, design tokens, and brand assets.",
   "license": "SEE LICENSE IN LICENSE",
   "publishConfig": {
@@ -195,6 +195,11 @@
       "import": "./dist/molecules/Byline.js",
       "require": "./dist/molecules/Byline.cjs"
     },
+    "./molecules/Stepper": {
+      "types": "./dist/molecules/Stepper.d.ts",
+      "import": "./dist/molecules/Stepper.js",
+      "require": "./dist/molecules/Stepper.cjs"
+    },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
       "import": "./dist/molecules/FailureMode.js",
@@ -224,6 +229,11 @@
       "types": "./dist/molecules/LinkCard.d.ts",
       "import": "./dist/molecules/LinkCard.js",
       "require": "./dist/molecules/LinkCard.cjs"
+    },
+    "./molecules/LinkList": {
+      "types": "./dist/molecules/LinkList.d.ts",
+      "import": "./dist/molecules/LinkList.js",
+      "require": "./dist/molecules/LinkList.cjs"
     },
     "./molecules/Portrait": {
       "types": "./dist/molecules/Portrait.d.ts",
@@ -260,6 +270,11 @@
       "import": "./dist/molecules/Statement.js",
       "require": "./dist/molecules/Statement.cjs"
     },
+    "./molecules/MetaList": {
+      "types": "./dist/molecules/MetaList.d.ts",
+      "import": "./dist/molecules/MetaList.js",
+      "require": "./dist/molecules/MetaList.cjs"
+    },
     "./molecules/TagList": {
       "types": "./dist/molecules/TagList.d.ts",
       "import": "./dist/molecules/TagList.js",
@@ -274,6 +289,56 @@
       "types": "./dist/molecules/FormRow.d.ts",
       "import": "./dist/molecules/FormRow.js",
       "require": "./dist/molecules/FormRow.cjs"
+    },
+    "./molecules/TimelineItem": {
+      "types": "./dist/molecules/TimelineItem.d.ts",
+      "import": "./dist/molecules/TimelineItem.js",
+      "require": "./dist/molecules/TimelineItem.cjs"
+    },
+    "./molecules/NewsletterField": {
+      "types": "./dist/molecules/NewsletterField.d.ts",
+      "import": "./dist/molecules/NewsletterField.js",
+      "require": "./dist/molecules/NewsletterField.cjs"
+    },
+    "./molecules/SearchField": {
+      "types": "./dist/molecules/SearchField.d.ts",
+      "import": "./dist/molecules/SearchField.js",
+      "require": "./dist/molecules/SearchField.cjs"
+    },
+    "./molecules/NavLink": {
+      "types": "./dist/molecules/NavLink.d.ts",
+      "import": "./dist/molecules/NavLink.js",
+      "require": "./dist/molecules/NavLink.cjs"
+    },
+    "./molecules/CtaBlock": {
+      "types": "./dist/molecules/CtaBlock.d.ts",
+      "import": "./dist/molecules/CtaBlock.js",
+      "require": "./dist/molecules/CtaBlock.cjs"
+    },
+    "./molecules/StatList": {
+      "types": "./dist/molecules/StatList.d.ts",
+      "import": "./dist/molecules/StatList.js",
+      "require": "./dist/molecules/StatList.cjs"
+    },
+    "./molecules/Caption": {
+      "types": "./dist/molecules/Caption.d.ts",
+      "import": "./dist/molecules/Caption.js",
+      "require": "./dist/molecules/Caption.cjs"
+    },
+    "./molecules/Fieldset": {
+      "types": "./dist/molecules/Fieldset.d.ts",
+      "import": "./dist/molecules/Fieldset.js",
+      "require": "./dist/molecules/Fieldset.cjs"
+    },
+    "./molecules/Breadcrumb": {
+      "types": "./dist/molecules/Breadcrumb.d.ts",
+      "import": "./dist/molecules/Breadcrumb.js",
+      "require": "./dist/molecules/Breadcrumb.cjs"
+    },
+    "./organisms/HeroSection": {
+      "types": "./dist/organisms/HeroSection.d.ts",
+      "import": "./dist/organisms/HeroSection.js",
+      "require": "./dist/organisms/HeroSection.cjs"
     },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",

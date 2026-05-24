@@ -1,0 +1,91 @@
+/* ============================================================
+   Breadcrumb — hierarchical location trail molecule
+   ============================================================ */
+
+/* ---------- Root (nav) ---------- */
+
+.root {
+  /* No intrinsic padding — consumer controls placement. */
+}
+
+/* ---------- List (ol) ---------- */
+
+.list {
+  /* Reset UA list styles. */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  /* Horizontal flex row. Items and separators sit in a single line. */
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 var(--space-2);
+
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+}
+
+/* ---------- Item (li) ---------- */
+
+.item {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ---------- Ancestor link (a) ---------- */
+
+.link {
+  color: var(--fg-muted);
+  text-decoration: none;
+
+  /* Hover color transition */
+  transition: color var(--dur-fast) var(--easing);
+
+  /* Underline: resting hairline underline, grows to accent on hover.
+     Mirrors the global <a> pattern from tokens.css. */
+  background-image:
+    linear-gradient(var(--hairline), var(--hairline)), linear-gradient(var(--accent), var(--accent));
+  background-size:
+    100% var(--hairline-w),
+    0% var(--hairline-w);
+  background-repeat: no-repeat;
+  background-position:
+    0 100%,
+    0 100%;
+  padding-bottom: 1px;
+  transition:
+    color var(--dur-fast) var(--easing),
+    background-size var(--dur-mid) var(--easing-link);
+}
+
+.link:hover {
+  color: var(--accent);
+  background-size:
+    0% var(--hairline-w),
+    100% var(--hairline-w);
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}
+
+/* ---------- Current item (span) ---------- */
+
+.current {
+  color: var(--fg);
+  /* Not a link — no underline, no hover state. */
+}
+
+/* ---------- Separator (li) ---------- */
+
+.separator {
+  /* Presentational only. aria-hidden="true" on the element. */
+  color: var(--hairline);
+  display: inline-flex;
+  align-items: center;
+  user-select: none;
+}

@@ -1112,6 +1112,7 @@ import { Sidebar } from "./organisms/Sidebar";
 import { CTASection } from "./organisms/CTASection";
 import { NewsletterSection } from "./organisms/NewsletterSection";
 import { AnnouncementBar } from "./organisms/AnnouncementBar";
+import { Header } from "./organisms/Header";
 
 /* ---------- organisms ---------- */
 
@@ -1129,9 +1130,21 @@ test("a11y — Sidebar (grouped sections, active link)", async ({ mount, page })
         <LinkList.Item href="/docs/heading">Heading</LinkList.Item>
       </Sidebar.Group>
     </Sidebar>,
-import { Header } from "./organisms/Header";
+  );
+  await expectAxeClean(page);
+});
 
-/* ---------- organisms ---------- */
+test("a11y — Sidebar (no group headings)", async ({ mount, page }) => {
+  await mount(
+    <Sidebar>
+      <Sidebar.Group>
+        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+        <LinkList.Item href="/docs/install">Installation</LinkList.Item>
+      </Sidebar.Group>
+    </Sidebar>,
+  );
+  await expectAxeClean(page);
+});
 
 test("a11y — Header (default, brand only)", async ({ mount, page }) => {
   await mount(<Header homeHref="/" />);
@@ -1164,14 +1177,6 @@ test("a11y — Header (with nav and actions)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
-test("a11y — Sidebar (no group headings)", async ({ mount, page }) => {
-  await mount(
-    <Sidebar>
-      <Sidebar.Group>
-        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
-        <LinkList.Item href="/docs/install">Installation</LinkList.Item>
-      </Sidebar.Group>
-    </Sidebar>,
 test("a11y — Header (sticky + constrained)", async ({ mount, page }) => {
   await mount(
     <Header homeHref="/" sticky constrained>

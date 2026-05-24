@@ -270,6 +270,11 @@
       "import": "./dist/molecules/TeamCard.js",
       "require": "./dist/molecules/TeamCard.cjs"
     },
+    "./molecules/CtaBlock": {
+      "types": "./dist/molecules/CtaBlock.d.ts",
+      "import": "./dist/molecules/CtaBlock.js",
+      "require": "./dist/molecules/CtaBlock.cjs"
+    },
     "./molecules/StatList": {
       "types": "./dist/molecules/StatList.d.ts",
       "import": "./dist/molecules/StatList.js",

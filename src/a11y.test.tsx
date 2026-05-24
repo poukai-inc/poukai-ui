@@ -60,6 +60,7 @@ import { IconButtonVariantFixture } from "./atoms/IconButton/IconButton.fixtures
 import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
+import { CtaBlock } from "./molecules/CtaBlock";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
 
@@ -817,6 +818,46 @@ test("a11y — FeatureCard (as='li' inside ul)", async ({ mount, page }) => {
     <ul style={{ listStyle: "none", padding: 0 }}>
       <FeatureCard as="li" title="List feature" body="Feature description copy." />
     </ul>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — CtaBlock (stacked, with body)", async ({ mount, page }) => {
+  await mount(
+    <CtaBlock
+      heading="Ready to start?"
+      body="We work with senior-only teams who'd rather ship than speculate."
+      actions={<button type="button">Get a demo</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — CtaBlock (horizontal, center-aligned, two actions)", async ({ mount, page }) => {
+  await mount(
+    <CtaBlock
+      orientation="horizontal"
+      align="center"
+      heading="Interested in working together?"
+      body="Senior-only teams. Production from day one."
+      actions={
+        <>
+          <button type="button">Start a project</button>
+          <button type="button">Learn more</button>
+        </>
+      }
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — CtaBlock (no body, headingAs=h3)", async ({ mount, page }) => {
+  await mount(
+    <CtaBlock
+      headingAs="h3"
+      heading="Section closing moment."
+      actions={<button type="button">Act</button>}
+    />,
   );
   await expectAxeClean(page);
 });

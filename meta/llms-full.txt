@@ -1072,6 +1072,42 @@ import { Icon } from "@poukai-inc/ui";
 </Banner>
 ```
 
+### CtaBlock
+- Heading + body + action row molecule. The reusable inline conversion moment — "Ready to start? [Get a demo]" pattern.
+- Root element: `<div>`. `forwardRef<HTMLDivElement, CtaBlockProps>`. `...rest` spread. `displayName = "CtaBlock"`.
+- `heading` (required `ReactNode`) — primary CTA text. Rendered as `headingAs` element.
+- `headingAs` (optional `"h1" | "h2" | "h3"`, default `"h2"`) — semantic heading level. `h2` is correct below a Hero `h1`; override for nested contexts.
+- `body` (optional `ReactNode`) — supporting paragraph. Absent: heading jumps to actions with `--space-8` gap instead of `--space-6`.
+- `actions` (required `ReactNode`) — the CTA button(s). Consumer owns Button composition; CtaBlock provides the slot container and spacing.
+- `orientation` (optional `"stacked" | "horizontal"`, default `"stacked"`) — `stacked` stacks vertically; `horizontal` puts heading+body left, actions trailing-aligned (collapses to stacked below `--bp-md`).
+- `align` (optional `"start" | "center"`, default `"start"`) — `start` matches brand's left-aligned register; `center` for symmetrical moments (e.g. full-bleed CTASection).
+- No background, no border, no padding — NOT a card, NOT a section, NOT a Hero replacement.
+- A11y: heading element determined by `headingAs`; consumer maintains correct heading hierarchy. No ARIA wrapper on root or actions slot.
+- Tokens consumed: `--font-serif`, `--fs-h2`, `--font-sans`, `--fs-body`, `--lh-body`, `--fg`, `--fg-muted`, `--space-2`, `--space-6`, `--space-8`, `--bp-md`. Zero new tokens.
+- For end-of-page placement, compose inside `CTASection` (organism) — CtaBlock has no block padding of its own.
+
+```tsx
+// (a) Stacked default:
+<CtaBlock
+  heading="Ready to start?"
+  body="We work with senior-only teams who'd rather ship than speculate."
+  actions={<Button variant="primary">Get a demo</Button>}
+/>
+
+// (b) Horizontal — heading+body left, action right:
+<CtaBlock
+  orientation="horizontal"
+  heading="Interested in working together?"
+  body="Senior-only teams. Production from day one."
+  actions={<Button variant="primary">hello@pouk.ai</Button>}
+/>
+
+// (c) No body (heading jumps directly to actions with --space-8 gap):
+<CtaBlock
+  heading="Interested in working together?"
+  actions={<Button variant="primary" asChild><a href="mailto:hello@pouk.ai">hello@pouk.ai</a></Button>}
+/>
+```
 
 ### Byline
 - Single-author article attribution molecule. The horizontal "by Jane Doe · Editor · May 21, 2026 · 6 min read" row that appears directly below article headings or blog post titles.

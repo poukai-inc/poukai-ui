@@ -2850,6 +2850,33 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 <CodeBlock language="tsx" caption="src/components/Example.tsx">
   {`const x = 1;`}
 </CodeBlock>
+### Carousel
+- Scroll-snap compound slide container molecule for sequencing discrete content panels horizontally.
+- Root element: `<section aria-roledescription="carousel">`. `forwardRef<HTMLElement, CarouselRootProps>`. `...rest` spread. `displayName = "Carousel.Root"`.
+- Compound API: `Carousel.Root` / `Carousel.Track` / `Carousel.Slide` / `Carousel.Prev` / `Carousel.Next` / `Carousel.Indicators`.
+- `autoplay` (boolean, default `false`) — auto-advance slides every 4 000 ms. Never starts under `prefers-reduced-motion: reduce`. Pauses on `:hover` and `:focus-within`.
+- `loop` (boolean, default `false`) — wrap-around navigation. When false, Prev is `disabled` on first slide, Next is `disabled` on last.
+- `slidesVisible` (number, default `1`) — number of slides in the viewport at once.
+- `gap` (string, default `"var(--space-4)"`) — inter-slide gap passed as CSS custom property `--carousel-gap`.
+- `indicators` (boolean, default `true`) — show `Carousel.Indicators` dot row.
+- `Carousel.Track`: `<ul tabIndex={0}>` with `scroll-snap-type: x mandatory`, `overscroll-behavior-x: contain`. Focusable for keyboard scroll.
+- `Carousel.Slide`: `<li aria-roledescription="slide" aria-label="Slide N of M">`. `scroll-snap-align: start`. 100% track width.
+- `Carousel.Prev` / `Carousel.Next`: `<IconButton>` (ghost, md) with `ChevronLeft` / `ChevronRight`. Disabled + `aria-disabled` when at boundary (loop=false).
+- `Carousel.Indicators`: `<div role="tablist" aria-label="Slide indicators">`. Each dot: `<button role="tab" aria-selected aria-label="Slide N of M" aria-controls>`. Arrow-key navigation within tablist.
+- Live region: `<VisuallyHidden as="div" aria-live="polite" aria-atomic="true">` announces current slide on change.
+- Tokens: `--bg`, `--surface`, `--fg`, `--fg-muted`, `--accent`, `--hairline`, `--hairline-w`, `--space-2`, `--space-4`, `--space-8`, `--radius-1`, `--radius-3`, `--dur-fast`, `--easing`.
+- Motion: `scroll-behavior: smooth` under `prefers-reduced-motion: no-preference`; `auto` under reduce.
+
+```tsx
+<Carousel.Root aria-label="Feature highlights">
+  <Carousel.Prev />
+  <Carousel.Track>
+    <Carousel.Slide>Slide one content</Carousel.Slide>
+    <Carousel.Slide>Slide two content</Carousel.Slide>
+  </Carousel.Track>
+  <Carousel.Next />
+  <Carousel.Indicators />
+</Carousel.Root>
 ```
 
 ### PricingTable

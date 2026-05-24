@@ -425,6 +425,11 @@
       "import": "./dist/molecules/PriceTier.js",
       "require": "./dist/molecules/PriceTier.cjs"
     },
+    "./molecules/Carousel": {
+      "types": "./dist/molecules/Carousel.d.ts",
+      "import": "./dist/molecules/Carousel.js",
+      "require": "./dist/molecules/Carousel.cjs"
+    },
     "./molecules/CodeBlock": {
       "types": "./dist/molecules/CodeBlock.d.ts",
       "import": "./dist/molecules/CodeBlock.js",

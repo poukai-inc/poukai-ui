@@ -2051,6 +2051,37 @@ Anti-patterns: single Stat, non-Stat children, nested StatLists, status indicato
 </Fieldset>
 ```
 
+### Tooltip
+
+- System hover-hint primitive. Wraps `@radix-ui/react-tooltip` for portal rendering, auto-flip, delay, and keyboard semantics (focus opens, Escape closes).
+- Two usage forms: (1) shorthand `<Tooltip content="label"><trigger /></Tooltip>` and (2) compound `<Tooltip.Root>` / `<Tooltip.Trigger>` / `<Tooltip.Content>`.
+- `TooltipProvider` wraps the app root once; controls `delayDuration` (default 700ms) and `skipDelayDuration` (default 300ms) globally.
+- `Tooltip.Trigger` is always `asChild` — no extra DOM node; composes onto any existing element.
+- `Tooltip.Content` is portalled via `<RadixTooltipPortal>` — renders above all layers. Radix assigns `role="tooltip"` and wires `aria-describedby` automatically.
+- Props: `content` (ReactNode, shorthand label), `side` (`"top"|"right"|"bottom"|"left"`, default `"top"`), `sideOffset` (number px, default `6`), `delayDuration` (number ms), `open`, `defaultOpen`, `onOpenChange`.
+- A11y: `role="tooltip"` on Content, `aria-describedby` from trigger wired by Radix. Trigger must carry its own `aria-label` for icon-only buttons — Tooltip supplements but does not replace it. Non-interactive content only (no buttons/links inside).
+- Motion: fade + scale(0.96→1) on open; reverse on close. Duration: `--dur-fast` (180ms), easing: `--easing` (expo-out). Global `tokens.css` reduced-motion block clamps to 0.01ms — no per-component override needed.
+- Tokens: `--bg-elevated`, `--fg`, `--hairline`, `--hairline-w`, `--radius-2`, `--font-sans`, `--fs-meta`, `--lh-meta`, `--space-2`, `--space-3`, `--dur-fast`, `--easing`.
+- Do NOT put interactive content (buttons, links, inputs) inside Tooltip — use Popover. Do NOT use as the sole label for a control. Do NOT use for long-form content (>80 chars).
+
+```tsx
+// Shorthand form (common icon-button case):
+<TooltipProvider>
+  <Tooltip content="Settings">
+    <IconButton aria-label="Settings"><Settings /></IconButton>
+  </Tooltip>
+</TooltipProvider>
+
+// Compound form (full control):
+<TooltipProvider>
+  <Tooltip.Root delayDuration={0}>
+    <Tooltip.Trigger><button>Hover me</button></Tooltip.Trigger>
+    <Tooltip.Content side="bottom">Custom label</Tooltip.Content>
+  </Tooltip.Root>
+</TooltipProvider>
+```
+
+
 ### Figure
 - Semantic pairing molecule for an image (or Portrait) and its caption. Wraps a media slot and an optional `<figcaption>` inside a `<figure>` element.
 - Root element: `<figure>`. Non-polymorphic. `forwardRef<HTMLElement, FigureProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, `style`, etc.

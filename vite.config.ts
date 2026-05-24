@@ -85,6 +85,7 @@ export default defineConfig({
               "atoms/TimePicker": resolve(__dirname, "src/atoms/TimePicker/index.ts"),
               "atoms/VisuallyHidden": resolve(__dirname, "src/atoms/VisuallyHidden/index.ts"),
               "atoms/Wordmark": resolve(__dirname, "src/atoms/Wordmark/index.ts"),
+              "atoms/Tooltip": resolve(__dirname, "src/atoms/Tooltip/index.ts"),
               "molecules/Alert": resolve(__dirname, "src/molecules/Alert/index.ts"),
               "molecules/Banner": resolve(__dirname, "src/molecules/Banner/index.ts"),
               "molecules/CtaBlock": resolve(__dirname, "src/molecules/CtaBlock/index.ts"),

@@ -89,6 +89,15 @@ export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Texta
 export { Radio, RadioGroup, type RadioProps, type RadioGroupProps } from "./atoms/Radio";
 export { TimePicker, type TimePickerProps, type TimePickerSize } from "./atoms/TimePicker";
 
+export {
+  Tooltip,
+  TooltipProvider,
+  type TooltipProps,
+  type TooltipProviderProps,
+  type TooltipRootProps,
+  type TooltipTriggerProps,
+  type TooltipContentProps,
+} from "./atoms/Tooltip";
 /* ---------- molecules ---------- */
 export {
   Hero,

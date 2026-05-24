@@ -76,4 +76,13 @@ export { Input, type InputProps, type InputSize } from "./atoms/Input";
 export { Select, type SelectProps, type SelectSize } from "./atoms/Select";
 export { Checkbox, type CheckboxProps, type CheckboxCheckedState } from "./atoms/Checkbox";
 export { Switch, type SwitchProps } from "./atoms/Switch";
+export {
+  Tooltip,
+  TooltipProvider,
+  type TooltipProps,
+  type TooltipProviderProps,
+  type TooltipRootProps,
+  type TooltipTriggerProps,
+  type TooltipContentProps,
+} from "./atoms/Tooltip";
 export { TimePicker, type TimePickerProps, type TimePickerSize } from "./atoms/TimePicker";

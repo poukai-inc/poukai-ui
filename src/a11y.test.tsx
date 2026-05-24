@@ -101,6 +101,7 @@ import { EmptyState } from "./molecules/EmptyState";
 import { TimePicker } from "./atoms/TimePicker";
 import { TestimonialBlock } from "./organisms/TestimonialBlock";
 import { ContactBlock } from "./organisms/ContactBlock";
+import { BlogPostCard } from "./organisms/BlogPostCard";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2686,6 +2687,20 @@ test("a11y — TimePicker (default, with label)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- BlogPostCard ---------- */
+
+test("a11y — BlogPostCard (text only)", async ({ mount, page }) => {
+  await mount(
+    <BlogPostCard
+      href="/blog/test-post"
+      title="Shipping with AI"
+      lede="How we closed the gap between pilot and production."
+      byline={<Byline name="Arian Zargaran" publishedAt="2024-06-01" readTime="5 min read" />}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — TimePicker (invalid, with label)", async ({ mount, page }) => {
   await mount(
     <div>
@@ -2696,12 +2711,47 @@ test("a11y — TimePicker (invalid, with label)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — BlogPostCard (with cover and tags)", async ({ mount, page }) => {
+  await mount(
+    <BlogPostCard
+      href="/blog/design-systems"
+      title="Design Systems at Scale"
+      lede="Token-first component architecture for teams shipping across multiple surfaces."
+      byline={<Byline name="Arian Zargaran" publishedAt="2024-04-15" readTime="7 min read" />}
+      tags={
+        <TagList>
+          <Tag>Design Systems</Tag>
+          <Tag>Tokens</Tag>
+        </TagList>
+      }
+      cover={{
+        src: "https://picsum.photos/seed/a11y-cover/960/540",
+        alt: "Design token graph illustration",
+      }}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
   await mount(
     <div>
       <label htmlFor="a11y-tp-dis">Start time</label>
       <TimePicker id="a11y-tp-dis" disabled />
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — BlogPostCard (tone=subtle)", async ({ mount, page }) => {
+  await mount(
+    <BlogPostCard
+      href="/blog/observability"
+      title="Observability for AI Systems"
+      lede="Tracing and alerting patterns that work when behavior is non-deterministic."
+      byline={<Byline name="Arian Zargaran" publishedAt="2024-03-12" />}
+      tone="subtle"
+    />,
   );
   await expectAxeClean(page);
 });

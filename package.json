@@ -300,6 +300,11 @@
       "import": "./dist/organisms/SiteShell.js",
       "require": "./dist/organisms/SiteShell.cjs"
     },
+    "./organisms/RoleGrid": {
+      "types": "./dist/organisms/RoleGrid.d.ts",
+      "import": "./dist/organisms/RoleGrid.js",
+      "require": "./dist/organisms/RoleGrid.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",

@@ -61,6 +61,7 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import { RoleGrid } from "./organisms/RoleGrid";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1569,6 +1570,42 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RoleGrid (default three-column, with RoleCards)", async ({ mount, page }) => {
+  await mount(
+    <RoleGrid heading="Who it's for" eyebrow="Roles" columns={3}>
+      <RoleCard
+        eyebrow="Role 01"
+        title="Builder"
+        body="Ships production AI systems end-to-end."
+        hiredBy="Anthropic · Vercel"
+      />
+      <RoleCard
+        eyebrow="Role 02"
+        title="Operator"
+        body="Manages and scales running AI systems."
+        hiredBy="AWS · Datadog"
+      />
+      <RoleCard
+        eyebrow="Role 03"
+        title="Strategist"
+        body="Shapes an organisation's AI direction."
+        hiredBy="McKinsey · BCG"
+      />
+    </RoleGrid>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RoleGrid (surface=section)", async ({ mount, page }) => {
+  await mount(
+    <RoleGrid heading="Who it's for" surface="section" columns={2}>
+      <RoleCard eyebrow="Role 01" title="Builder" body="Ships production systems." />
+      <RoleCard eyebrow="Role 02" title="Operator" body="Manages running systems." />
+    </RoleGrid>,
   );
   await expectAxeClean(page);
 });

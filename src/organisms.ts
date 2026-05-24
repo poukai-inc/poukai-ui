@@ -39,3 +39,9 @@ export {
   type ToastPayload,
   type ToastTone,
 } from "./organisms/Toast";
+export {
+  RoleGrid,
+  type RoleGridProps,
+  type RoleGridColumns,
+  type RoleGridSurface,
+} from "./organisms/RoleGrid";

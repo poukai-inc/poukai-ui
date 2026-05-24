@@ -435,6 +435,11 @@
       "import": "./dist/organisms/SiteShell.js",
       "require": "./dist/organisms/SiteShell.cjs"
     },
+    "./organisms/RoleGrid": {
+      "types": "./dist/organisms/RoleGrid.d.ts",
+      "import": "./dist/organisms/RoleGrid.js",
+      "require": "./dist/organisms/RoleGrid.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",
@@ -530,22 +535,22 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "42 kB"
+      "limit": "60 kB"
     },
     {
       "name": "ESM — atoms subpath",
       "path": "dist/atoms.js",
-      "limit": "20 kB"
+      "limit": "28 kB"
     },
     {
       "name": "ESM — molecules subpath",
       "path": "dist/molecules.js",
-      "limit": "14 kB"
+      "limit": "38 kB"
     },
     {
       "name": "ESM — organisms subpath",
       "path": "dist/organisms.js",
-      "limit": "25 kB"
+      "limit": "28 kB"
     },
     {
       "name": "ESM — tree-shaken (Wordmark + Button)",

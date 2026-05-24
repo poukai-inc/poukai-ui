@@ -1850,6 +1850,20 @@ Precise, direct, technically confident. Never hedges, inflates, or reassures. No
 - Do NOT show more than `max` simultaneous toasts. The oldest is dropped automatically.
 - Do NOT use Toast for destructive confirmations — use `<Dialog>`.
 
+### RoleGrid
+- Section-framed organism. Arranges `RoleCard` molecules in a responsive CSS grid. Canonical usage: "who this is for" / "teams we serve" marketing pattern.
+- `heading` (required string) — Section h2. Names the audience group ("Who it's for").
+- `eyebrow` (optional string) — passed through to Section eyebrow slot.
+- `surface` (`"default"` | `"section"`, default `"default"`) — `"section"` applies `--surface-section` band background.
+- `columns` (`2 | 3 | 4`, default `3`) — max column count at `--bp-md` (768px) and above. Always 1 column below `--bp-md`.
+- `children` (required `ReactNode`) — `RoleCard` instances. Grid gap: `--space-6` mobile, `--space-8` at `--bp-md`+.
+- Outer `<section>` + `aria-labelledby` from Section. Grid container is a plain `<div>` — no ARIA role.
+- `forwardRef` to the Section root (`HTMLElement`). `className` and `data-*` spread to root.
+- Do NOT use RoleGrid for selectable options, team bios (use TeamGrid), or as the page's h1 source.
+- Do NOT nest RoleGrid inside another Section — double landmark nesting.
+- Do NOT force non-RoleCard children into the grid — sizing is calibrated for RoleCard proportions.
+
+
 ### Table
 - Semantic data-display primitive. Composable sub-components: `Table.Head` (`<thead>`), `Table.Body` (`<tbody>`), `Table.Row` (`<tr>`), `Table.HeaderCell` (`<th scope="col">`), `Table.Cell` (`<td>`).
 - Root element: `<table>`. `forwardRef<HTMLTableElement, TableProps>`. `...rest` spread on root. `border-collapse: collapse; width: 100%`.

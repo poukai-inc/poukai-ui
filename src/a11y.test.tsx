@@ -77,6 +77,7 @@ import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
+import { RoleGrid } from "./organisms/RoleGrid";
 import { ShareLinks } from "./molecules/ShareLinks";
 import { TableOfContents } from "./molecules/TableOfContents";
 import { PopoverA11yHarness } from "./molecules/Popover/__test_harness__";
@@ -1991,6 +1992,42 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RoleGrid (default three-column, with RoleCards)", async ({ mount, page }) => {
+  await mount(
+    <RoleGrid heading="Who it's for" eyebrow="Roles" columns={3}>
+      <RoleCard
+        eyebrow="Role 01"
+        title="Builder"
+        body="Ships production AI systems end-to-end."
+        hiredBy="Anthropic · Vercel"
+      />
+      <RoleCard
+        eyebrow="Role 02"
+        title="Operator"
+        body="Manages and scales running AI systems."
+        hiredBy="AWS · Datadog"
+      />
+      <RoleCard
+        eyebrow="Role 03"
+        title="Strategist"
+        body="Shapes an organisation's AI direction."
+        hiredBy="McKinsey · BCG"
+      />
+    </RoleGrid>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RoleGrid (surface=section)", async ({ mount, page }) => {
+  await mount(
+    <RoleGrid heading="Who it's for" surface="section" columns={2}>
+      <RoleCard eyebrow="Role 01" title="Builder" body="Ships production systems." />
+      <RoleCard eyebrow="Role 02" title="Operator" body="Manages running systems." />
+    </RoleGrid>,
   );
   await expectAxeClean(page);
 });

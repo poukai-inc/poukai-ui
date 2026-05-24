@@ -350,6 +350,11 @@
       "import": "./dist/molecules/Fieldset.js",
       "require": "./dist/molecules/Fieldset.cjs"
     },
+    "./molecules/Figure": {
+      "types": "./dist/molecules/Figure.d.ts",
+      "import": "./dist/molecules/Figure.js",
+      "require": "./dist/molecules/Figure.cjs"
+    },
     "./molecules/CopyButton": {
       "types": "./dist/molecules/CopyButton.d.ts",
       "import": "./dist/molecules/CopyButton.js",

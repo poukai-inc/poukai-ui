@@ -2019,6 +2019,37 @@ Anti-patterns: single Stat, non-Stat children, nested StatLists, status indicato
 </Fieldset>
 ```
 
+### Figure
+- Semantic pairing molecule for an image (or Portrait) and its caption. Wraps a media slot and an optional `<figcaption>` inside a `<figure>` element.
+- Root element: `<figure>`. Non-polymorphic. `forwardRef<HTMLElement, FigureProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, `style`, etc.
+- `children` (required ReactNode) — media content: `Portrait`, raw `<img>`, `CodeBlock`, or any block-level media. Figure does not constrain slot content.
+- `caption` (optional ReactNode) — shorthand caption rendered in `<figcaption>`. Omit when no caption needed.
+- `align` (optional `"start" | "center"`, default `"start"`) — caption text-alignment. `"start"` for inline editorial; `"center"` for standalone figure moments.
+- `className` (optional string) — merged onto root `<figure>`.
+- Compound API: `Figure.Caption` sub-component accepts `children: ReactNode` and `...rest` forwarded to `<figcaption>`. Use when caption content is richer than a plain string.
+- A11y: `<figure>` carries implicit `figure` ARIA role — no additional `role` needed. `<figcaption>` is automatically associated with parent `<figure>` by browsers. Media slot must supply its own `alt` text; Figure does not synthesise it.
+- Static. No hover, focus, or motion states.
+- Tokens consumed: `--font-sans`, `--fs-micro`, `--lh-meta`, `--tracking-micro`, `--fg-muted`, `--space-2`, `--space-4`.
+
+```tsx
+// (a) Shorthand caption:
+<Figure caption="Photographer: Jane Doe">
+  <img src="/photo.jpg" alt="Team at offsite, March 2024" />
+</Figure>
+
+// (b) Compound Caption sub-component:
+<Figure>
+  <img src="/photo.jpg" alt="Team at offsite" />
+  <Figure.Caption>Photo by <em>Jane Doe</em>, 2024.</Figure.Caption>
+</Figure>
+
+// (c) Centered caption for standalone figure moment:
+<Figure align="center" caption="Figure 1. Deployment cycle comparison.">
+  <img src="/chart.png" alt="Bar chart comparing deployment cycles" />
+</Figure>
+```
+
+
 ### CopyButton
 - Copy-to-clipboard button with transient success state. Surfaces inline on product pages — API key displays, code snippets, share URLs. Composes into `CodeBlock` as its built-in copy control.
 - Root element: `<button type="button">`. Non-polymorphic. `forwardRef<HTMLButtonElement, CopyButtonProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, etc.

@@ -74,6 +74,7 @@ import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
+import { Figure } from "./molecules/Figure";
 import { CopyButton } from "./molecules/CopyButton";
 import { Pagination } from "./molecules/Pagination";
 import { EmptyState } from "./molecules/EmptyState";
@@ -1976,6 +1977,24 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Figure (with caption)", async ({ mount, page }) => {
+  await mount(
+    <Figure caption="Photographer: Jane Doe">
+      <img src="https://placehold.co/400x300" alt="A placeholder image for axe testing" />
+    </Figure>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Figure (no caption)", async ({ mount, page }) => {
+  await mount(
+    <Figure>
+      <img src="https://placehold.co/400x300" alt="A placeholder image without a caption" />
+    </Figure>,
   );
   await expectAxeClean(page);
 });

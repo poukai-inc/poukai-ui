@@ -395,6 +395,11 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./molecules/PriceTier": {
+      "types": "./dist/molecules/PriceTier.d.ts",
+      "import": "./dist/molecules/PriceTier.js",
+      "require": "./dist/molecules/PriceTier.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

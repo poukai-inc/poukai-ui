@@ -122,3 +122,4 @@ export {
   type BreadcrumbItemProps,
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
+export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";

@@ -214,6 +214,7 @@ export {
   type BreadcrumbItemProps,
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
+export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";
 /* ---------- organisms ---------- */
 export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";

@@ -2276,6 +2276,33 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 </Breadcrumb>
 ```
 
+### ShareLinks
+- Compact share-action row for editorial surfaces (articles, case studies). Horizontal flex row of `IconButton` entries for X and LinkedIn, plus a `CopyButton` for copy-URL. Replaces the entire row with a single native-share button when `navigator.share` is available.
+- Root element: `<div role="group" aria-label="Share this article">`. `forwardRef<HTMLDivElement, ShareLinksProps>`. `...rest` spread. `displayName = "ShareLinks"`.
+- `url` (required string) — the URL to share or copy.
+- `title` (optional string, default `""`) — passed to `navigator.share` and pre-filled in intent URLs.
+- `networks` (optional `Array<"x" | "linkedin" | "copy">`, default `["x","linkedin","copy"]`) — which networks to show and in what order.
+- `size` (optional `"sm" | "md"`, default `"md"`) — maps to `IconButton` size prop.
+- `className` (optional string) — forwarded to root `<div>` for layout overrides.
+- Native share fast-path: when `navigator.share` is defined, renders a single `IconButton` (share icon, `aria-label="Share"`) that calls `navigator.share({ url, title })`; rejection (user cancel) is silently swallowed.
+- Network buttons: X → `window.open(xIntentUrl, "_blank", "noopener,noreferrer")`; LinkedIn → same with LinkedIn share URL. `aria-label` is `"Share on X"` / `"Share on LinkedIn"`.
+- Copy slot: `CopyButton` with `value={url}`, `label={false}`, `aria-label="Copy link"`. Success-state owned by `CopyButton`.
+- A11y: `role="group"` groups controls without adding a redundant landmark. Each button has an explicit `aria-label`. Icons are decorative (`aria-hidden`). `CopyButton` owns its own live-region announcement.
+- Tokens: `--space-2` (row gap), `--fg-muted` (icon rest), `--fg` (icon hover/focus), `--accent` (focus ring), `--dur-fast`, `--easing`, `--radius-1`, `--hairline-w` — all via `IconButton`.
+- Do NOT use in site headers, sidebars, or dashboards. Do NOT use for authenticated sharing flows. Do NOT use as a replacement for a standalone `CopyButton`.
+
+```tsx
+// (a) Default — all three networks:
+<ShareLinks url="https://poukai.com/blog/post" title="My Post" />
+
+// (b) LinkedIn + copy only, compact size:
+<ShareLinks url={url} networks={["linkedin", "copy"]} size="sm" />
+
+// (c) X only:
+<ShareLinks url={url} networks={["x"]} />
+```
+
+
 ### TableOfContents
 - Sticky anchor list molecule for long-form article right-rail navigation. Tracks scroll position via IntersectionObserver; highlights the currently visible section.
 - Root element: `<nav aria-label="Table of contents">`. `forwardRef<HTMLElement, TableOfContentsProps>`. `...rest` spread. `displayName = "TableOfContents"`.

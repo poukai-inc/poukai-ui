@@ -77,6 +77,7 @@ import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
+import { ShareLinks } from "./molecules/ShareLinks";
 import { TableOfContents } from "./molecules/TableOfContents";
 import { PopoverA11yHarness } from "./molecules/Popover/__test_harness__";
 import {
@@ -2154,6 +2155,11 @@ test("a11y — CopyButton (icon-only with aria-label)", async ({ mount, page }) 
 
 test("a11y — CopyButton (disabled)", async ({ mount, page }) => {
   await mount(<CopyButton value="test" disabled />);
+  await expectAxeClean(page);
+});
+
+test("a11y — ShareLinks", async ({ mount, page }) => {
+  await mount(<ShareLinks url="https://poukai.com/blog/post" title="Test Post" />);
   await expectAxeClean(page);
 });
 

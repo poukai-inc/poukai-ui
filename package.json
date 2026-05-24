@@ -395,6 +395,11 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./molecules/ShareLinks": {
+      "types": "./dist/molecules/ShareLinks.d.ts",
+      "import": "./dist/molecules/ShareLinks.js",
+      "require": "./dist/molecules/ShareLinks.cjs"
+    },
     "./molecules/TableOfContents": {
       "types": "./dist/molecules/TableOfContents.d.ts",
       "import": "./dist/molecules/TableOfContents.js",

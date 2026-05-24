@@ -122,6 +122,7 @@ export {
   type BreadcrumbItemProps,
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
+export { ShareLinks, type ShareLinksProps } from "./molecules/ShareLinks";
 export {
   TableOfContents,
   type TableOfContentsProps,

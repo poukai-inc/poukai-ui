@@ -105,6 +105,7 @@ export default defineConfig({
               "molecules/MetaList": resolve(__dirname, "src/molecules/MetaList/index.ts"),
               "molecules/TagList": resolve(__dirname, "src/molecules/TagList/index.ts"),
               "molecules/TeamCard": resolve(__dirname, "src/molecules/TeamCard/index.ts"),
+              "molecules/Disclosure": resolve(__dirname, "src/molecules/Disclosure/index.ts"),
               "molecules/FormRow": resolve(__dirname, "src/molecules/FormRow/index.ts"),
               "molecules/TimelineItem": resolve(__dirname, "src/molecules/TimelineItem/index.ts"),
               "molecules/SearchField": resolve(__dirname, "src/molecules/SearchField/index.ts"),

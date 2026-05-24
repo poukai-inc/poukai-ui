@@ -418,3 +418,4 @@ export {
   type ToastItemCloseProps,
   type ToastItemActionProps,
 } from "./molecules/ToastItem";
+export { DocsLayout, type DocsLayoutProps } from "./organisms/DocsLayout";

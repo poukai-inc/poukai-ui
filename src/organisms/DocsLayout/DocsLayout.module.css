@@ -1,0 +1,190 @@
+/* ============================================================
+   DocsLayout — three-column page template for documentation surfaces.
+
+   Grid areas: sidebar | content | toc
+   Responsive: collapses to single column below --bp-md (768px).
+   Sidebar collapses to mobile drawer at --bp-md.
+   TOC hidden below 1024px (lg breakpoint).
+   ============================================================ */
+
+/* ---------- Root grid container ---------- */
+
+.root {
+  display: grid;
+  grid-template-areas:
+    "mobile  mobile  mobile"
+    "sidebar content toc";
+  grid-template-columns: var(--docs-sidebar-w, 240px) 1fr var(--docs-toc-w, 220px);
+  grid-template-rows: auto 1fr;
+  column-gap: var(--space-8);
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+}
+
+/* Two-column variant when no toc is provided */
+.noToc {
+  grid-template-areas:
+    "mobile  mobile"
+    "sidebar content";
+  grid-template-columns: var(--docs-sidebar-w, 240px) 1fr;
+}
+
+/* ---------- Column wrappers ---------- */
+
+.sidebarCol {
+  grid-area: sidebar;
+}
+
+.contentCol {
+  grid-area: content;
+  min-width: 0;
+  padding-block-start: var(--space-12);
+}
+
+.tocCol {
+  grid-area: toc;
+}
+
+/* ---------- Sidebar aside (desktop) ---------- */
+
+.sidebarAside {
+  position: sticky;
+  top: var(--space-6);
+  max-height: calc(100vh - var(--space-6));
+  overflow-y: auto;
+  padding-block: var(--space-12) var(--space-8);
+  border-right: var(--hairline-w, 1px) solid var(--hairline);
+  padding-inline-end: var(--space-4);
+}
+
+/* ---------- TOC aside ---------- */
+
+.tocAside {
+  position: sticky;
+  top: var(--space-6);
+  max-height: calc(100vh - var(--space-6));
+  overflow-y: auto;
+  padding-block: var(--space-12) var(--space-8);
+}
+
+/* ---------- Mobile bar (trigger row) ---------- */
+
+.mobileBar {
+  grid-area: mobile;
+  display: none;
+  align-items: center;
+  padding: var(--space-4) var(--page-pad);
+  border-bottom: var(--hairline-w, 1px) solid var(--hairline);
+}
+
+/* ---------- Menu button ---------- */
+
+.menuButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: var(--space-2);
+  cursor: pointer;
+  color: var(--fg);
+  border-radius: var(--radius-sm);
+}
+
+.menuButton:focus-visible {
+  outline: 2px solid var(--focus-ring, currentColor);
+  outline-offset: 2px;
+}
+
+/* Hamburger icon — three lines via box-shadow */
+.menuIcon {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  box-shadow:
+    0 5px 0 currentColor,
+    0 10px 0 currentColor;
+}
+
+/* ---------- Mobile drawer overlay ---------- */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 0.4);
+  z-index: 40;
+}
+
+/* ---------- Mobile drawer ---------- */
+
+.drawer {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: min(var(--docs-sidebar-w, 240px), 85vw);
+  background: var(--bg);
+  z-index: 50;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform var(--dur-fast, 180ms) ease;
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.drawerInner {
+  padding: var(--space-8) var(--page-pad);
+}
+
+/* ---------- Responsive: collapse below --bp-md (768px) ---------- */
+
+@media (max-width: 767px) {
+  .root,
+  .noToc {
+    grid-template-areas:
+      "mobile"
+      "content";
+    grid-template-columns: 1fr;
+  }
+
+  /* Hide desktop sidebar column at mobile */
+  .sidebarCol {
+    display: none;
+  }
+
+  /* Show mobile bar at mobile */
+  .mobileBar {
+    display: flex;
+  }
+}
+
+/* ---------- Hide TOC below 1024px ---------- */
+
+@media (max-width: 1023px) {
+  .tocCol {
+    display: none;
+  }
+
+  /* Reflow grid to two columns between md and lg */
+  .root {
+    grid-template-areas:
+      "mobile  mobile"
+      "sidebar content";
+    grid-template-columns: var(--docs-sidebar-w, 240px) 1fr;
+  }
+
+  .noToc {
+    /* Already two-column, no change needed */
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer {
+    transition: none;
+  }
+}

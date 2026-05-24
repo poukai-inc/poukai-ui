@@ -3531,3 +3531,43 @@ useEffect(() => {
   <ToastItem.Close />
 </ToastItem>
 ```
+
+### DocsLayout
+- Three-column page template organism for documentation surfaces. Composes Sidebar (left), a center content slot (typically `ArticleLayout as="div"`), and an optional TableOfContents or `<nav>` (right).
+- Root element: `<div>` — CSS grid container with named template areas (`sidebar`, `content`, `toc`). `forwardRef<HTMLDivElement, DocsLayoutProps>`. `...rest` spread. `displayName = "DocsLayout"`.
+- `sidebar` (ReactNode, required) — Sidebar organism rendered as a sticky left column at `>= 768px`. At mobile (`< 768px`), hidden from flow; accessible via a hamburger trigger button that opens a slide-in drawer (`role="dialog" aria-modal="true"`).
+- `toc` (ReactNode, optional) — Right-rail column. When omitted, the grid reflows to two columns (`sidebar` + `content`). Do not pass an empty node — omit entirely to suppress the right rail (an empty `<aside>` is a landmark anti-pattern).
+- `sidebarLabel` (string, default `"Menu"`) — `aria-label` for the mobile trigger button and the mobile drawer `role="dialog"`. Consumers localise this string.
+- `children` (ReactNode, required) — Center content slot. No reading-measure constraint here; pass `<ArticleLayout as="div">` to avoid double `article` landmark nesting.
+- Responsive: collapses to single column at `< 768px` (--bp-md); TOC hidden at `< 1024px`. Sidebar collapses to a slide-in drawer at mobile with a hamburger trigger (`aria-expanded` toggled, `aria-controls` pointing to drawer id).
+- A11y: desktop sidebar wrapped in `<aside aria-label="Sidebar navigation">`. TOC wrapped in `<aside aria-label="On this page">` when present. Mobile drawer has `role="dialog" aria-modal="true"`. No skip link — parent shell (`SiteShell`) provides that.
+- Tokens: `--bg`, `--fg`, `--hairline`, `--hairline-w`, `--space-4`, `--space-6`, `--space-8`, `--space-12`, `--page-pad`, `--dur-fast`, `--docs-sidebar-w` (consumer override, default `240px`), `--docs-toc-w` (consumer override, default `220px`).
+- Do NOT use for marketing pages (use `SiteShell` + `Section` bands). Do NOT nest DocsLayout inside another DocsLayout. Do NOT pass `ArticleLayout` as the `sidebar` prop. Do NOT leave an empty right-rail placeholder when `toc` is omitted.
+
+```tsx
+// (a) Full three-column layout:
+<DocsLayout
+  sidebar={
+    <Sidebar>
+      <Sidebar.Group heading="Getting started">
+        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+      </Sidebar.Group>
+    </Sidebar>
+  }
+  toc={<nav aria-label="On this page"><ul><li><a href="#intro">Intro</a></li></ul></nav>}
+>
+  <ArticleLayout as="div">
+    <Prose><p>Page content</p></Prose>
+  </ArticleLayout>
+</DocsLayout>
+
+// (b) Two-column (no TOC):
+<DocsLayout sidebar={<Sidebar>…</Sidebar>}>
+  <ArticleLayout as="div">…</ArticleLayout>
+</DocsLayout>
+
+// (c) Custom mobile label for localisation:
+<DocsLayout sidebar={<Sidebar>…</Sidebar>} sidebarLabel="Navigation">
+  <ArticleLayout as="div">…</ArticleLayout>
+</DocsLayout>
+```

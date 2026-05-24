@@ -1,0 +1,16 @@
+/* ============================================================
+   StatsSection — "by the numbers" marketing band organism
+   Composes Section + StatList. Owns the fill surface variant.
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Section provides padding-block: --space-16; no overrides needed by default */
+  background: var(--bg);
+}
+
+/* Fill variant: recessed section surface */
+.fill {
+  background: var(--surface-section);
+}

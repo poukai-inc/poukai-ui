@@ -1751,3 +1751,31 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
   );
   await expectAxeClean(page);
 });
+
+// ---------------------------------------------------------------------------
+// StatsSection organism
+// ---------------------------------------------------------------------------
+
+import { StatsSection } from "./organisms/StatsSection";
+
+test("a11y — StatsSection (default, no heading, no fill)", async ({ mount, page }) => {
+  await mount(
+    <StatsSection>
+      <Stat value="12k" caption="Users onboarded" />
+      <Stat value="99.9%" caption="Uptime SLA" />
+      <Stat value="200" caption="Customers" />
+    </StatsSection>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatsSection (with heading + dividers + fill)", async ({ mount, page }) => {
+  await mount(
+    <StatsSection heading="By the numbers" dividers fill>
+      <Stat value="12k" caption="Users onboarded" />
+      <Stat value="99.9%" caption="Uptime SLA" />
+      <Stat value="200" caption="Customers" />
+    </StatsSection>,
+  );
+  await expectAxeClean(page);
+});

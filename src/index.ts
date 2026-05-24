@@ -146,6 +146,7 @@ export {
 } from "./molecules/Breadcrumb";
 /* ---------- organisms ---------- */
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
+export { StatsSection, type StatsSectionProps } from "./organisms/StatsSection";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
 export {

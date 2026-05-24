@@ -190,6 +190,11 @@
       "import": "./dist/atoms/Radio.js",
       "require": "./dist/atoms/Radio.cjs"
     },
+    "./molecules/Alert": {
+      "types": "./dist/molecules/Alert.d.ts",
+      "import": "./dist/molecules/Alert.js",
+      "require": "./dist/molecules/Alert.cjs"
+    },
     "./molecules/Byline": {
       "types": "./dist/molecules/Byline.d.ts",
       "import": "./dist/molecules/Byline.js",
@@ -462,7 +467,7 @@
     {
       "name": "ESM — molecules subpath",
       "path": "dist/molecules.js",
-      "limit": "9.15 kB"
+      "limit": "14 kB"
     },
     {
       "name": "ESM — organisms subpath",

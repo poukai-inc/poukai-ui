@@ -285,6 +285,11 @@
       "import": "./dist/molecules/CopyButton.js",
       "require": "./dist/molecules/CopyButton.cjs"
     },
+    "./molecules/ShareLinks": {
+      "types": "./dist/molecules/ShareLinks.d.ts",
+      "import": "./dist/molecules/ShareLinks.js",
+      "require": "./dist/molecules/ShareLinks.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

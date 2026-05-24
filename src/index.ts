@@ -127,6 +127,7 @@ export {
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
 export { CopyButton, type CopyButtonProps, type CopyButtonSize } from "./molecules/CopyButton";
+export { ShareLinks, type ShareLinksProps } from "./molecules/ShareLinks";
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";

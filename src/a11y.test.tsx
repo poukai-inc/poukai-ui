@@ -61,6 +61,7 @@ import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
 import { CopyButton } from "./molecules/CopyButton";
+import { ShareLinks } from "./molecules/ShareLinks";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1582,5 +1583,10 @@ test("a11y — CopyButton (icon-only with aria-label)", async ({ mount, page }) 
 
 test("a11y — CopyButton (disabled)", async ({ mount, page }) => {
   await mount(<CopyButton value="test" disabled />);
+  await expectAxeClean(page);
+});
+
+test("a11y — ShareLinks", async ({ mount, page }) => {
+  await mount(<ShareLinks url="https://poukai.com/blog/post" title="Test Post" />);
   await expectAxeClean(page);
 });

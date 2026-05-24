@@ -104,6 +104,7 @@ export default defineConfig({
               "molecules/Fieldset": resolve(__dirname, "src/molecules/Fieldset/index.ts"),
               "molecules/Breadcrumb": resolve(__dirname, "src/molecules/Breadcrumb/index.ts"),
               "molecules/CopyButton": resolve(__dirname, "src/molecules/CopyButton/index.ts"),
+              "molecules/ShareLinks": resolve(__dirname, "src/molecules/ShareLinks/index.ts"),
               "organisms/Dialog": resolve(__dirname, "src/organisms/Dialog/index.ts"),
               "organisms/Footer": resolve(__dirname, "src/organisms/Footer/index.ts"),
               "organisms/Form": resolve(__dirname, "src/organisms/Form/index.ts"),

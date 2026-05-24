@@ -44,3 +44,4 @@ export {
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
 export { CopyButton, type CopyButtonProps, type CopyButtonSize } from "./molecules/CopyButton";
+export { ShareLinks, type ShareLinksProps } from "./molecules/ShareLinks";

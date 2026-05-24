@@ -1,0 +1,10 @@
+/* ============================================================
+   ShareLinks — share-action row
+   ============================================================ */
+
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--space-2);
+}

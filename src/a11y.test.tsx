@@ -1131,6 +1131,7 @@ import { NewsletterSection } from "./organisms/NewsletterSection";
 import { AnnouncementBar } from "./organisms/AnnouncementBar";
 import { Header } from "./organisms/Header";
 import { ComparisonTable } from "./organisms/ComparisonTable";
+import { A11yHarness as CommandPaletteA11yHarness } from "./organisms/CommandPalette/__test_harness__";
 
 /* ---------- organisms ---------- */
 
@@ -1374,6 +1375,15 @@ test("a11y — Tabs (compound API, vertical)", async ({ mount, page }) => {
         <p>Automate panel for the a11y gate scan.</p>
       </Tabs.Content>
     </Tabs.Root>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — CommandPalette (open, with groups and items)", async ({ mount, page }) => {
+  await mount(<CommandPaletteA11yHarness />);
+  // Wait for any open animations to finish before scanning.
+  await page.evaluate(() =>
+    Promise.all(document.getAnimations().map((a) => a.finished.catch(() => null))),
   );
   await expectAxeClean(page);
 });

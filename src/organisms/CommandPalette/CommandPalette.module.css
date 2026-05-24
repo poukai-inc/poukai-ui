@@ -1,0 +1,183 @@
+/* ============================================================
+   CommandPalette — cmdk-driven search + navigation overlay.
+   Token contract: meta/design/CommandPalette.md §3
+   All values reference CSS custom properties from tokens.css.
+   ============================================================ */
+
+/* ─── Override Dialog.Content for palette shape ───────────────
+   Dialog.Content is position:fixed, top/left:50%, translated.
+   We inherit that positioning and override size + padding. */
+.content {
+  /* Reset Dialog.Content padding — palette has its own sections */
+  padding: 0;
+  width: min(40rem, calc(100vw - var(--page-pad) * 2));
+  max-height: min(85vh, 640px);
+  overflow: hidden;
+  /* Focus ring on panel (spec §6) */
+  outline-offset: 4px;
+  border-radius: var(--radius-3);
+}
+
+/* ─── Command root ───────────────────────────────────────────── */
+.command {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-3);
+  overflow: hidden;
+}
+
+/* ─── Input row ──────────────────────────────────────────────── */
+.inputRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+}
+
+.searchIcon {
+  flex-shrink: 0;
+  color: var(--fg-muted);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  color: var(--fg);
+  outline: none;
+  caret-color: var(--accent);
+}
+
+.input::placeholder {
+  color: var(--fg-muted);
+}
+
+.escHint {
+  flex-shrink: 0;
+}
+
+/* ─── Divider ────────────────────────────────────────────────── */
+.divider {
+  border: 0;
+  border-top: var(--hairline-w) solid var(--hairline);
+  margin: 0;
+}
+
+/* ─── List ───────────────────────────────────────────────────── */
+.list {
+  overflow-y: auto;
+  max-height: 360px;
+  overscroll-behavior: contain;
+  padding: var(--space-2) 0;
+}
+
+/* ─── Group ──────────────────────────────────────────────────── */
+.group {
+  /* cmdk renders [cmdk-group-heading] as a child div */
+}
+
+.group [cmdk-group-heading] {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: var(--tracking-micro);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  padding: var(--space-4) var(--space-4) var(--space-1);
+}
+
+/* ─── Item ───────────────────────────────────────────────────── */
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-4);
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg);
+  border-radius: var(--radius-2);
+  margin: 0 var(--space-2);
+  cursor: pointer;
+  transition: background-color var(--dur-fast) ease;
+  outline: none;
+}
+
+.item[aria-selected="true"],
+.item[data-selected="true"] {
+  background-color: var(--surface);
+}
+
+.item[aria-disabled="true"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  border-radius: var(--radius-2);
+}
+
+.itemIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: var(--fg-muted);
+}
+
+.itemLabel {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.itemShortcut {
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+/* ─── Empty ──────────────────────────────────────────────────── */
+.empty {
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+}
+
+/* ─── Footer ─────────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-2) var(--space-4);
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+}
+
+.footerHint {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.footerKbd {
+  /* Inherits Kbd atom styles */
+}
+
+/* ─── Panel entrance / exit animations ───────────────────────── */
+/* Inherited from Dialog.Content [data-state] animations in Dialog.module.css.
+   The panel shape override (.content) does not re-declare animations —
+   Dialog.Content's data-state keyframes already produce scale + fade. */
+
+/* ─── Reduced motion ─────────────────────────────────────────── */
+/* Covered globally by tokens.css @media (prefers-reduced-motion) block. */

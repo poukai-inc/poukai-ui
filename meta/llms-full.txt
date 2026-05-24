@@ -1762,4 +1762,36 @@ ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 
   <Breadcrumb.Item current>Settings</Breadcrumb.Item>
 </Breadcrumb>
 ```
+
+### CopyButton
+- Copy-to-clipboard button with transient success state. Surfaces inline on product pages — API key displays, code snippets, share URLs. Composes into `CodeBlock` as its built-in copy control.
+- Root element: `<button type="button">`. Non-polymorphic. `forwardRef<HTMLButtonElement, CopyButtonProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, etc.
+- State machine: idle → success → (after `timeout` ms) → idle. Revert is cancelled and restarted on repeated clicks during the success window.
+- `value` (required string) — the string written to the clipboard.
+- `label` (optional `string | false`, default `"Copy"`) — visible label. Pass `false` for icon-only; **must** supply `aria-label` on root when omitting label.
+- `successLabel` (optional string, default `"Copied"`) — label shown during success state.
+- `timeout` (optional number, default `1500`) — ms before reverting from success to idle.
+- `size` (optional `"sm" | "md"`, default `"sm"`) — `sm` uses `--fs-meta` + `--icon-xs`; `md` uses `--fs-body` + `--icon-sm`.
+- `onCopy` (optional `(value: string) => void`) — fired after successful clipboard write.
+- `onError` (optional `(err: unknown) => void`) — called when clipboard write rejects; component stays idle.
+- Clipboard: uses `navigator.clipboard.writeText`; falls back to `document.execCommand('copy')` via temporary textarea; calls `onError` if both fail.
+- A11y: root is native `<button type="button">`. Icons are `aria-hidden`. Label node uses `aria-live="polite"` so "Copied" is announced on success. Idle `--fg-muted` on `--bg`: 4.91:1 AA; success `--fg` on `--bg`: 16.29:1 AAA. Min-height: `--btn-h-sm` (32px), meets WCAG 2.5.8.
+- Tokens: `--font-sans`, `--fs-meta`, `--fs-body`, `--fg-muted`, `--fg`, `--accent`, `--surface`, `--radius-2`, `--radius-1`, `--space-1`, `--space-2`, `--btn-h-sm`, `--dur-fast`, `--dur-press`, `--easing`, `--icon-xs`, `--icon-sm`, `--lh-meta`.
+- Do NOT use as a primary CTA. Do NOT omit `aria-label` when `label={false}`. Do NOT use for rich content, async actions, or destructive flows.
+
+```tsx
+// (a) Default — label + icon beside a code snippet:
+<CopyButton value="npm install @poukai-inc/ui" />
+
+// (b) Icon-only inside an API key readout (aria-label required):
+<CopyButton value={apiKey} label={false} aria-label="Copy API key" size="sm" />
+
+// (c) With callbacks for analytics + error handling:
+<CopyButton
+  value={shareUrl}
+  label="Copy link"
+  successLabel="Copied!"
+  onCopy={(v) => analytics.track("copy", { value: v })}
+  onError={(err) => toast.error("Could not copy")}
+/>
 ```

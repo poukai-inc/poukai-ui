@@ -280,6 +280,11 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./molecules/CopyButton": {
+      "types": "./dist/molecules/CopyButton.d.ts",
+      "import": "./dist/molecules/CopyButton.js",
+      "require": "./dist/molecules/CopyButton.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

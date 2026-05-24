@@ -43,3 +43,4 @@ export {
   type BreadcrumbItemProps,
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
+export { CopyButton, type CopyButtonProps, type CopyButtonSize } from "./molecules/CopyButton";

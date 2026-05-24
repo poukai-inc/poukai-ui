@@ -60,6 +60,7 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import { CopyButton } from "./molecules/CopyButton";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1564,5 +1565,22 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
       </Field>
     </Fieldset>,
   );
+  await expectAxeClean(page);
+});
+
+/* ---------- CopyButton ---------- */
+
+test("a11y — CopyButton (default, with label)", async ({ mount, page }) => {
+  await mount(<CopyButton value="npm install @poukai-inc/ui" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — CopyButton (icon-only with aria-label)", async ({ mount, page }) => {
+  await mount(<CopyButton value="sk-proj-abc123" label={false} aria-label="Copy API key" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — CopyButton (disabled)", async ({ mount, page }) => {
+  await mount(<CopyButton value="test" disabled />);
   await expectAxeClean(page);
 });

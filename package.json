@@ -290,6 +290,11 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./organisms/FailureModeList": {
+      "types": "./dist/organisms/FailureModeList.d.ts",
+      "import": "./dist/organisms/FailureModeList.js",
+      "require": "./dist/organisms/FailureModeList.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

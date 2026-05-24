@@ -129,6 +129,7 @@ export {
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
 /* ---------- organisms ---------- */
+export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
 export {

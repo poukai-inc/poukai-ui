@@ -4,6 +4,7 @@
  * Page-chrome / layout-intent components. Pulls in the atoms each organism
  * uses internally (`SiteShell` composes `Wordmark`).
  */
+export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
 export {

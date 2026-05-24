@@ -1,0 +1,34 @@
+/* ============================================================
+   CTASection — full-width end-of-page conversion organism
+   Spec: meta/design/CTASection.md
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Default: page background, no band */
+  background: var(--bg);
+  /* Default block padding: --space-16 top + bottom */
+  padding-block: var(--space-16);
+}
+
+/* ---------- Surface: recessed ---------- */
+
+.surfaceRecessed {
+  background: var(--surface-section);
+  border-top: var(--hairline-w) solid var(--hairline);
+}
+
+/* ---------- Size: tight ---------- */
+
+.sizeTight {
+  padding-block: var(--space-12);
+}
+
+/* ---------- Inner container ---------- */
+
+.inner {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}

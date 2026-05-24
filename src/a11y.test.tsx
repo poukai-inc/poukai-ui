@@ -899,6 +899,42 @@ test("a11y — CtaBlock (no body, headingAs=h3)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — CTASection (default surface, centered)", async ({ mount, page }) => {
+  await mount(
+    <CTASection
+      heading="Ready to start?"
+      body="Spin up your first project in minutes."
+      actions={<button type="button">Get a demo</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — CTASection (recessed surface)", async ({ mount, page }) => {
+  await mount(
+    <CTASection
+      surface="recessed"
+      heading="Ready to start?"
+      body="We work with senior-only teams."
+      actions={<button type="button">Get a demo</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — CTASection (align=start, size=tight, headingAs=h3)", async ({ mount, page }) => {
+  await mount(
+    <CTASection
+      align="start"
+      size="tight"
+      headingAs="h3"
+      heading="Interested in this role?"
+      actions={<button type="button">Apply now</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — Banner (all four tones)", async ({ mount, page }) => {
   await mount(
     <div>
@@ -1072,6 +1108,7 @@ test("a11y — FeatureCard (as='section')", async ({ mount, page }) => {
 import { HeroSection } from "./organisms/HeroSection";
 import { StepsSection } from "./organisms/StepsSection";
 import { Sidebar } from "./organisms/Sidebar";
+import { CTASection } from "./organisms/CTASection";
 
 /* ---------- organisms ---------- */
 

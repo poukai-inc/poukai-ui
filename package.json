@@ -430,6 +430,11 @@
       "import": "./dist/organisms/Sidebar.js",
       "require": "./dist/organisms/Sidebar.cjs"
     },
+    "./organisms/CTASection": {
+      "types": "./dist/organisms/CTASection.d.ts",
+      "import": "./dist/organisms/CTASection.js",
+      "require": "./dist/organisms/CTASection.cjs"
+    },
     "./organisms/HeroSection": {
       "types": "./dist/organisms/HeroSection.d.ts",
       "import": "./dist/organisms/HeroSection.js",

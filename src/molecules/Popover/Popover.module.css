@@ -1,0 +1,174 @@
+/* ============================================================
+   Popover — molecule
+   Tokens: --bg-elevated, --hairline, --hairline-w, --radius-3,
+           --space-4, --fg, --accent, --radius-1,
+           --easing, --dur-fast
+   ============================================================ */
+
+.content {
+  background: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-3);
+  padding: var(--space-4);
+  color: var(--fg);
+  font-family: var(--font-sans);
+
+  /* Enter animation — Radix sets data-state="open" on mount */
+  transform-origin: var(--radix-popover-transform-origin);
+  animation-timing-function: var(--easing);
+  animation-duration: var(--dur-fast);
+  animation-fill-mode: both;
+}
+
+/* data-state open → enter */
+.content[data-state="open"] {
+  animation-name: popoverEnter;
+}
+
+/* data-state closed → exit */
+.content[data-state="closed"] {
+  animation-name: popoverExit;
+  animation-timing-function: ease-in;
+}
+
+/* Side-specific enter translate direction */
+.content[data-side="bottom"][data-state="open"] {
+  animation-name: popoverEnterFromTop;
+}
+.content[data-side="top"][data-state="open"] {
+  animation-name: popoverEnterFromBottom;
+}
+.content[data-side="right"][data-state="open"] {
+  animation-name: popoverEnterFromLeft;
+}
+.content[data-side="left"][data-state="open"] {
+  animation-name: popoverEnterFromRight;
+}
+
+/* Side-specific exit translate direction */
+.content[data-side="bottom"][data-state="closed"] {
+  animation-name: popoverExitToTop;
+}
+.content[data-side="top"][data-state="closed"] {
+  animation-name: popoverExitToBottom;
+}
+.content[data-side="right"][data-state="closed"] {
+  animation-name: popoverExitToLeft;
+}
+.content[data-side="left"][data-state="closed"] {
+  animation-name: popoverExitToRight;
+}
+
+/* Arrow caret — uses hairline fill per spec §3 */
+.arrow {
+  fill: var(--hairline);
+}
+
+/* ─── Keyframes ────────────────────────────────────────────── */
+
+@keyframes popoverEnterFromTop {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popoverEnterFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popoverEnterFromLeft {
+  from {
+    opacity: 0;
+    transform: translateX(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes popoverEnterFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes popoverExitToTop {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@keyframes popoverExitToBottom {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes popoverExitToLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(4px);
+  }
+}
+
+@keyframes popoverExitToRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+}
+
+/* Fallback generic keyframes (no data-side present) */
+@keyframes popoverEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popoverExit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}

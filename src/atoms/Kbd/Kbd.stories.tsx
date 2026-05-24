@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Kbd, type KbdProps } from "./Kbd";
 
 export default {
-  title: "Components / Kbd",
+  title: "Atoms / Kbd",
   args: { children: "K" },
   argTypes: {
     children: { control: { type: "text" } },

@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Pull } from "./Pull";
 
 export default {
-  title: "Components / Pull",
+  title: "Molecules / Pull",
 } satisfies StoryDefault;
 
 /** Default — body text only, serif variant (default).

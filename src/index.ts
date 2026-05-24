@@ -161,3 +161,4 @@ export {
   type ToastPayload,
   type ToastTone,
 } from "./organisms/Toast";
+export { PrincipleList, type PrincipleListProps } from "./organisms/PrincipleList";

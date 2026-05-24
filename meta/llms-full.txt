@@ -381,6 +381,18 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Index span is aria-hidden. Titles should be declarative noun phrases.
 - Distinct from `Principle`: `FailureMode.index` + `indexLabel` use Arabic-numeral integer indices with optional formatted labels (e.g. "FM-01") for enumerated failure cases. The two components encode different semantic registers — do not conflate or rename either prop to match the other.
 
+### PrincipleList
+- Canonical organism for presenting a sequenced set of editorial principles on a page.
+- Composes `Section` (molecule) as root + `<ol>` + `<li>`-wrapped `Principle` molecules.
+- Props: `heading` (ReactNode, Section title), `eyebrow` (string | ReactNode), `lede` (ReactNode), `size` ("default" | "tight", default "default"), `children` (required — two or more `Principle` instances).
+- Dividers between items are always present (`border-top: var(--hairline-w) solid var(--hairline)`). No `dividers` toggle prop.
+- `<ol>` preserves semantic sequencing — screen readers announce item count and position. Do NOT replace with `<ul>`.
+- Minimum two `Principle` children. A single-item list has no sequential meaning.
+- Static organism. No hover, focus, or dismiss states at this layer.
+- Tokens: `--space-8` (li padding-top mobile), `--space-12` (li padding-top desktop), `--hairline`, `--hairline-w`, `--bg` (inherited, no surface override).
+- Do NOT use for `FailureMode` sets — use `FailureModeList`. Do NOT use for unordered feature grids — use `FeatureGrid`.
+- `forwardRef<HTMLElement, PrincipleListProps>`, `displayName="PrincipleList"`. Props spread to `Section` root.
+
 ### Statement
 - Editorial italic-serif block at `--fs-statement` (28-44px), `line-height: 1.2`, `letter-spacing: -0.005em`, `text-wrap: balance`. Not a heading element; emits no `<h1>`–`<h6>`.
 - `statement` prop is required ReactNode, rendered inside a `<p>`. `supporting` is an optional second `<p>` at `--fs-body` in `--fg-muted`.

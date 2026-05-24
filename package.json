@@ -300,6 +300,11 @@
       "import": "./dist/organisms/SiteShell.js",
       "require": "./dist/organisms/SiteShell.cjs"
     },
+    "./organisms/PrincipleList": {
+      "types": "./dist/organisms/PrincipleList.d.ts",
+      "import": "./dist/organisms/PrincipleList.js",
+      "require": "./dist/organisms/PrincipleList.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",

@@ -61,6 +61,7 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import { PrincipleList } from "./organisms/PrincipleList";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1569,6 +1570,29 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- PrincipleList ---------- */
+
+test("a11y — PrincipleList (default, three principles)", async ({ mount, page }) => {
+  await mount(
+    <PrincipleList
+      eyebrow="01 · Approach"
+      heading="The rules we ship by."
+      lede="Three principles that define how we work."
+    >
+      <Principle numeral="i." title="Ship the smallest real thing.">
+        <p>Production is the only proving ground.</p>
+      </Principle>
+      <Principle numeral="ii." title="Senior, end-to-end, no handoff theatre.">
+        <p>No PMs translating, no juniors carrying.</p>
+      </Principle>
+      <Principle numeral="iii." title="Evaluation is part of the system.">
+        <p>Evals are infrastructure, not analytics.</p>
+      </Principle>
+    </PrincipleList>,
   );
   await expectAxeClean(page);
 });

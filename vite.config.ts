@@ -143,6 +143,7 @@ export default defineConfig({
               ),
               "organisms/Sidebar": resolve(__dirname, "src/organisms/Sidebar/index.ts"),
               "organisms/HeroSection": resolve(__dirname, "src/organisms/HeroSection/index.ts"),
+              "organisms/StatsSection": resolve(__dirname, "src/organisms/StatsSection/index.ts"),
               "organisms/Dialog": resolve(__dirname, "src/organisms/Dialog/index.ts"),
               "organisms/Footer": resolve(__dirname, "src/organisms/Footer/index.ts"),
               "organisms/Form": resolve(__dirname, "src/organisms/Form/index.ts"),

@@ -34,6 +34,7 @@ export {
   type TabItem,
 } from "./organisms/Tabs";
 export { Form, type FormProps } from "./organisms/Form";
+export { StatsSection, type StatsSectionProps } from "./organisms/StatsSection";
 export {
   ToastProvider,
   useToast,

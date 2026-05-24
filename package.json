@@ -435,6 +435,11 @@
       "import": "./dist/organisms/HeroSection.js",
       "require": "./dist/organisms/HeroSection.cjs"
     },
+    "./organisms/StatsSection": {
+      "types": "./dist/organisms/StatsSection.d.ts",
+      "import": "./dist/organisms/StatsSection.js",
+      "require": "./dist/organisms/StatsSection.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

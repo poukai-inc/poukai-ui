@@ -1147,6 +1147,18 @@ import { Icon } from "@poukai-inc/ui";
 - Do NOT use HeroSection when no title is needed — use `Hero variant="no-title"` instead.
 - Import: `import { HeroSection } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/HeroSection"`.
 
+### StatsSection
+- Organism layer. Marketing-surface band that frames a `StatList` inside a `Section`. Owns the "by the numbers" editorial moment on landing pages.
+- Composes `Section` molecule (band wrapper, heading slot, block padding) + `StatList` molecule (horizontal stat row, optional dividers).
+- Props: `heading` (optional string) — renders as `<h2>` via Section; omit on pure-data surfaces. `dividers` (boolean, default `false`) — hairline rules between stats; use when stat count ≥ 3. `fill` (boolean, default `false`) — applies `--surface-section` background; default is transparent (`--bg`). `children` (required ReactNode) — one or more `Stat` atoms.
+- No `centered` prop — alignment is always left-aligned per brand register (consistent with Section and Footer conventions). StatList `align` is set to `"center"` internally for the marketing default.
+- A11y: root `<section>` is a region landmark. When `heading` is provided, `aria-labelledby` is wired to the `<h2>` via Section. Each `Stat` value + label pair is adjacent block elements; no extra ARIA needed.
+- Static display-only. No hover, active, or keyboard interaction on the band. Individual `Stat` atoms carry no interactive affordance.
+- Tokens: `--surface-section` (fill background), `--bg` (default background), `--space-16` (block padding via Section), `--content-max` (max-width via Section), `--page-pad` (horizontal padding via Section).
+- Do NOT use for interactive data, tabular data, progress indicators, chart replacements, or count-up animations.
+- Do NOT nest StatsSection inside another StatsSection or HeroSection.
+- Import: `import { StatsSection } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/StatsSection"`.
+
 ### CtaBlock
 - Heading + body + action row molecule. The reusable inline conversion moment — "Ready to start? [Get a demo]" pattern.
 - Root element: `<div>`. `forwardRef<HTMLDivElement, CtaBlockProps>`. `...rest` spread. `displayName = "CtaBlock"`.

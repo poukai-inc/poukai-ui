@@ -154,6 +154,10 @@ export default defineConfig({
               "organisms/LogoCloud": resolve(__dirname, "src/organisms/LogoCloud/index.ts"),
               "organisms/PrincipleList": resolve(__dirname, "src/organisms/PrincipleList/index.ts"),
               "organisms/RoleGrid": resolve(__dirname, "src/organisms/RoleGrid/index.ts"),
+              "organisms/TestimonialBlock": resolve(
+                __dirname,
+                "src/organisms/TestimonialBlock/index.ts",
+              ),
             },
             name: "PoukaiUI",
             formats: ["es", "cjs"] as const,

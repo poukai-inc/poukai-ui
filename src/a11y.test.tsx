@@ -2687,6 +2687,33 @@ test("a11y — TimePicker (default, with label)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+import { ArticleHeader } from "./organisms/ArticleHeader";
+
+test("a11y — ArticleHeader (default, no share)", async ({ mount, page }) => {
+  await mount(
+    <article>
+      <ArticleHeader
+        eyebrow="Engineering"
+        title={
+          <>
+            Why we build with <em>AI</em>.
+          </>
+        }
+        lede="A short summary of the article for readers skimming the page."
+        byline={
+          <Byline
+            name="Arian Zargaran"
+            role="Founder"
+            publishedAt="2026-05-24"
+            readTime="4 min read"
+          />
+        }
+      />
+    </article>,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- BlogPostCard ---------- */
 
 test("a11y — BlogPostCard (text only)", async ({ mount, page }) => {
@@ -2739,6 +2766,28 @@ test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
       <label htmlFor="a11y-tp-dis">Start time</label>
       <TimePicker id="a11y-tp-dis" disabled />
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — ArticleHeader (with share slot + divider)", async ({ mount, page }) => {
+  await mount(
+    <article>
+      <ArticleHeader
+        eyebrow="Design"
+        title="The token architecture behind our design system."
+        lede="How we structure CSS custom properties to express brand decisions."
+        byline={<Byline name="Arian Zargaran" role="Founder" publishedAt="2026-05-24" />}
+        share={
+          <div aria-label="Share article">
+            <a href="https://twitter.com" aria-label="Share on Twitter">
+              Twitter
+            </a>
+          </div>
+        }
+        divider
+      />
+    </article>,
   );
   await expectAxeClean(page);
 });

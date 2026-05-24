@@ -435,6 +435,11 @@
       "import": "./dist/organisms/CTASection.js",
       "require": "./dist/organisms/CTASection.cjs"
     },
+    "./organisms/ArticleHeader": {
+      "types": "./dist/organisms/ArticleHeader.d.ts",
+      "import": "./dist/organisms/ArticleHeader.js",
+      "require": "./dist/organisms/ArticleHeader.cjs"
+    },
     "./organisms/Header": {
       "types": "./dist/organisms/Header.d.ts",
       "import": "./dist/organisms/Header.js",

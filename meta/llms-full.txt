@@ -2794,3 +2794,14 @@ Props (`HeaderProps`): `homeHref?: string` (default `"/"`), `logo?: ReactNode` (
 - `Header.Actions`: flex container, renders children directly. Omit when no actions needed.
 - Tokens: `--bg`, `--fg`, `--fg-muted`, `--hairline`, `--hairline-w`, `--accent`, `--radius-1`, `--font-sans`, `--fs-meta`, `--dur-fast`, `--dur-mid`, `--space-4`, `--space-6`, `--page-pad`, `--content-max`.
 - No state unless `sticky=true` (scroll sentinel via `IntersectionObserver`).
+### ArticleHeader
+- Organism layer. Canonical top-of-article block for long-form surfaces — blog posts, docs pages, case studies.
+- Composes: `Eyebrow` atom (category label) → `Heading` atom (`<h1>` title) → `Text` atom (lede) → `byline` slot → optional `share` slot.
+- Root element: `<header>` inside `<article>`. `forwardRef<HTMLElement, ArticleHeaderProps>`. `...rest` spread to root.
+- Props: `eyebrow` (required `string`), `title` (required `ReactNode` — supports `<em>` for serif-italic accent), `lede` (required `string`), `byline` (required `ReactNode` — accepts `<Byline>`), `share` (optional `ReactNode` — accepts `<ShareLinks>`), `divider` (boolean, default `false` — hairline rule below block).
+- `<header>` scoped within `<article>` sectioning content is an article-level landmark, not a page-level banner. Consumer must wrap in `<article>`.
+- One `<h1>` per page rule applies. Do NOT place a second `<h1>` below ArticleHeader on the same page.
+- Tokens: `--fs-micro`, `--tracking-eyebrow`, `--fg-muted`, `--font-sans`, `--font-serif`, `--fs-tagline-intimate`, `--fg`, `--fs-body`, `--space-2`, `--space-6`, `--space-4`, `--hairline`, `--hairline-w`, `--space-8`, `--space-10`.
+- Do NOT use for marketing hero moments — use `Hero` or `HeroSection` instead. Editorial long-form only.
+- Import: `import { ArticleHeader } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/ArticleHeader"`.
+- Usage: `<article><ArticleHeader eyebrow="Engineering" title={<>Why we build with <em>AI</em>.</>} lede="Summary." byline={<Byline name="Arian" publishedAt="2026-05-24" />} /></article>`

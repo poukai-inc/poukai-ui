@@ -104,6 +104,7 @@ export default defineConfig({
               "molecules/Caption": resolve(__dirname, "src/molecules/Caption/index.ts"),
               "molecules/Fieldset": resolve(__dirname, "src/molecules/Fieldset/index.ts"),
               "molecules/Breadcrumb": resolve(__dirname, "src/molecules/Breadcrumb/index.ts"),
+              "organisms/FeatureGrid": resolve(__dirname, "src/organisms/FeatureGrid/index.ts"),
               "organisms/Dialog": resolve(__dirname, "src/organisms/Dialog/index.ts"),
               "organisms/Footer": resolve(__dirname, "src/organisms/Footer/index.ts"),
               "organisms/Form": resolve(__dirname, "src/organisms/Form/index.ts"),

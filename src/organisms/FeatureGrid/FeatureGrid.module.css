@@ -1,0 +1,26 @@
+/* FeatureGrid — grid container only.
+   Section handles block padding, header (eyebrow + title + lede), and landmark semantics.
+   FeatureGrid owns the CSS grid container and gap rhythm between cards. */
+
+.grid {
+  display: grid;
+  gap: var(--space-6);
+}
+
+/* Two-column variant: minmax(20rem, 1fr) yields 2 columns above ~440px, 1 below. */
+.colsTwo {
+  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+}
+
+/* Three-column variant (default): minmax(16rem, 1fr) yields 3 columns above ~560px,
+   2 above ~320px, 1 below. */
+.colsThree {
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+}
+
+/* Wide viewport: step up gap from --space-6 (24px) to --space-8 (32px). */
+@media (min-width: 768px) {
+  .grid {
+    gap: var(--space-8);
+  }
+}

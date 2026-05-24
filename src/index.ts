@@ -161,3 +161,4 @@ export {
   type ToastPayload,
   type ToastTone,
 } from "./organisms/Toast";
+export { FeatureGrid, type FeatureGridProps } from "./organisms/FeatureGrid";

@@ -61,6 +61,7 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import { FeatureGrid } from "./organisms/FeatureGrid";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1569,6 +1570,33 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- organisms ---------- */
+
+test("a11y — FeatureGrid (three-column, titled)", async ({ mount, page }) => {
+  await mount(
+    <FeatureGrid
+      eyebrow="Platform"
+      heading="What you get"
+      lede="Every capability your team needs to ship AI reliably."
+    >
+      <FeatureCard title="Ship faster" body="From prototype to production in days." />
+      <FeatureCard title="Scale reliably" body="Automatic routing across providers." />
+      <FeatureCard title="Observe everything" body="Every inference logged and traced." />
+    </FeatureGrid>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FeatureGrid (two-column, no heading)", async ({ mount, page }) => {
+  await mount(
+    <FeatureGrid columns={2}>
+      <FeatureCard title="Enterprise SSO" body="SAML 2.0 and OIDC integrations." />
+      <FeatureCard title="Audit logs" body="Immutable, tamper-evident logs." />
+    </FeatureGrid>,
   );
   await expectAxeClean(page);
 });

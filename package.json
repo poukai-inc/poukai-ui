@@ -450,6 +450,11 @@
       "import": "./dist/organisms/StatsSection.js",
       "require": "./dist/organisms/StatsSection.cjs"
     },
+    "./organisms/TestimonialBlock": {
+      "types": "./dist/organisms/TestimonialBlock.d.ts",
+      "import": "./dist/organisms/TestimonialBlock.js",
+      "require": "./dist/organisms/TestimonialBlock.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

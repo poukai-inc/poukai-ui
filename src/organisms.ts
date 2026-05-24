@@ -65,3 +65,9 @@ export {
   type RoleGridColumns,
   type RoleGridSurface,
 } from "./organisms/RoleGrid";
+export {
+  TestimonialBlock,
+  type TestimonialBlockProps,
+  type TestimonialBlockOrientation,
+  type TestimonialBlockAlign,
+} from "./organisms/TestimonialBlock";

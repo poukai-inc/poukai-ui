@@ -99,6 +99,7 @@ import { CopyButton } from "./molecules/CopyButton";
 import { Pagination } from "./molecules/Pagination";
 import { EmptyState } from "./molecules/EmptyState";
 import { TimePicker } from "./atoms/TimePicker";
+import { TestimonialBlock } from "./organisms/TestimonialBlock";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2304,6 +2305,28 @@ test("a11y — TableOfContents (no heading, no active)", async ({ mount, page })
         { id: "findings", label: "Findings" },
         { id: "conclusion", label: "Conclusion" },
       ]}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TestimonialBlock (default — quote + byline)", async ({ mount, page }) => {
+  await mount(
+    <TestimonialBlock
+      quote="Changed how our team ships. We went from six-week release cycles to continuous delivery."
+      byline={<Byline name="Jane Doe" role="Head of Design, Acme" />}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TestimonialBlock (horizontal + start-aligned)", async ({ mount, page }) => {
+  await mount(
+    <TestimonialBlock
+      orientation="horizontal"
+      align="start"
+      quote="Accelerated our roadmap by a full quarter."
+      byline={<Byline name="Alex Kim" role="CTO, Startupco" />}
     />,
   );
   await expectAxeClean(page);

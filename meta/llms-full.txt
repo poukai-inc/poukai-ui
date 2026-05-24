@@ -2399,7 +2399,6 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 <ShareLinks url={url} networks={["x"]} />
 ```
 
-
 ### TableOfContents
 - Sticky anchor list molecule for long-form article right-rail navigation. Tracks scroll position via IntersectionObserver; highlights the currently visible section.
 - Root element: `<nav aria-label="Table of contents">`. `forwardRef<HTMLElement, TableOfContentsProps>`. `...rest` spread. `displayName = "TableOfContents"`.
@@ -2644,3 +2643,42 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 - Composes: Section (header / eyebrow / lede), Stepper (numbered steps).
 - Tokens: inherits Section spacing; Stepper rhythm tokens.
 - Do NOT use for live multi-step flows (signup wizard etc.) — that's interactive Stepper territory.
+
+### TestimonialBlock
+- Single-testimonial editorial organism. One Quote + one Byline inside a recessed `--surface-section` section band. Optional Portrait slot.
+- Root element: `<section>`. `forwardRef<HTMLElement, TestimonialBlockProps>`. `...rest` spread. `displayName = "TestimonialBlock"`.
+- `quote` (required `ReactNode`) — testimonial text; rendered in a `<blockquote>`. Accepts `<em>` for inline emphasis.
+- `byline` (required `ReactNode`) — attribution row; pass `<Byline name="…" role="…" />`. Required — unattributed quotes are not testimonials.
+- `portrait` (optional `ReactNode`) — avatar or headshot slot. When absent, layout collapses to quote + byline only. Pass `alt=""` or `aria-hidden="true"` when the Byline already names the person.
+- `orientation` (optional `"stacked" | "horizontal"`, default `"stacked"`) — `"stacked"`: portrait centered above quote; `"horizontal"`: portrait left-aligned beside byline below the quote.
+- `align` (optional `"start" | "center"`, default `"center"`) — text alignment of quote and byline within the column.
+- A11y: `<section>` landmark; `<blockquote>` for the quote; no custom ARIA. `--fg` on `--surface-section` ≈ 15.6:1 AAA; `--fg-muted` on `--surface-section` ≈ 4.7:1 AA.
+- Tokens: `--surface-section`, `--fg`, `--fg-muted`, `--font-serif`, `--font-sans`, `--fs-statement`, `--fs-meta`, `--lh-body`, `--lh-meta`, `--space-4`, `--space-6`, `--space-8`, `--space-12`, `--page-pad`, `--content-max`, `--hairline`, `--hairline-w`.
+- Static organism. No state, no animation, no interactive behavior of its own.
+- Do NOT use for multiple testimonials — use TestimonialCarousel or TestimonialGrid instead.
+- Do NOT omit the Byline — use a Quote/Statement atom directly for unattributed editorial quotes.
+- Do NOT place inside a card or narrow column — requires full reading-column width (`--content-max`).
+
+```tsx
+// (a) Default (stacked, centered, no portrait):
+<TestimonialBlock
+  quote="Changed how our team ships."
+  byline={<Byline name="Jane Doe" role="Head of Design, Acme" />}
+/>
+
+// (b) With portrait (stacked):
+<TestimonialBlock
+  quote={<>"Changed how our team ships."</>}
+  byline={<Byline name="Jane Doe" role="Head of Design, Acme" />}
+  portrait={<Portrait src="…" alt="" aspect="1:1" width={120} />}
+/>
+
+// (c) Horizontal + start-aligned:
+<TestimonialBlock
+  orientation="horizontal"
+  align="start"
+  quote="Accelerated our roadmap by a quarter."
+  byline={<Byline name="Alex Kim" role="CTO, Startupco" />}
+  portrait={<Portrait src="…" alt="" aspect="1:1" width={120} />}
+/>
+```

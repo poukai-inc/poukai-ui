@@ -3,7 +3,7 @@ import { X, Copy, Check, Heart, ChevronLeft, ChevronRight, Mail } from "lucide-r
 import { IconButton, type IconButtonVariant, type IconButtonSize } from "./IconButton";
 
 export default {
-  title: "Components / IconButton",
+  title: "Atoms / IconButton",
   args: { variant: "primary", size: "md", ariaLabel: "Close dialog" },
   argTypes: {
     variant: {

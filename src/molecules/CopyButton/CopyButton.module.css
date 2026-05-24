@@ -1,0 +1,123 @@
+/* CopyButton — token-only, no raw values */
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block: var(--space-1);
+  padding-inline: var(--space-2);
+  border: none;
+  border-radius: var(--radius-2);
+  background: transparent;
+  color: var(--fg-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  cursor: pointer;
+  transition:
+    color var(--dur-fast) var(--easing),
+    background-color var(--dur-fast) var(--easing);
+  /* Ensure minimum tap target height matches --btn-h-sm (32px) */
+  min-height: var(--btn-h-sm);
+  text-decoration: none;
+  white-space: nowrap;
+  /* Reset any user-agent button styles */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Size: sm (default) — fs-meta + icon-xs */
+.sizeSm {
+  font-size: var(--fs-meta);
+}
+
+/* Size: md — fs-body + icon-sm */
+.sizeMd {
+  font-size: var(--fs-body);
+}
+
+/* Hover — fill with surface background */
+@media (hover: hover) {
+  .root:hover:not(:disabled) {
+    background-color: var(--surface);
+    color: var(--fg-muted);
+  }
+}
+
+/* Focus ring — matches Button focus contract */
+.root:focus {
+  outline: none;
+}
+
+.root:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+/* Active — tactile press */
+.root:active:not(:disabled) {
+  transform: translateY(1px);
+  transition-duration: var(--dur-press);
+}
+
+/* Disabled */
+.root:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Success state — momentary positive emphasis */
+.success {
+  color: var(--fg);
+}
+
+/* Icon wrapper */
+.iconWrap {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Icon enter animation — opacity + scale */
+.iconCopy,
+.iconCheck {
+  transition:
+    opacity var(--dur-fast) var(--easing),
+    transform var(--dur-fast) var(--easing);
+}
+
+/* Entering icon scales from 0.85 → 1 */
+.iconCheck {
+  animation: iconEnter var(--dur-fast) var(--easing) both;
+}
+
+.iconCopy {
+  animation: iconEnter var(--dur-fast) var(--easing) both;
+}
+
+@keyframes iconEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Label */
+.label {
+  /* Inherits font-size from .root / .sizeSm / .sizeMd */
+}
+
+/* Reduced motion — collapse all animation durations (global tokens.css handles this,
+   but we also omit animation on reduced-motion explicitly for the keyframe) */
+@media (prefers-reduced-motion: reduce) {
+  .iconCheck,
+  .iconCopy {
+    animation: none;
+  }
+}

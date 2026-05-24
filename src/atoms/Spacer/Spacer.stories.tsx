@@ -27,7 +27,7 @@ const labelStyle: React.CSSProperties = {
 };
 
 export default {
-  title: "Components / Spacer",
+  title: "Atoms / Spacer",
   args: { size: "4", axis: "block", as: "div" },
   argTypes: {
     size: {

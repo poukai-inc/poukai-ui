@@ -2453,3 +2453,38 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   cta={<Button variant="primary" size="md">Start free trial</Button>}
 />
 ```
+
+### FeatureGrid
+- Responsive grid organism wrapping `FeatureCard` molecules inside a `Section` landmark. For marketing landing pages and feature-overview surfaces.
+- Root element: `<section>` via `Section` molecule — region landmark when `heading` is provided. `forwardRef<HTMLElement, FeatureGridProps>`. `...rest` spread. `displayName = "FeatureGrid"`.
+- `heading` (optional string) — forwarded to `Section` as `title`; wires `aria-labelledby` on the `<section>`.
+- `eyebrow` (optional `string | ReactNode`) — forwarded to `Section` as `eyebrow`.
+- `lede` (optional `string | ReactNode`) — forwarded to `Section` as `lede`.
+- `columns` (optional `2 | 3`, default `3`) — max column count. `3`: `minmax(16rem, 1fr)`. `2`: `minmax(20rem, 1fr)`. Mobile always collapses to 1 column via `auto-fit`.
+- `size` (optional `"default" | "tight"`, default `"default"`) — forwarded to `Section`. `"default"` = `--space-16` block padding; `"tight"` = `--space-12`.
+- `children` (required `ReactNode`) — idiomatic usage is one or more `<FeatureCard>` instances. Any count supported.
+- Grid gap: `--space-6` (24px) narrow; `--space-8` (32px) at `--bp-md` (768px).
+- No state, no motion, no interactive behavior. Static layout organism. All interaction lives inside child cards.
+- A11y: titled `FeatureGrid` = named region landmark via `aria-labelledby`. Untitled = unlabeled `<section>`. Grid `<div>` is presentational.
+
+```tsx
+// (a) Standard three-column grid:
+<FeatureGrid eyebrow="Platform" heading="What you get" lede="Supporting copy.">
+  <FeatureCard title="Ship faster" body="Days, not months." />
+  <FeatureCard title="Scale reliably" body="Automatic routing." />
+  <FeatureCard title="Observe everything" body="Every call logged." />
+</FeatureGrid>
+
+// (b) Two-column grid for wider cards:
+<FeatureGrid columns={2} heading="Enterprise capabilities">
+  <FeatureCard title="SSO" body="SAML 2.0 and OIDC." />
+  <FeatureCard title="Audit logs" body="Tamper-evident logs." />
+</FeatureGrid>
+
+// (c) Anonymous grid (no heading) embedded inside another Section:
+<FeatureGrid>
+  <FeatureCard title="Feature A" body="No outer heading." />
+  <FeatureCard title="Feature B" body="Grid gap still applies." />
+</FeatureGrid>
+```
+```

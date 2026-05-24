@@ -395,6 +395,11 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./organisms/FeatureGrid": {
+      "types": "./dist/organisms/FeatureGrid.d.ts",
+      "import": "./dist/organisms/FeatureGrid.js",
+      "require": "./dist/organisms/FeatureGrid.cjs"
+    },
     "./molecules/ShareLinks": {
       "types": "./dist/molecules/ShareLinks.d.ts",
       "import": "./dist/molecules/ShareLinks.js",

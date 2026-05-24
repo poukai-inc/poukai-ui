@@ -77,6 +77,7 @@ import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
+import { FeatureGrid } from "./organisms/FeatureGrid";
 import { RoleGrid } from "./organisms/RoleGrid";
 import { ShareLinks } from "./molecules/ShareLinks";
 import { TableOfContents } from "./molecules/TableOfContents";
@@ -1992,6 +1993,33 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- organisms ---------- */
+
+test("a11y — FeatureGrid (three-column, titled)", async ({ mount, page }) => {
+  await mount(
+    <FeatureGrid
+      eyebrow="Platform"
+      heading="What you get"
+      lede="Every capability your team needs to ship AI reliably."
+    >
+      <FeatureCard title="Ship faster" body="From prototype to production in days." />
+      <FeatureCard title="Scale reliably" body="Automatic routing across providers." />
+      <FeatureCard title="Observe everything" body="Every inference logged and traced." />
+    </FeatureGrid>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FeatureGrid (two-column, no heading)", async ({ mount, page }) => {
+  await mount(
+    <FeatureGrid columns={2}>
+      <FeatureCard title="Enterprise SSO" body="SAML 2.0 and OIDC integrations." />
+      <FeatureCard title="Audit logs" body="Immutable, tamper-evident logs." />
+    </FeatureGrid>,
   );
   await expectAxeClean(page);
 });

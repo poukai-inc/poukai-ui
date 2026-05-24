@@ -42,13 +42,13 @@
 
 ## 4. Variants / Props
 
-| Prop       | Type                              | Default     | Rationale                                                                                       |
-| ---------- | --------------------------------- | ----------- | ----------------------------------------------------------------------------------------------- |
-| `children` | `ReactNode`                       | required    | The visible label. Plain string expected; `ReactNode` for occasional `<strong>` emphasis.       |
-| `icon`     | `ReactNode`                       | `undefined` | Leading icon slot. Consumer supplies lucide-react icon at `size={16}` with `aria-hidden`.       |
-| `shortcut` | `string`                          | `undefined` | Keyboard shortcut hint rendered as `<Kbd>`. Display-only; not a functional key binding.         |
-| `tone`     | `"default" \| "danger"`           | `"default"` | `"danger"` shifts label color to `--danger` for destructive actions (Delete, Disconnect, etc.). |
-| `disabled` | `boolean`                         | `false`     | `opacity: 0.4`, `pointer-events: none`. Keeps row visible; communicates unavailability.         |
+| Prop       | Type                    | Default     | Rationale                                                                                       |
+| ---------- | ----------------------- | ----------- | ----------------------------------------------------------------------------------------------- |
+| `children` | `ReactNode`             | required    | The visible label. Plain string expected; `ReactNode` for occasional `<strong>` emphasis.       |
+| `icon`     | `ReactNode`             | `undefined` | Leading icon slot. Consumer supplies lucide-react icon at `size={16}` with `aria-hidden`.       |
+| `shortcut` | `string`                | `undefined` | Keyboard shortcut hint rendered as `<Kbd>`. Display-only; not a functional key binding.         |
+| `tone`     | `"default" \| "danger"` | `"default"` | `"danger"` shifts label color to `--danger` for destructive actions (Delete, Disconnect, etc.). |
+| `disabled` | `boolean`               | `false`     | `opacity: 0.4`, `pointer-events: none`. Keeps row visible; communicates unavailability.         |
 
 No `size` prop — menu rows are fixed at the meta register. No `variant` beyond `tone` — the DS menu aesthetic is uniform.
 

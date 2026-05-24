@@ -45,14 +45,14 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `items` | `Array<{ id: string; label: string; depth?: 1 \| 2 }>` | required | Anchor list. `depth` enables sub-item indent for H3-level sections. |
-| `heading` | `string` | `undefined` | Optional "On this page" label above the list. Omit on narrow contexts. |
-| `activeId` | `string` | `undefined` | Controlled active item. When provided, overrides IntersectionObserver. |
-| `onActiveChange` | `(id: string) => void` | `undefined` | Escape hatch for controlled consumers. |
-| `offset` | `number` | `0` | Pixel offset for IntersectionObserver `rootMargin` top — matches sticky header height so the active item fires at the correct scroll position. |
-| `className` | `string` | `undefined` | Layout override; sticky positioning is the consumer's grid column concern. |
+| Prop             | Type                                                   | Default     | Rationale                                                                                                                                      |
+| ---------------- | ------------------------------------------------------ | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `items`          | `Array<{ id: string; label: string; depth?: 1 \| 2 }>` | required    | Anchor list. `depth` enables sub-item indent for H3-level sections.                                                                            |
+| `heading`        | `string`                                               | `undefined` | Optional "On this page" label above the list. Omit on narrow contexts.                                                                         |
+| `activeId`       | `string`                                               | `undefined` | Controlled active item. When provided, overrides IntersectionObserver.                                                                         |
+| `onActiveChange` | `(id: string) => void`                                 | `undefined` | Escape hatch for controlled consumers.                                                                                                         |
+| `offset`         | `number`                                               | `0`         | Pixel offset for IntersectionObserver `rootMargin` top — matches sticky header height so the active item fires at the correct scroll position. |
+| `className`      | `string`                                               | `undefined` | Layout override; sticky positioning is the consumer's grid column concern.                                                                     |
 
 `depth=2` items indent by `--space-4` (16px) and render at `--fs-micro` to signal sub-section hierarchy. Maximum supported depth: 2.
 

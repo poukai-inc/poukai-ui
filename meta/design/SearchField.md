@@ -44,16 +44,16 @@
 
 ## 4. Variants / Props
 
-| Prop            | Type                   | Default       | Rationale |
-|-----------------|------------------------|---------------|-----------|
-| `value`         | `string`               | —             | Controlled value; pair with `onValueChange` |
-| `defaultValue`  | `string`               | `""`          | Uncontrolled initial value |
-| `onValueChange` | `(v: string) => void`  | —             | Change handler; receives the new string on every keystroke |
-| `placeholder`   | `string`               | `"Search…"`   | Default matches the most common usage; consumers override |
-| `size`          | `"sm" \| "md"`         | `"md"`        | Aligns with `--btn-h-sm` / `--btn-h-md` for height-consistent rows |
-| `disabled`      | `boolean`              | `false`       | Disables input and suppresses clear button |
-| `label`         | `string`               | —             | Passed to the `Field` wrapper; visually hidden by default via `Field` convention |
-| `name`          | `string`               | —             | Form field name for native form submission |
+| Prop            | Type                  | Default     | Rationale                                                                        |
+| --------------- | --------------------- | ----------- | -------------------------------------------------------------------------------- |
+| `value`         | `string`              | —           | Controlled value; pair with `onValueChange`                                      |
+| `defaultValue`  | `string`              | `""`        | Uncontrolled initial value                                                       |
+| `onValueChange` | `(v: string) => void` | —           | Change handler; receives the new string on every keystroke                       |
+| `placeholder`   | `string`              | `"Search…"` | Default matches the most common usage; consumers override                        |
+| `size`          | `"sm" \| "md"`        | `"md"`      | Aligns with `--btn-h-sm` / `--btn-h-md` for height-consistent rows               |
+| `disabled`      | `boolean`             | `false`     | Disables input and suppresses clear button                                       |
+| `label`         | `string`              | —           | Passed to the `Field` wrapper; visually hidden by default via `Field` convention |
+| `name`          | `string`              | —           | Form field name for native form submission                                       |
 
 No `tone`, `variant`, or `invalid` prop in this version — search fields are filter controls, not form validation targets. The `disabled` state follows `Input` atom conventions (`opacity: 0.5`, `pointer-events: none`).
 

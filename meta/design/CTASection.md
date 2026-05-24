@@ -46,14 +46,14 @@
 
 ## 4. Variants / Props
 
-| Prop          | Type                        | Default       | Rationale                                                                                 |
-| ------------- | --------------------------- | ------------- | ----------------------------------------------------------------------------------------- |
-| `heading`     | `string`                    | —             | Required. The conversion headline.                                                        |
-| `body`        | `string \| ReactNode`       | —             | Optional. Supporting copy below the heading.                                              |
-| `actions`     | `ReactNode`                 | —             | Required. One or two `Button` instances. DS does not prescribe Button variant — consumer chooses. |
-| `surface`     | `"default" \| "recessed"`   | `"default"`   | `"default"` = page `--bg`, no band. `"recessed"` = `--surface-section` band + hairline rule on top. |
-| `size`        | `"default" \| "tight"`      | `"default"`   | Maps directly to `Section` size prop — controls block padding.                            |
-| `align`       | `"center" \| "start"`       | `"center"`    | Header block alignment. `"center"` is the CTA-section convention (closing moment, bilateral symmetry). `"start"` for editorial surfaces that want left-aligned rhythm continuity. |
+| Prop      | Type                      | Default     | Rationale                                                                                                                                                                         |
+| --------- | ------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `heading` | `string`                  | —           | Required. The conversion headline.                                                                                                                                                |
+| `body`    | `string \| ReactNode`     | —           | Optional. Supporting copy below the heading.                                                                                                                                      |
+| `actions` | `ReactNode`               | —           | Required. One or two `Button` instances. DS does not prescribe Button variant — consumer chooses.                                                                                 |
+| `surface` | `"default" \| "recessed"` | `"default"` | `"default"` = page `--bg`, no band. `"recessed"` = `--surface-section` band + hairline rule on top.                                                                               |
+| `size`    | `"default" \| "tight"`    | `"default"` | Maps directly to `Section` size prop — controls block padding.                                                                                                                    |
+| `align`   | `"center" \| "start"`     | `"center"`  | Header block alignment. `"center"` is the CTA-section convention (closing moment, bilateral symmetry). `"start"` for editorial surfaces that want left-aligned rhythm continuity. |
 
 **`align="center"` default rationale.** This is the one place in the DS where centering is the brand-correct default. End-of-page CTA moments use bilateral symmetry across every reference system (Apple, Stripe, Linear). It signals "this is the conclusion." The standard Section spec explicitly rejects center-alignment as a general variant — this organism is the scoped exception, which is why the centering lives here, not in Section or CtaBlock.
 

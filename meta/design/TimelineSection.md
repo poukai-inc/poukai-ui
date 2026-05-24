@@ -41,15 +41,15 @@
 
 ## 4. Variants / Props
 
-| Prop        | Type                         | Default       | Rationale                                                                      |
-| ----------- | ---------------------------- | ------------- | ------------------------------------------------------------------------------ |
-| `eyebrow`   | `string \| ReactNode`        | `undefined`   | Delegated to Section eyebrow slot                                              |
-| `heading`   | `ReactNode`                  | `undefined`   | Delegated to Section title slot (h2 by default)                                |
-| `headingAs` | `"h1" \| "h2" \| "h3"`      | `"h2"`        | Delegated to Section titleAs; `h2` correct below a Hero h1                    |
-| `lede`      | `ReactNode`                  | `undefined`   | Delegated to Section lede slot                                                 |
-| `size`      | `"default" \| "tight"`      | `"default"`   | Delegated to Section size; `tight` for denser editorial contexts               |
-| `children`  | `ReactNode`                  | required      | One or more `TimelineItem` elements; rendered inside the `<ol>` track          |
-| `reversed`  | `boolean`                    | `false`       | When true, renders the list in reverse DOM order (newest-first). Consumers pass items oldest-first; `reversed` flips display without changing source order. Uses HTML `<ol reversed>`. |
+| Prop        | Type                   | Default     | Rationale                                                                                                                                                                              |
+| ----------- | ---------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `eyebrow`   | `string \| ReactNode`  | `undefined` | Delegated to Section eyebrow slot                                                                                                                                                      |
+| `heading`   | `ReactNode`            | `undefined` | Delegated to Section title slot (h2 by default)                                                                                                                                        |
+| `headingAs` | `"h1" \| "h2" \| "h3"` | `"h2"`      | Delegated to Section titleAs; `h2` correct below a Hero h1                                                                                                                             |
+| `lede`      | `ReactNode`            | `undefined` | Delegated to Section lede slot                                                                                                                                                         |
+| `size`      | `"default" \| "tight"` | `"default"` | Delegated to Section size; `tight` for denser editorial contexts                                                                                                                       |
+| `children`  | `ReactNode`            | required    | One or more `TimelineItem` elements; rendered inside the `<ol>` track                                                                                                                  |
+| `reversed`  | `boolean`              | `false`     | When true, renders the list in reverse DOM order (newest-first). Consumers pass items oldest-first; `reversed` flips display without changing source order. Uses HTML `<ol reversed>`. |
 
 No `orientation` prop — horizontal timelines are a different layout pattern outside this spec.
 

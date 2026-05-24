@@ -44,13 +44,13 @@ The root `<ol>` uses `display: flex; align-items: flex-start` to lay the steps a
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `steps` | `Array<{ label: string }>` | required | Ordered step definitions. Label is the visible text below each marker. |
-| `current` | `number` (0-based index) | required | Index of the active step. Steps before `current` are complete; steps after are upcoming. |
-| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Horizontal for wizard headers; vertical for sidebar process lists. |
-| `size` | `"sm" \| "md"` | `"md"` | `"sm"` reduces marker diameter and hides labels — useful for space-constrained wizard headers. `"md"` shows labels. |
-| `showLabels` | `boolean` | `true` | Explicit override; `size="sm"` sets this to `false` by default. Consumers may want `size="md"` without labels in narrow contexts. |
+| Prop          | Type                         | Default        | Rationale                                                                                                                         |
+| ------------- | ---------------------------- | -------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `steps`       | `Array<{ label: string }>`   | required       | Ordered step definitions. Label is the visible text below each marker.                                                            |
+| `current`     | `number` (0-based index)     | required       | Index of the active step. Steps before `current` are complete; steps after are upcoming.                                          |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` | Horizontal for wizard headers; vertical for sidebar process lists.                                                                |
+| `size`        | `"sm" \| "md"`               | `"md"`         | `"sm"` reduces marker diameter and hides labels — useful for space-constrained wizard headers. `"md"` shows labels.               |
+| `showLabels`  | `boolean`                    | `true`         | Explicit override; `size="sm"` sets this to `false` by default. Consumers may want `size="md"` without labels in narrow contexts. |
 
 **State derivation** (no explicit per-step `state` prop — state is derived from `current`):
 

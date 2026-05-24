@@ -32,13 +32,13 @@ No new tokens needed.
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `url` | `string` | — (required) | The URL to share / copy. |
-| `title` | `string` | `""` | Passed to `navigator.share` and pre-filled in intent URLs. |
-| `networks` | `Array<"x" \| "linkedin" \| "copy">` | `["x","linkedin","copy"]` | Consumers can omit networks irrelevant to their surface. Order in the array determines render order. |
-| `size` | `"sm" \| "md"` | `"md"` | Maps to `IconButton` size prop. `"sm"` for compact editorial footers; `"md"` for end-of-article placements. |
-| `className` | `string` | — | Forwarded to the root `div` for layout overrides. |
+| Prop        | Type                                 | Default                   | Rationale                                                                                                   |
+| ----------- | ------------------------------------ | ------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `url`       | `string`                             | — (required)              | The URL to share / copy.                                                                                    |
+| `title`     | `string`                             | `""`                      | Passed to `navigator.share` and pre-filled in intent URLs.                                                  |
+| `networks`  | `Array<"x" \| "linkedin" \| "copy">` | `["x","linkedin","copy"]` | Consumers can omit networks irrelevant to their surface. Order in the array determines render order.        |
+| `size`      | `"sm" \| "md"`                       | `"md"`                    | Maps to `IconButton` size prop. `"sm"` for compact editorial footers; `"md"` for end-of-article placements. |
+| `className` | `string`                             | —                         | Forwarded to the root `div` for layout overrides.                                                           |
 
 Native share fast-path is automatic — no prop needed. When `navigator.share` is defined the component renders the single-button path regardless of the `networks` array.
 

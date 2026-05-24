@@ -38,16 +38,17 @@
 
 ## 4. Variants / Props
 
-| Prop       | Type                           | Default       | Rationale                                                                                                     |
-| ---------- | ------------------------------ | ------------- | ------------------------------------------------------------------------------------------------------------- |
-| `heading`  | `string`                       | —             | Optional. Forwarded to `Section` as `title`. Omit for anonymous grid blocks (e.g. embedded inside another Section). |
-| `eyebrow`  | `string \| ReactNode`          | —             | Optional. Forwarded to `Section` as `eyebrow`. |
-| `lede`     | `string \| ReactNode`          | —             | Optional. Forwarded to `Section` as `lede`. |
-| `columns`  | `2 \| 3`                       | `3`           | Max column count at widest viewport. `2` for wider cards (e.g. dense copy); `3` is the standard feature grid. `1` is always the mobile fallback via `minmax`. |
-| `size`     | `"default" \| "tight"`         | `"default"`   | Forwarded to Section. `"tight"` for dense in-product surfaces. |
-| `children` | `ReactNode`                    | required      | `FeatureCard` instances. Any count — `auto-fit` fills available columns. |
+| Prop       | Type                   | Default     | Rationale                                                                                                                                                     |
+| ---------- | ---------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `heading`  | `string`               | —           | Optional. Forwarded to `Section` as `title`. Omit for anonymous grid blocks (e.g. embedded inside another Section).                                           |
+| `eyebrow`  | `string \| ReactNode`  | —           | Optional. Forwarded to `Section` as `eyebrow`.                                                                                                                |
+| `lede`     | `string \| ReactNode`  | —           | Optional. Forwarded to `Section` as `lede`.                                                                                                                   |
+| `columns`  | `2 \| 3`               | `3`         | Max column count at widest viewport. `2` for wider cards (e.g. dense copy); `3` is the standard feature grid. `1` is always the mobile fallback via `minmax`. |
+| `size`     | `"default" \| "tight"` | `"default"` | Forwarded to Section. `"tight"` for dense in-product surfaces.                                                                                                |
+| `children` | `ReactNode`            | required    | `FeatureCard` instances. Any count — `auto-fit` fills available columns.                                                                                      |
 
 Column `minmax` thresholds (not a new token — inline values expressing the grid intent):
+
 - `columns=3`: `minmax(16rem, 1fr)` — yields 3 columns above ~560px, 2 above ~320px, 1 below
 - `columns=2`: `minmax(20rem, 1fr)` — yields 2 columns above ~440px, 1 below
 

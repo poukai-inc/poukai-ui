@@ -1,6 +1,6 @@
 # TagList
 
-**Status:** Draft (poukai-design — Phase 1 batch scaffold; pending approval).
+**Status:** Approved (Phase 2 — orchestrator sign-off for pilot wave; poukai-design human review pending).
 
 ## 1. Intent
 
@@ -30,12 +30,12 @@ No new tokens.
 
 ## 4. Variants / Props
 
-| Prop       | Type        | Default     | Rationale                                                                                                         |
-| ---------- | ----------- | ----------- | ----------------------------------------------------------------------------------------------------------------- |
-| `max`      | `number`    | `undefined` | When set, renders only the first `max` children; surplus collapses into a `+N` muted Tag. Omit to show all Tags. |
-| `gap`      | `"sm" \| "md"` | `"md"`   | `"md"` = `--space-2` (8px); `"sm"` = `--space-1` (4px) for denser contexts (table cells, compact card footers). |
-| `children` | `ReactNode` | required    | One or more `<Tag>` elements. TagList does not enforce child type — the engineer documents the expected child.    |
-| `className` | `string`   | `undefined` | Layout overrides by consumer (margin, alignment). TagList has no self-margin.                                     |
+| Prop        | Type           | Default     | Rationale                                                                                                        |
+| ----------- | -------------- | ----------- | ---------------------------------------------------------------------------------------------------------------- |
+| `max`       | `number`       | `undefined` | When set, renders only the first `max` children; surplus collapses into a `+N` muted Tag. Omit to show all Tags. |
+| `gap`       | `"sm" \| "md"` | `"md"`      | `"md"` = `--space-2` (8px); `"sm"` = `--space-1` (4px) for denser contexts (table cells, compact card footers).  |
+| `children`  | `ReactNode`    | required    | One or more `<Tag>` elements. TagList does not enforce child type — the engineer documents the expected child.   |
+| `className` | `string`       | `undefined` | Layout overrides by consumer (margin, alignment). TagList has no self-margin.                                    |
 
 `gap="md"` is the correct default for editorial article tag rows. `gap="sm"` exists for dense surfaces where 8px gaps push adjacent Tags too wide.
 

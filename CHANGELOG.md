@@ -1,5 +1,42 @@
 # @poukai-inc/ui
 
+## 2.4.0
+
+### Minor Changes
+
+- 1a396a8: feat(molecule): add Breadcrumb — hierarchical location trail
+
+  `<Breadcrumb>` renders a `<nav aria-label="Breadcrumb">` + `<ol>` + `<li>` item trail for nested dashboard and product routes. Supports compound `<Breadcrumb.Item>` children and a data-driven `items` prop. Separator is configurable (default `›`). Current (terminal) item carries `aria-current="page"` and is rendered as plain text, not a link. Full axe-core a11y pass, Playwright CT, and Ladle stories included.
+
+  Closes #157.
+
+## 2.3.0
+
+### Minor Changes
+
+- 0c8c980: feat(molecule): add Fieldset — groups related Field molecules under a semantic legend with consistent vertical spacing and optional bordered variant
+
+## 2.2.0
+
+### Minor Changes
+
+- fd5eebf: feat(molecule): add TagList — canonical wrapper for a collection of Tag atoms
+
+  Implements `TagList` per `meta/design/TagList.md` (Phase 2).
+  - Flex-wrap layout with configurable `gap` (`"md"` = `--space-2`, `"sm"` = `--space-1`)
+  - Optional `max` prop collapses surplus Tags into a `<Tag tone="muted">+{N}</Tag>` overflow pill (surplus children sliced from DOM, not hidden with CSS)
+  - `forwardRef` to root `<div>`, full `...rest` spread for `data-*` / `aria-*` pass-through
+  - Ladle stories: `Default`, `GapSm`, `WithMax`, `WithMaxExactBoundary`, `MixedTones`, `ArticleTagging`
+  - Playwright CT: child rendering, max overflow behavior, overflow count accuracy, ref/className/data-\* forwarding
+  - axe-core: 0 violations across default, overflow, and gap=sm mounts
+  - No new tokens — consumes existing `--space-1`, `--space-2` from tokens.css
+
+## 2.1.0
+
+### Minor Changes
+
+- 1f2f482: feat(molecule): add Byline — avatar + name + role + optional Time
+
 ## 2.0.1
 
 ### Patch Changes

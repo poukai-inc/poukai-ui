@@ -1120,6 +1120,7 @@ test("a11y — FeatureCard (as='section')", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+import { ArticleLayout } from "./organisms/ArticleLayout";
 import { HeroSection } from "./organisms/HeroSection";
 import { StepsSection } from "./organisms/StepsSection";
 import { Sidebar } from "./organisms/Sidebar";
@@ -2896,6 +2897,17 @@ test("a11y — Carousel (no indicators, loop)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- ArticleLayout ---------- */
+
+test("a11y — ArticleLayout (default, article landmark)", async ({ mount, page }) => {
+  await mount(
+    <ArticleLayout>
+      <p>Long-form article body content for accessibility testing.</p>
+    </ArticleLayout>,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- Accordion ---------- */
 
 test("a11y — Accordion (single, collapsible, closed)", async ({ mount, page }) => {
@@ -3050,6 +3062,22 @@ test("a11y — PricingTable (3-tier default)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — ArticleLayout (with header slot)", async ({ mount, page }) => {
+  await mount(
+    <ArticleLayout
+      header={
+        <div>
+          <h1>Article title</h1>
+          <p>Lede paragraph for the article.</p>
+        </div>
+      }
+    >
+      <p>Article body content.</p>
+    </ArticleLayout>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — Accordion (with disabled item)", async ({ mount, page }) => {
   await mount(
     <Accordion.Root type="single" collapsible>
@@ -3193,6 +3221,17 @@ test("a11y — ArticleHeader (with share slot + divider)", async ({ mount, page 
         }
         divider
       />
+    </article>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — ArticleLayout (as div, no landmark conflict)", async ({ mount, page }) => {
+  await mount(
+    <article>
+      <ArticleLayout as="div">
+        <p>Nested article body — using div to avoid double article landmark.</p>
+      </ArticleLayout>
     </article>,
   );
   await expectAxeClean(page);

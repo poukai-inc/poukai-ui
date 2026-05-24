@@ -435,6 +435,11 @@
       "import": "./dist/organisms/HeroSection.js",
       "require": "./dist/organisms/HeroSection.cjs"
     },
+    "./organisms/StepsSection": {
+      "types": "./dist/organisms/StepsSection.d.ts",
+      "import": "./dist/organisms/StepsSection.js",
+      "require": "./dist/organisms/StepsSection.cjs"
+    },
     "./organisms/StatsSection": {
       "types": "./dist/organisms/StatsSection.d.ts",
       "import": "./dist/organisms/StatsSection.js",

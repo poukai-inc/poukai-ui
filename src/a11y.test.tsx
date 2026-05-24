@@ -1069,6 +1069,7 @@ test("a11y — FeatureCard (as='section')", async ({ mount, page }) => {
 });
 
 import { HeroSection } from "./organisms/HeroSection";
+import { StepsSection } from "./organisms/StepsSection";
 import { Sidebar } from "./organisms/Sidebar";
 
 /* ---------- organisms ---------- */
@@ -1175,6 +1176,22 @@ test("a11y — Dialog (compound API, open)", async ({ mount, page }) => {
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StepsSection (3 steps, marketing composition)", async ({ mount, page }) => {
+  await mount(
+    <StepsSection
+      heading="How it works."
+      eyebrow="Process"
+      lede="Three steps to ship a working pilot."
+      steps={[
+        { label: "Sign up", body: "Create your account." },
+        { label: "Connect data", body: "Link your data source." },
+        { label: "Ship", body: "Publish your first project." },
+      ]}
+    />,
   );
   await expectAxeClean(page);
 });

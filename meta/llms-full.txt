@@ -2607,3 +2607,11 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   </FailureMode>
 </FailureModeList>
 ```
+
+### StepsSection
+
+- Marketing process-explainer organism. Wraps `Section` molecule + a `Stepper` molecule. Renders the "how it works" 3-step row on landing pages.
+- Root: `<section>` via Section molecule. `forwardRef<HTMLElement, StepsSectionProps>`. `...rest` spread to root.
+- Composes: Section (header / eyebrow / lede), Stepper (numbered steps).
+- Tokens: inherits Section spacing; Stepper rhythm tokens.
+- Do NOT use for live multi-step flows (signup wizard etc.) — that's interactive Stepper territory.

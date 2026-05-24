@@ -42,6 +42,7 @@ export {
   type ToastPayload,
   type ToastTone,
 } from "./organisms/Toast";
+export { StepsSection, type StepsSectionProps } from "./organisms/StepsSection";
 export {
   LogoCloud,
   type LogoCloudProps,

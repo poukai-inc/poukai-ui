@@ -2687,18 +2687,6 @@ test("a11y — TimePicker (default, with label)", async ({ mount, page }) => {
       <label htmlFor="a11y-tp-main">Start time</label>
       <TimePicker id="a11y-tp-main" />
     </div>,
-/* ---------- CodeBlock ---------- */
-
-test("a11y — CodeBlock (default, copy visible)", async ({ mount, page }) => {
-  await mount(<CodeBlock>{`const x = 1;`}</CodeBlock>);
-  await expectAxeClean(page);
-});
-
-test("a11y — CodeBlock (with language label and caption)", async ({ mount, page }) => {
-  await mount(
-    <CodeBlock language="tsx" caption="src/components/Example.tsx">
-      {`const x = 1;`}
-    </CodeBlock>,
   );
   await expectAxeClean(page);
 });
@@ -2827,6 +2815,25 @@ test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
       <TimePicker id="a11y-tp-dis" disabled />
     </div>,
   );
+  await expectAxeClean(page);
+});
+
+/* ---------- CodeBlock ---------- */
+
+test("a11y — CodeBlock (default, copy visible)", async ({ mount, page }) => {
+  await mount(<CodeBlock>{`const x = 1;`}</CodeBlock>);
+  await expectAxeClean(page);
+});
+
+test("a11y — CodeBlock (with language label and caption)", async ({ mount, page }) => {
+  await mount(
+    <CodeBlock language="tsx" caption="src/components/Example.tsx">
+      {`const x = 1;`}
+    </CodeBlock>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — CodeBlock (hideCopy, no language — no header bar)", async ({ mount, page }) => {
   await mount(<CodeBlock hideCopy>{`const decorative = true;`}</CodeBlock>);
   await expectAxeClean(page);

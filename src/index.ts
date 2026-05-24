@@ -269,6 +269,14 @@ export {
   type AccordionTone,
 } from "./molecules/Accordion";
 export { FAQItem, type FAQItemProps, type FAQItemQuestionAs } from "./molecules/FAQItem";
+export {
+  DataTable,
+  type DataTableProps,
+  type ColumnDef,
+  type SortState,
+  type SortDirection,
+  type FilterState,
+} from "./molecules/DataTable";
 /* ---------- organisms ---------- */
 export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";

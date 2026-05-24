@@ -146,6 +146,7 @@ export default defineConfig({
               "molecules/AudioPlayer": resolve(__dirname, "src/molecules/AudioPlayer/index.ts"),
               "molecules/Accordion": resolve(__dirname, "src/molecules/Accordion/index.ts"),
               "molecules/FAQItem": resolve(__dirname, "src/molecules/FAQItem/index.ts"),
+              "molecules/DataTable": resolve(__dirname, "src/molecules/DataTable/index.ts"),
               "molecules/NewsletterField": resolve(
                 __dirname,
                 "src/molecules/NewsletterField/index.ts",

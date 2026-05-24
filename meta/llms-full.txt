@@ -2875,6 +2875,67 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   aria-label="Episode 12 — Design systems"
   caption="Episode 12 — Design systems"
   transcriptHref="/transcripts/ep-12"
+### DataTable
+- Sortable, filterable, paginated table molecule. Composes `Table` + `Pagination` + `EmptyState` into a single controlled unit. Pure React — no TanStack Table or external data-grid dependency.
+- Root element: `<section aria-label={caption ?? "Data table"}>`. `forwardRef<HTMLElement, DataTableProps>`. `...rest` spread. `displayName = "DataTable"`.
+- Generic over row shape: `DataTable<TRow>`. Consumer passes column definitions and pre-sliced page data; DataTable owns no server-fetch or data-slice logic.
+- `columns` (ColumnDef<TRow>[], required) — array of `{ id, header, accessor, sortable?, filterable? }`. `accessor` is `(row: TRow) => ReactNode`.
+- `rows` (TRow[], required) — current page slice. DataTable does not slice — consumer passes the right window.
+- `sortState` (SortState | null, default null) — controlled: `{ columnId: string; direction: "asc" | "desc" }`. Pass null for unsorted.
+- `onSortChange` ((next: SortState | null) => void) — called on sortable header click. Cycle: null → asc → desc → null.
+- `filterState` (FilterState, default {}) — `Record<columnId, string[]>`. Metadata only; filter UI lives in consumer `toolbar` slot.
+- `onFilterChange` ((next: FilterState) => void) — propagated from toolbar controls.
+- `page` (number, default 1) — current 1-based page.
+- `pageSize` (number, default 20) — informational; consumer slices data.
+- `pageCount` (number, required) — total pages. Drives `Pagination`. Pass `Math.ceil(totalRows / pageSize)`.
+- `onPageChange` ((page: number) => void) — called on page navigation. Pagination is suppressed when omitted or pageCount <= 1.
+- `emptyState` (ReactNode) — shown when rows.length === 0. Defaults to `<EmptyState title="No results" />`.
+- `toolbar` (ReactNode) — slot above table. Use for SearchField, filter pickers, segment controls.
+- `density` ("compact" | "comfortable", default "comfortable") — forwarded to Table.
+- `caption` (string, optional) — populates `<caption>` (always in DOM, visually hidden) and `aria-label` on root section. Required for a11y when multiple tables are on the page.
+- `totalRows` (number, optional) — used to build aria-live announcement: "Showing N of M results".
+- A11y: `<section aria-label>` = landmark region. `<caption>` always present in DOM (visually hidden). `aria-sort="ascending"|"descending"|"none"` on sortable `<th>`. `aria-live="polite"` region announces row count on state change. Focus moves to first interactive element in tbody (or tbody itself) on page change. `Pagination` handles its own aria-current/aria-label. Empty state is not hidden from AT.
+- Tokens: `--space-1`, `--space-4`, `--space-6`, `--space-8`, `--accent`, `--radius-1`, `--radius-2`, `--hairline`. All table/pagination/empty-state tokens inherited from composed molecules.
+- No new Radix dependency. No new design tokens.
+- Do NOT use for fewer than ~10 rows of static data — use `Table` directly. Do NOT use as a spreadsheet (inline cell editing is out of scope). Do NOT nest DataTable inside DataTable.
+
+```tsx
+// (a) Controlled sort + pagination:
+const [sortState, setSortState] = useState<SortState | null>(null);
+const [page, setPage] = useState(1);
+const pageSize = 20;
+const sorted = [...allRows].sort(/* your sort fn */);
+const pageRows = sorted.slice((page - 1) * pageSize, page * pageSize);
+
+<DataTable
+  columns={columns}
+  rows={pageRows}
+  sortState={sortState}
+  onSortChange={setSortState}
+  page={page}
+  pageSize={pageSize}
+  pageCount={Math.ceil(allRows.length / pageSize)}
+  onPageChange={setPage}
+  caption="Scheduled posts"
+  totalRows={allRows.length}
+/>
+
+// (b) With toolbar filter slot:
+<DataTable
+  columns={columns}
+  rows={filteredRows}
+  pageCount={1}
+  caption="Comments"
+  toolbar={<SearchField value={query} onValueChange={setQuery} placeholder="Search…" />}
+/>
+
+// (c) Custom empty state:
+<DataTable
+  columns={columns}
+  rows={[]}
+  pageCount={0}
+  caption="Posts"
+  emptyState={<EmptyState title="No posts yet" action={<Button>Create post</Button>} />}
 />
 
 // (b) Minimal — controls only:

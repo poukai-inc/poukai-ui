@@ -647,6 +647,30 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 </FieldNote>
 ```
 
+### Alert
+- Inline semantic banner molecule. Five variants: `info`, `success`, `warn`, `error`, `note`. Communicates product feedback with a defined emotional register. Distinct from `FieldNote` (no live-region semantics) and `Banner` (full-width). Alert is inline, persistent, block-level.
+- Root element: `<div>` with explicit `role` per variant. Not polymorphic. Always `<div>`.
+- `variant` (optional): `"info" | "success" | "warn" | "error" | "note"`. Default: `"info"`. Maps to surface color, icon, and ARIA role.
+- `title` (optional string): Scannable label above body. Rendered as `<strong>` — NOT a heading. No heading levels inside inline banners.
+- `children` (required ReactNode): Body copy. Rendered inside `<p>`.
+- `icon` (optional ReactNode | null): Override default icon. Pass `null` to suppress entirely. Default auto-selects a lucide-react icon per variant.
+- ARIA roles: `info/success/warn` → `role="status"` (polite). `error` → `role="alert"` (assertive). `note` → `role="note"` (static landmark). Never use `role="alert"` for non-urgent messages.
+- Variant surfaces: `info/note` → `--surface`. `success` → `--bg-success` / `--fg-on-success`. `warn` → `--bg-warning` / `--fg-on-warning`. `error` → `--bg-danger` / `--fg-on-danger`. `note` uses `--fg-muted` text.
+- Icon colors: `info` → `--accent`. `success` → `--success`. `warn` → `--warning`. `error` → `--danger`. `note` → `--fg-muted`.
+- Leading icon carries `aria-hidden="true"` — decorative. Variant conveys semantic register.
+- Tokens consumed: `--surface`, `--bg-success`, `--fg-on-success`, `--bg-danger`, `--fg-on-danger`, `--bg-warning`, `--fg-on-warning`, `--fg`, `--fg-muted`, `--accent`, `--success`, `--danger`, `--warning`, `--hairline`, `--hairline-w`, `--font-sans`, `--fs-meta`, `--lh-body`, `--space-1`, `--space-2`, `--space-3`, `--space-4`, `--radius-2`, `--icon-sm`. No new tokens introduced.
+- Do NOT use Alert for toast/transient notifications. Use `<Toast>`. Do NOT use Alert to replace `<FieldNote>` — FieldNote has no live-region semantics. Do NOT nest Alert inside `<p>`. Do NOT use `note` variant for urgent feedback.
+
+```tsx
+<Alert variant="error" title="Submission failed">
+  Please fix the highlighted fields and try again.
+</Alert>
+
+<Alert variant="success">Profile updated successfully.</Alert>
+
+<Alert variant="info" icon={null}>Icon suppressed.</Alert>
+```
+
 ### Quote
 - Attributed customer testimonial molecule. A short prose block (1–4 sentences) from a named person, with optional role/title and optional avatar slot. Primary surface: customer story pages and social-proof sections.
 - Root element: `<figure>`. Not polymorphic — `<figure>` is the single correct semantic root for attributed quotations per HTML5. Inside: `<blockquote>` for the quoted body, `<figcaption>` for the attribution row. This structure correctly associates the attribution with the quote at the HTML semantic level — no extra ARIA needed.
@@ -1028,6 +1052,33 @@ import { Icon } from "@poukai-inc/ui";
 </Field>
 ```
 
+### FormRow
+- Horizontal multi-Field layout molecule. Places two or more `Field` instances side-by-side with consistent column widths and gap rhythm; collapses to single-column stack below `--bp-md` (768px).
+- Root element: `<div>`. No landmark semantics — purely a layout wrapper. `forwardRef<HTMLDivElement, FormRowProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, `style`, etc. `displayName = "FormRow"`.
+- `gap` (optional `"default" | "tight"`, default `"default"`) — column gap between Fields. `"default"` = `--space-4`; `"tight"` = `--space-2` for dense forms.
+- `columns` (optional `number`) — explicit column count. Defaults to `auto-fill` (1fr per child). Sets `--formrow-columns` CSS custom property and activates explicit `repeat(N, 1fr)` grid track.
+- `children` (`ReactNode`) — one or more `Field` molecules. 2–4 recommended; more than 4 reads as cramped.
+- CSS grid layout: `display: grid; grid-template-columns: repeat(auto-fill, minmax(0, 1fr))`. With explicit `columns` prop: `repeat(var(--formrow-columns), 1fr)`.
+- Collapses to `grid-template-columns: 1fr` below `@media (max-width: 767px)` (just under `--bp-md`).
+- Tokens consumed: `--space-2`, `--space-4`, `--space-6`, `--bp-md`. No new tokens.
+- Not a fieldset replacement — provides no semantic grouping. Wrap in `Fieldset` when `<fieldset>`/`<legend>` grouping is needed.
+- Do NOT use for more than 4 columns. Do NOT use for unrelated fields. Do NOT use as a data-table row.
+
+```tsx
+// (a) First name / Last name:
+<FormRow>
+  <Field label="First name" id="first-name"><Input /></Field>
+  <Field label="Last name" id="last-name"><Input /></Field>
+</FormRow>
+
+// (b) City / State / ZIP (tight gap, explicit 3 columns):
+<FormRow gap="tight" columns={3}>
+  <Field label="City" id="city"><Input /></Field>
+  <Field label="State" id="state"><Input /></Field>
+  <Field label="ZIP" id="zip"><Input /></Field>
+</FormRow>
+```
+
 ### Banner
 - Persistent inline notice molecule. Sits in document flow; not a toast, not a modal, not a status indicator.
 - Root element: `<div>`. `forwardRef<HTMLDivElement, BannerProps>`. `...rest` spread. `displayName = "Banner"`.
@@ -1072,6 +1123,66 @@ import { Icon } from "@poukai-inc/ui";
 </Banner>
 ```
 
+### HeroSection
+- Organism layer. Marketing-page primary hero band — the sole `<h1>` moment on any page.
+- Composes `Hero` molecule (title, status, lede, CTA, entrance stagger) inside a landmark `<section>`.
+- Optional `media` slot: two-column CSS grid at `md+` (≥ 768px), text left (`--hero-max`), media right (`--hero-illustration-max`). Single stacked column below.
+- Props: `title` (required), `status`, `lede`, `cta`, `media`, `size` (`"display"` | `"intimate"`), `entrance` (`"stagger"`), `sectionSize` (`"default"` | `"tight"`), `as` (`"section"` | `"article"` | `"div"`).
+- `sectionSize` controls block padding independently of Hero's `size`. Default: `--space-16`; tight: `--space-12`.
+- A11y: root `<section>` is a region landmark via `aria-labelledby` pointing at the text column (which contains the `<h1>`). One HeroSection per page only.
+- Media column follows text column in DOM order — do NOT reorder with CSS `order`.
+- Do NOT nest HeroSection inside Section or another HeroSection.
+- Do NOT use HeroSection when no title is needed — use `Hero variant="no-title"` instead.
+- Import: `import { HeroSection } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/HeroSection"`.
+
+### CtaBlock
+- Heading + body + action row molecule. The reusable inline conversion moment — "Ready to start? [Get a demo]" pattern.
+- Root element: `<div>`. `forwardRef<HTMLDivElement, CtaBlockProps>`. `...rest` spread. `displayName = "CtaBlock"`.
+- `heading` (required `ReactNode`) — primary CTA text. Rendered as `headingAs` element.
+- `headingAs` (optional `"h1" | "h2" | "h3"`, default `"h2"`) — semantic heading level. `h2` is correct below a Hero `h1`; override for nested contexts.
+- `body` (optional `ReactNode`) — supporting paragraph. Absent: heading jumps to actions with `--space-8` gap instead of `--space-6`.
+- `actions` (required `ReactNode`) — the CTA button(s). Consumer owns Button composition; CtaBlock provides the slot container and spacing.
+- `orientation` (optional `"stacked" | "horizontal"`, default `"stacked"`) — `stacked` stacks vertically; `horizontal` puts heading+body left, actions trailing-aligned (collapses to stacked below `--bp-md`).
+- `align` (optional `"start" | "center"`, default `"start"`) — `start` matches brand's left-aligned register; `center` for symmetrical moments (e.g. full-bleed CTASection).
+- No background, no border, no padding — NOT a card, NOT a section, NOT a Hero replacement.
+- A11y: heading element determined by `headingAs`; consumer maintains correct heading hierarchy. No ARIA wrapper on root or actions slot.
+- Tokens consumed: `--font-serif`, `--fs-h2`, `--font-sans`, `--fs-body`, `--lh-body`, `--fg`, `--fg-muted`, `--space-2`, `--space-6`, `--space-8`, `--bp-md`. Zero new tokens.
+- For end-of-page placement, compose inside `CTASection` (organism) — CtaBlock has no block padding of its own.
+
+```tsx
+// (a) Stacked default:
+<CtaBlock
+  heading="Ready to start?"
+  body="We work with senior-only teams who'd rather ship than speculate."
+  actions={<Button variant="primary">Get a demo</Button>}
+/>
+
+// (b) Horizontal — heading+body left, action right:
+<CtaBlock
+  orientation="horizontal"
+  heading="Interested in working together?"
+  body="Senior-only teams. Production from day one."
+  actions={<Button variant="primary">hello@pouk.ai</Button>}
+/>
+
+// (c) No body (heading jumps directly to actions with --space-8 gap):
+<CtaBlock
+  heading="Interested in working together?"
+  actions={<Button variant="primary" asChild><a href="mailto:hello@pouk.ai">hello@pouk.ai</a></Button>}
+/>
+```
+
+### Stepper
+- Numbered step indicator molecule for multi-step flows and process explainers.
+- Root element: `<ol>`. `forwardRef<HTMLOListElement, StepperProps>`. `...rest` spread to root.
+- Props: `steps` (required `Array<{ label: string }>`), `current` (required 0-based index), `orientation` (`"horizontal" | "vertical"`, default `"horizontal"`), `size` (`"sm" | "md"`, default `"md"`), `showLabels` (boolean, default true for md / false for sm).
+- State derived from `current`: index < current → complete (checkmark icon, visually-hidden "(complete)"); index === current → active (numeral, `aria-current="step"`); index > current → upcoming (muted numeral).
+- Display-only indicator. No interactive states, no click handlers, no hover styles. Consumer owns navigation.
+- Tokens: `--fg`, `--fg-muted`, `--accent`, `--surface`, `--bg-elevated`, `--hairline`, `--hairline-w`, `--font-sans`, `--fs-meta`, `--fs-micro`, `--lh-meta`, `--space-1`, `--space-2`, `--space-4`, `--space-8`, `--tracking-micro`. Marker diameter is hardcoded (28px md / 20px sm) — no diameter token exists.
+- A11y: `<ol>` root, `aria-current="step"` on active `<li>`, complete steps have visually-hidden "(complete)" suffix, checkmark icon carries `aria-hidden="true"`, connector spans carry `aria-hidden="true"`.
+- Do NOT use Stepper as a navigation tab bar (use Tabs). Do NOT use for non-linear processes. Do NOT use as a progress bar (use ProgressBar).
+- Import: `import { Stepper } from "@poukai-inc/ui"` or `import { Stepper } from "@poukai-inc/ui/molecules/Stepper"`.
+- Usage: `<Stepper steps={[{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }]} current={1} />`
 
 ### Byline
 - Single-author article attribution molecule. The horizontal "by Jane Doe · Editor · May 21, 2026 · 6 min read" row that appears directly below article headings or blog post titles.
@@ -1095,6 +1206,77 @@ import { Icon } from "@poukai-inc/ui";
 - Do NOT pass an accessible name or alt to the Avatar inside Byline — the author name is already visible as text.
 - Do NOT use Byline for team grids or person cards — that is TeamCard.
 - Do NOT add authorHref, timeFormat prop, responsive collapse, or skeleton state — all out of scope in v1.
+
+### MenuItem
+- Individual menu-row primitive. Composed inside DropdownMenu and ContextMenu wrappers. Not for standalone use.
+- Owns visual row shape only: typography, spacing, icon alignment, shortcut placement. ARIA roles, keyboard nav, focus management, and portal behaviour are entirely delegated to the parent Radix wrapper.
+- Root element: `<div>`. `forwardRef<HTMLDivElement, MenuItemProps>`. `...rest` spread. `displayName = "MenuItem"`.
+- `children` (required `ReactNode`) — visible label. Plain string expected; `ReactNode` for occasional `<strong>` emphasis.
+- `icon` (optional `ReactNode`) — leading icon slot at `--icon-sm` (16px). Consumer supplies icon with `aria-hidden="true"`. Decorative only.
+- `shortcut` (optional `string`) — rendered as `<Kbd aria-hidden="true">`. Display-only; not a functional key binding.
+- `tone` (optional `"default" | "danger"`, default `"default"`) — `"danger"` shifts label color to `--danger` for destructive rows.
+- `disabled` (optional `boolean`, default `false`) — `opacity: 0.4`, `pointer-events: none`. Row stays visible. Radix propagates `aria-disabled`.
+- Hover: `background-color: var(--surface)`; transition `var(--dur-fast) var(--easing)`. Active: `opacity: 0.85` for `var(--dur-press)`.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg`, `--fg-muted`, `--danger`, `--surface`, `--space-2`, `--space-3`, `--radius-2`, `--icon-sm`, `--dur-fast`, `--dur-press`, `--easing`. Zero new tokens.
+- A11y: no ARIA role on root — parent Radix host carries `role="menuitem"`. Icon slot wrapped in `aria-hidden="true"` span. Kbd shortcut has `aria-hidden="true"`.
+- Do NOT use MenuItem outside a Radix DropdownMenu / ContextMenu wrapper. It has no open/close logic.
+- Do NOT nest `<Button>` or `<a>` inside MenuItem — creates duplicate tab stops and ARIA violations.
+- Do NOT use for navigation links in a nav bar — that is NavLink.
+
+```tsx
+// (a) Label only:
+<MenuItem>Copy</MenuItem>
+
+// (b) With icon:
+<MenuItem icon={<Copy size={16} aria-hidden="true" />}>Copy</MenuItem>
+
+// (c) With shortcut:
+<MenuItem shortcut="⌘C">Copy</MenuItem>
+
+// (d) Full anatomy:
+<MenuItem icon={<Copy size={16} aria-hidden="true" />} shortcut="⌘C">Copy</MenuItem>
+
+// (e) Danger tone:
+<MenuItem tone="danger">Delete post</MenuItem>
+```
+
+### TimelineItem
+- Single entry in a sequential chronological list. Renders a date, title, and optional body copy with a left-rail marker dot and optional connector line to the next item.
+- Must live inside a `<ol>` supplied by a parent Timeline organism. Do NOT use standalone.
+- Composes Time atom (semantic `<time dateTime>`), Heading atom (title slot), and Text atom (body slot). Marker dot and connector rendered via CSS `::before` / `::after` pseudo-elements — no extra DOM nodes.
+- date (required string) — ISO 8601 string; forwarded to Time dateTime. Displayed as-is in the date slot (uppercase micro register).
+- title (required ReactNode) — entry heading. Rendered via Heading atom at the level specified by headingLevel.
+- body (optional ReactNode) — supporting copy. Omitted when absent; some milestone entries are title-only.
+- connector (boolean, default true) — whether to render the downward connector stub. Pass false for the last item in the list.
+- headingLevel (HeadingLevel, default "h3") — semantic heading level for the title. Decoupled from visual size so the document outline can differ from the visual rank.
+- Root: `<li>`, forwardRef<HTMLLIElement, TimelineItemProps>. ...rest spread to root. displayName = "TimelineItem".
+- Date slot: `--fs-meta`, `--lh-meta`, `--tracking-micro`, text-transform uppercase, color `--fg-muted`. margin-bottom `--space-1`.
+- Title slot: `--fs-h3` (via Heading atom sizeH3 class). margin-bottom `--space-2`.
+- Body slot: `--fs-body`, `--lh-body`, color `--fg-muted` (via Text atom toneMuted class).
+- Marker dot: 8px circle, `--accent` fill, `::before` pseudo-element — purely decorative, no ARIA.
+- Connector: `--hairline-w` wide, `--hairline` color vertical rule, `::after` pseudo-element — present when connector=true, absent when connector=false.
+- Left-rail gutter: padding-left `--space-6` (24px). Bottom margin between entries: padding-bottom `--space-8` (32px).
+- Tokens consumed: `--fs-meta`, `--fs-h3`, `--fs-body`, `--font-sans`, `--fg`, `--fg-muted`, `--accent`, `--hairline`, `--hairline-w`, `--lh-body`, `--lh-meta`, `--space-1`, `--space-2`, `--space-6`, `--space-8`, `--tracking-micro`. Zero new tokens.
+- A11y: outer `<li>` inside consumer `<ol>`. `<time datetime>` for machine-readable date. `<h3>` (default) matches heading hierarchy. Pseudo-elements are decorative — no content, no ARIA.
+- Do NOT use for status feeds, activity streams, or real-time logs — static editorial primitive only.
+- Do NOT use for navigation menus or step indicators — use Stepper for interactive flows.
+- Do NOT place more than one sentence in the date slot — it is a label, not a paragraph.
+
+### LinkList
+- Canonical vertical list of styled anchor rows. Use for footer columns, sidebar nav sections, and on-this-page TOC panels. A molecule because it pairs the `Link` atom with an optional `Heading` and a semantic `<ul>` / `<li>` structure that a bare Link cannot provide.
+- Compound component: `<LinkList>` (root) + `<LinkList.Item>` (each row).
+- Root renders a `<div>` with an optional `Heading` atom and a `<ul>`. `forwardRef<HTMLDivElement, LinkListProps>`. `displayName = "LinkList"`.
+- `heading` (optional string | ReactNode) — column heading via `Heading` atom at `headingLevel` (default h3).
+- `headingLevel` (optional 2 | 3 | 4, default 3) — semantic heading element level.
+- `size` ("sm" | "md", default "sm") — `"sm"`: `--fs-meta` (14px) for footer/sidebar; `"md"`: `--fs-body` for TOC/reading-flow contexts.
+- `divider` (boolean, default false) — renders `--hairline-w` solid `--hairline` rule below the heading. Requires `heading` to be visible.
+- `LinkList.Item` props: `href` (required), `external?` (adds `target="_blank" rel="noopener noreferrer"` + visually-hidden "(opens in new tab)"), `current?` (sets `aria-current="page"`, renders at full `--fg`), `icon?` (trailing ReactNode icon slot). `forwardRef<HTMLLIElement, LinkListItemProps>`.
+- Link color: `--fg-muted` at rest → `--fg` on hover. Transition: `color var(--dur-fast) var(--easing)`. No underline (`variant="muted-link"`). Current item stays at `--fg` at rest.
+- Focus-visible: `2px solid var(--accent)`, `4px` offset, `var(--radius-1)` border-radius — matches global `a:focus-visible`.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--fs-body`, `--fg-muted`, `--fg`, `--accent`, `--hairline`, `--hairline-w`, `--space-1`, `--space-2`, `--space-3`, `--lh-meta`, `--lh-body`, `--dur-fast`, `--easing`, `--radius-1`.
+- A11y: semantic `<ul>` / `<li>` exposes item count. `aria-current="page"` on active item (WCAG 2.4.8). External items include visually-hidden "(opens in new tab)" — no icon-only signal. Wrap in `<nav aria-label="…">` at the consumer level for navigation regions; the component does not add `<nav>` automatically.
+- Do NOT use LinkList for command menus, action buttons, tag clouds, or top-level primary navigation. Those are DropdownMenu, Button, Tag, and NavLink/Header respectively.
+- Do NOT add onClick-only handlers — items are `<a>` anchors, not `<button>` elements.
 
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.
@@ -1668,6 +1850,53 @@ Precise, direct, technically confident. Never hedges, inflates, or reassures. No
 - Do NOT show more than `max` simultaneous toasts. The oldest is dropped automatically.
 - Do NOT use Toast for destructive confirmations — use `<Dialog>`.
 
+### Table
+- Semantic data-display primitive. Composable sub-components: `Table.Head` (`<thead>`), `Table.Body` (`<tbody>`), `Table.Row` (`<tr>`), `Table.HeaderCell` (`<th scope="col">`), `Table.Cell` (`<td>`).
+- Root element: `<table>`. `forwardRef<HTMLTableElement, TableProps>`. `...rest` spread on root. `border-collapse: collapse; width: 100%`.
+- `density` (optional `"compact" | "comfortable"`, default `"comfortable"`) — vertical cell padding. `"compact"` → `--space-2`; `"comfortable"` → `--space-3`. Horizontal padding is `--space-4` for both.
+- `tone` (optional `"default" | "subtle"`, default `"default"`) — row-hover background. `"default"` → `--surface`; `"subtle"` → `--surface-section` for tables inside section bands.
+- `Table.HeaderCell` — `<th scope="col">`. `scope="col"` is mandatory for AT column-header announcement. Typography: `--fs-meta`, `font-weight: 500`, `--lh-meta`, `--tracking-micro`, `text-transform: uppercase`, `--fg`. Bottom border: `--hairline-w solid --hairline`.
+- `Table.Cell` — `<td>`. Typography: `--fs-body`, `--lh-body`, `--fg`.
+- Both `Table.HeaderCell` and `Table.Cell` accept `align` prop (`"start" | "center" | "end"`, default `"start"`). Use `"end"` for numeric columns.
+- `Table.Row` hover (body context only): `background-color` transitions to `--surface` (default) or `--surface-section` (subtle) at `--dur-fast` / `--easing`. No hover on header rows.
+- All sub-components forward `ref`, `className`, and `...rest` (`data-*`, `aria-*`, `style`, etc.).
+- A11y: native `<table>` semantics. Pass `aria-label` or `aria-labelledby` on `<Table>` when no visible caption is present. Axe rules in play: `td-headers-attr`, `th-has-data-cells`, `scope-attr-valid`.
+- No sort / filter / pagination — those belong to the `DataTable` organism.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--fs-body`, `--lh-meta`, `--lh-body`, `--tracking-micro`, `--fg`, `--fg-muted`, `--surface`, `--surface-section`, `--hairline`, `--hairline-w`, `--space-2`, `--space-3`, `--space-4`, `--dur-fast`, `--easing`.
+
+```tsx
+// Basic usage:
+<Table aria-label="Team members">
+  <Table.Head>
+    <Table.Row>
+      <Table.HeaderCell>Name</Table.HeaderCell>
+      <Table.HeaderCell align="end">Joined</Table.HeaderCell>
+    </Table.Row>
+  </Table.Head>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>Arian Zargaran</Table.Cell>
+      <Table.Cell align="end">2023</Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+```
+
+---
+
+### MetaList
+- Semantic `<dl>` of label/value pairs. Canonical answer to the "key: value, stacked" pattern — replaces ad-hoc `<p>` pairs and table-in-disguise layouts.
+- Use for: article sidebars (published date, reading time, author), project spec panels (version, license, size), pricing detail blocks (billing cycle, seats, support tier).
+- Root is `<dl>`; each pair is `<div><dt>…</dt><dd>…</dd></div>`. The `<div>` wrapper satisfies the HTML5 dl content model.
+- Props: `items: Array<{ label: ReactNode; value: ReactNode }>` (required), `orientation: "stacked" | "horizontal"` (default `"stacked"`), `dividers: boolean` (default `false`), `labelWidth: string` (CSS value for dt column in horizontal mode, e.g. `"8rem"`).
+- Typography: `--font-sans`, `--fs-meta` (14px), `--lh-meta` (1.2) on both dt and dd. Label (`dt`) uses `--fg-muted`; value (`dd`) uses `--fg`. Never bold.
+- Spacing: `--space-2` row gap; `--space-3` dt-to-dd gap in horizontal mode.
+- Dividers: opt-in `border-top: var(--hairline-w) solid var(--hairline)` on each row (first row has no top border).
+- `margin-inline-start: 0` on `<dd>` resets browser default 40px indent without affecting semantics.
+- A11y: native dl/dt/dd semantics. No ARIA additions needed. Contrast: `--fg-muted` on `--bg` = 4.56:1 (AA at 14px); `--fg` on `--bg` = 16.29:1 (AAA).
+- Static/read-only. No interactive states. Interactive children (e.g. Link, StatusBadge) in value slots carry their own semantics.
+- NOT for tabular data (use Table), navigation (use LinkList), forms (use Field/Fieldset), or status signals (pass StatusBadge as value ReactNode).
+
 ---
 
 ## Decision provenance
@@ -1683,6 +1912,107 @@ ADR-0008: SiteShell Wordmark height=56. Brand floor; do not pass height < 40.
 ADR-0009: Horizontal lockup is canonical. Stacked for square-format only.
 ADR-0010: Proposal-loop architecture. proposal:approved label is a human gate.
 ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 1184 290.
+ADR-0012: MenuItem owns visual row shape only. ARIA roles, keyboard nav, portal delegated to parent Radix wrapper.
+
+
+### Disclosure
+- Single open/close toggle row for standalone collapsible content. Use when Accordion grouping is overkill — "Show details" toggles, expandable card sections, optional supplementary content.
+- Root element: native `<details>`. `forwardRef<HTMLDetailsElement, DisclosureProps>`. `...rest` spread. `displayName = "Disclosure"`.
+- `summary` (required `string`) — trigger label text. Rendered inside `<summary>` alongside the chevron Icon.
+- `open` (optional `boolean`) — controlled open state. Uncontrolled when omitted.
+- `defaultOpen` (optional `boolean`, default `false`) — uncontrolled initial state.
+- `onOpenChange` (optional `(open: boolean) => void`) — controlled state callback. Fires on native `<details>` toggle event.
+- `divider` (optional `boolean`, default `false`) — adds `border-top: var(--hairline-w) solid var(--hairline)` to root. For use in list/divider contexts.
+- `tone` (optional `"default" | "muted"`, default `"default"`) — `muted` applies `--fg-muted` to the summary label.
+- `children` (required `ReactNode`) — the revealed content region. Accepts any ReactNode; idiomatic usage is `<Prose>` or a plain paragraph.
+- Chevron: `Icon` atom (lucide `ChevronDown`, `size="sm"`), rotates 180° when open via `transition: transform var(--dur-fast) var(--easing)`. Reduced-motion handled by the global token clamp — no per-component override.
+- A11y: native `<details>` / `<summary>` pair exposes disclosure semantics. No manual ARIA needed. Focus ring on `<summary>` via `:focus-visible`.
+- Tokens: `--fg`, `--fg-muted`, `--font-sans`, `--fs-body`, `--lh-body`, `--hairline`, `--hairline-w`, `--space-3`, `--space-4`, `--dur-fast`, `--easing`, `--accent`, `--radius-1`. Zero new tokens.
+- Do NOT use for grouped collapsible sections — use `Accordion`. Do NOT nest Disclosures inside Disclosures.
+
+```tsx
+// (a) Default uncontrolled:
+<Disclosure summary="Show details">
+  <p>Supplementary content revealed inline.</p>
+</Disclosure>
+
+// (b) Open by default:
+<Disclosure summary="Advanced settings" defaultOpen>
+  <p>Already expanded on mount.</p>
+</Disclosure>
+
+// (c) Divider variant in a list:
+<Disclosure summary="Scope details" divider>
+  <p>Week 1–2: discovery. Week 3–4: prototype. Week 5–6: hand-off.</p>
+</Disclosure>
+
+// (d) Controlled:
+<Disclosure summary="Configuration" open={isOpen} onOpenChange={setIsOpen}>
+  <p>Controlled content.</p>
+</Disclosure>
+```
+
+
+### NewsletterField
+
+- Inline email + submit molecule. Native `<form>` with `Input type="email" required` and `Button type="submit"`. Supports controlled (`value` + `onValueChange`) and uncontrolled use. Optional `action` attribute for native form POST.
+- Composes Input (atom), Button (atom). Root is `<form>` — `forwardRef<HTMLFormElement, NewsletterFieldProps>`. `...rest` spread to root.
+- Tokens: `--space-2`/`--space-3` for gap, `--font-sans` for type. No new tokens.
+- Recommended usage: footer newsletter signup, end-of-post signup, launch waitlist. The most common inline-form pattern; ship NewsletterField before the broader form layer.
+- Do NOT use as a generic form wrapper — that is `<Form>` (organism). NewsletterField is single-purpose.
+
+### SearchField
+
+Molecule. Canonical table-filter and dashboard-search primitive.
+
+**Anatomy**: `<div role="search">` root → `Field` wrapper (label, a11y wiring) → `inputWrap` flex row → leading `Icon` (Search, `--icon-sm`, `aria-hidden`) → `Input` (`type="search"`) → trailing `IconButton` (X, "Clear search", visible only when value non-empty).
+
+**Props**: `value`, `defaultValue`, `onValueChange`, `placeholder` (default "Search…"), `size` ("sm"|"md", default "md"), `disabled`, `label` (default "Search"), `name`.
+
+**Tokens**: `--font-sans`, `--fs-body`, `--fs-meta`, `--fg`, `--fg-muted`, `--bg`, `--surface`, `--hairline`, `--accent`, `--hairline-w`, `--radius-2`, `--icon-sm`, `--icon-xs`, `--space-2`, `--space-3`, `--btn-h-sm`, `--btn-h-md`, `--dur-fast`, `--easing`.
+
+**A11y**: `role="search"` landmark on root; `label` always present (visually hidden via Field); leading icon `aria-hidden`; clear button `aria-label="Clear search"`; `type="search"` gives browser implicit search role; Escape key clears field.
+
+**Anti-patterns**: Not for submit-on-enter forms (use `Input` + `<form>`). Not a Combobox. Not for multi-criteria filter state. Not a navigation search bar (use CommandPalette). Never use for non-search inputs — `role="search"` misleads screen readers.
+
+### NavLink
+
+**Layer**: molecule | **File**: `src/molecules/NavLink/NavLink.tsx`
+
+Top-nav anchor primitive. Renders a semantic `<a>` styled for primary navigation chrome. Label is `--fg-muted` at rest; shifts to `--fg` on hover with an accent underline growing via `background-size` transition (matches the global `<a>` mechanic in `tokens.css`). When `active` is true, `aria-current="page"` is set and a 2px `--accent` `border-bottom` is always visible.
+
+**Props**: `href` (string, required) · `active` (boolean, default false) · `children` (ReactNode, required) · all `AnchorHTMLAttributes<HTMLAnchorElement>` via `...rest`.
+
+**A11y**: `aria-current="page"` when active; omitted (not `"false"`) when inactive. Parent organism owns the `<nav aria-label="Primary">` landmark — NavLink does not.
+
+**Tokens**: `--font-sans` `--fs-meta` `--fg` `--fg-muted` `--accent` `--hairline` `--hairline-w` `--dur-fast` `--dur-mid` `--easing` `--easing-link` `--radius-1` `--space-3`
+
+**Do not use** for sidebar links, footer links, primary CTAs, breadcrumbs, or in-page anchors.
+
+### StatList
+
+Layer: molecule. Groups two or more `Stat` atoms into a shared horizontal rhythm.
+Root: `<div role="list">`. Each child wrapped in `<div role="listitem">`.
+Props: `dividers` (boolean, default false) — opt-in hairline rules between items via CSS `::before` pseudo.
+       `align` ("start" | "center", default "center") — row justification within container.
+       `children` (ReactNode, required) — expects `Stat` atoms.
+Tokens: `--space-8` (mobile gap), `--space-12` (desktop row gap), `--hairline`, `--hairline-w`, `--bp-md`.
+Responsive: stacks column below `--bp-md` (768px); dividers become horizontal rules in stacked state.
+Motion: none. Static layout shell.
+A11y: `role="list"` + `role="listitem"` pair; dividers are CSS-only pseudo-elements, unreachable by AT.
+Anti-patterns: single Stat, non-Stat children, nested StatLists, status indicators, form-field rows.
+
+### Caption
+- Muted micro-tracked label for supplementary attribution or contextual annotation beneath a visual or content block. Answers "what is the source or context of this artifact?" beneath figures, code blocks, audio players, and similar surfaces.
+- Root element is polymorphic via `as` prop (`"figcaption"` | `"p"` | `"span"`, default `"figcaption"`). Use `"figcaption"` inside `<figure>` — the browser natively associates it with figure content, no ARIA needed. Use `"p"` for standalone use outside a figure. Use `"span"` for inline contexts.
+- `children` (required ReactNode) — the caption text. Plain string is idiomatic. ReactNode accepted for rare inline `<a>` links; no block-level elements.
+- No `tone` prop — one visual register only. No `size` prop — `--fs-micro` is fixed. No icon slot — captions are text primitives.
+- Typography: `--font-sans` (Geist), `--fs-micro` (12px fixed), `line-height: var(--lh-meta)` (1.2), `letter-spacing: var(--tracking-micro)` (0.04em), `color: var(--fg-muted)`.
+- No padding, no margin authored by the component. Top margin (`--space-2`, 0.5rem) separating the caption from its preceding element is the consumer's responsibility.
+- No states, no motion, no transitions. Caption is a non-interactive static text element. Not a tab stop.
+- Contrast: `--fg-muted` on `--bg` = 4.91:1 (AA, light). `--fg-muted` on `--bg` dark = 6.10:1 (AA, dark). Passes WCAG 2.1 AA for normal text at 12px (threshold 4.5:1).
+- Tokens consumed: `--font-sans`, `--fs-micro`, `--lh-meta`, `--tracking-micro`, `--fg-muted`. Zero new tokens introduced.
+- Caption is NOT `<FieldNote>` (FieldNote is an editorial inline aside inside prose flow, not a below-artifact label). NOT a heading or field label. NOT for long-form body copy.
 
 ### Fieldset
 - Groups related `<Field>` molecules under a shared semantic `<legend>`, enforcing consistent vertical spacing and a clear visual boundary around the group.
@@ -1749,4 +2079,236 @@ ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 
     <Tooltip.Content side="bottom">Custom label</Tooltip.Content>
   </Tooltip.Root>
 </TooltipProvider>
+```
+
+
+### Figure
+- Semantic pairing molecule for an image (or Portrait) and its caption. Wraps a media slot and an optional `<figcaption>` inside a `<figure>` element.
+- Root element: `<figure>`. Non-polymorphic. `forwardRef<HTMLElement, FigureProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, `style`, etc.
+- `children` (required ReactNode) — media content: `Portrait`, raw `<img>`, `CodeBlock`, or any block-level media. Figure does not constrain slot content.
+- `caption` (optional ReactNode) — shorthand caption rendered in `<figcaption>`. Omit when no caption needed.
+- `align` (optional `"start" | "center"`, default `"start"`) — caption text-alignment. `"start"` for inline editorial; `"center"` for standalone figure moments.
+- `className` (optional string) — merged onto root `<figure>`.
+- Compound API: `Figure.Caption` sub-component accepts `children: ReactNode` and `...rest` forwarded to `<figcaption>`. Use when caption content is richer than a plain string.
+- A11y: `<figure>` carries implicit `figure` ARIA role — no additional `role` needed. `<figcaption>` is automatically associated with parent `<figure>` by browsers. Media slot must supply its own `alt` text; Figure does not synthesise it.
+- Static. No hover, focus, or motion states.
+- Tokens consumed: `--font-sans`, `--fs-micro`, `--lh-meta`, `--tracking-micro`, `--fg-muted`, `--space-2`, `--space-4`.
+
+```tsx
+// (a) Shorthand caption:
+<Figure caption="Photographer: Jane Doe">
+  <img src="/photo.jpg" alt="Team at offsite, March 2024" />
+</Figure>
+
+// (b) Compound Caption sub-component:
+<Figure>
+  <img src="/photo.jpg" alt="Team at offsite" />
+  <Figure.Caption>Photo by <em>Jane Doe</em>, 2024.</Figure.Caption>
+</Figure>
+
+// (c) Centered caption for standalone figure moment:
+<Figure align="center" caption="Figure 1. Deployment cycle comparison.">
+  <img src="/chart.png" alt="Bar chart comparing deployment cycles" />
+</Figure>
+```
+
+
+### CopyButton
+- Copy-to-clipboard button with transient success state. Surfaces inline on product pages — API key displays, code snippets, share URLs. Composes into `CodeBlock` as its built-in copy control.
+- Root element: `<button type="button">`. Non-polymorphic. `forwardRef<HTMLButtonElement, CopyButtonProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, etc.
+- State machine: idle → success → (after `timeout` ms) → idle. Revert is cancelled and restarted on repeated clicks during the success window.
+- `value` (required string) — the string written to the clipboard.
+- `label` (optional `string | false`, default `"Copy"`) — visible label. Pass `false` for icon-only; **must** supply `aria-label` on root when omitting label.
+- `successLabel` (optional string, default `"Copied"`) — label shown during success state.
+- `timeout` (optional number, default `1500`) — ms before reverting from success to idle.
+- `size` (optional `"sm" | "md"`, default `"sm"`) — `sm` uses `--fs-meta` + `--icon-xs`; `md` uses `--fs-body` + `--icon-sm`.
+- `onCopy` (optional `(value: string) => void`) — fired after successful clipboard write.
+- `onError` (optional `(err: unknown) => void`) — called when clipboard write rejects; component stays idle.
+- Clipboard: uses `navigator.clipboard.writeText`; falls back to `document.execCommand('copy')` via temporary textarea; calls `onError` if both fail.
+- A11y: root is native `<button type="button">`. Icons are `aria-hidden`. Label node uses `aria-live="polite"` so "Copied" is announced on success. Idle `--fg-muted` on `--bg`: 4.91:1 AA; success `--fg` on `--bg`: 16.29:1 AAA. Min-height: `--btn-h-sm` (32px), meets WCAG 2.5.8.
+- Tokens: `--font-sans`, `--fs-meta`, `--fs-body`, `--fg-muted`, `--fg`, `--accent`, `--surface`, `--radius-2`, `--radius-1`, `--space-1`, `--space-2`, `--btn-h-sm`, `--dur-fast`, `--dur-press`, `--easing`, `--icon-xs`, `--icon-sm`, `--lh-meta`.
+- Do NOT use as a primary CTA. Do NOT omit `aria-label` when `label={false}`. Do NOT use for rich content, async actions, or destructive flows.
+
+```tsx
+// (a) Default — label + icon beside a code snippet:
+<CopyButton value="npm install @poukai-inc/ui" />
+
+// (b) Icon-only inside an API key readout (aria-label required):
+<CopyButton value={apiKey} label={false} aria-label="Copy API key" size="sm" />
+
+// (c) With callbacks for analytics + error handling:
+<CopyButton
+  value={shareUrl}
+  label="Copy link"
+  successLabel="Copied!"
+  onCopy={(v) => analytics.track("copy", { value: v })}
+  onError={(err) => toast.error("Could not copy")}
+/>
+```
+
+
+### Pagination
+- Stateless, controlled page-navigation control. Renders `<nav aria-label="Pagination">` with first/prev/page-numerals/next/last buttons. Returns `null` when `pageCount <= 1`.
+- Root element: `<nav>`. `forwardRef<HTMLElement, PaginationProps>`. `...rest` spread passes `data-*`, `aria-*`, `className`, etc.
+- `page` (required number, 1-indexed) — current page.
+- `pageCount` (required number) — total page count.
+- `onPageChange` (required `(page: number) => void`) — controlled; component holds no state.
+- `siblingCount` (optional number, default `1`) — pages shown each side of current page.
+- `boundaryCount` (optional number, default `1`) — pages shown at each end.
+- `size` (optional `"sm" | "md"`, default `"md"`) — `"sm"` uses `--fs-micro` + `--btn-h-sm`; `"md"` uses `--fs-meta` + `--btn-h-compact`.
+- `disabled` (optional boolean, default `false`) — disables all controls (loading state).
+- A11y: `<nav aria-label="Pagination">` landmark. Current page: `aria-current="page"`. Prev/Next/First/Last: `aria-label` for icon-only accessible names. Ellipsis: `aria-hidden="true"`. Disabled uses native `disabled` attribute.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--fs-micro`, `--fg`, `--fg-muted`, `--surface`, `--bg-elevated`, `--hairline`, `--hairline-w`, `--accent`, `--radius-1`, `--radius-2`, `--space-1`, `--space-2`, `--btn-h-sm`, `--btn-h-compact`, `--dur-fast`, `--dur-press`, `--easing`.
+- Do NOT use for in-page anchor navigation — use `TableOfContents`.
+- Do NOT use as a substitute for infinite scroll.
+- Do NOT render when `pageCount <= 1` — the component guards this internally.
+- Do NOT manage page state internally — this is a controlled component.
+
+```tsx
+// (a) Basic usage:
+<Pagination page={currentPage} pageCount={10} onPageChange={setCurrentPage} />
+
+// (b) Compact size for dense dashboard rows:
+<Pagination page={page} pageCount={20} size="sm" onPageChange={setPage} />
+
+// (c) Loading state — all controls disabled:
+<Pagination page={page} pageCount={10} disabled onPageChange={setPage} />
+
+// (d) Wide layout — more siblings:
+<Pagination page={5} pageCount={20} siblingCount={2} onPageChange={setPage} />
+```
+
+
+---
+
+### EmptyState
+
+**Layer**: molecule | **File**: `src/molecules/EmptyState/`
+
+Zero-data placeholder — shown when a list, table, or content region has no records. Centered vertical stack: optional decorative icon, required title `<p>`, optional description `<p>`, optional action slot.
+
+**Props**: `title: string` (required) · `icon?: ReactNode` · `description?: string | ReactNode` · `action?: ReactNode` · `tone?: "default" | "subtle"` (default `"default"`) · all `<div>` HTML attributes forwarded to root.
+
+**Tokens used**: `--fs-body` · `--font-sans` · `--fg` (title) · `--fg-muted` (description, icon) · `--lh-body` · `--space-2` (title→description gap) · `--space-3` (icon→title gap) · `--space-6` (description→action gap) · `--space-16` (vertical padding) · `--surface` + `--radius-3` (tone="subtle").
+
+**A11y**: root is plain `<div>` (not `role="alert"`). Icon wrapper is `aria-hidden="true"`. Title is `<p>` — not a heading; document outline is consumer responsibility. Inline links in description inherit global focus ring.
+
+**Anti-patterns**: do not use for loading/error states · do not omit `title` · do not hardcode color on icon · do not use as full-page first-run surface.
+
+```tsx
+// (a) Title only:
+<EmptyState title="No scheduled posts" />
+
+// (b) Full anatomy:
+<EmptyState
+  title="No scheduled posts"
+  description="Schedule your first post to start building your content calendar."
+  icon={<CalendarIcon width={24} height={24} aria-hidden="true" />}
+  action={<Button variant="primary" size="md">Schedule a post</Button>}
+/>
+
+// (c) Inside a card (subtle tone):
+<EmptyState tone="subtle" title="No conversations yet" description="Messages appear here." />
+```
+
+### Breadcrumb
+- Hierarchical location trail molecule. Renders the route path back through nested dashboard and product pages.
+- Root element: `<nav aria-label="Breadcrumb">`. `forwardRef<HTMLElement, BreadcrumbProps>`. `...rest` spread. `displayName = "Breadcrumb"`.
+- Contains an `<ol>` of `<li>` items with presentational `aria-hidden="true"` separator `<li>` elements interspersed.
+- Two usage patterns: compound `<Breadcrumb.Item>` children (preferred) or data-driven `items` prop array.
+- `items` (optional `Array<{ href?: string; label: ReactNode; current?: boolean }>`) — data-driven path. Mutually exclusive with compound children.
+- `children` (optional `ReactNode`) — compound `<Breadcrumb.Item>` nodes.
+- `separator` (optional `ReactNode`, default `"›"`) — rendered between items; each separator `<li>` carries `aria-hidden="true"`.
+- `className` (optional string) — layout override passthrough to root `<nav>`.
+- `Breadcrumb.Item` sub-component: `href` (optional string), `current` (optional boolean), `children` (required ReactNode). When `current` is true: plain `<span>`, `aria-current="page"` on the `<li>`, no link.
+- A11y: `<nav aria-label="Breadcrumb">` = distinct navigation landmark. `<ol>` = ordered hierarchy. `aria-current="page"` on current item. Separators `aria-hidden="true"`. Ancestor links have visible text accessible name.
+- Tokens: `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg-muted` (ancestor link rest), `--fg` (current item), `--accent` (hover color + focus ring), `--hairline` (separator + link underline), `--hairline-w`, `--space-2` (gap), `--dur-fast`, `--dur-mid`, `--easing`, `--easing-link`, `--radius-1`.
+- Static presentational. No state. No JS-driven truncation in v1.
+- Do NOT link the current (last) item — it is always plain text.
+- Do NOT use for tab navigation or wizard steps — use `Tabs` or `Stepper`.
+- Do NOT render when depth < 2 (single-item trail has no navigational value).
+
+```tsx
+// (a) Compound — 3-level trail:
+<Breadcrumb>
+  <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
+  <Breadcrumb.Item href="/dashboard/pages">Pages</Breadcrumb.Item>
+  <Breadcrumb.Item current>Settings</Breadcrumb.Item>
+</Breadcrumb>
+
+// (b) Data-driven alias:
+<Breadcrumb
+  items={[
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/dashboard/pages", label: "Pages" },
+    { label: "Settings", current: true },
+  ]}
+/>
+
+// (c) Custom separator:
+<Breadcrumb separator="/">
+  <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
+  <Breadcrumb.Item current>Settings</Breadcrumb.Item>
+</Breadcrumb>
+```
+
+### Sidebar
+- Vertical navigation surface organism for docs layouts and app shells. Presents grouped hierarchical link lists in a persistent left-rail position.
+- Root element: `<aside aria-label={label}>` containing `<nav aria-label={label}>`. `forwardRef<HTMLElement, SidebarProps>`. `...rest` spread. `displayName = "Sidebar"`.
+- Compound API: `Sidebar` (root) + `Sidebar.Group` (repeating group unit wrapping a heading + LinkList).
+- `label` (optional string, default `"Sidebar"`) — `aria-label` for both `<aside>` and `<nav>`; override for locale or multi-sidebar pages.
+- `sticky` (optional boolean, default `true`) — enables `position: sticky; top: var(--space-12); height: fit-content; max-height: calc(100vh - var(--space-12)); overflow-y: auto`.
+- `children` (ReactNode) — one or more `Sidebar.Group` elements.
+- `Sidebar.Group` sub-component: `heading` (optional string) — renders a Heading atom at h3 rung; omit to suppress heading entirely. `collapsible` (optional boolean, default `false`) — wraps LinkList in a Disclosure. `defaultOpen` (optional boolean, default `true`) — initial open state when collapsible. `children` (ReactNode) — `LinkList.Item` elements.
+- A11y: `<aside aria-label>` = complementary landmark. `<nav aria-label>` = navigation landmark. Group headings are real `<h3>` elements. `aria-current="page"` on active links via LinkList.Item `current` prop. Collapsible uses native `<details>`/`<summary>` semantics.
+- Tokens: `--bg`, `--fg`, `--fg-muted`, `--font-sans`, `--fs-h3`, `--fs-meta`, `--hairline`, `--hairline-w`, `--space-2`, `--space-4`, `--space-8`, `--space-12`, `--accent`, `--radius-1`, `--dur-fast`.
+- Static presentational. No client state except Disclosure toggle (native details). No router awareness — consumer passes `aria-current="page"` via LinkList.Item `current` prop.
+- Do NOT use for mobile off-canvas drawers (use Sheet/Drawer). Do NOT use for primary site nav (use SiteShell header). Do NOT use for Table of Contents (use TableOfContents organism).
+
+```tsx
+// (a) Default grouped sidebar:
+<Sidebar>
+  <Sidebar.Group heading="Getting started">
+    <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+    <LinkList.Item href="/docs/install" current>Installation</LinkList.Item>
+  </Sidebar.Group>
+  <Sidebar.Group heading="Components">
+    <LinkList.Item href="/docs/button">Button</LinkList.Item>
+  </Sidebar.Group>
+</Sidebar>
+
+// (b) Non-sticky (fixed-height scroll container):
+<Sidebar sticky={false} label="App navigation">
+  <Sidebar.Group heading="Settings">
+    <LinkList.Item href="/settings/profile">Profile</LinkList.Item>
+  </Sidebar.Group>
+</Sidebar>
+
+// (c) Collapsible groups:
+<Sidebar>
+  <Sidebar.Group heading="Advanced" collapsible defaultOpen={false}>
+    <LinkList.Item href="/docs/theming">Theming</LinkList.Item>
+  </Sidebar.Group>
+</Sidebar>
+```
+
+### TimePicker
+- Time-of-day input atom. Styled wrapper around native `<input type="time">`. Produces a valid `HH:mm` string. Compose with `<Field>` for label + error anatomy.
+- Root element: `<input type="time">`. `forwardRef<HTMLInputElement, TimePickerProps>`. `...rest` spread. `displayName = "TimePicker"`.
+- `value` (optional string) — controlled `HH:mm` value. `defaultValue` (optional string) — uncontrolled seed. `onValueChange` ((value: string) => void) — fires on `change`; provides current `input.value`. `step` (optional number, default `60`) — seconds; `900` = 15-min steps. `min` / `max` (optional string `"HH:mm"`) — time bounds. `disabled` (optional boolean, default `false`) — dims + blocks. `invalid` (optional boolean, default `false`) — red border via `--danger`. `size` (`"sm" | "md" | "lg"`, default `"md"`) — maps to `--btn-h-*` height ladder, matching Input atom.
+- A11y: native `<input type="time">` semantics. `aria-invalid="true"` when `invalid`. Consumer passes `id` for `<label for="…">` association. `aria-describedby` forwarded via spread.
+- Tokens: `--font-sans`, `--fs-body`, `--fg`, `--fg-muted`, `--bg`, `--surface`, `--hairline`, `--accent`, `--accent-glow`, `--danger`, `--radius-2`, `--space-2`, `--space-3`, `--btn-h-sm`, `--btn-h-md`, `--btn-h-lg`, `--dur-fast`, `--easing`.
+- No Radix dependency. Static presentational — no internal state.
+
+```tsx
+// (a) Controlled inside Field:
+<Field label="Preferred time" id="pref-time">
+  <TimePicker id="pref-time" value={time} onValueChange={setTime} />
+</Field>
+
+// (b) 15-minute steps:
+<TimePicker step={900} onValueChange={setTime} aria-label="Schedule time" />
+
+// (c) With bounds:
+<TimePicker min="08:00" max="20:00" onValueChange={setTime} aria-label="Working hours" />
 ```

@@ -1,0 +1,15 @@
+/* ============================================================
+   Caption — muted micro-tracked figure label
+   Tokens only — no raw values. All values resolve to CSS custom
+   properties declared in src/tokens/tokens.css.
+   ============================================================ */
+
+.root {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-meta);
+  letter-spacing: var(--tracking-micro);
+  color: var(--fg-muted);
+  margin: 0;
+  padding: 0;
+}

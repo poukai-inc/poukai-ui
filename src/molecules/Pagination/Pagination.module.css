@@ -1,0 +1,123 @@
+/* ============================================================
+   Pagination — page navigation control
+   All values are var(--token) references. No raw values.
+   ============================================================ */
+
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-family: var(--font-sans);
+}
+
+/* ---- Size variants ---- */
+
+.md .pageButton,
+.md .control {
+  font-size: var(--fs-meta);
+  min-height: var(--btn-h-compact);
+  min-width: var(--btn-h-compact);
+}
+
+.sm .pageButton,
+.sm .control {
+  font-size: var(--fs-micro);
+  min-height: var(--btn-h-sm);
+  min-width: var(--btn-h-sm);
+}
+
+/* ---- Shared button base ---- */
+
+.pageButton,
+.control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-block: var(--space-1);
+  padding-inline: var(--space-2);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-2);
+  background: transparent;
+  color: var(--fg);
+  cursor: pointer;
+  font-family: var(--font-sans);
+  line-height: 1;
+  transition: background-color var(--dur-fast) var(--easing);
+  /* Reset button default styles */
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+@media (hover: hover) {
+  .pageButton:not(.current):not(:disabled):hover,
+  .control:not(:disabled):hover {
+    background-color: var(--bg-elevated);
+  }
+}
+
+.pageButton:not(.current):not(:disabled):active,
+.control:not(:disabled):active {
+  transform: scale(0.97);
+  transition:
+    transform var(--dur-press) var(--easing),
+    background-color var(--dur-fast) var(--easing);
+}
+
+.pageButton:focus-visible,
+.control:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+/* ---- Current page ---- */
+
+.current {
+  background: var(--surface);
+  font-weight: 500;
+  border-color: var(--hairline);
+  cursor: default;
+}
+
+/* ---- Disabled state ---- */
+
+.pageButton:disabled,
+.control:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ---- Ellipsis ---- */
+
+.ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--space-2);
+  color: var(--fg-muted);
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  min-height: var(--btn-h-compact);
+  user-select: none;
+}
+
+/* ---- Named control classes (used in tsx for clsx, must be declared) ---- */
+
+.controlFirst {
+  /* inherits .control */
+}
+
+.controlPrev {
+  /* inherits .control */
+}
+
+.controlNext {
+  /* inherits .control */
+}
+
+.controlLast {
+  /* inherits .control */
+}

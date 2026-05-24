@@ -5,7 +5,7 @@ import { EmailLink } from "../../atoms/EmailLink";
 import { Eyebrow } from "../../atoms/Eyebrow";
 
 export default {
-  title: "Components / Cards / TeamCard",
+  title: "Molecules / Cards / TeamCard",
 } satisfies StoryDefault;
 
 const PORTRAIT_STACKED = (

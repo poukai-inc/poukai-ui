@@ -3,7 +3,7 @@ import { Section } from "./Section";
 import { Eyebrow } from "../../atoms/Eyebrow";
 
 export default {
-  title: "Components / Section (All Variants)",
+  title: "Molecules / Section (All Variants)",
 } satisfies StoryDefault;
 
 /** AllVariants — both size variants stacked with full slots (eyebrow + title + lede + children).

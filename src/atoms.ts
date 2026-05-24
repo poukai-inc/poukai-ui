@@ -85,3 +85,4 @@ export {
   type TooltipTriggerProps,
   type TooltipContentProps,
 } from "./atoms/Tooltip";
+export { TimePicker, type TimePickerProps, type TimePickerSize } from "./atoms/TimePicker";

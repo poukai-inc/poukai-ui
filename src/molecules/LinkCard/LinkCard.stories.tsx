@@ -4,7 +4,7 @@ import { Eyebrow } from "../../atoms/Eyebrow";
 import { LinkCard } from "./LinkCard";
 
 export default {
-  title: "Components / Cards / LinkCard",
+  title: "Molecules / Cards / LinkCard",
 } satisfies StoryDefault;
 
 /** Default — full slots: eyebrow (string) + title + body + footer.

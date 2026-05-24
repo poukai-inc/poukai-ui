@@ -139,3 +139,4 @@ export {
   type CarouselNextProps,
   type CarouselIndicatorsProps,
 } from "./molecules/Carousel";
+export { DatePicker, type DatePickerProps } from "./molecules/DatePicker";

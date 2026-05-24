@@ -2946,3 +2946,13 @@ Props (`HeaderProps`): `homeHref?: string` (default `"/"`), `logo?: ReactNode` (
 - Do NOT use for marketing hero moments — use `Hero` or `HeroSection` instead. Editorial long-form only.
 - Import: `import { ArticleHeader } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/ArticleHeader"`.
 - Usage: `<article><ArticleHeader eyebrow="Engineering" title={<>Why we build with <em>AI</em>.</>} lede="Summary." byline={<Byline name="Arian" publishedAt="2026-05-24" />} /></article>`
+### DatePicker
+
+- Calendar-based date input molecule. Composes an `Input` trigger + `@radix-ui/react-popover` to surface a token-styled calendar grid.
+- API: `<DatePicker value={...} onValueChange={...} />` with optional `min`, `max`, `disabled`, `aria-label`. Value is an ISO date string (`YYYY-MM-DD`).
+- Root: `<div>` wrapping the trigger Input + portaled calendar. `forwardRef<HTMLDivElement, DatePickerProps>`. `...rest` spread on root.
+- Tokens: `--font-sans`, `--fs-meta`, `--fg`, `--fg-muted`, `--surface`, `--surface-section`, `--hairline`, `--hairline-w`, `--radius-2`, `--space-1`/`--space-2`/`--space-3`. No new tokens.
+- A11y: trigger has `aria-haspopup="dialog"`, popover content is `role="dialog"`. Calendar uses `role="grid"`, days `role="gridcell"`. Keyboard nav (arrows / Home / End / PageUp/Down / Enter / Esc) inside the calendar.
+- Reduced motion: enter/exit motion collapses to instant under `prefers-reduced-motion: reduce`.
+- Adds new Radix peer dep `@radix-ui/react-popover`.
+- Do NOT use for time selection — use `TimePicker`. Do NOT use for free-text date entry — use a plain `Input` with validation.

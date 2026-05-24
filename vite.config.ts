@@ -88,6 +88,7 @@ export default defineConfig({
               "atoms/Tooltip": resolve(__dirname, "src/atoms/Tooltip/index.ts"),
               "molecules/Alert": resolve(__dirname, "src/molecules/Alert/index.ts"),
               "molecules/Banner": resolve(__dirname, "src/molecules/Banner/index.ts"),
+              "molecules/DatePicker": resolve(__dirname, "src/molecules/DatePicker/index.ts"),
               "molecules/CtaBlock": resolve(__dirname, "src/molecules/CtaBlock/index.ts"),
               "molecules/Byline": resolve(__dirname, "src/molecules/Byline/index.ts"),
               "molecules/Stepper": resolve(__dirname, "src/molecules/Stepper/index.ts"),

@@ -205,6 +205,11 @@
       "import": "./dist/molecules/Alert.js",
       "require": "./dist/molecules/Alert.cjs"
     },
+    "./molecules/DatePicker": {
+      "types": "./dist/molecules/DatePicker.d.ts",
+      "import": "./dist/molecules/DatePicker.js",
+      "require": "./dist/molecules/DatePicker.cjs"
+    },
     "./molecules/Byline": {
       "types": "./dist/molecules/Byline.d.ts",
       "import": "./dist/molecules/Byline.js",

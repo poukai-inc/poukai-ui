@@ -106,6 +106,7 @@ import { PriceTier } from "./molecules/PriceTier";
 import { PricingTable } from "./organisms/PricingTable";
 import { CodeBlock } from "./molecules/CodeBlock";
 import { Carousel } from "./molecules/Carousel";
+import { DatePicker } from "./molecules/DatePicker";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -3016,4 +3017,10 @@ test("a11y — AnnouncementBar (warm tone, color-contrast suppressed for warm ba
   await expectAxeClean(page, {
     configure: (b) => b.disableRules([...AXE_ISOLATED_MOUNT_RULES, "color-contrast"]),
   });
+});
+/* ---------- DatePicker ---------- */
+
+test("a11y — DatePicker (trigger closed)", async ({ mount, page }) => {
+  await mount(<DatePicker aria-label="Event date" />);
+  await expectAxeClean(page);
 });

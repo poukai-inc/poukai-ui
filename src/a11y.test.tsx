@@ -109,6 +109,7 @@ import { Carousel } from "./molecules/Carousel";
 import { DatePicker } from "./molecules/DatePicker";
 import { A11yHarness as DropdownMenuA11yHarness } from "./atoms/DropdownMenu/__test_harness__";
 import { VideoEmbed } from "./molecules/VideoEmbed";
+import { GalleryGrid } from "./organisms/GalleryGrid";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2985,6 +2986,34 @@ test("a11y — ComparisonTable", async ({ mount, page }) => {
         { feature: "Members", values: ["1", "5", "Unlimited"] },
         { group: "Support" },
         { feature: "SLA", values: ["—", "Email", "Priority"] },
+      ]}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- GalleryGrid ---------- */
+
+test("a11y — GalleryGrid (default, with heading and captions)", async ({ mount, page }) => {
+  await mount(
+    <GalleryGrid
+      heading="Selected work"
+      columns={3}
+      items={[
+        {
+          src: "https://picsum.photos/seed/a11y-gg-a/600/800",
+          alt: "Abstract architectural detail",
+          caption: "Berlin, 2024",
+        },
+        {
+          src: "https://picsum.photos/seed/a11y-gg-b/600/800",
+          alt: "Studio interior with warm light",
+          caption: "Studio Moabit",
+        },
+        {
+          src: "https://picsum.photos/seed/a11y-gg-c/600/800",
+          alt: "Landscape at dusk",
+        },
       ]}
     />,
   );

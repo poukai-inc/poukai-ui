@@ -1,0 +1,159 @@
+/* ============================================================
+   GalleryGrid — responsive editorial photo grid organism
+   Token contract: meta/design/GalleryGrid.md §3
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Section provides block padding and max-width container */
+}
+
+/* ---------- Grid ---------- */
+
+.grid {
+  display: grid;
+  /* Default gap: --space-4 */
+  gap: var(--space-4);
+  /* Mobile-first: single column */
+  grid-template-columns: 1fr;
+}
+
+/* Tight gap variant */
+.gapTight {
+  gap: var(--space-2);
+}
+
+/* 480px+: 2 columns regardless of `columns` prop */
+@media (min-width: 480px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 768px+: respect the `columns` prop */
+@media (min-width: 768px) {
+  .cols2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cols3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .cols4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* ---------- Item (figure) ---------- */
+
+.item {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ---------- Trigger button ---------- */
+
+.trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  border-radius: var(--radius-3);
+  /* Clip the Portrait border-radius */
+  overflow: hidden;
+}
+
+.trigger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: var(--radius-1);
+}
+
+/* ---------- Thumbnail ---------- */
+
+.thumbnail {
+  width: 100%;
+  display: block;
+  transition: opacity var(--dur-fast) var(--easing);
+}
+
+.trigger:hover .thumbnail {
+  opacity: 0.85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumbnail {
+    transition: none;
+  }
+}
+
+/* ---------- Caption ---------- */
+
+.caption {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+  line-height: var(--lh-meta);
+  margin: 0;
+}
+
+/* ---------- Dialog overrides ---------- */
+
+/* Widen the standard Dialog content for the enlarged portrait */
+.dialogContent {
+  width: min(42rem, calc(100vw - var(--page-pad) * 2));
+  max-height: min(92vh, 800px);
+  padding: var(--space-4) var(--space-4) var(--space-6);
+}
+
+.dialogHeader {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--space-2);
+}
+
+.closeButton {
+  /* Inherits IconButton ghost styles */
+}
+
+.dialogBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.enlargedPortrait {
+  width: 100%;
+  display: block;
+  border-radius: var(--radius-3);
+  overflow: hidden;
+}
+
+.dialogCaption {
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  color: var(--fg-muted);
+  line-height: var(--lh-meta);
+  margin: 0;
+}
+
+/* Visually hidden Dialog title (screen-reader only) */
+.visuallyHiddenTitle {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

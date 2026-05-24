@@ -115,3 +115,10 @@ export {
   type SheetSide,
   type SheetSize,
 } from "./organisms/Sheet";
+export {
+  GalleryGrid,
+  type GalleryGridProps,
+  type GalleryGridItemProps,
+  type GalleryGridColumns,
+  type GalleryGridGap,
+} from "./organisms/GalleryGrid";

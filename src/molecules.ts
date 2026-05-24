@@ -73,6 +73,23 @@ export {
 export { MetaList, type MetaListProps, type MetaListItem } from "./molecules/MetaList";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
 export {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableHeaderCell,
+  TableCell,
+  type TableProps,
+  type TableHeadProps,
+  type TableBodyProps,
+  type TableRowProps,
+  type TableHeaderCellProps,
+  type TableCellProps,
+  type TableDensity,
+  type TableTone,
+  type TableAlign,
+} from "./molecules/Table";
+export {
   Figure,
   FigureCaption,
   type FigureProps,

@@ -1850,6 +1850,38 @@ Precise, direct, technically confident. Never hedges, inflates, or reassures. No
 - Do NOT show more than `max` simultaneous toasts. The oldest is dropped automatically.
 - Do NOT use Toast for destructive confirmations — use `<Dialog>`.
 
+### Table
+- Semantic data-display primitive. Composable sub-components: `Table.Head` (`<thead>`), `Table.Body` (`<tbody>`), `Table.Row` (`<tr>`), `Table.HeaderCell` (`<th scope="col">`), `Table.Cell` (`<td>`).
+- Root element: `<table>`. `forwardRef<HTMLTableElement, TableProps>`. `...rest` spread on root. `border-collapse: collapse; width: 100%`.
+- `density` (optional `"compact" | "comfortable"`, default `"comfortable"`) — vertical cell padding. `"compact"` → `--space-2`; `"comfortable"` → `--space-3`. Horizontal padding is `--space-4` for both.
+- `tone` (optional `"default" | "subtle"`, default `"default"`) — row-hover background. `"default"` → `--surface`; `"subtle"` → `--surface-section` for tables inside section bands.
+- `Table.HeaderCell` — `<th scope="col">`. `scope="col"` is mandatory for AT column-header announcement. Typography: `--fs-meta`, `font-weight: 500`, `--lh-meta`, `--tracking-micro`, `text-transform: uppercase`, `--fg`. Bottom border: `--hairline-w solid --hairline`.
+- `Table.Cell` — `<td>`. Typography: `--fs-body`, `--lh-body`, `--fg`.
+- Both `Table.HeaderCell` and `Table.Cell` accept `align` prop (`"start" | "center" | "end"`, default `"start"`). Use `"end"` for numeric columns.
+- `Table.Row` hover (body context only): `background-color` transitions to `--surface` (default) or `--surface-section` (subtle) at `--dur-fast` / `--easing`. No hover on header rows.
+- All sub-components forward `ref`, `className`, and `...rest` (`data-*`, `aria-*`, `style`, etc.).
+- A11y: native `<table>` semantics. Pass `aria-label` or `aria-labelledby` on `<Table>` when no visible caption is present. Axe rules in play: `td-headers-attr`, `th-has-data-cells`, `scope-attr-valid`.
+- No sort / filter / pagination — those belong to the `DataTable` organism.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--fs-body`, `--lh-meta`, `--lh-body`, `--tracking-micro`, `--fg`, `--fg-muted`, `--surface`, `--surface-section`, `--hairline`, `--hairline-w`, `--space-2`, `--space-3`, `--space-4`, `--dur-fast`, `--easing`.
+
+```tsx
+// Basic usage:
+<Table aria-label="Team members">
+  <Table.Head>
+    <Table.Row>
+      <Table.HeaderCell>Name</Table.HeaderCell>
+      <Table.HeaderCell align="end">Joined</Table.HeaderCell>
+    </Table.Row>
+  </Table.Head>
+  <Table.Body>
+    <Table.Row>
+      <Table.Cell>Arian Zargaran</Table.Cell>
+      <Table.Cell align="end">2023</Table.Cell>
+    </Table.Row>
+  </Table.Body>
+</Table>
+```
+
 ---
 
 ### MetaList

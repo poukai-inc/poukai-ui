@@ -500,6 +500,11 @@
       "import": "./dist/organisms/RoleGrid.js",
       "require": "./dist/organisms/RoleGrid.cjs"
     },
+    "./organisms/ComparisonTable": {
+      "types": "./dist/organisms/ComparisonTable.d.ts",
+      "import": "./dist/organisms/ComparisonTable.js",
+      "require": "./dist/organisms/ComparisonTable.cjs"
+    },
     "./organisms/BlogPostCard": {
       "types": "./dist/organisms/BlogPostCard.d.ts",
       "import": "./dist/organisms/BlogPostCard.js",

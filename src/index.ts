@@ -314,3 +314,4 @@ export {
   type BlogPostCardHeadingLevel,
   type BlogPostCardCover,
 } from "./organisms/BlogPostCard";
+export { ComparisonTable, type ComparisonTableProps } from "./organisms/ComparisonTable";

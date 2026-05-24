@@ -1,0 +1,145 @@
+/* ============================================================
+   ComparisonTable organism
+   ============================================================ */
+
+.root {
+  font-family: var(--font-sans);
+  color: var(--fg);
+}
+
+.heading {
+  margin-bottom: var(--space-8);
+}
+
+/* Horizontal scroll container — table scrolls on narrow viewports.
+   Sticky header scrolls with the table on the block axis only. */
+.scrollContainer {
+  overflow-x: auto;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg);
+}
+
+/* Caption */
+
+.caption {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg-muted);
+  text-align: left;
+  padding-bottom: var(--space-4);
+  caption-side: top;
+}
+
+/* Visually-hidden utility — screen-reader only */
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── Sticky thead ─────────────────────────────────────────── */
+
+.thead {
+  background: var(--bg-elevated);
+}
+
+.stickyHeader {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/* ── All th / td base ─────────────────────────────────────── */
+
+.th,
+.td {
+  padding: var(--space-2) var(--space-4);
+  text-align: left;
+  border-bottom: var(--hairline-w) solid var(--hairline);
+}
+
+/* ── Tier header cells ────────────────────────────────────── */
+
+.thTier {
+  color: var(--fg);
+  font-weight: 500;
+  font-size: var(--fs-meta);
+  white-space: nowrap;
+}
+
+.thFeatured {
+  color: var(--accent);
+}
+
+.tierLabel {
+  display: block;
+}
+
+.tierSubtext {
+  display: block;
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  margin-top: var(--space-3);
+}
+
+/* ── Feature-corner cell (top-left, empty) ────────────────── */
+
+.thFeatureCorner {
+  background: var(--bg-elevated);
+}
+
+/* ── Feature-label cells ──────────────────────────────────── */
+
+.thFeature {
+  color: var(--fg);
+  font-weight: 400;
+  white-space: nowrap;
+}
+
+/* ── Row-group heading rows ───────────────────────────────── */
+
+.groupRow {
+  background: var(--surface-section);
+}
+
+.thGroup {
+  color: var(--fg-muted);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: var(--tracking-micro);
+  text-transform: uppercase;
+  border-bottom: var(--hairline-w) solid var(--hairline);
+}
+
+/* ── Data rows ────────────────────────────────────────────── */
+
+.dataRow {
+  /* base — no fill */
+}
+
+/* ── Striped variant ──────────────────────────────────────── */
+
+.striped .dataRow:nth-child(even) {
+  background: var(--surface);
+}
+
+/* ── Value cells ──────────────────────────────────────────── */
+
+.td {
+  color: var(--fg);
+  font-size: var(--fs-meta);
+}

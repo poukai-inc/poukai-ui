@@ -100,6 +100,7 @@ import { Pagination } from "./molecules/Pagination";
 import { EmptyState } from "./molecules/EmptyState";
 import { TimePicker } from "./atoms/TimePicker";
 import { TestimonialBlock } from "./organisms/TestimonialBlock";
+import { ContactBlock } from "./organisms/ContactBlock";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2520,6 +2521,28 @@ test("a11y — EmptyState (with icon, description, and action)", async ({ mount,
         >
           Schedule a post
         </button>
+      }
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — ContactBlock (minimal)", async ({ mount, page }) => {
+  await mount(<ContactBlock email="hello@pouk.ai" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — ContactBlock (full composition)", async ({ mount, page }) => {
+  await mount(
+    <ContactBlock
+      heading="Get in touch"
+      email="hello@pouk.ai"
+      emailLabel="Say hello"
+      status={<StatusBadge status="available">Open for projects.</StatusBadge>}
+      actions={
+        <Button asChild>
+          <a href="/book">Book a call</a>
+        </Button>
       }
     />,
   );

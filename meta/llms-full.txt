@@ -1135,6 +1135,19 @@ import { Icon } from "@poukai-inc/ui";
 </Banner>
 ```
 
+### ContactBlock
+- Organism layer. End-of-page contact moment — email link + optional status signal + optional CTA actions.
+- Composes `Section` frame + `EmailLink` atom + `StatusBadge` slot + `actions` ReactNode slot in a centered flex column.
+- Props: `email` (required string), `emailLabel` (optional string — visible link text override), `heading` (optional string — `--fs-h2` Instrument Serif when provided), `status` (optional ReactNode — `StatusBadge` slot), `actions` (optional ReactNode — Button(s) slot), `as` (`"section"` | `"article"` | `"div"`, default `"section"`).
+- EmailLink renders at `--fs-h3` weight (1.125rem / 18px) — display scale, not footer scale.
+- When `heading` is provided and `as` is a landmark element, root gets `aria-labelledby` pointing at the heading.
+- No `tone` or `variant` prop — one visual register only: centered, editorial, generous whitespace (`--space-16` block padding).
+- A11y: `<section>` landmark named via `aria-labelledby` when heading present. EmailLink `<a href="mailto:…">` accessible name = visible label or email string. StatusBadge is non-interactive `<span>`. Buttons in actions slot carry their own labels.
+- Keyboard order: heading (no tab stop) → EmailLink → Button(s) in DOM order.
+- Do NOT use as a footer substitute — `ContactBlock` is a content-section moment; `Footer` is persistent page chrome.
+- Do NOT embed a form — use a separate `Form` organism for multi-field contact forms.
+- Import: `import { ContactBlock } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/ContactBlock"`.
+
 ### HeroSection
 - Organism layer. Marketing-page primary hero band — the sole `<h1>` moment on any page.
 - Composes `Hero` molecule (title, status, lede, CTA, entrance stagger) inside a landmark `<section>`.

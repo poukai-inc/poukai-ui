@@ -435,6 +435,11 @@
       "import": "./dist/organisms/CTASection.js",
       "require": "./dist/organisms/CTASection.cjs"
     },
+    "./organisms/ContactBlock": {
+      "types": "./dist/organisms/ContactBlock.d.ts",
+      "import": "./dist/organisms/ContactBlock.js",
+      "require": "./dist/organisms/ContactBlock.cjs"
+    },
     "./organisms/HeroSection": {
       "types": "./dist/organisms/HeroSection.d.ts",
       "import": "./dist/organisms/HeroSection.js",

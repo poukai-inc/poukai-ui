@@ -225,6 +225,7 @@ export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";
 export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";
 export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";
+export { ContactBlock, type ContactBlockProps } from "./organisms/ContactBlock";
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
 export { StepsSection, type StepsSectionProps } from "./organisms/StepsSection";
 export { StatsSection, type StatsSectionProps } from "./organisms/StatsSection";

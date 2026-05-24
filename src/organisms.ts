@@ -73,3 +73,7 @@ export {
   type TestimonialBlockAlign,
 } from "./organisms/TestimonialBlock";
 export { NewsletterSection, type NewsletterSectionProps } from "./organisms/NewsletterSection";
+  AnnouncementBar,
+  type AnnouncementBarProps,
+  type AnnouncementBarTone,
+} from "./organisms/AnnouncementBar";

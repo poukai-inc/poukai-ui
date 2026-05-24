@@ -62,6 +62,7 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import { TeamGrid } from "./organisms/TeamGrid";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1592,6 +1593,57 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TeamGrid (default 3-column, 3 cards)", async ({ mount, page }) => {
+  const IMAGE_PIXEL =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+  await mount(
+    <TeamGrid heading="The team" eyebrow="Who we are" lede="Senior practitioners only.">
+      <TeamCard
+        portrait={
+          <Portrait src={IMAGE_PIXEL} alt="Arian Zargaran — headshot" aspect="1:1" width={400} />
+        }
+        name="Arian Zargaran"
+        role="Founder, Engineering"
+      />
+      <TeamCard
+        portrait={<Portrait src={IMAGE_PIXEL} alt="Jane Doe — headshot" aspect="1:1" width={400} />}
+        name="Jane Doe"
+        role="Design Lead"
+      />
+      <TeamCard
+        portrait={
+          <Portrait src={IMAGE_PIXEL} alt="John Smith — headshot" aspect="1:1" width={400} />
+        }
+        name="John Smith"
+        role="Engineering"
+      />
+    </TeamGrid>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TeamGrid (columns=2, tone=section)", async ({ mount, page }) => {
+  const IMAGE_PIXEL =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+  await mount(
+    <TeamGrid heading="The team" columns={2} tone="section">
+      <TeamCard
+        portrait={
+          <Portrait src={IMAGE_PIXEL} alt="Arian Zargaran — headshot" aspect="1:1" width={400} />
+        }
+        name="Arian Zargaran"
+        role="Founder, Engineering"
+      />
+      <TeamCard
+        portrait={<Portrait src={IMAGE_PIXEL} alt="Jane Doe — headshot" aspect="1:1" width={400} />}
+        name="Jane Doe"
+        role="Design Lead"
+      />
+    </TeamGrid>,
   );
   await expectAxeClean(page);
 });

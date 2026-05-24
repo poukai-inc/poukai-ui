@@ -290,6 +290,11 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./organisms/TeamGrid": {
+      "types": "./dist/organisms/TeamGrid.d.ts",
+      "import": "./dist/organisms/TeamGrid.js",
+      "require": "./dist/organisms/TeamGrid.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

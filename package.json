@@ -355,6 +355,11 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./organisms/Sidebar": {
+      "types": "./dist/organisms/Sidebar.d.ts",
+      "import": "./dist/organisms/Sidebar.js",
+      "require": "./dist/organisms/Sidebar.cjs"
+    },
     "./organisms/HeroSection": {
       "types": "./dist/organisms/HeroSection.d.ts",
       "import": "./dist/organisms/HeroSection.js",

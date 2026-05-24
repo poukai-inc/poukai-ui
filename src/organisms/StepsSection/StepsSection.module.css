@@ -1,0 +1,16 @@
+/* ============================================================
+   StepsSection — process-explainer organism
+   ============================================================ */
+
+/*
+ * The organism delegates all structural layout to Section (block padding,
+ * header block, landmark semantics) and Stepper (step strip, <ol> structure).
+ *
+ * This module only supplies the max-width constraint for the Stepper slot
+ * inside the Section body — keeping the vertical step strip readable on
+ * wide viewports without pinning it to a fixed column count.
+ */
+
+.stepper {
+  max-width: var(--hero-max);
+}

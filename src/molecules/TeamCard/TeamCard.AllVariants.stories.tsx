@@ -5,7 +5,7 @@ import { EmailLink } from "../../atoms/EmailLink";
 import { Eyebrow } from "../../atoms/Eyebrow";
 
 export default {
-  title: "Components / Cards / TeamCard / All Variants",
+  title: "Molecules / Cards / TeamCard / All Variants",
 } satisfies StoryDefault;
 
 const makePortrait = (seed: string, size = 800) => (

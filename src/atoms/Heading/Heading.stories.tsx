@@ -4,7 +4,7 @@ import { Heading, type HeadingLevel } from "./Heading";
 const LEVELS: HeadingLevel[] = ["h1", "h2", "h3", "h4", "h5", "h6"];
 
 export default {
-  title: "Components / Heading",
+  title: "Atoms / Heading",
   args: { as: "h2", size: "h2", children: "Why we build" },
   argTypes: {
     as: {

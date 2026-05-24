@@ -102,6 +102,8 @@ import { TimePicker } from "./atoms/TimePicker";
 import { TestimonialBlock } from "./organisms/TestimonialBlock";
 import { ContactBlock } from "./organisms/ContactBlock";
 import { BlogPostCard } from "./organisms/BlogPostCard";
+import { PriceTier } from "./molecules/PriceTier";
+import { PricingTable } from "./organisms/PricingTable";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2688,6 +2690,29 @@ test("a11y — TimePicker (default, with label)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- PriceTier ---------- */
+
+test("a11y — PriceTier (standard, full slots)", async ({ mount, page }) => {
+  await mount(
+    <PriceTier
+      name="Pro"
+      price="$49"
+      cadence="per month"
+      description="For growing teams that need more power."
+      features={["Unlimited projects", "Priority support", "Custom domain"]}
+      cta={
+        <button
+          type="button"
+          style={{ fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)" }}
+        >
+          Get started with Pro
+        </button>
+      }
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 import { ArticleHeader } from "./organisms/ArticleHeader";
 
 test("a11y — ArticleHeader (default, no share)", async ({ mount, page }) => {
@@ -2739,6 +2764,27 @@ test("a11y — TimePicker (invalid, with label)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — PriceTier (featured)", async ({ mount, page }) => {
+  await mount(
+    <PriceTier
+      featured
+      name="Pro"
+      price="$49"
+      cadence="per month"
+      features={["Unlimited projects", "Priority support"]}
+      cta={
+        <button
+          type="button"
+          style={{ fontFamily: "var(--font-sans)", fontSize: "var(--fs-body)" }}
+        >
+          Get started with Pro
+        </button>
+      }
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — BlogPostCard (with cover and tags)", async ({ mount, page }) => {
   await mount(
     <BlogPostCard
@@ -2767,6 +2813,65 @@ test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
       <label htmlFor="a11y-tp-dis">Start time</label>
       <TimePicker id="a11y-tp-dis" disabled />
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- PricingTable ---------- */
+
+test("a11y — PricingTable (3-tier default)", async ({ mount, page }) => {
+  await mount(
+    <PricingTable
+      heading={
+        <h2 style={{ fontFamily: "var(--font-serif)", fontSize: "var(--fs-h2)", margin: 0 }}>
+          Choose your plan
+        </h2>
+      }
+    >
+      <PriceTier
+        name="Starter"
+        price="$0"
+        cadence="free forever"
+        features={["5 projects", "Community support"]}
+        cta={
+          <button type="button" style={{ fontFamily: "var(--font-sans)" }}>
+            Get started with Starter
+          </button>
+        }
+      />
+      <PriceTier
+        featured
+        name="Pro"
+        price="$49"
+        cadence="per month"
+        features={["Unlimited projects", "Priority support"]}
+        cta={
+          <button type="button" style={{ fontFamily: "var(--font-sans)" }}>
+            Get started with Pro
+          </button>
+        }
+      />
+      <PriceTier
+        name="Enterprise"
+        price="Custom"
+        cadence="contact us"
+        cta={
+          <button type="button" style={{ fontFamily: "var(--font-sans)" }}>
+            Contact sales
+          </button>
+        }
+      />
+    </PricingTable>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — PricingTable (aria-label, no heading)", async ({ mount, page }) => {
+  await mount(
+    <PricingTable aria-label="Pricing plans">
+      <PriceTier name="Starter" price="$0" cadence="free forever" />
+      <PriceTier featured name="Pro" price="$49" cadence="per month" />
+    </PricingTable>,
   );
   await expectAxeClean(page);
 });

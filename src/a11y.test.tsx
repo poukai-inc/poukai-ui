@@ -75,6 +75,7 @@ import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
 import { EmptyState } from "./molecules/EmptyState";
+import { TimePicker } from "./atoms/TimePicker";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2034,6 +2035,38 @@ test("a11y — EmptyState (tone='subtle')", async ({ mount, page }) => {
       title="No conversations yet"
       description="When someone messages you, it will appear here."
     />,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- TimePicker ---------- */
+
+test("a11y — TimePicker (default, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-main">Start time</label>
+      <TimePicker id="a11y-tp-main" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimePicker (invalid, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-inv">Start time</label>
+      <TimePicker id="a11y-tp-inv" invalid />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-dis">Start time</label>
+      <TimePicker id="a11y-tp-dis" disabled />
+    </div>,
   );
   await expectAxeClean(page);
 });

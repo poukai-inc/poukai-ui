@@ -1720,3 +1720,15 @@ ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 
   <Field label="Street" id="street"><Input /></Field>
 </Fieldset>
 ```
+
+### Popover
+
+- Anchored, dismissible floating-content molecule. Wraps `@radix-ui/react-popover`. Use for filter pickers, inline action panels, form field helpers — not for dialogs, tooltips, or navigation.
+- Compound API: `<Popover.Root>` / `<Popover.Trigger>` / `<Popover.Content>` / `<Popover.Close>`. Content always renders in a portal (never clipped by `overflow:hidden`).
+- `Popover.Root` props: `open`, `defaultOpen`, `onOpenChange`, `modal` (default `false`).
+- `Popover.Content` props: `side` (`"top"|"right"|"bottom"|"left"`, default `"bottom"`), `align` (`"start"|"center"|"end"`, default `"center"`), `sideOffset` (default `8`), `arrow` (renders caret, default `false`). All `div` props (`className`, `data-*`, `aria-*`, etc.) forwarded to the panel root.
+- Trigger supports `asChild` — any DS atom (Button, IconButton, `<a>`) becomes the anchor.
+- Close supports `asChild` — pass `aria-label="Close"` when rendering an icon-only button.
+- Tokens: `--bg-elevated` (panel bg), `--hairline` + `--hairline-w` (border), `--radius-3` (corners), `--space-4` (padding), `--fg` (text), `--easing` + `--dur-fast` (enter animation), ease-in + `--dur-fast` (exit). Reduced-motion handled by global `tokens.css` rule.
+- A11y: Radix manages `aria-haspopup="dialog"`, `aria-expanded`, `role="dialog"` on Content. Pass `aria-label` on Content when no visible heading is present.
+- Do NOT use Popover as a Dialog (blocking / backdrop → use `<Dialog>`). Do NOT use for hover-only reveals (`HoverCard`). Do NOT use for single-line hints (`Tooltip`).

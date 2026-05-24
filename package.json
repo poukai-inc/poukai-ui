@@ -190,6 +190,11 @@
       "import": "./dist/atoms/Radio.js",
       "require": "./dist/atoms/Radio.cjs"
     },
+    "./atoms/Tooltip": {
+      "types": "./dist/atoms/Tooltip.d.ts",
+      "import": "./dist/atoms/Tooltip.js",
+      "require": "./dist/atoms/Tooltip.cjs"
+    },
     "./molecules/Byline": {
       "types": "./dist/molecules/Byline.d.ts",
       "import": "./dist/molecules/Byline.js",
@@ -342,6 +347,7 @@
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.15",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "clsx": "^2.1.1"
   },
   "devDependencies": {

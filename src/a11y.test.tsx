@@ -58,6 +58,7 @@ import { IconButtonVariantFixture } from "./atoms/IconButton/IconButton.fixtures
 import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
+import { ShorthandHarness as TooltipShorthandHarness } from "./atoms/Tooltip/__test_harness__";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
 
@@ -1564,5 +1565,11 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
       </Field>
     </Fieldset>,
   );
+  await expectAxeClean(page);
+});
+
+test("a11y — Tooltip (shorthand, open)", async ({ mount, page }) => {
+  await mount(<TooltipShorthandHarness content="Settings" defaultOpen />);
+  await expect(page.locator("[role='tooltip']")).toBeVisible();
   await expectAxeClean(page);
 });

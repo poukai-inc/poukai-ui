@@ -3,7 +3,7 @@ import { Pull } from "../Pull/Pull";
 import { Quote } from "./Quote";
 
 export default {
-  title: "Components / Quote",
+  title: "Molecules / Quote",
 } satisfies StoryDefault;
 
 /** Default — full Quote: quote body, name, role, and avatar (img).

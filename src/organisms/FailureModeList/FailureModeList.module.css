@@ -1,0 +1,10 @@
+.root {
+  /* No additional styles beyond what Section provides.
+     FailureModeList is a thin composition wrapper. */
+}
+
+.list {
+  /* Plain container — FailureMode items own their own top/bottom padding
+     and hairline borders. No gap, no max-width, no padding here. */
+  width: 100%;
+}

@@ -87,7 +87,17 @@ export { Select, type SelectProps, type SelectSize } from "./atoms/Select";
 
 export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Textarea";
 export { Radio, RadioGroup, type RadioProps, type RadioGroupProps } from "./atoms/Radio";
+export { TimePicker, type TimePickerProps, type TimePickerSize } from "./atoms/TimePicker";
 
+export {
+  Tooltip,
+  TooltipProvider,
+  type TooltipProps,
+  type TooltipProviderProps,
+  type TooltipRootProps,
+  type TooltipTriggerProps,
+  type TooltipContentProps,
+} from "./atoms/Tooltip";
 /* ---------- molecules ---------- */
 export {
   Hero,
@@ -124,6 +134,18 @@ export {
 } from "./molecules/CtaBlock";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
 export {
+  NewsletterField,
+  type NewsletterFieldProps,
+  type NewsletterFieldSize,
+} from "./molecules/NewsletterField";
+export {
+  Stepper,
+  type StepperProps,
+  type StepperOrientation,
+  type StepperSize,
+  type StepDef,
+} from "./molecules/Stepper";
+export {
   LinkList,
   type LinkListProps,
   type LinkListItemProps,
@@ -131,12 +153,60 @@ export {
 } from "./molecules/LinkList";
 export { MetaList, type MetaListProps, type MetaListItem } from "./molecules/MetaList";
 export { TagList, type TagListProps } from "./molecules/TagList/index.js";
+export { MenuItem, type MenuItemProps, type MenuItemTone } from "./molecules/MenuItem";
+export { Alert, type AlertProps, type AlertVariant } from "./molecules/Alert";
+export { FormRow, type FormRowProps, type FormRowGap } from "./molecules/FormRow";
+export { TimelineItem, type TimelineItemProps } from "./molecules/TimelineItem";
 
+export { Disclosure, type DisclosureProps } from "./molecules/Disclosure";
 export { SearchField, type SearchFieldProps } from "./molecules/SearchField";
 export { NavLink, type NavLinkProps } from "./molecules/NavLink";
 export { StatList, type StatListProps } from "./molecules/StatList";
 export { Caption, type CaptionProps } from "./molecules/Caption";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export {
+  HoverCard,
+  type HoverCardRootProps,
+  type HoverCardTriggerProps,
+  type HoverCardContentProps,
+  type HoverCardSide,
+  type HoverCardAlign,
+  type HoverCardWidth,
+} from "./molecules/HoverCard";
+export {
+  Popover,
+  type PopoverRootProps,
+  type PopoverTriggerProps,
+  type PopoverPortalProps,
+  type PopoverContentProps,
+  type PopoverCloseProps,
+} from "./molecules/Popover";
+export {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableHeaderCell,
+  TableCell,
+  type TableProps,
+  type TableHeadProps,
+  type TableBodyProps,
+  type TableRowProps,
+  type TableHeaderCellProps,
+  type TableCellProps,
+  type TableDensity,
+  type TableTone,
+  type TableAlign,
+} from "./molecules/Table";
+export {
+  Figure,
+  FigureCaption,
+  type FigureProps,
+  type FigureCaptionProps,
+} from "./molecules/Figure";
+export { CopyButton, type CopyButtonProps, type CopyButtonSize } from "./molecules/CopyButton";
+export { Pagination, type PaginationProps, type PaginationSize } from "./molecules/Pagination";
+export { EmptyState, type EmptyStateProps, type EmptyStateTone } from "./molecules/EmptyState";
 export {
   Breadcrumb,
   BreadcrumbItem,
@@ -144,7 +214,17 @@ export {
   type BreadcrumbItemProps,
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
+export { ShareLinks, type ShareLinksProps } from "./molecules/ShareLinks";
+export {
+  TableOfContents,
+  type TableOfContentsProps,
+  type TableOfContentsItem,
+} from "./molecules/TableOfContents";
+export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";
 /* ---------- organisms ---------- */
+export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
+export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";
+export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
 export { StatsSection, type StatsSectionProps } from "./organisms/StatsSection";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
@@ -180,3 +260,17 @@ export {
   type ToastPayload,
   type ToastTone,
 } from "./organisms/Toast";
+export {
+  LogoCloud,
+  type LogoCloudProps,
+  type LogoCloudVariant,
+  type LogoCloudColumns,
+} from "./organisms/LogoCloud";
+export { PrincipleList, type PrincipleListProps } from "./organisms/PrincipleList";
+export { FeatureGrid, type FeatureGridProps } from "./organisms/FeatureGrid";
+export {
+  RoleGrid,
+  type RoleGridProps,
+  type RoleGridColumns,
+  type RoleGridSurface,
+} from "./organisms/RoleGrid";

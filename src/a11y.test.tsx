@@ -20,6 +20,7 @@ import { LinkCard } from "./molecules/LinkCard";
 import { TeamCard } from "./molecules/TeamCard";
 import { Portrait } from "./molecules/Portrait";
 import { FeatureCard } from "./molecules/FeatureCard";
+import { PriceTier } from "./molecules/PriceTier";
 import { FieldNote } from "./molecules/FieldNote";
 import { Quote } from "./molecules/Quote";
 import { Avatar } from "./atoms/Avatar";
@@ -52,6 +53,8 @@ import { NavLink } from "./molecules/NavLink";
 import { StatList } from "./molecules/StatList";
 import { Caption } from "./molecules/Caption";
 import { Byline } from "./molecules/Byline";
+import { HoverCard } from "./molecules/HoverCard";
+import { Stepper } from "./molecules/Stepper";
 import { SearchField } from "./molecules/SearchField";
 import { LinkList } from "./molecules/LinkList";
 import { MetaList } from "./molecules/MetaList";
@@ -64,9 +67,38 @@ import { IconButtonVariantFixture } from "./atoms/IconButton/IconButton.fixtures
 import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
+import { ShorthandHarness as TooltipShorthandHarness } from "./atoms/Tooltip/__test_harness__";
+import { NewsletterField } from "./molecules/NewsletterField";
 import { CtaBlock } from "./molecules/CtaBlock";
 import { TagList } from "./molecules/TagList";
+import { MenuItem } from "./molecules/MenuItem";
+import { Alert } from "./molecules/Alert";
+import { Disclosure } from "./molecules/Disclosure";
+import { FormRow } from "./molecules/FormRow";
+import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
+import { TeamGrid } from "./organisms/TeamGrid";
+import { FailureModeList } from "./organisms/FailureModeList";
+import { LogoCloud } from "./organisms/LogoCloud";
+import { PrincipleList } from "./organisms/PrincipleList";
+import { FeatureGrid } from "./organisms/FeatureGrid";
+import { RoleGrid } from "./organisms/RoleGrid";
+import { ShareLinks } from "./molecules/ShareLinks";
+import { TableOfContents } from "./molecules/TableOfContents";
+import { PopoverA11yHarness } from "./molecules/Popover/__test_harness__";
+import {
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableHeaderCell,
+  TableCell,
+} from "./molecules/Table";
+import { Figure } from "./molecules/Figure";
+import { CopyButton } from "./molecules/CopyButton";
+import { Pagination } from "./molecules/Pagination";
+import { EmptyState } from "./molecules/EmptyState";
+import { TimePicker } from "./atoms/TimePicker";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -936,6 +968,56 @@ test("a11y — TagList (gap=sm)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — FormRow (two Fields, default gap)", async ({ mount, page }) => {
+  await mount(
+    <FormRow>
+      <Field label="First name" id="a11y-formrow-first">
+        <Input placeholder="Arian" />
+      </Field>
+      <Field label="Last name" id="a11y-formrow-last">
+        <Input placeholder="Zargaran" />
+      </Field>
+    </FormRow>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimelineItem (with body)", async ({ mount, page }) => {
+  await mount(
+    <ol>
+      <TimelineItem date="2026-05-22" title="Series A closed" body="$12M led by Acme Ventures." />
+      <TimelineItem date="2025-01-10" title="Company founded" connector={false} />
+    </ol>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FormRow (three Fields, tight gap, explicit columns)", async ({ mount, page }) => {
+  await mount(
+    <FormRow gap="tight" columns={3}>
+      <Field label="City" id="a11y-formrow-city">
+        <Input placeholder="San Francisco" />
+      </Field>
+      <Field label="State" id="a11y-formrow-state">
+        <Input placeholder="CA" />
+      </Field>
+      <Field label="ZIP" id="a11y-formrow-zip">
+        <Input placeholder="94103" />
+      </Field>
+    </FormRow>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimelineItem (title only, no connector)", async ({ mount, page }) => {
+  await mount(
+    <ol>
+      <TimelineItem date="2025-01-10" title="Company founded" connector={false} />
+    </ol>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — Portrait (lazy default, eager above-fold)", async ({ mount, page }) => {
   await mount(
     <div>
@@ -958,14 +1040,68 @@ test("a11y — Portrait (lazy default, eager above-fold)", async ({ mount, page 
   await expectAxeClean(page);
 });
 
+test("a11y — Stepper (middle step active)", async ({ mount, page }) => {
+  await mount(
+    <Stepper
+      steps={[{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }]}
+      current={1}
+      aria-label="Onboarding steps"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Stepper (size='sm', labels hidden)", async ({ mount, page }) => {
+  await mount(
+    <Stepper
+      steps={[{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }]}
+      current={0}
+      size="sm"
+      aria-label="Checkout progress"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — FeatureCard (as='section')", async ({ mount, page }) => {
   await mount(<FeatureCard as="section" title="Section feature" body="Section body copy." />);
   await expectAxeClean(page);
 });
 
 import { HeroSection } from "./organisms/HeroSection";
+import { Sidebar } from "./organisms/Sidebar";
 
 /* ---------- organisms ---------- */
+
+test("a11y — Sidebar (grouped sections, active link)", async ({ mount, page }) => {
+  await mount(
+    <Sidebar label="Documentation">
+      <Sidebar.Group heading="Getting started">
+        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+        <LinkList.Item href="/docs/install" current>
+          Installation
+        </LinkList.Item>
+      </Sidebar.Group>
+      <Sidebar.Group heading="Components">
+        <LinkList.Item href="/docs/button">Button</LinkList.Item>
+        <LinkList.Item href="/docs/heading">Heading</LinkList.Item>
+      </Sidebar.Group>
+    </Sidebar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Sidebar (no group headings)", async ({ mount, page }) => {
+  await mount(
+    <Sidebar>
+      <Sidebar.Group>
+        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+        <LinkList.Item href="/docs/install">Installation</LinkList.Item>
+      </Sidebar.Group>
+    </Sidebar>,
+  );
+  await expectAxeClean(page);
+});
 
 test("a11y — HeroSection (default, no media)", async ({ mount, page }) => {
   await mount(
@@ -1612,6 +1748,119 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
   await expectAxeClean(page);
 });
 
+/* ---------- MenuItem ---------- */
+
+test("a11y — MenuItem (default, label only)", async ({ mount, page }) => {
+  await mount(<MenuItem>Copy</MenuItem>);
+  await expectAxeClean(page);
+});
+
+test("a11y — MenuItem (with icon and shortcut)", async ({ mount, page }) => {
+  await mount(
+    <MenuItem
+      shortcut="⌘C"
+      icon={
+        <svg width={16} height={16} aria-hidden="true" viewBox="0 0 24 24">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+        </svg>
+      }
+    >
+      Copy
+    </MenuItem>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — MenuItem (tone='danger')", async ({ mount, page }) => {
+  await mount(<MenuItem tone="danger">Delete post</MenuItem>);
+  await expectAxeClean(page);
+});
+
+test("a11y — MenuItem (disabled)", async ({ mount, page }) => {
+  await mount(<MenuItem disabled>Paste</MenuItem>);
+  // color-contrast suppressed: WCAG 1.4.3 exempts disabled UI components.
+  // opacity: 0.4 is per spec §4 — communicates unavailability by convention.
+  // All suppressed rules passed in one disableRules call so they don't clobber
+  // the landmark rules already disabled by expectAxeClean.
+  const { violations } = await new AxeBuilder({ page })
+    .disableRules(["landmark-one-main", "page-has-heading-one", "region", "color-contrast"])
+    .analyze();
+  expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
+});
+
+/* ---------- Alert ---------- */
+
+test("a11y — Alert (all variants)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Alert variant="info">Your session will expire in 15 minutes.</Alert>
+      <Alert variant="success" title="Success">
+        Profile updated successfully.
+      </Alert>
+      <Alert variant="warn" title="Warning">
+        Your trial ends in 3 days.
+      </Alert>
+      <Alert variant="error" title="Submission failed">
+        Please fix the highlighted fields and try again.
+      </Alert>
+      <Alert variant="note">This feature is in beta.</Alert>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Disclosure (closed, default tone)", async ({ mount, page }) => {
+  await mount(
+    <Disclosure summary="What is Poukai?">
+      <p>Poukai is a senior-only AI consulting practice that ships production AI systems.</p>
+    </Disclosure>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Disclosure (open, muted tone)", async ({ mount, page }) => {
+  await mount(
+    <Disclosure summary="Advanced settings" defaultOpen tone="muted">
+      <p>Additional configuration options for advanced users.</p>
+    </Disclosure>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Disclosure (divider variant)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <Disclosure summary="First section" divider>
+        <p>First section content.</p>
+      </Disclosure>
+      <Disclosure summary="Second section" divider>
+        <p>Second section content.</p>
+      </Disclosure>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField (default)", async ({ mount, page }) => {
+  await mount(<NewsletterField />);
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField with note slot", async ({ mount, page }) => {
+  await mount(<NewsletterField note="No spam. Unsubscribe any time." />);
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField disabled", async ({ mount, page }) => {
+  await mount(<NewsletterField disabled />);
+  await expectAxeClean(page);
+});
+
+test("a11y — NewsletterField size=md with custom cta", async ({ mount, page }) => {
+  await mount(<NewsletterField size="md" cta="Get early access" />);
+  await expectAxeClean(page);
+});
+
 test("a11y — SearchField", async ({ mount, page }) => {
   await mount(<SearchField label="Search" value="" onValueChange={() => {}} />);
   await expectAxeClean(page);
@@ -1769,6 +2018,35 @@ test("a11y — StatsSection (default, no heading, no fill)", async ({ mount, pag
   await expectAxeClean(page);
 });
 
+test("a11y — TeamGrid (default 3-column, 3 cards)", async ({ mount, page }) => {
+  const IMAGE_PIXEL =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+  await mount(
+    <TeamGrid heading="The team" eyebrow="Who we are" lede="Senior practitioners only.">
+      <TeamCard
+        portrait={
+          <Portrait src={IMAGE_PIXEL} alt="Arian Zargaran — headshot" aspect="1:1" width={400} />
+        }
+        name="Arian Zargaran"
+        role="Founder, Engineering"
+      />
+      <TeamCard
+        portrait={<Portrait src={IMAGE_PIXEL} alt="Jane Doe — headshot" aspect="1:1" width={400} />}
+        name="Jane Doe"
+        role="Design Lead"
+      />
+      <TeamCard
+        portrait={
+          <Portrait src={IMAGE_PIXEL} alt="John Smith — headshot" aspect="1:1" width={400} />
+        }
+        name="John Smith"
+        role="Engineering"
+      />
+    </TeamGrid>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — StatsSection (with heading + dividers + fill)", async ({ mount, page }) => {
   await mount(
     <StatsSection heading="By the numbers" dividers fill>
@@ -1776,6 +2054,440 @@ test("a11y — StatsSection (with heading + dividers + fill)", async ({ mount, p
       <Stat value="99.9%" caption="Uptime SLA" />
       <Stat value="200" caption="Customers" />
     </StatsSection>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TeamGrid (columns=2, tone=section)", async ({ mount, page }) => {
+  const IMAGE_PIXEL =
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
+  await mount(
+    <TeamGrid heading="The team" columns={2} tone="section">
+      <TeamCard
+        portrait={
+          <Portrait src={IMAGE_PIXEL} alt="Arian Zargaran — headshot" aspect="1:1" width={400} />
+        }
+        name="Arian Zargaran"
+        role="Founder, Engineering"
+      />
+      <TeamCard
+        portrait={<Portrait src={IMAGE_PIXEL} alt="Jane Doe — headshot" aspect="1:1" width={400} />}
+        name="Jane Doe"
+        role="Design Lead"
+      />
+    </TeamGrid>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FailureModeList (with heading + lede)", async ({ mount, page }) => {
+  await mount(
+    <FailureModeList
+      eyebrow="Where things fail"
+      heading="How this breaks"
+      lede="Common failure modes in AI product teams."
+    >
+      <FailureMode index={1} title="The chatbot-on-top-of-RAG plateau.">
+        <p>Most teams stop here. The demo dazzles; the production loop never closes.</p>
+      </FailureMode>
+      <FailureMode index={2} title="Evals as afterthought.">
+        <p>Shipped without a measurement loop.</p>
+      </FailureMode>
+    </FailureModeList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FailureModeList (no heading)", async ({ mount, page }) => {
+  await mount(
+    <FailureModeList>
+      <FailureMode index={1} title="Prompt engineering as strategy.">
+        <p>Brittle. Undocumented. Impossible to regression-test at scale.</p>
+      </FailureMode>
+    </FailureModeList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — LogoCloud (grid, with heading)", async ({ mount, page }) => {
+  await mount(
+    <LogoCloud heading="Trusted by" eyebrow="Customers">
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Acme" alt="Acme" />
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Globex" alt="Globex" />
+    </LogoCloud>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — LogoCloud (grid, aria-label, no heading)", async ({ mount, page }) => {
+  await mount(
+    <LogoCloud aria-label="Our partners">
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Acme" alt="Acme" />
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Globex" alt="Globex" />
+    </LogoCloud>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — LogoCloud (strip, aria-label)", async ({ mount, page }) => {
+  await mount(
+    <LogoCloud variant="strip" aria-label="Partner logos">
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Acme" alt="Acme" />
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Globex" alt="Globex" />
+      <Logo src="https://placehold.co/160x60/f5f5f7/6e6e73?text=Initech" alt="Initech" />
+    </LogoCloud>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- PrincipleList ---------- */
+
+test("a11y — PrincipleList (default, three principles)", async ({ mount, page }) => {
+  await mount(
+    <PrincipleList
+      eyebrow="01 · Approach"
+      heading="The rules we ship by."
+      lede="Three principles that define how we work."
+    >
+      <Principle numeral="i." title="Ship the smallest real thing.">
+        <p>Production is the only proving ground.</p>
+      </Principle>
+      <Principle numeral="ii." title="Senior, end-to-end, no handoff theatre.">
+        <p>No PMs translating, no juniors carrying.</p>
+      </Principle>
+      <Principle numeral="iii." title="Evaluation is part of the system.">
+        <p>Evals are infrastructure, not analytics.</p>
+      </Principle>
+    </PrincipleList>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- organisms ---------- */
+
+test("a11y — FeatureGrid (three-column, titled)", async ({ mount, page }) => {
+  await mount(
+    <FeatureGrid
+      eyebrow="Platform"
+      heading="What you get"
+      lede="Every capability your team needs to ship AI reliably."
+    >
+      <FeatureCard title="Ship faster" body="From prototype to production in days." />
+      <FeatureCard title="Scale reliably" body="Automatic routing across providers." />
+      <FeatureCard title="Observe everything" body="Every inference logged and traced." />
+    </FeatureGrid>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FeatureGrid (two-column, no heading)", async ({ mount, page }) => {
+  await mount(
+    <FeatureGrid columns={2}>
+      <FeatureCard title="Enterprise SSO" body="SAML 2.0 and OIDC integrations." />
+      <FeatureCard title="Audit logs" body="Immutable, tamper-evident logs." />
+    </FeatureGrid>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RoleGrid (default three-column, with RoleCards)", async ({ mount, page }) => {
+  await mount(
+    <RoleGrid heading="Who it's for" eyebrow="Roles" columns={3}>
+      <RoleCard
+        eyebrow="Role 01"
+        title="Builder"
+        body="Ships production AI systems end-to-end."
+        hiredBy="Anthropic · Vercel"
+      />
+      <RoleCard
+        eyebrow="Role 02"
+        title="Operator"
+        body="Manages and scales running AI systems."
+        hiredBy="AWS · Datadog"
+      />
+      <RoleCard
+        eyebrow="Role 03"
+        title="Strategist"
+        body="Shapes an organisation's AI direction."
+        hiredBy="McKinsey · BCG"
+      />
+    </RoleGrid>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — RoleGrid (surface=section)", async ({ mount, page }) => {
+  await mount(
+    <RoleGrid heading="Who it's for" surface="section" columns={2}>
+      <RoleCard eyebrow="Role 01" title="Builder" body="Ships production systems." />
+      <RoleCard eyebrow="Role 02" title="Operator" body="Manages running systems." />
+    </RoleGrid>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TableOfContents (heading + active item)", async ({ mount, page }) => {
+  await mount(
+    <TableOfContents
+      heading="On this page"
+      items={[
+        { id: "intro", label: "Introduction" },
+        { id: "approach", label: "Approach" },
+        { id: "methodology", label: "Methodology", depth: 2 },
+        { id: "results", label: "Results" },
+      ]}
+      activeId="approach"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TableOfContents (no heading, no active)", async ({ mount, page }) => {
+  await mount(
+    <TableOfContents
+      items={[
+        { id: "context", label: "Context" },
+        { id: "findings", label: "Findings" },
+        { id: "conclusion", label: "Conclusion" },
+      ]}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — PriceTier (default, with bullets + CTA)", async ({ mount, page }) => {
+  await mount(
+    <PriceTier
+      name="Starter"
+      price="$0"
+      bullets={["5 projects", "1 GB storage", "Community support"]}
+      cta={<button type="button">Get started free</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — PriceTier (featured with badge)", async ({ mount, page }) => {
+  await mount(
+    <PriceTier
+      featured
+      name="Pro"
+      price="$29"
+      per="month"
+      bullets={["Unlimited projects", "Priority support"]}
+      cta={<button type="button">Start free trial</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — HoverCard (trigger rest state)", async ({ mount, page }) => {
+  await mount(
+    <HoverCard.Root>
+      <HoverCard.Trigger asChild>
+        <a href="/people/jane">Jane Doe</a>
+      </HoverCard.Trigger>
+      <HoverCard.Content>Author preview content</HoverCard.Content>
+    </HoverCard.Root>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Popover (open, compound API)", async ({ mount, page }) => {
+  await mount(<PopoverA11yHarness />);
+  await expect(page.locator("[aria-label='Accessibility test popover']")).toBeVisible();
+  await expectAxeClean(page);
+});
+
+test("a11y — Tooltip (shorthand, open)", async ({ mount, page }) => {
+  await mount(<TooltipShorthandHarness content="Settings" defaultOpen />);
+  await expect(page.locator("[role='tooltip']")).toBeVisible();
+  await expectAxeClean(page);
+});
+
+/* ---------- Table ---------- */
+
+test("a11y — Table (comfortable density, default tone)", async ({ mount, page }) => {
+  await mount(
+    <Table aria-label="Team members">
+      <TableHead>
+        <TableRow>
+          <TableHeaderCell>Name</TableHeaderCell>
+          <TableHeaderCell>Role</TableHeaderCell>
+          <TableHeaderCell align="end">Joined</TableHeaderCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <TableCell>Arian Zargaran</TableCell>
+          <TableCell>Founder</TableCell>
+          <TableCell align="end">2023</TableCell>
+        </TableRow>
+        <TableRow>
+          <TableCell>Sam Rivera</TableCell>
+          <TableCell>Engineer</TableCell>
+          <TableCell align="end">2024</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Table (compact density, subtle tone)", async ({ mount, page }) => {
+  await mount(
+    <Table aria-label="Engagement metrics" density="compact" tone="subtle">
+      <TableHead>
+        <TableRow>
+          <TableHeaderCell>Post</TableHeaderCell>
+          <TableHeaderCell align="end">Views</TableHeaderCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        <TableRow>
+          <TableCell>Why AI fails</TableCell>
+          <TableCell align="end">12,400</TableCell>
+        </TableRow>
+      </TableBody>
+    </Table>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Figure (with caption)", async ({ mount, page }) => {
+  await mount(
+    <Figure caption="Photographer: Jane Doe">
+      <img src="https://placehold.co/400x300" alt="A placeholder image for axe testing" />
+    </Figure>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Figure (no caption)", async ({ mount, page }) => {
+  await mount(
+    <Figure>
+      <img src="https://placehold.co/400x300" alt="A placeholder image without a caption" />
+    </Figure>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- CopyButton ---------- */
+
+test("a11y — CopyButton (default, with label)", async ({ mount, page }) => {
+  await mount(<CopyButton value="npm install @poukai-inc/ui" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — CopyButton (icon-only with aria-label)", async ({ mount, page }) => {
+  await mount(<CopyButton value="sk-proj-abc123" label={false} aria-label="Copy API key" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — CopyButton (disabled)", async ({ mount, page }) => {
+  await mount(<CopyButton value="test" disabled />);
+  await expectAxeClean(page);
+});
+
+test("a11y — ShareLinks", async ({ mount, page }) => {
+  await mount(<ShareLinks url="https://poukai.com/blog/post" title="Test Post" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Pagination (page 5 of 10)", async ({ mount, page }) => {
+  await mount(<Pagination page={5} pageCount={10} onPageChange={() => undefined} />);
+  await expectAxeClean(page);
+});
+
+/* ---------- EmptyState ---------- */
+
+test("a11y — EmptyState (default tone, title only)", async ({ mount, page }) => {
+  await mount(<EmptyState title="No scheduled posts" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — EmptyState (with icon, description, and action)", async ({ mount, page }) => {
+  await mount(
+    <EmptyState
+      title="No scheduled posts"
+      description="Schedule your first post to start building your content calendar."
+      icon={
+        <svg
+          width={24}
+          height={24}
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          aria-hidden="true"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+      }
+      action={
+        <button
+          type="button"
+          style={{
+            background: "var(--fg)",
+            color: "var(--bg)",
+            border: "none",
+            borderRadius: "var(--radius-2)",
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--fs-body)",
+            padding: "var(--space-2) var(--space-4)",
+            cursor: "pointer",
+          }}
+        >
+          Schedule a post
+        </button>
+      }
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — EmptyState (tone='subtle')", async ({ mount, page }) => {
+  await mount(
+    <EmptyState
+      tone="subtle"
+      title="No conversations yet"
+      description="When someone messages you, it will appear here."
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- TimePicker ---------- */
+
+test("a11y — TimePicker (default, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-main">Start time</label>
+      <TimePicker id="a11y-tp-main" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimePicker (invalid, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-inv">Start time</label>
+      <TimePicker id="a11y-tp-inv" invalid />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-dis">Start time</label>
+      <TimePicker id="a11y-tp-dis" disabled />
+    </div>,
   );
   await expectAxeClean(page);
 });

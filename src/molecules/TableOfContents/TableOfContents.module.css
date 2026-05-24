@@ -1,0 +1,96 @@
+/* ============================================================
+   TableOfContents — sticky anchor list molecule
+   Tokens only. No raw values.
+   ============================================================ */
+
+.root {
+  position: sticky;
+  top: var(--toc-offset, var(--space-8));
+  font-family: var(--font-sans);
+}
+
+/* Optional heading — micro/meta register, "On this page" */
+.heading {
+  margin: 0 0 var(--space-4);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-meta);
+  letter-spacing: var(--tracking-micro);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* Item list */
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* List item — provides positioning context for the active ::before border */
+.item {
+  position: relative;
+}
+
+/* Sub-section depth-2 indent */
+.itemDepth2 > .link {
+  padding-inline-start: var(--space-4);
+  font-size: var(--fs-micro);
+}
+
+/* Anchor */
+.link {
+  display: block;
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  padding-block: var(--space-1);
+  padding-inline-start: var(--space-3);
+  color: var(--fg-muted);
+  /* Override global <a> underline pattern — muted-link treatment */
+  background-image: none;
+  text-decoration: none;
+  transition: color var(--dur-fast) var(--easing);
+}
+
+/* Active left border — always present at opacity:0; transitions to 1 on activation.
+   Avoids layout shift from border width appearing. */
+.link::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  bottom: 0;
+  width: var(--hairline-w);
+  background-color: var(--accent);
+  opacity: 0;
+  transition: opacity var(--dur-fast) var(--easing);
+}
+
+/* Hover: inactive → full fg */
+@media (hover: hover) {
+  .link:hover {
+    color: var(--fg);
+  }
+}
+
+/* Focus-visible ring */
+.link:focus {
+  outline: none;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}
+
+/* Active state */
+.linkActive {
+  color: var(--accent);
+}
+
+.linkActive::before {
+  opacity: 1;
+}

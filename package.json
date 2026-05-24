@@ -395,6 +395,11 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./molecules/TableOfContents": {
+      "types": "./dist/molecules/TableOfContents.d.ts",
+      "import": "./dist/molecules/TableOfContents.js",
+      "require": "./dist/molecules/TableOfContents.cjs"
+    },
     "./molecules/PriceTier": {
       "types": "./dist/molecules/PriceTier.d.ts",
       "import": "./dist/molecules/PriceTier.js",

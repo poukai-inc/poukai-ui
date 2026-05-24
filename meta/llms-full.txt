@@ -2276,6 +2276,41 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 </Breadcrumb>
 ```
 
+### TableOfContents
+- Sticky anchor list molecule for long-form article right-rail navigation. Tracks scroll position via IntersectionObserver; highlights the currently visible section.
+- Root element: `<nav aria-label="Table of contents">`. `forwardRef<HTMLElement, TableOfContentsProps>`. `...rest` spread. `displayName = "TableOfContents"`.
+- `items` (required `Array<{ id: string; label: string; depth?: 1 | 2 }>`) — anchor list. Each `id` must resolve to a heading element on the page.
+- `heading` (optional string) — "On this page" label above the list. Rendered as `<p>` (not a heading element — avoids polluting the document outline). Font: `--fs-micro`, uppercase, `--fg-muted`.
+- `activeId` (optional string) — controlled active item. When provided, overrides IntersectionObserver.
+- `onActiveChange` (optional `(id: string) => void`) — escape hatch for controlled consumers.
+- `offset` (optional number, default `0`) — pixel offset for IntersectionObserver `rootMargin` top. Match sticky header height.
+- `depth=2` items indent by `--space-4` and render at `--fs-micro` to signal sub-section hierarchy. Max supported depth: 2.
+- Active item: `aria-current="true"` on anchor, `color: var(--accent)`, left-border pseudo-element at `opacity: 1`. Inactive: `color: var(--fg-muted)`. Transition: `color var(--dur-fast) var(--easing)`.
+- Sticky positioning: `position: sticky; top: var(--toc-offset, var(--space-8))`. Consumer sets `--toc-offset` to match shell header height.
+- A11y: named nav landmark, `aria-current="true"` on active anchor, native `<ul>/<li>/<a>` semantics.
+- Tokens: `--fg-muted`, `--fg`, `--accent`, `--fs-meta`, `--fs-micro`, `--font-sans`, `--lh-meta`, `--space-1`, `--space-2`, `--space-3`, `--space-4`, `--space-8`, `--hairline-w`, `--dur-fast`, `--easing`, `--tracking-micro`, `--radius-1`.
+
+```tsx
+// Uncontrolled (IntersectionObserver drives active state):
+<TableOfContents
+  heading="On this page"
+  items={[
+    { id: "intro", label: "Introduction" },
+    { id: "approach", label: "Approach" },
+    { id: "methodology", label: "Methodology", depth: 2 },
+    { id: "results", label: "Results" },
+  ]}
+/>
+
+// Controlled:
+<TableOfContents
+  items={sections}
+  activeId={currentSection}
+  onActiveChange={setCurrentSection}
+/>
+```
+
+
 ### Sidebar
 - Vertical navigation surface organism for docs layouts and app shells. Presents grouped hierarchical link lists in a persistent left-rail position.
 - Root element: `<aside aria-label={label}>` containing `<nav aria-label={label}>`. `forwardRef<HTMLElement, SidebarProps>`. `...rest` spread. `displayName = "Sidebar"`.
@@ -2376,5 +2411,4 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   bullets={["Unlimited projects", "100 GB storage", "Priority support"]}
   cta={<Button variant="primary" size="md">Start free trial</Button>}
 />
-```
 ```

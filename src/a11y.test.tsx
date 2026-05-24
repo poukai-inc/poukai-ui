@@ -77,6 +77,7 @@ import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
+import { TableOfContents } from "./molecules/TableOfContents";
 import { PopoverA11yHarness } from "./molecules/Popover/__test_harness__";
 import {
   Table,
@@ -1989,6 +1990,35 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TableOfContents (heading + active item)", async ({ mount, page }) => {
+  await mount(
+    <TableOfContents
+      heading="On this page"
+      items={[
+        { id: "intro", label: "Introduction" },
+        { id: "approach", label: "Approach" },
+        { id: "methodology", label: "Methodology", depth: 2 },
+        { id: "results", label: "Results" },
+      ]}
+      activeId="approach"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TableOfContents (no heading, no active)", async ({ mount, page }) => {
+  await mount(
+    <TableOfContents
+      items={[
+        { id: "context", label: "Context" },
+        { id: "findings", label: "Findings" },
+        { id: "conclusion", label: "Conclusion" },
+      ]}
+    />,
   );
   await expectAxeClean(page);
 });

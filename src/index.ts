@@ -214,6 +214,11 @@ export {
   type BreadcrumbItemProps,
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
+export {
+  TableOfContents,
+  type TableOfContentsProps,
+  type TableOfContentsItem,
+} from "./molecules/TableOfContents";
 export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";
 /* ---------- organisms ---------- */
 export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";

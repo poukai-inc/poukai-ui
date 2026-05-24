@@ -1,0 +1,74 @@
+/* MetaList — label/value dl rows */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ── Row ─────────────────────────────────────────────── */
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Dividers: hairline border-top on each row */
+.dividers .row {
+  padding-top: var(--space-2);
+  border-top: var(--hairline-w) solid var(--hairline);
+}
+
+/* First row: no top border when dividers are on */
+.dividers .row:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+/* ── Horizontal orientation ──────────────────────────── */
+
+.horizontal .row {
+  flex-direction: row;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.horizontal .label {
+  flex: 0 0 var(--meta-list-label-w, max-content);
+  min-width: 0;
+}
+
+.horizontal .value {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* ── Label (dt) ──────────────────────────────────────── */
+
+.label {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  font-weight: 400;
+  color: var(--fg-muted);
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Value (dd) ──────────────────────────────────────── */
+
+.value {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  font-weight: 400;
+  color: var(--fg);
+  /* Reset browser default 40px indent */
+  margin: 0;
+  margin-inline-start: 0;
+  padding: 0;
+}

@@ -1,0 +1,150 @@
+/* ============================================================
+   HoverCard — hover-triggered preview card molecule.
+   Token contract: meta/design/HoverCard.md §3
+   All values reference CSS custom properties from tokens.css.
+   The box-shadow (0 8px 24px rgb(0 0 0 / 0.08)) is intentionally
+   inline — no shadow token exists in the DS vocabulary.
+   Consistent with Dialog.module.css and Toast.module.css rationale.
+   ============================================================ */
+
+/* ─── Content (floating card surface) ────────────────────────── */
+
+.content {
+  /* Elevation surface */
+  background: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-3);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.08);
+
+  /* Typography */
+  font-family: var(--font-sans);
+  color: var(--fg);
+
+  /* Internal padding */
+  padding: var(--space-4);
+
+  /* Above page content */
+  z-index: 50;
+
+  /* Entrance animation — bottom side (default): translateY(4px → 0) */
+  transform-origin: top center;
+}
+
+/* ─── Width presets ───────────────────────────────────────────── */
+
+.width-sm {
+  width: 220px;
+}
+
+.width-md {
+  width: 280px;
+}
+
+/* ─── Entrance / exit animations ─────────────────────────────── */
+
+/* data-state="open" entrance */
+.content[data-state="open"] {
+  animation: hoverCardFadeIn var(--dur-fast) var(--easing) forwards;
+}
+
+/* data-state="closed" exit */
+.content[data-state="closed"] {
+  animation: hoverCardFadeOut var(--dur-fast) ease forwards;
+}
+
+/* Bottom-side: card drops in from above trigger → slides down 4px */
+.side-bottom[data-state="open"] {
+  animation: hoverCardEnterBottom var(--dur-fast) var(--easing) forwards;
+}
+
+/* Top-side: card rises from below trigger → slides up 4px */
+.side-top[data-state="open"] {
+  animation: hoverCardEnterTop var(--dur-fast) var(--easing) forwards;
+}
+
+/* Left-side: card slides in from right */
+.side-left[data-state="open"] {
+  animation: hoverCardEnterLeft var(--dur-fast) var(--easing) forwards;
+}
+
+/* Right-side: card slides in from left */
+.side-right[data-state="open"] {
+  animation: hoverCardEnterRight var(--dur-fast) var(--easing) forwards;
+}
+
+/* ─── Keyframes ───────────────────────────────────────────────── */
+
+@keyframes hoverCardEnterBottom {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-1));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hoverCardEnterTop {
+  from {
+    opacity: 0;
+    transform: translateY(calc(-1 * var(--space-1)));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hoverCardEnterLeft {
+  from {
+    opacity: 0;
+    transform: translateX(var(--space-1));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hoverCardEnterRight {
+  from {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--space-1)));
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes hoverCardFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hoverCardFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ─── prefers-reduced-motion ──────────────────────────────────── */
+/* The global block in tokens.css collapses all animation-duration to
+   0.01ms via !important — this file does not need to repeat the block.
+   HoverCard appears/disappears instantly for reduced-motion users. */
+
+/* ─── Arrow caret ─────────────────────────────────────────────── */
+
+.arrow {
+  fill: var(--bg-elevated);
+  stroke: var(--hairline);
+  stroke-width: var(--hairline-w);
+}

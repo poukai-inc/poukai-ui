@@ -3,7 +3,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Checkbox, type CheckboxCheckedState } from "./Checkbox";
 
 export default {
-  title: "Components / Checkbox",
+  title: "Atoms / Checkbox",
 } satisfies StoryDefault;
 
 /* ---------- Static state stories ---------- */

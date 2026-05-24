@@ -3,7 +3,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Button } from "./Button";
 
 export default {
-  title: "Components / Button",
+  title: "Atoms / Button",
 } satisfies StoryDefault;
 
 /* ─── Layout helpers ──────────────────────────────────────── */

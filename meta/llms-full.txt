@@ -2831,6 +2831,33 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 <VideoEmbed
   src="https://www.youtube.com/embed/dQw4w9WgXcQ"
   title="Product demo — Q4 2024"
+### AudioPlayer
+- HTML5 audio embed molecule. Wraps `<audio controls>` inside a `<figure>` with an optional Caption row (`<figcaption>`) and an optional transcript link below the controls. Single job: embed one audio file into editorial content (podcast episodes, voice notes, recorded interviews).
+- Root element: `<figure>`. `forwardRef<HTMLElement, AudioPlayerProps>`. `...rest` spread (excluding children). `displayName = "AudioPlayer"`.
+- `src` (string, required) — audio file URL passed to `<audio src>`. `aria-label` (string, required) — accessible label for the `<audio>` element; defaults to `caption` when the caller passes both. `caption` (optional string) — short label below controls; rendered via `<Caption as="figcaption">`. `transcriptHref` (optional string) — when present, renders a "Read transcript" `<a>` link below the Caption. `transcriptLabel` (optional string, default `"Read transcript"`) — overridable link text for localisation. `autoPlay` (optional boolean, default `false`) — forwarded to `<audio>`; off by default (WCAG 1.4.2). `loop` (optional boolean, default `false`) — forwarded to `<audio>`. `muted` (optional boolean, default `false`) — forwarded to `<audio>`. `preload` (`"none" | "metadata" | "auto"`, default `"metadata"`) — limits initial network cost while enabling duration display.
+- A11y: root `<figure>` has implicit figure role — no explicit ARIA role needed. `<audio>` carries `aria-label` for screen readers. Caption renders as `<figcaption>` inside `<figure>` — native semantic association. Transcript link is a plain `<a>` with visible text as accessible name. `autoPlay={false}` default satisfies WCAG 1.4.2 (Audio Control). Focus order: `<audio>` first, transcript link second (DOM order).
+- Tokens: `--hero-max`, `--space-8`, `--space-2`, `--space-1`, `--font-sans`, `--fs-meta`, `--lh-meta`, `--fg`, `--surface`, `--hairline`, `--hairline-w`, `--radius-2`, `--radius-1`, `--accent`.
+- No Radix dependency. Pure React. Depends on `Caption` molecule.
+
+```tsx
+// (a) Full — caption + transcript link:
+<AudioPlayer
+  src="/audio/ep-12.mp3"
+  aria-label="Episode 12 — Design systems"
+  caption="Episode 12 — Design systems"
+  transcriptHref="/transcripts/ep-12"
+/>
+
+// (b) Minimal — controls only:
+<AudioPlayer src="/audio/note.mp3" aria-label="Voice note from Arian" />
+
+// (c) Custom transcript label:
+<AudioPlayer
+  src="/audio/ep-5.mp3"
+  aria-label="Podcast Episode 5"
+  caption="Podcast Episode 5 — The pivot moment"
+  transcriptHref="/transcripts/ep-5"
+  transcriptLabel="View full transcript"
 />
 
 // (b) 4/3 Vimeo with Caption:

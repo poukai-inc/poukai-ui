@@ -2528,3 +2528,40 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   <Logo src="/logos/acme.svg" alt="Acme" />
 </LogoCloud>
 ```
+
+### FailureModeList
+- Section-framed organism that collects `FailureMode` molecules into a vertical catalog block. Owns the outer editorial frame so callers never re-roll the Section scaffolding per page.
+- Root element: `<Section>` (renders as `<section>`). `forwardRef<HTMLElement, FailureModeListProps>`. `...rest` spread. `displayName = "FailureModeList"`.
+- Children container: plain `<div class="list">` — no gap, no padding. `FailureMode` items own their own borders and spacing.
+- `heading` (optional `string | ReactNode`) — maps to `Section`'s `title` prop. Named `heading` to avoid collision with `FailureMode`'s own `title` at the call site.
+- `eyebrow` (optional `string | ReactNode`) — passed through to `Section`.
+- `lede` (optional `ReactNode`) — passed through to `Section`.
+- `size` (optional `"default" | "tight"`, default `"default"`) — block padding variant; `"default"` = `--space-16`, `"tight"` = `--space-12`.
+- `titleAs` (optional `"h1" | "h2" | "h3"`, default `"h2"`) — heading element for the section title.
+- `children` (required `ReactNode`) — `FailureMode` nodes.
+- A11y: root `<section>` + `aria-labelledby` wired by `Section` when `heading` is provided — named landmark region. Always pass `heading`. `FailureMode` children use `<h3>` (default), correct under `FailureModeList`'s `<h2>`.
+- Tokens: all inherited from `Section` and `FailureMode`. No new CSS introduced.
+- Do NOT use for a single `FailureMode` — render it directly. Do NOT nest inside another `Section`. Do NOT use for positive/best-practice content — use `PrincipleList`.
+
+```tsx
+// (a) Full composition — eyebrow + heading + lede + items:
+<FailureModeList
+  eyebrow="Where things fail"
+  heading="How this breaks"
+  lede="Common failure modes in AI product teams."
+>
+  <FailureMode index={1} title="The chatbot-on-top-of-RAG plateau.">
+    <p>Most teams stop here.</p>
+  </FailureMode>
+  <FailureMode index={2} title="Evals as afterthought.">
+    <p>Shipped without a measurement loop.</p>
+  </FailureMode>
+</FailureModeList>
+
+// (b) Tight padding:
+<FailureModeList heading="Failure modes" size="tight">
+  <FailureMode index={1} title="Missing feedback signal.">
+    <p>No improvement is possible without signal.</p>
+  </FailureMode>
+</FailureModeList>
+```

@@ -77,6 +77,7 @@ import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
+import { FailureModeList } from "./organisms/FailureModeList";
 import { LogoCloud } from "./organisms/LogoCloud";
 import { PrincipleList } from "./organisms/PrincipleList";
 import { FeatureGrid } from "./organisms/FeatureGrid";
@@ -1995,6 +1996,35 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FailureModeList (with heading + lede)", async ({ mount, page }) => {
+  await mount(
+    <FailureModeList
+      eyebrow="Where things fail"
+      heading="How this breaks"
+      lede="Common failure modes in AI product teams."
+    >
+      <FailureMode index={1} title="The chatbot-on-top-of-RAG plateau.">
+        <p>Most teams stop here. The demo dazzles; the production loop never closes.</p>
+      </FailureMode>
+      <FailureMode index={2} title="Evals as afterthought.">
+        <p>Shipped without a measurement loop.</p>
+      </FailureMode>
+    </FailureModeList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FailureModeList (no heading)", async ({ mount, page }) => {
+  await mount(
+    <FailureModeList>
+      <FailureMode index={1} title="Prompt engineering as strategy.">
+        <p>Brittle. Undocumented. Impossible to regression-test at scale.</p>
+      </FailureMode>
+    </FailureModeList>,
   );
   await expectAxeClean(page);
 });

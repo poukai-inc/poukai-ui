@@ -8,7 +8,7 @@ const sampleRoutes = [
 ];
 
 export default {
-  title: "Components / SiteShell",
+  title: "Organisms / SiteShell",
   args: {
     currentRoute: "/roles",
     homeHref: "/",

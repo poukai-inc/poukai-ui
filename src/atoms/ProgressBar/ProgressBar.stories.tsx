@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { ProgressBar, type ProgressBarSize, type ProgressBarTone } from "./ProgressBar";
 
 export default {
-  title: "Components / ProgressBar",
+  title: "Atoms / ProgressBar",
   args: { value: 60, size: "md", tone: "default" },
   argTypes: {
     size: {

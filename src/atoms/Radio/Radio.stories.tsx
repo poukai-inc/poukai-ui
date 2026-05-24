@@ -4,7 +4,7 @@ import { Radio } from "./Radio";
 import { RadioGroup } from "./Radio";
 
 export default {
-  title: "Components / Radio",
+  title: "Atoms / Radio",
 } satisfies StoryDefault;
 
 /** Single unselected radio — control only, no label. */

@@ -1,0 +1,43 @@
+/* ============================================================
+   Fieldset molecule
+   ============================================================ */
+
+.root {
+  /* Reset browser default fieldset styles */
+  border: none;
+  margin: 0;
+  padding: 0;
+  min-inline-size: 0;
+}
+
+.bordered {
+  background: var(--surface);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-3);
+  padding-block: var(--space-8);
+  padding-inline: var(--space-6);
+}
+
+.legend {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  line-height: var(--lh-meta);
+  color: var(--fg);
+  padding: 0;
+  margin-bottom: var(--space-1);
+}
+
+.legendMuted {
+  color: var(--fg-muted);
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.spacious {
+  gap: var(--space-6);
+}

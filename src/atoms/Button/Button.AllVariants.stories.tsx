@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Button, type ButtonVariant, type ButtonSize } from "./Button";
 
 export default {
-  title: "Components / Button",
+  title: "Atoms / Button",
 } satisfies StoryDefault;
 
 const variants: ButtonVariant[] = ["primary", "secondary", "ghost"];

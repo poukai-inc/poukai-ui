@@ -1,0 +1,107 @@
+/* ============================================================
+   SearchField — molecule
+   Leading search icon + Input (type="search") + trailing clear IconButton.
+   ============================================================ */
+
+.root {
+  font-family: var(--font-sans);
+  color: var(--fg);
+}
+
+/* Field wrapper — stretch to fill root */
+.field {
+  width: 100%;
+}
+
+/* ---- Input wrap: positions icon + input + clear as a row ---- */
+
+.inputWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* ---- Leading icon ---- */
+
+.leadingIcon {
+  position: absolute;
+  inset-inline-start: var(--space-3);
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  color: var(--fg-muted);
+  /* vertically centered by the flex on .inputWrap */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* ---- Input: left-pad to make room for the leading icon ---- */
+
+.input {
+  /* icon-sm (16px) + space-3 (12px) leading + space-2 (8px) gap = 36px */
+  padding-inline-start: calc(var(--space-3) + var(--icon-sm) + var(--space-2));
+  /* right pad: space-3 + icon-xs (12px, clear button) + space-3 = ~36px
+     But clear button is absolutely positioned at the end, so we need to make
+     room when it's present. We always reserve the space to avoid layout shift. */
+  padding-inline-end: calc(var(--space-3) + var(--btn-h-sm) + var(--space-2));
+  /* Suppress the native browser clear button on type=search */
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-appearance: none;
+}
+
+/* Hide native webkit search cancel button — DS provides its own */
+.input::-webkit-search-cancel-button {
+  display: none;
+}
+.input::-webkit-search-decoration {
+  display: none;
+}
+
+/* ---- Size modifiers on the wrap (height alignment) ---- */
+
+.sizeSm .input,
+.sizeSm.input {
+  min-height: var(--btn-h-sm);
+}
+
+.sizeMd .input,
+.sizeMd.input {
+  min-height: var(--btn-h-md);
+}
+
+/* ---- Clear button wrap: absolute at inline-end ---- */
+
+.clearWrap {
+  position: absolute;
+  inset-inline-end: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  padding-inline-end: var(--space-2);
+  opacity: 1;
+  transition:
+    opacity var(--dur-fast) var(--easing),
+    visibility var(--dur-fast) var(--easing);
+}
+
+/* Hidden state: controlled mode when value is empty */
+.clearHidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Uncontrolled: hide clear button when input is empty via :placeholder-shown */
+.inputWrap:has(.input:placeholder-shown) .clearWrap {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ---- Clear button itself: override any Button sizing ---- */
+
+.clearButton {
+  flex-shrink: 0;
+}

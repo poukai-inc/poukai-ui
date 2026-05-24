@@ -1,0 +1,38 @@
+/* ============================================================
+   PrincipleList — ordered editorial principle stack organism
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* No surface override — inherits page background (--bg). */
+}
+
+/* ---------- Ordered list ---------- */
+
+.list {
+  /* Remove browser default list styles; visual numerals are owned by Principle. */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- List items ---------- */
+
+.item {
+  /* First item: no top padding, no divider. */
+  padding-top: 0;
+}
+
+/* Items after the first carry a hairline divider + padding-top (mobile). */
+.itemDivider {
+  border-top: var(--hairline-w) solid var(--hairline);
+  padding-top: var(--space-8);
+}
+
+/* Desktop: increase padding-top above the divider. */
+@media (--bp-md) {
+  .itemDivider {
+    padding-top: var(--space-12);
+  }
+}

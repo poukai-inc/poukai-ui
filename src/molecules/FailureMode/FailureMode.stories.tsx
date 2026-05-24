@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { FailureMode } from "./FailureMode";
 
 export default {
-  title: "Components / FailureMode",
+  title: "Molecules / FailureMode",
   args: {
     index: 1,
     indexLabel: "",

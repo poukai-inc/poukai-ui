@@ -1,6 +1,6 @@
 {
   "name": "@poukai-inc/ui",
-  "version": "2.5.0",
+  "version": "2.9.0",
   "description": "Poukai design system — React component library, design tokens, and brand assets.",
   "license": "SEE LICENSE IN LICENSE",
   "publishConfig": {
@@ -190,10 +190,30 @@
       "import": "./dist/atoms/Radio.js",
       "require": "./dist/atoms/Radio.cjs"
     },
+    "./atoms/Tooltip": {
+      "types": "./dist/atoms/Tooltip.d.ts",
+      "import": "./dist/atoms/Tooltip.js",
+      "require": "./dist/atoms/Tooltip.cjs"
+    },
+    "./atoms/TimePicker": {
+      "types": "./dist/atoms/TimePicker.d.ts",
+      "import": "./dist/atoms/TimePicker.js",
+      "require": "./dist/atoms/TimePicker.cjs"
+    },
+    "./molecules/Alert": {
+      "types": "./dist/molecules/Alert.d.ts",
+      "import": "./dist/molecules/Alert.js",
+      "require": "./dist/molecules/Alert.cjs"
+    },
     "./molecules/Byline": {
       "types": "./dist/molecules/Byline.d.ts",
       "import": "./dist/molecules/Byline.js",
       "require": "./dist/molecules/Byline.cjs"
+    },
+    "./molecules/Stepper": {
+      "types": "./dist/molecules/Stepper.d.ts",
+      "import": "./dist/molecules/Stepper.js",
+      "require": "./dist/molecules/Stepper.cjs"
     },
     "./molecules/FailureMode": {
       "types": "./dist/molecules/FailureMode.d.ts",
@@ -224,6 +244,11 @@
       "types": "./dist/molecules/LinkCard.d.ts",
       "import": "./dist/molecules/LinkCard.js",
       "require": "./dist/molecules/LinkCard.cjs"
+    },
+    "./molecules/LinkList": {
+      "types": "./dist/molecules/LinkList.d.ts",
+      "import": "./dist/molecules/LinkList.js",
+      "require": "./dist/molecules/LinkList.cjs"
     },
     "./molecules/Portrait": {
       "types": "./dist/molecules/Portrait.d.ts",
@@ -260,6 +285,16 @@
       "import": "./dist/molecules/Statement.js",
       "require": "./dist/molecules/Statement.cjs"
     },
+    "./molecules/MenuItem": {
+      "types": "./dist/molecules/MenuItem.d.ts",
+      "import": "./dist/molecules/MenuItem.js",
+      "require": "./dist/molecules/MenuItem.cjs"
+    },
+    "./molecules/MetaList": {
+      "types": "./dist/molecules/MetaList.d.ts",
+      "import": "./dist/molecules/MetaList.js",
+      "require": "./dist/molecules/MetaList.cjs"
+    },
     "./molecules/TagList": {
       "types": "./dist/molecules/TagList.d.ts",
       "import": "./dist/molecules/TagList.js",
@@ -269,6 +304,41 @@
       "types": "./dist/molecules/TeamCard.d.ts",
       "import": "./dist/molecules/TeamCard.js",
       "require": "./dist/molecules/TeamCard.cjs"
+    },
+    "./molecules/Disclosure": {
+      "types": "./dist/molecules/Disclosure.d.ts",
+      "import": "./dist/molecules/Disclosure.js",
+      "require": "./dist/molecules/Disclosure.cjs"
+    },
+    "./molecules/FormRow": {
+      "types": "./dist/molecules/FormRow.d.ts",
+      "import": "./dist/molecules/FormRow.js",
+      "require": "./dist/molecules/FormRow.cjs"
+    },
+    "./molecules/TimelineItem": {
+      "types": "./dist/molecules/TimelineItem.d.ts",
+      "import": "./dist/molecules/TimelineItem.js",
+      "require": "./dist/molecules/TimelineItem.cjs"
+    },
+    "./molecules/NewsletterField": {
+      "types": "./dist/molecules/NewsletterField.d.ts",
+      "import": "./dist/molecules/NewsletterField.js",
+      "require": "./dist/molecules/NewsletterField.cjs"
+    },
+    "./molecules/SearchField": {
+      "types": "./dist/molecules/SearchField.d.ts",
+      "import": "./dist/molecules/SearchField.js",
+      "require": "./dist/molecules/SearchField.cjs"
+    },
+    "./molecules/NavLink": {
+      "types": "./dist/molecules/NavLink.d.ts",
+      "import": "./dist/molecules/NavLink.js",
+      "require": "./dist/molecules/NavLink.cjs"
+    },
+    "./molecules/CtaBlock": {
+      "types": "./dist/molecules/CtaBlock.d.ts",
+      "import": "./dist/molecules/CtaBlock.js",
+      "require": "./dist/molecules/CtaBlock.cjs"
     },
     "./molecules/StatList": {
       "types": "./dist/molecules/StatList.d.ts",
@@ -285,6 +355,41 @@
       "import": "./dist/molecules/Fieldset.js",
       "require": "./dist/molecules/Fieldset.cjs"
     },
+    "./molecules/HoverCard": {
+      "types": "./dist/molecules/HoverCard.d.ts",
+      "import": "./dist/molecules/HoverCard.js",
+      "require": "./dist/molecules/HoverCard.cjs"
+    },
+    "./molecules/Popover": {
+      "types": "./dist/molecules/Popover.d.ts",
+      "import": "./dist/molecules/Popover.js",
+      "require": "./dist/molecules/Popover.cjs"
+    },
+    "./molecules/Table": {
+      "types": "./dist/molecules/Table.d.ts",
+      "import": "./dist/molecules/Table.js",
+      "require": "./dist/molecules/Table.cjs"
+    },
+    "./molecules/Figure": {
+      "types": "./dist/molecules/Figure.d.ts",
+      "import": "./dist/molecules/Figure.js",
+      "require": "./dist/molecules/Figure.cjs"
+    },
+    "./molecules/CopyButton": {
+      "types": "./dist/molecules/CopyButton.d.ts",
+      "import": "./dist/molecules/CopyButton.js",
+      "require": "./dist/molecules/CopyButton.cjs"
+    },
+    "./molecules/Pagination": {
+      "types": "./dist/molecules/Pagination.d.ts",
+      "import": "./dist/molecules/Pagination.js",
+      "require": "./dist/molecules/Pagination.cjs"
+    },
+    "./molecules/EmptyState": {
+      "types": "./dist/molecules/EmptyState.d.ts",
+      "import": "./dist/molecules/EmptyState.js",
+      "require": "./dist/molecules/EmptyState.cjs"
+    },
     "./molecules/Breadcrumb": {
       "types": "./dist/molecules/Breadcrumb.d.ts",
       "import": "./dist/molecules/Breadcrumb.js",
@@ -294,6 +399,36 @@
       "types": "./dist/organisms/FailureModeList.d.ts",
       "import": "./dist/organisms/FailureModeList.js",
       "require": "./dist/organisms/FailureModeList.cjs"
+    },
+    "./organisms/FeatureGrid": {
+      "types": "./dist/organisms/FeatureGrid.d.ts",
+      "import": "./dist/organisms/FeatureGrid.js",
+      "require": "./dist/organisms/FeatureGrid.cjs"
+    },
+    "./molecules/ShareLinks": {
+      "types": "./dist/molecules/ShareLinks.d.ts",
+      "import": "./dist/molecules/ShareLinks.js",
+      "require": "./dist/molecules/ShareLinks.cjs"
+    },
+    "./molecules/TableOfContents": {
+      "types": "./dist/molecules/TableOfContents.d.ts",
+      "import": "./dist/molecules/TableOfContents.js",
+      "require": "./dist/molecules/TableOfContents.cjs"
+    },
+    "./molecules/PriceTier": {
+      "types": "./dist/molecules/PriceTier.d.ts",
+      "import": "./dist/molecules/PriceTier.js",
+      "require": "./dist/molecules/PriceTier.cjs"
+    },
+    "./organisms/Sidebar": {
+      "types": "./dist/organisms/Sidebar.d.ts",
+      "import": "./dist/organisms/Sidebar.js",
+      "require": "./dist/organisms/Sidebar.cjs"
+    },
+    "./organisms/HeroSection": {
+      "types": "./dist/organisms/HeroSection.d.ts",
+      "import": "./dist/organisms/HeroSection.js",
+      "require": "./dist/organisms/HeroSection.cjs"
     },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
@@ -309,6 +444,21 @@
       "types": "./dist/organisms/SiteShell.d.ts",
       "import": "./dist/organisms/SiteShell.js",
       "require": "./dist/organisms/SiteShell.cjs"
+    },
+    "./organisms/LogoCloud": {
+      "types": "./dist/organisms/LogoCloud.d.ts",
+      "import": "./dist/organisms/LogoCloud.js",
+      "require": "./dist/organisms/LogoCloud.cjs"
+    },
+    "./organisms/PrincipleList": {
+      "types": "./dist/organisms/PrincipleList.d.ts",
+      "import": "./dist/organisms/PrincipleList.js",
+      "require": "./dist/organisms/PrincipleList.cjs"
+    },
+    "./organisms/RoleGrid": {
+      "types": "./dist/organisms/RoleGrid.d.ts",
+      "import": "./dist/organisms/RoleGrid.js",
+      "require": "./dist/organisms/RoleGrid.cjs"
     },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
@@ -357,11 +507,14 @@
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.0",
     "@radix-ui/react-dialog": "^1.1.0",
+    "@radix-ui/react-hover-card": "^1.1.15",
+    "@radix-ui/react-popover": "^1.1.15",
     "@radix-ui/react-radio-group": "^1.3.8",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.15",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "clsx": "^2.1.1"
   },
   "devDependencies": {
@@ -402,22 +555,22 @@
     {
       "name": "ESM — full bundle",
       "path": "dist/index.js",
-      "limit": "42 kB"
+      "limit": "60 kB"
     },
     {
       "name": "ESM — atoms subpath",
       "path": "dist/atoms.js",
-      "limit": "20 kB"
+      "limit": "28 kB"
     },
     {
       "name": "ESM — molecules subpath",
       "path": "dist/molecules.js",
-      "limit": "9.15 kB"
+      "limit": "38 kB"
     },
     {
       "name": "ESM — organisms subpath",
       "path": "dist/organisms.js",
-      "limit": "25 kB"
+      "limit": "28 kB"
     },
     {
       "name": "ESM — tree-shaken (Wordmark + Button)",

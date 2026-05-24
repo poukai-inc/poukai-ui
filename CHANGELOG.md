@@ -1,5 +1,191 @@
 # @poukai-inc/ui
 
+## 2.9.0
+
+### Minor Changes
+
+- a60a847: feat(molecule): add Pagination — stateless, controlled page-navigation control
+
+  Implements `<Pagination>` per `meta/design/Pagination.md`. Renders
+  `<nav aria-label="Pagination">` with first/prev/page-numerals/next/last
+  button controls. Page-number visibility uses a configurable boundary +
+  sibling algorithm with ellipsis truncation for large page sets. Returns
+  `null` when `pageCount <= 1`.
+
+  Props: `page`, `pageCount`, `onPageChange` (required); `siblingCount`,
+  `boundaryCount`, `size` ("sm" | "md"), `disabled` (optional).
+
+  A11y: `aria-current="page"` on active page, `aria-label` on icon-only
+  controls, ellipsis spans are `aria-hidden`. All tokens from spec §3.
+
+## 2.8.0
+
+### Minor Changes
+
+- f06d848: feat(atom): add TimePicker — time-of-day input primitive
+
+  Styled wrapper around native `<input type="time">`. Supports controlled/uncontrolled value, `onValueChange`, `step`, `min`, `max`, `invalid`, `disabled`, and three sizes (sm/md/lg) aligned to the `--btn-h-*` ladder. No Radix dependency.
+
+- c9091e2: Add `Sidebar` organism — vertical navigation surface for docs layouts and app shells.
+
+  Compound API: `Sidebar` root + `Sidebar.Group`. Composes `LinkList` molecule and `Heading` atom into a semantic `<aside>` + `<nav>` structure. Supports sticky positioning, optional group headings, and collapsible groups via `Disclosure`.
+
+## 2.7.0
+
+### Minor Changes
+
+- 368f2f5: feat(molecule): add EmptyState — zero-data placeholder with optional icon, required title, optional description, and optional action slot. Centered column layout, two tones (default/subtle), token-only CSS, full a11y compliance.
+- fcdd749: feat(organism): add HeroSection — marketing-page primary hero band
+
+  Implements the HeroSection organism per `meta/design/HeroSection.md` (Phase 2 pilot).
+
+  HeroSection composes a `Hero` molecule (title, status, lede, CTA entrance stagger)
+  inside a landmark `<section>` with an optional `media` slot. Two-column CSS grid
+  at `md+` (≥ 768px) — text column left (`--hero-max`), media column right
+  (`--hero-illustration-max`). Collapses to a single stacked column below the
+  breakpoint with text leading in DOM order.
+
+  Props: `title` (required), `status`, `lede`, `cta`, `media`, `size`, `entrance`,
+  `sectionSize`, `as`. All forwarded to Hero except `sectionSize` and `as` which
+  control the outer landmark and block padding independently of Hero's `size`.
+
+  Closes #197.
+
+- 901b41b: feat(molecule): add MenuItem — dropdown/context-menu row with optional leading icon and trailing Kbd shortcut slots.
+
+  `MenuItem` is the individual row primitive for `DropdownMenu` and `ContextMenu` wrappers. It owns the visual shape of a menu row — typography, spacing, icon alignment, shortcut placement — while deferring all keyboard navigation, focus management, ARIA roles, and portal behaviour to the parent Radix wrapper.
+
+  Props: `children` (required), `icon` (optional ReactNode), `shortcut` (optional string rendered as `<Kbd>`), `tone` (`"default" | "danger"`), `disabled` (boolean).
+
+  Closes #175.
+
+- 03d8e57: feat(molecule): add Stepper — numbered step indicator for multi-step flows
+
+  Implements `Stepper` per `meta/design/Stepper.md`. Renders a semantic `<ol>` of
+  labeled steps in three derived states (complete / active / upcoming) driven by a
+  single `current` index prop. Display-only — no interactive semantics.
+
+  Props: `steps`, `current`, `orientation` ("horizontal" | "vertical"), `size`
+  ("sm" | "md"), `showLabels`.
+
+  A11y: `aria-current="step"` on the active item, visually-hidden "(complete)"
+  suffix on complete items, decorative connectors and checkmark icon are
+  `aria-hidden`. Passes axe-core at all states.
+
+  Subpath export added: `@poukai-inc/ui/molecules/Stepper`.
+
+- 9dd10b0: Add `MetaList` molecule — semantic `<dl>` of label/value pairs for article meta, project spec panels, and pricing detail blocks. Supports `stacked` and `horizontal` orientations, optional hairline `dividers`, and consumer-controlled `labelWidth` for horizontal mode. Exported from the main barrel, `./molecules`, and `./molecules/MetaList` subpath.
+- 4dbf294: feat(molecule): add NewsletterField — inline email + submit form
+
+  Adds the `NewsletterField` molecule: a single-row `<form>` pairing an email
+  `<Input>` with a `<Button type="submit">`. Supports both uncontrolled native
+  POST (via `action` prop) and controlled JS submission (via `onSubmit`).
+
+  Props: `action`, `method`, `onSubmit`, `name`, `placeholder`, `cta`,
+  `disabled`, `note`, `size` (`"compact"` | `"md"`), `formAriaLabel`.
+
+  A11y: visually hidden `<label>` via `VisuallyHidden`; `<form aria-label>`;
+  `type="submit"` button; browser-native email validation.
+
+  Closes #180.
+
+- 1b504e8: feat(molecule): add Alert — inline semantic banner with five variants (info, success, warn, error, note).
+
+  Carries explicit ARIA live-region semantics per variant: `role="alert"` for error (assertive), `role="status"` for info/success/warn (polite), `role="note"` for note (static landmark). Composes the Icon atom for the leading glyph slot (decorative, aria-hidden). Optional title rendered as `<strong>`. Consumer can override or suppress the icon via the `icon` prop. Token-only styles; no new tokens introduced.
+
+  Exports: `Alert`, `AlertProps`, `AlertVariant` from `@poukai-inc/ui` and `@poukai-inc/ui/molecules/Alert`.
+
+  Closes #186.
+
+- 3ebba47: feat(molecule): add CtaBlock — heading + body + button row
+
+  Implements the `CtaBlock` molecule per `meta/design/CtaBlock.md` (Phase 2 pilot).
+
+  `CtaBlock` is the reusable inline conversion moment — the "Ready to start? [Get a demo]" pattern used on marketing pages, end-of-feature sections, and any content moment that closes with a call to action.
+
+  **API**
+  - `heading` (required `ReactNode`) — primary CTA text
+  - `headingAs` (`"h1" | "h2" | "h3"`, default `"h2"`) — semantic heading level
+  - `body` (optional `ReactNode`) — supporting paragraph; absent → heading jumps to actions with `--space-8` gap
+  - `actions` (required `ReactNode`) — CTA button slot; consumer owns Button composition
+  - `orientation` (`"stacked" | "horizontal"`, default `"stacked"`) — stacked or side-by-side (collapses below `--bp-md`)
+  - `align` (`"start" | "center"`, default `"start"`) — inline alignment
+
+  **Zero new tokens.** Consumes existing `--font-serif`, `--fs-h2`, `--font-sans`, `--fs-body`, `--lh-body`, `--fg`, `--fg-muted`, `--space-2`, `--space-6`, `--space-8`, `--bp-md`.
+
+- 30b2566: Add `FormRow` molecule — horizontal multi-Field row with responsive collapse.
+
+  `FormRow` places two or more `Field` instances side-by-side using CSS grid with equal-width columns and consistent gap rhythm (`--space-4` default, `--space-2` tight). Below the `--bp-md` breakpoint (768px) the row collapses to a single-column stack via a CSS-only media query — no JS reordering, stable DOM order.
+
+  Props: `gap` (`"default" | "tight"`), `columns` (explicit count), `children` (ReactNode). Root is a plain `<div>`; no landmark semantics. Ref forwarded to `HTMLDivElement`. `...rest` spread for `data-*`, `aria-*`, etc.
+
+  Depends on `Field` for direct child primitive. Pairs with `Fieldset` when semantic `<fieldset>`/`<legend>` grouping is needed around the row.
+
+- a06e73c: feat(molecule): add LinkList — vertical styled link rows
+
+  Implements the `LinkList` molecule per `meta/design/LinkList.md`.
+
+  `LinkList` is the system's canonical vertical list of styled anchor rows. It
+  serves footer columns, sitemap blocks, sidebar navigation sections, and
+  on-this-page TOC panels. It composes the `Link` atom (variant `"muted-link"`)
+  with an optional `Heading` and a semantic `<ul>` / `<li>` structure via a
+  compound `LinkList.Item` sub-component.
+
+  **API**
+  - `<LinkList heading? headingLevel? size? divider?>` — root `<div>` with
+    optional `Heading` atom and `<ul>` list.
+  - `<LinkList.Item href external? current? icon?>` — `<li>` wrapping a `Link`
+    with `variant="muted-link"`. `external` adds `target="_blank"` +
+    `rel="noopener noreferrer"` + visually-hidden "(opens in new tab)".
+    `current` sets `aria-current="page"` and renders the item at full `--fg`.
+
+  **Size variants**
+  - `"sm"` (default): `--fs-meta` (14px) — footer columns, sidebar nav.
+  - `"md"`: `--fs-body` — TOC or reading-flow contexts.
+
+  No new tokens introduced; all values reference existing DS tokens.
+
+- e5d08b7: feat(molecule): add Disclosure — single open/close toggle row via native `<details>` / `<summary>`
+
+  Closes #185.
+  - Uncontrolled (default) and controlled (`open` + `onOpenChange`) usage.
+  - `defaultOpen` prop for initial state.
+  - `divider` prop adds a top border for list contexts.
+  - `tone` prop (`"default"` | `"muted"`) controls summary label color.
+  - Chevron `Icon` atom (lucide `ChevronDown`) rotates 180° on open via `--dur-fast` / `--easing`; no per-component reduced-motion override needed (global token clamp covers it).
+  - Zero new tokens. Depends on `Icon` atom only (no Radix).
+
+- b76d266: feat(molecule): add NavLink — top-nav anchor with active state
+
+  Implements the NavLink molecule per `meta/design/NavLink.md`.
+  - Renders a semantic `<a>` with `forwardRef` + `displayName`.
+  - `active` prop drives `aria-current="page"` and a 2px `--accent` `border-bottom`.
+  - Rest state: `--fg-muted` label, hairline layer invisible.
+  - Hover: label shifts to `--fg`; accent underline grows 0%→100% via `background-size` transition matching the global `<a>` mechanic.
+  - Active + hover: active wins; no double-underline.
+  - Tokens only; no hex values or magic numbers.
+  - Closes #174.
+
+- 1875b70: feat(molecule): add SearchField — Input with leading search icon and trailing clear button
+
+  Implements the SearchField molecule per `meta/design/SearchField.md`. Composes `Field`, `Input` (type="search"), `Icon` (Search, leading, decorative), and `IconButton` (X, trailing, "Clear search"). Root carries `role="search"` landmark. Clear button renders only when value is non-empty. Supports controlled (`value` + `onValueChange`) and uncontrolled (`defaultValue`) modes. `size="sm"|"md"`, `disabled`, `label`, `name`, `placeholder` props. Escape key clears the field. All existing token budget preserved; no new tokens introduced.
+
+- e063b19: feat(molecule): add TimelineItem
+
+  Adds the `TimelineItem` molecule — a single entry in a sequential chronological list, composing `Time`, `Heading`, and `Text` atoms into a date + title + optional-body row with a left-rail marker dot and optional connector line.
+
+  Props: `date` (required ISO 8601 string), `title` (required ReactNode), `body` (optional ReactNode), `connector` (boolean, default `true`), `headingLevel` (HeadingLevel, default `"h3"`).
+
+  Export path: `@poukai-inc/ui` (barrel) and `@poukai-inc/ui/molecules/TimelineItem` (subpath). Zero new tokens.
+
+## 2.6.0
+
+### Minor Changes
+
+- 852582b: feat(molecule): add StatList — grouped Stat row with rhythm and optional hairline dividers
+
+  Groups two or more `Stat` atoms into a horizontal rhythm with consistent gap cadence (`--space-8` mobile, `--space-12` desktop). Optional `dividers` prop renders CSS-only hairline rules (`--hairline` / `--hairline-w`) between items via `::before` pseudo-elements. Collapses to a single column below `--bp-md`. Root renders `role="list"` with each item in `role="listitem"` for proper AT semantics.
+
 ## 2.5.0
 
 ### Minor Changes

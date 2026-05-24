@@ -1112,6 +1112,7 @@ import { Sidebar } from "./organisms/Sidebar";
 import { CTASection } from "./organisms/CTASection";
 import { NewsletterSection } from "./organisms/NewsletterSection";
 import { AnnouncementBar } from "./organisms/AnnouncementBar";
+import { Header } from "./organisms/Header";
 
 /* ---------- organisms ---------- */
 
@@ -1141,6 +1142,50 @@ test("a11y — Sidebar (no group headings)", async ({ mount, page }) => {
         <LinkList.Item href="/docs/install">Installation</LinkList.Item>
       </Sidebar.Group>
     </Sidebar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Header (default, brand only)", async ({ mount, page }) => {
+  await mount(<Header homeHref="/" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Header (with nav and actions)", async ({ mount, page }) => {
+  await mount(
+    <Header homeHref="/" bordered>
+      <Header.Nav>
+        <li>
+          <NavLink href="/why-ai">Why AI</NavLink>
+        </li>
+        <li>
+          <NavLink href="/roles" active>
+            Roles
+          </NavLink>
+        </li>
+        <li>
+          <NavLink href="/principles">Principles</NavLink>
+        </li>
+      </Header.Nav>
+      <Header.Actions>
+        <Button asChild variant="primary">
+          <a href="mailto:hello@pouk.ai">Contact</a>
+        </Button>
+      </Header.Actions>
+    </Header>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Header (sticky + constrained)", async ({ mount, page }) => {
+  await mount(
+    <Header homeHref="/" sticky constrained>
+      <Header.Nav>
+        <li>
+          <NavLink href="/about">About</NavLink>
+        </li>
+      </Header.Nav>
+    </Header>,
   );
   await expectAxeClean(page);
 });

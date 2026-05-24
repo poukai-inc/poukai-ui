@@ -3,7 +3,7 @@ import { Stat } from "../Stat";
 import { Divider, type DividerProps } from "./Divider";
 
 export default {
-  title: "Components / Divider",
+  title: "Atoms / Divider",
   args: { orientation: "horizontal", tone: "default" },
   argTypes: {
     orientation: {

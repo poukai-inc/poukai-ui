@@ -3,7 +3,7 @@ import { Section } from "./Section";
 import { Eyebrow } from "../../atoms/Eyebrow";
 
 export default {
-  title: "Components / Section",
+  title: "Molecules / Section",
 } satisfies StoryDefault;
 
 /** TitleOnly — bare minimum: single h2, no eyebrow, no lede, no children.

@@ -4,7 +4,7 @@ import { Input } from "../Input/Input";
 import { Textarea } from "../Textarea/Textarea";
 
 export default {
-  title: "Components / Field",
+  title: "Molecules / Field",
   argTypes: {
     label: { control: { type: "text" } },
     helper: { control: { type: "text" } },

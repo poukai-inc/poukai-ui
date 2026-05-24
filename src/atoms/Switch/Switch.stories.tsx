@@ -3,7 +3,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Switch, type SwitchProps } from "./Switch";
 
 export default {
-  title: "Components / Switch",
+  title: "Atoms / Switch",
 } satisfies StoryDefault;
 
 export const Off: Story = () => <Switch aria-label="Off switch" />;

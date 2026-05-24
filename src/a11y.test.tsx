@@ -104,6 +104,7 @@ import { ContactBlock } from "./organisms/ContactBlock";
 import { BlogPostCard } from "./organisms/BlogPostCard";
 import { PriceTier } from "./molecules/PriceTier";
 import { PricingTable } from "./organisms/PricingTable";
+import { CodeBlock } from "./molecules/CodeBlock";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2686,6 +2687,18 @@ test("a11y — TimePicker (default, with label)", async ({ mount, page }) => {
       <label htmlFor="a11y-tp-main">Start time</label>
       <TimePicker id="a11y-tp-main" />
     </div>,
+/* ---------- CodeBlock ---------- */
+
+test("a11y — CodeBlock (default, copy visible)", async ({ mount, page }) => {
+  await mount(<CodeBlock>{`const x = 1;`}</CodeBlock>);
+  await expectAxeClean(page);
+});
+
+test("a11y — CodeBlock (with language label and caption)", async ({ mount, page }) => {
+  await mount(
+    <CodeBlock language="tsx" caption="src/components/Example.tsx">
+      {`const x = 1;`}
+    </CodeBlock>,
   );
   await expectAxeClean(page);
 });
@@ -2814,6 +2827,8 @@ test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
       <TimePicker id="a11y-tp-dis" disabled />
     </div>,
   );
+test("a11y — CodeBlock (hideCopy, no language — no header bar)", async ({ mount, page }) => {
+  await mount(<CodeBlock hideCopy>{`const decorative = true;`}</CodeBlock>);
   await expectAxeClean(page);
 });
 

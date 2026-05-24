@@ -221,6 +221,7 @@ export {
   type TableOfContentsItem,
 } from "./molecules/TableOfContents";
 export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";
+export { CodeBlock, type CodeBlockProps } from "./molecules/CodeBlock";
 /* ---------- organisms ---------- */
 export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";

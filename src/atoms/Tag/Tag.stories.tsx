@@ -20,7 +20,7 @@ const StarIcon = () => (
 );
 
 export default {
-  title: "Components / Tag",
+  title: "Atoms / Tag",
   args: { children: "Engineering", tone: "default" },
   argTypes: {
     tone: {

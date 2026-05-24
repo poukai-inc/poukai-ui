@@ -3,7 +3,7 @@ import { Spinner, type SpinnerSize } from "./Spinner";
 import { Button } from "../Button/Button";
 
 export default {
-  title: "Components / Spinner",
+  title: "Atoms / Spinner",
   args: { size: "md", label: "Loading" },
   argTypes: {
     size: {

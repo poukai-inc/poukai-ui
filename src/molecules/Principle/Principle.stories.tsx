@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Principle } from "./Principle";
 
 export default {
-  title: "Components / Principle",
+  title: "Molecules / Principle",
   args: {
     numeral: "i.",
     title: "Ship the smallest real thing.",

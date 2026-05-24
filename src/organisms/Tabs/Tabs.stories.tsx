@@ -4,7 +4,7 @@ import { Tabs } from "./Tabs";
 import { TabsBasic } from "./TabsBasic";
 
 export default {
-  title: "Components / Tabs",
+  title: "Organisms / Tabs",
 } satisfies StoryDefault;
 
 /* ─── TabsBasic (default — uncontrolled) ─────────────────── */

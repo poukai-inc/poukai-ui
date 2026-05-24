@@ -3,7 +3,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { SkipLink } from "./SkipLink";
 
 export default {
-  title: "Components / SkipLink",
+  title: "Atoms / SkipLink",
 } satisfies StoryDefault;
 
 /**

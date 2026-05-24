@@ -115,11 +115,54 @@ export { Quote, type QuoteProps } from "./molecules/Quote";
 export { Field, type FieldProps } from "./molecules/Field";
 export { useFieldErrors, type FieldErrors } from "./molecules/Field";
 export { Banner, type BannerProps, type BannerTone } from "./molecules/Banner";
+export {
+  CtaBlock,
+  type CtaBlockProps,
+  type CtaBlockOrientation,
+  type CtaBlockAlign,
+  type CtaBlockHeadingAs,
+} from "./molecules/CtaBlock";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
+export {
+  NewsletterField,
+  type NewsletterFieldProps,
+  type NewsletterFieldSize,
+} from "./molecules/NewsletterField";
+export {
+  Stepper,
+  type StepperProps,
+  type StepperOrientation,
+  type StepperSize,
+  type StepDef,
+} from "./molecules/Stepper";
+export {
+  LinkList,
+  type LinkListProps,
+  type LinkListItemProps,
+  type LinkListSize,
+} from "./molecules/LinkList";
+export { MetaList, type MetaListProps, type MetaListItem } from "./molecules/MetaList";
 export { TagList, type TagListProps } from "./molecules/TagList/index.js";
 export { MenuItem, type MenuItemProps, type MenuItemTone } from "./molecules/MenuItem";
+export { Alert, type AlertProps, type AlertVariant } from "./molecules/Alert";
+export { FormRow, type FormRowProps, type FormRowGap } from "./molecules/FormRow";
+export { TimelineItem, type TimelineItemProps } from "./molecules/TimelineItem";
 
+export { Disclosure, type DisclosureProps } from "./molecules/Disclosure";
+export { SearchField, type SearchFieldProps } from "./molecules/SearchField";
+export { NavLink, type NavLinkProps } from "./molecules/NavLink";
+export { StatList, type StatListProps } from "./molecules/StatList";
+export { Caption, type CaptionProps } from "./molecules/Caption";
+export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
+export {
+  Breadcrumb,
+  BreadcrumbItem,
+  type BreadcrumbProps,
+  type BreadcrumbItemProps,
+  type BreadcrumbItemData,
+} from "./molecules/Breadcrumb";
 /* ---------- organisms ---------- */
+export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
 export {

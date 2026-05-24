@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Code, type CodeProps } from "./Code";
 
 export default {
-  title: "Components / Code",
+  title: "Atoms / Code",
   args: { children: "--accent" },
   argTypes: {
     children: { control: { type: "text" } },

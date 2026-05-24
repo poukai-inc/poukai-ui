@@ -5,6 +5,9 @@
  * uses internally (`SiteShell` composes `Wordmark`).
  */
 export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
+export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";
+export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";
+export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
 export {
@@ -38,3 +41,17 @@ export {
   type ToastPayload,
   type ToastTone,
 } from "./organisms/Toast";
+export {
+  LogoCloud,
+  type LogoCloudProps,
+  type LogoCloudVariant,
+  type LogoCloudColumns,
+} from "./organisms/LogoCloud";
+export { PrincipleList, type PrincipleListProps } from "./organisms/PrincipleList";
+export { FeatureGrid, type FeatureGridProps } from "./organisms/FeatureGrid";
+export {
+  RoleGrid,
+  type RoleGridProps,
+  type RoleGridColumns,
+  type RoleGridSurface,
+} from "./organisms/RoleGrid";

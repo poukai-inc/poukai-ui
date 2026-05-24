@@ -3,7 +3,7 @@ import { Mail } from "lucide-react";
 import { EmailLink, type EmailLinkVariant } from "./EmailLink";
 
 export default {
-  title: "Components / EmailLink",
+  title: "Atoms / EmailLink",
   args: { email: "hello@pouk.ai", variant: "default" },
   argTypes: {
     variant: {

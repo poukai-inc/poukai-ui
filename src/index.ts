@@ -87,6 +87,7 @@ export { Select, type SelectProps, type SelectSize } from "./atoms/Select";
 
 export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Textarea";
 export { Radio, RadioGroup, type RadioProps, type RadioGroupProps } from "./atoms/Radio";
+export { TimePicker, type TimePickerProps, type TimePickerSize } from "./atoms/TimePicker";
 
 /* ---------- molecules ---------- */
 export {
@@ -164,6 +165,7 @@ export {
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
 /* ---------- organisms ---------- */
+export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";

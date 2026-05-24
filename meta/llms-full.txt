@@ -2123,3 +2123,64 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   <Breadcrumb.Item current>Settings</Breadcrumb.Item>
 </Breadcrumb>
 ```
+
+### Sidebar
+- Vertical navigation surface organism for docs layouts and app shells. Presents grouped hierarchical link lists in a persistent left-rail position.
+- Root element: `<aside aria-label={label}>` containing `<nav aria-label={label}>`. `forwardRef<HTMLElement, SidebarProps>`. `...rest` spread. `displayName = "Sidebar"`.
+- Compound API: `Sidebar` (root) + `Sidebar.Group` (repeating group unit wrapping a heading + LinkList).
+- `label` (optional string, default `"Sidebar"`) — `aria-label` for both `<aside>` and `<nav>`; override for locale or multi-sidebar pages.
+- `sticky` (optional boolean, default `true`) — enables `position: sticky; top: var(--space-12); height: fit-content; max-height: calc(100vh - var(--space-12)); overflow-y: auto`.
+- `children` (ReactNode) — one or more `Sidebar.Group` elements.
+- `Sidebar.Group` sub-component: `heading` (optional string) — renders a Heading atom at h3 rung; omit to suppress heading entirely. `collapsible` (optional boolean, default `false`) — wraps LinkList in a Disclosure. `defaultOpen` (optional boolean, default `true`) — initial open state when collapsible. `children` (ReactNode) — `LinkList.Item` elements.
+- A11y: `<aside aria-label>` = complementary landmark. `<nav aria-label>` = navigation landmark. Group headings are real `<h3>` elements. `aria-current="page"` on active links via LinkList.Item `current` prop. Collapsible uses native `<details>`/`<summary>` semantics.
+- Tokens: `--bg`, `--fg`, `--fg-muted`, `--font-sans`, `--fs-h3`, `--fs-meta`, `--hairline`, `--hairline-w`, `--space-2`, `--space-4`, `--space-8`, `--space-12`, `--accent`, `--radius-1`, `--dur-fast`.
+- Static presentational. No client state except Disclosure toggle (native details). No router awareness — consumer passes `aria-current="page"` via LinkList.Item `current` prop.
+- Do NOT use for mobile off-canvas drawers (use Sheet/Drawer). Do NOT use for primary site nav (use SiteShell header). Do NOT use for Table of Contents (use TableOfContents organism).
+
+```tsx
+// (a) Default grouped sidebar:
+<Sidebar>
+  <Sidebar.Group heading="Getting started">
+    <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+    <LinkList.Item href="/docs/install" current>Installation</LinkList.Item>
+  </Sidebar.Group>
+  <Sidebar.Group heading="Components">
+    <LinkList.Item href="/docs/button">Button</LinkList.Item>
+  </Sidebar.Group>
+</Sidebar>
+
+// (b) Non-sticky (fixed-height scroll container):
+<Sidebar sticky={false} label="App navigation">
+  <Sidebar.Group heading="Settings">
+    <LinkList.Item href="/settings/profile">Profile</LinkList.Item>
+  </Sidebar.Group>
+</Sidebar>
+
+// (c) Collapsible groups:
+<Sidebar>
+  <Sidebar.Group heading="Advanced" collapsible defaultOpen={false}>
+    <LinkList.Item href="/docs/theming">Theming</LinkList.Item>
+  </Sidebar.Group>
+</Sidebar>
+```
+
+### TimePicker
+- Time-of-day input atom. Styled wrapper around native `<input type="time">`. Produces a valid `HH:mm` string. Compose with `<Field>` for label + error anatomy.
+- Root element: `<input type="time">`. `forwardRef<HTMLInputElement, TimePickerProps>`. `...rest` spread. `displayName = "TimePicker"`.
+- `value` (optional string) — controlled `HH:mm` value. `defaultValue` (optional string) — uncontrolled seed. `onValueChange` ((value: string) => void) — fires on `change`; provides current `input.value`. `step` (optional number, default `60`) — seconds; `900` = 15-min steps. `min` / `max` (optional string `"HH:mm"`) — time bounds. `disabled` (optional boolean, default `false`) — dims + blocks. `invalid` (optional boolean, default `false`) — red border via `--danger`. `size` (`"sm" | "md" | "lg"`, default `"md"`) — maps to `--btn-h-*` height ladder, matching Input atom.
+- A11y: native `<input type="time">` semantics. `aria-invalid="true"` when `invalid`. Consumer passes `id` for `<label for="…">` association. `aria-describedby` forwarded via spread.
+- Tokens: `--font-sans`, `--fs-body`, `--fg`, `--fg-muted`, `--bg`, `--surface`, `--hairline`, `--accent`, `--accent-glow`, `--danger`, `--radius-2`, `--space-2`, `--space-3`, `--btn-h-sm`, `--btn-h-md`, `--btn-h-lg`, `--dur-fast`, `--easing`.
+- No Radix dependency. Static presentational — no internal state.
+
+```tsx
+// (a) Controlled inside Field:
+<Field label="Preferred time" id="pref-time">
+  <TimePicker id="pref-time" value={time} onValueChange={setTime} />
+</Field>
+
+// (b) 15-minute steps:
+<TimePicker step={900} onValueChange={setTime} aria-label="Schedule time" />
+
+// (c) With bounds:
+<TimePicker min="08:00" max="20:00" onValueChange={setTime} aria-label="Working hours" />
+```

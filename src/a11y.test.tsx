@@ -76,6 +76,7 @@ import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
 import { Pagination } from "./molecules/Pagination";
 import { EmptyState } from "./molecules/EmptyState";
+import { TimePicker } from "./atoms/TimePicker";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1046,8 +1047,39 @@ test("a11y — FeatureCard (as='section')", async ({ mount, page }) => {
 });
 
 import { HeroSection } from "./organisms/HeroSection";
+import { Sidebar } from "./organisms/Sidebar";
 
 /* ---------- organisms ---------- */
+
+test("a11y — Sidebar (grouped sections, active link)", async ({ mount, page }) => {
+  await mount(
+    <Sidebar label="Documentation">
+      <Sidebar.Group heading="Getting started">
+        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+        <LinkList.Item href="/docs/install" current>
+          Installation
+        </LinkList.Item>
+      </Sidebar.Group>
+      <Sidebar.Group heading="Components">
+        <LinkList.Item href="/docs/button">Button</LinkList.Item>
+        <LinkList.Item href="/docs/heading">Heading</LinkList.Item>
+      </Sidebar.Group>
+    </Sidebar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Sidebar (no group headings)", async ({ mount, page }) => {
+  await mount(
+    <Sidebar>
+      <Sidebar.Group>
+        <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+        <LinkList.Item href="/docs/install">Installation</LinkList.Item>
+      </Sidebar.Group>
+    </Sidebar>,
+  );
+  await expectAxeClean(page);
+});
 
 test("a11y — HeroSection (default, no media)", async ({ mount, page }) => {
   await mount(
@@ -2009,6 +2041,38 @@ test("a11y — EmptyState (tone='subtle')", async ({ mount, page }) => {
       title="No conversations yet"
       description="When someone messages you, it will appear here."
     />,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- TimePicker ---------- */
+
+test("a11y — TimePicker (default, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-main">Start time</label>
+      <TimePicker id="a11y-tp-main" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimePicker (invalid, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-inv">Start time</label>
+      <TimePicker id="a11y-tp-inv" invalid />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <label htmlFor="a11y-tp-dis">Start time</label>
+      <TimePicker id="a11y-tp-dis" disabled />
+    </div>,
   );
   await expectAxeClean(page);
 });

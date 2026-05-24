@@ -1,6 +1,6 @@
 {
   "name": "@poukai-inc/ui",
-  "version": "2.6.0",
+  "version": "2.8.0",
   "description": "Poukai design system — React component library, design tokens, and brand assets.",
   "license": "SEE LICENSE IN LICENSE",
   "publishConfig": {
@@ -190,6 +190,11 @@
       "import": "./dist/atoms/Radio.js",
       "require": "./dist/atoms/Radio.cjs"
     },
+    "./atoms/TimePicker": {
+      "types": "./dist/atoms/TimePicker.d.ts",
+      "import": "./dist/atoms/TimePicker.js",
+      "require": "./dist/atoms/TimePicker.cjs"
+    },
     "./molecules/Alert": {
       "types": "./dist/molecules/Alert.d.ts",
       "import": "./dist/molecules/Alert.js",
@@ -359,6 +364,11 @@
       "types": "./dist/molecules/Breadcrumb.d.ts",
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
+    },
+    "./organisms/Sidebar": {
+      "types": "./dist/organisms/Sidebar.d.ts",
+      "import": "./dist/organisms/Sidebar.js",
+      "require": "./dist/organisms/Sidebar.cjs"
     },
     "./organisms/HeroSection": {
       "types": "./dist/organisms/HeroSection.d.ts",

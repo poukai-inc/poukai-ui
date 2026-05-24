@@ -149,23 +149,26 @@ test("method=get is forwarded when action is set", async ({ mount }) => {
 
 /* ---------- onSubmit ---------- */
 
-test.fixme("onSubmit fires when form is submitted", // Playwright CT marshals React event-prop callbacks back to the Node test
-// process and serializes the SyntheticEvent across that boundary, which
-// means `event.preventDefault()` runs against a stub in Node — the *real*
-// browser submit event is never cancelled. The form then submits natively,
-// navigating the CT iframe and tearing the React tree down before any
-// assertion can run.
-//
-// Verifying onSubmit therefore needs either (a) a route-stub setup that
-// catches the native POST without navigating, or (b) an in-browser
-// wrapper component that exposes the call via a DOM side-effect. Both
-// are non-trivial in the CT harness and out of scope for this gate.
-//
-// Until then the handler is exercised by Ladle stories + the a11y gate
-// (which mounts the component live). The structural tests above already
-// guarantee the submit button is wired to the form (`type=submit`,
-// `<button>` inside `<form>`).
-async ({ mount }) => {
+/**
+ * Why this test is `.fixme`d:
+ *
+ * Playwright CT marshals React event-prop callbacks back to the Node test
+ * process and serializes the SyntheticEvent across that boundary, which means
+ * `event.preventDefault()` runs against a stub in Node — the *real* browser
+ * submit event is never cancelled. The form then submits natively, navigating
+ * the CT iframe and tearing the React tree down before any assertion can run.
+ *
+ * Verifying onSubmit therefore needs either (a) a route-stub setup that
+ * catches the native POST without navigating, or (b) an in-browser wrapper
+ * component that exposes the call via a DOM side-effect. Both are non-trivial
+ * in the CT harness and out of scope for this gate.
+ *
+ * Until then the handler is exercised by Ladle stories + the a11y gate
+ * (which mounts the component live). The structural tests above already
+ * guarantee the submit button is wired to the form (`type=submit`,
+ * `<button>` inside `<form>`).
+ */
+test.fixme("onSubmit fires when form is submitted", async ({ mount }) => {
   const component = await mount(<NewsletterField />);
   await expect(component.getByRole("button", { name: "Subscribe" })).toBeVisible();
 });

@@ -60,6 +60,7 @@ import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
 import { TagList } from "./molecules/TagList";
 import { Fieldset } from "./molecules/Fieldset";
+import { TableOfContents } from "./molecules/TableOfContents";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1563,6 +1564,35 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TableOfContents (heading + active item)", async ({ mount, page }) => {
+  await mount(
+    <TableOfContents
+      heading="On this page"
+      items={[
+        { id: "intro", label: "Introduction" },
+        { id: "approach", label: "Approach" },
+        { id: "methodology", label: "Methodology", depth: 2 },
+        { id: "results", label: "Results" },
+      ]}
+      activeId="approach"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TableOfContents (no heading, no active)", async ({ mount, page }) => {
+  await mount(
+    <TableOfContents
+      items={[
+        { id: "context", label: "Context" },
+        { id: "findings", label: "Findings" },
+        { id: "conclusion", label: "Conclusion" },
+      ]}
+    />,
   );
   await expectAxeClean(page);
 });

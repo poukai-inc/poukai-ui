@@ -126,6 +126,11 @@ export {
   type BreadcrumbItemProps,
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
+export {
+  TableOfContents,
+  type TableOfContentsProps,
+  type TableOfContentsItem,
+} from "./molecules/TableOfContents";
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";

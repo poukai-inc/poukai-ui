@@ -228,6 +228,14 @@ export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
 export { StepsSection, type StepsSectionProps } from "./organisms/StepsSection";
 export { StatsSection, type StatsSectionProps } from "./organisms/StatsSection";
+export {
+  CTASection,
+  type CTASectionProps,
+  type CTASectionSurface,
+  type CTASectionSize,
+  type CTASectionAlign,
+  type CTASectionHeadingAs,
+} from "./organisms/CTASection";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
 export {

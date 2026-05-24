@@ -1159,6 +1159,36 @@ import { Icon } from "@poukai-inc/ui";
 - Do NOT nest StatsSection inside another StatsSection or HeroSection.
 - Import: `import { StatsSection } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/StatsSection"`.
 
+### CTASection
+- Organism layer. Full-width end-of-page conversion band. Wraps `CtaBlock` in a landmark `<section>` with optional bleed-band surface.
+- Root element: `<section>` (default) or `<div>`. `forwardRef<HTMLElement, CTASectionProps>`. `...rest` spread. `displayName = "CTASection"`.
+- Props: `heading` (required `string`), `body` (optional `ReactNode`), `actions` (required `ReactNode`), `surface` (`"default"` | `"recessed"`, default `"default"`), `size` (`"default"` | `"tight"`, default `"default"`), `align` (`"center"` | `"start"`, default `"center"`), `headingAs` (`"h2"` | `"h3"`, default `"h2"`), `as` (`"section"` | `"div"`).
+- `surface="recessed"` applies `--surface-section` background + `--hairline-w` / `--hairline` top border rule.
+- `size` maps to `--space-16` (default) or `--space-12` (tight) block padding.
+- `align="center"` is the brand-correct default for end-of-page CTA — bilateral symmetry signals "this is the conclusion." `align="start"` for editorial surfaces.
+- A11y: `<section aria-labelledby="{id}-title">` names the region; `CtaBlock` heading receives matching `id`. Heading level `h2` by default; override with `headingAs="h3"` for nested contexts.
+- Do NOT use CTASection mid-page. For inline conversion prompts, use `CtaBlock` directly inside `Section`.
+- Do NOT nest inside another `Section` — CTASection owns its own frame and block padding.
+- Do NOT use more than two actions in the `actions` slot.
+- Tokens: `--bg`, `--surface-section`, `--hairline`, `--hairline-w`, `--space-16`, `--space-12`, `--content-max`, `--page-pad`. Typography tokens delegated to `CtaBlock`.
+- Import: `import { CTASection } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/CTASection"`.
+
+```tsx
+// Default (centered, page bg):
+<CTASection
+  heading="Ready to start?"
+  body="Spin up your first project in minutes."
+  actions={<Button>Get a demo</Button>}
+/>
+
+// Recessed surface (end-of-page closing band):
+<CTASection
+  surface="recessed"
+  heading="Ready to start?"
+  actions={<><Button>Get a demo</Button><Button variant="secondary">See our work</Button></>}
+/>
+```
+
 ### CtaBlock
 - Heading + body + action row molecule. The reusable inline conversion moment — "Ready to start? [Get a demo]" pattern.
 - Root element: `<div>`. `forwardRef<HTMLDivElement, CtaBlockProps>`. `...rest` spread. `displayName = "CtaBlock"`.
@@ -1260,7 +1290,6 @@ import { Icon } from "@poukai-inc/ui";
 </TeamGrid>
 ```
 
-=======
 ### MenuItem
 - Individual menu-row primitive. Composed inside DropdownMenu and ContextMenu wrappers. Not for standalone use.
 - Owns visual row shape only: typography, spacing, icon alignment, shortcut placement. ARIA roles, keyboard nav, focus management, and portal behaviour are entirely delegated to the parent Radix wrapper.

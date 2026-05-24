@@ -8,6 +8,14 @@ export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";
 export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
+export {
+  CTASection,
+  type CTASectionProps,
+  type CTASectionSurface,
+  type CTASectionSize,
+  type CTASectionAlign,
+  type CTASectionHeadingAs,
+} from "./organisms/CTASection";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
 export {

@@ -161,6 +161,7 @@ export default defineConfig({
               "organisms/TestimonialBlock": resolve(
                 __dirname,
                 "src/organisms/TestimonialBlock/index.ts",
+              ),
               "organisms/ComparisonTable": resolve(
                 __dirname,
                 "src/organisms/ComparisonTable/index.ts",

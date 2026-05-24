@@ -1121,6 +1121,18 @@ import { Icon } from "@poukai-inc/ui";
 />
 ```
 
+### Stepper
+- Numbered step indicator molecule for multi-step flows and process explainers.
+- Root element: `<ol>`. `forwardRef<HTMLOListElement, StepperProps>`. `...rest` spread to root.
+- Props: `steps` (required `Array<{ label: string }>`), `current` (required 0-based index), `orientation` (`"horizontal" | "vertical"`, default `"horizontal"`), `size` (`"sm" | "md"`, default `"md"`), `showLabels` (boolean, default true for md / false for sm).
+- State derived from `current`: index < current → complete (checkmark icon, visually-hidden "(complete)"); index === current → active (numeral, `aria-current="step"`); index > current → upcoming (muted numeral).
+- Display-only indicator. No interactive states, no click handlers, no hover styles. Consumer owns navigation.
+- Tokens: `--fg`, `--fg-muted`, `--accent`, `--surface`, `--bg-elevated`, `--hairline`, `--hairline-w`, `--font-sans`, `--fs-meta`, `--fs-micro`, `--lh-meta`, `--space-1`, `--space-2`, `--space-4`, `--space-8`, `--tracking-micro`. Marker diameter is hardcoded (28px md / 20px sm) — no diameter token exists.
+- A11y: `<ol>` root, `aria-current="step"` on active `<li>`, complete steps have visually-hidden "(complete)" suffix, checkmark icon carries `aria-hidden="true"`, connector spans carry `aria-hidden="true"`.
+- Do NOT use Stepper as a navigation tab bar (use Tabs). Do NOT use for non-linear processes. Do NOT use as a progress bar (use ProgressBar).
+- Import: `import { Stepper } from "@poukai-inc/ui"` or `import { Stepper } from "@poukai-inc/ui/molecules/Stepper"`.
+- Usage: `<Stepper steps={[{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }]} current={1} />`
+
 ### Byline
 - Single-author article attribution molecule. The horizontal "by Jane Doe · Editor · May 21, 2026 · 6 min read" row that appears directly below article headings or blog post titles.
 - Composes Avatar, semantic text elements (name as strong, role as span), Time, and read-time text into a stable horizontal flex row. Byline owns layout and typographic register; introduces zero new tokens.

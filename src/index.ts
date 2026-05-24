@@ -124,6 +124,13 @@ export {
 } from "./molecules/CtaBlock";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
 export {
+  Stepper,
+  type StepperProps,
+  type StepperOrientation,
+  type StepperSize,
+  type StepDef,
+} from "./molecules/Stepper";
+export {
   LinkList,
   type LinkListProps,
   type LinkListItemProps,

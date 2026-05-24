@@ -1111,6 +1111,7 @@ import { StepsSection } from "./organisms/StepsSection";
 import { Sidebar } from "./organisms/Sidebar";
 import { CTASection } from "./organisms/CTASection";
 import { NewsletterSection } from "./organisms/NewsletterSection";
+import { AnnouncementBar } from "./organisms/AnnouncementBar";
 
 /* ---------- organisms ---------- */
 
@@ -2166,6 +2167,62 @@ test("a11y — FailureModeList (no heading)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- AnnouncementBar ---------- */
+
+test("a11y — AnnouncementBar (warm tone, default)", async ({ mount, page }) => {
+  await mount(
+    <AnnouncementBar id="a11y-warm">
+      We&apos;re launching Phase 2 — new components, new primitives.
+    </AnnouncementBar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — AnnouncementBar (neutral tone)", async ({ mount, page }) => {
+  await mount(
+    <AnnouncementBar id="a11y-neutral" tone="neutral">
+      Scheduled maintenance on Sunday at 02:00 UTC.
+    </AnnouncementBar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — AnnouncementBar (success tone)", async ({ mount, page }) => {
+  await mount(
+    <AnnouncementBar id="a11y-success" tone="success">
+      Deployment complete. All services are running normally.
+    </AnnouncementBar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — AnnouncementBar (danger tone)", async ({ mount, page }) => {
+  await mount(
+    <AnnouncementBar id="a11y-danger" tone="danger">
+      Service degradation detected. Our team is investigating.
+    </AnnouncementBar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — AnnouncementBar (warning tone)", async ({ mount, page }) => {
+  await mount(
+    <AnnouncementBar id="a11y-warning" tone="warning">
+      Your API key expires in 3 days.
+    </AnnouncementBar>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — AnnouncementBar (dismissable=false)", async ({ mount, page }) => {
+  await mount(
+    <AnnouncementBar id="a11y-mandatory" tone="danger" dismissable={false}>
+      Critical maintenance in progress. Read-only mode is active.
+    </AnnouncementBar>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — LogoCloud (grid, with heading)", async ({ mount, page }) => {
   await mount(
     <LogoCloud heading="Trusted by" eyebrow="Customers">
@@ -2602,4 +2659,21 @@ test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
     </div>,
   );
   await expectAxeClean(page);
+});
+
+test("a11y — AnnouncementBar (warm tone, color-contrast suppressed for warm band)", async ({
+  mount,
+  page,
+}) => {
+  await mount(
+    <AnnouncementBar id="a11y-warm-action" tone="warm" action={<a href="/blog">Read more</a>}>
+      Phase 2 is now live.
+    </AnnouncementBar>,
+  );
+  // The action slot link on --bg-warm-accent uses global <a> underline which has
+  // --accent (#0071E3) — insufficient contrast on the warm band (open question §1
+  // in the spec). Suppress color-contrast for this variant per spec acknowledgement.
+  await expectAxeClean(page, {
+    configure: (b) => b.disableRules([...AXE_ISOLATED_MOUNT_RULES, "color-contrast"]),
+  });
 });

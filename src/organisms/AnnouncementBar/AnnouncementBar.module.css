@@ -1,0 +1,113 @@
+/* ============================================================
+   AnnouncementBar — page-top full-width dismissable banner
+   ============================================================ */
+
+.root {
+  width: 100%;
+  overflow: hidden;
+  max-height: 10rem;
+  opacity: 1;
+  transition:
+    opacity var(--dur-fast) var(--easing),
+    max-height var(--dur-fast) var(--easing);
+}
+
+.exiting {
+  opacity: 0;
+  max-height: 0;
+}
+
+/* ── Inner row ── */
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-block: var(--space-2);
+  padding-inline: var(--page-pad);
+}
+
+/* ── Content (message + action) ── */
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: 1;
+  min-width: 0;
+}
+
+.message {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+}
+
+.action {
+  flex-shrink: 0;
+}
+
+/* ── Dismiss button ── */
+
+.dismiss {
+  flex-shrink: 0;
+  margin-inline-start: auto;
+}
+
+/* ============================================================
+   Tone variants
+   ============================================================ */
+
+/* warm — editorial band */
+.toneWarm {
+  background-color: var(--bg-warm-accent);
+  color: var(--fg-on-warm);
+}
+
+.toneWarm .message {
+  color: var(--fg-on-warm);
+}
+
+/* neutral — surface + hairline rule */
+.toneNeutral {
+  background-color: var(--surface);
+  color: var(--fg);
+  border-bottom: var(--hairline-w) solid var(--hairline);
+}
+
+.toneNeutral .message {
+  color: var(--fg);
+}
+
+/* success */
+.toneSuccess {
+  background-color: var(--bg-success);
+  color: var(--fg-on-success);
+}
+
+.toneSuccess .message {
+  color: var(--fg-on-success);
+}
+
+/* danger */
+.toneDanger {
+  background-color: var(--bg-danger);
+  color: var(--fg-on-danger);
+}
+
+.toneDanger .message {
+  color: var(--fg-on-danger);
+}
+
+/* warning */
+.toneWarning {
+  background-color: var(--bg-warning);
+  color: var(--fg-on-warning);
+}
+
+.toneWarning .message {
+  color: var(--fg-on-warning);
+}

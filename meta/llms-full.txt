@@ -2412,6 +2412,34 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 <ShareLinks url={url} networks={["x"]} />
 ```
 
+### AnnouncementBar
+
+- **Layer**: organism
+- **File**: `src/organisms/AnnouncementBar/AnnouncementBar.tsx`
+- **Purpose**: Page-top full-width dismissable banner for product announcements, maintenance notices, and time-sensitive promotions. Renders above the `Header` organism. Dismissal state persisted via `localStorage` keyed by `id`. SSR-safe: renders visible by default; hides post-hydration if already dismissed.
+- **Props**: `id` (required string, localStorage key), `tone` (`"warm" | "neutral" | "success" | "danger" | "warning"`, default `"warm"`), `dismissable` (boolean, default `true`), `action` (ReactNode, optional inline link/button slot), `children` (ReactNode, required — announcement copy), `onDismiss` (() => void, optional callback after dismissal).
+- **Tokens**: `--bg-warm-accent`, `--fg-on-warm`, `--surface`, `--fg`, `--bg-success`, `--fg-on-success`, `--bg-danger`, `--fg-on-danger`, `--bg-warning`, `--fg-on-warning`, `--hairline`, `--hairline-w`, `--font-sans`, `--fs-meta`, `--lh-meta`, `--space-2`, `--space-4`, `--space-6`, `--page-pad`, `--content-max`, `--dur-fast`, `--easing`.
+- A11y: `role="region" aria-label="Announcement"`. Dismiss button carries `aria-label="Dismiss announcement"`. After dismissal element is removed from DOM (not visibility-hidden). Contrast: warm tone `--fg-on-warm` on `--bg-warm-accent` ≥ 4.5:1 AA; neutral `--fg` on `--surface` 15.46:1 AAA.
+- Do NOT use for cookie consent, inline form feedback, toasts, or multiple simultaneous banners.
+
+```tsx
+// Default warm tone:
+<AnnouncementBar id="launch-q2-2026" tone="warm">
+  We're launching Phase 2 — new components, new primitives.
+</AnnouncementBar>
+
+// With action slot:
+<AnnouncementBar id="launch-q2-2026" tone="warm" action={<a href="/blog">Read more</a>}>
+  Phase 2 is now live.
+</AnnouncementBar>
+
+// Non-dismissable mandatory notice:
+<AnnouncementBar id="maintenance-2026-06" tone="danger" dismissable={false}>
+  Critical maintenance in progress. Read-only mode is active.
+</AnnouncementBar>
+```
+
+
 ### TableOfContents
 - Sticky anchor list molecule for long-form article right-rail navigation. Tracks scroll position via IntersectionObserver; highlights the currently visible section.
 - Root element: `<nav aria-label="Table of contents">`. `forwardRef<HTMLElement, TableOfContentsProps>`. `...rest` spread. `displayName = "TableOfContents"`.

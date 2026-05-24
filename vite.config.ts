@@ -159,9 +159,14 @@ export default defineConfig({
               "organisms/TestimonialBlock": resolve(
                 __dirname,
                 "src/organisms/TestimonialBlock/index.ts",
+              ),
               "organisms/NewsletterSection": resolve(
                 __dirname,
                 "src/organisms/NewsletterSection/index.ts",
+              ),
+              "organisms/AnnouncementBar": resolve(
+                __dirname,
+                "src/organisms/AnnouncementBar/index.ts",
               ),
             },
             name: "PoukaiUI",

@@ -1,0 +1,11 @@
+/* ============================================================
+   FAQSection — Section-framed Accordion of FAQItem children
+   ============================================================ */
+
+/* Root — no additional styles; Section owns block padding and layout */
+.root {
+}
+
+/* Accordion wrapper — full width, inherits Section body layout */
+.accordion {
+}

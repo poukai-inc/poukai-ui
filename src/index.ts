@@ -408,3 +408,4 @@ export {
   type CommandPaletteItemProps,
   type CommandPaletteEmptyProps,
 } from "./organisms/CommandPalette";
+export { FAQSection, type FAQSectionProps } from "./organisms/FAQSection";

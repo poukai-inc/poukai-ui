@@ -3451,3 +3451,53 @@ useEffect(() => {
 // (c) Disabled item:
 <CommandPalette.Item disabled onSelect={() => {}}>Unavailable action</CommandPalette.Item>
 ```
+
+### FAQSection
+- Section-framed Accordion of FAQItem children. Use on marketing and pricing pages whenever a collapsible Q&A block is needed. Composes a `Section` molecule (named landmark region, eyebrow, title, lede) with an `Accordion.Root` containing `FAQItem` children. The Section `<section aria-labelledby>` gives the FAQ block proper region semantics.
+- `forwardRef<HTMLElement, FAQSectionProps>`. `displayName = "FAQSection"`. `...rest` spread to the Section root element.
+- `eyebrow` (`string | ReactNode`, optional) — eyebrow above the title, e.g. `"FAQ"`. `title` (`ReactNode`, default `"Frequently asked questions"`) — Section heading; a default prevents an empty landmark. `titleAs` (`"h1" | "h2" | "h3"`, default `"h2"`) — heading level; override to `"h3"` when nested below another `h2`. `lede` (`ReactNode`, optional) — supporting copy below the title. `size` (`"default" | "tight"`, default `"default"`) — Section block padding: `--space-16` (64px) or `--space-12` (48px). `type` (`"single" | "multiple"`, default `"single"`) — passed to `Accordion.Root`; `"single"` collapses siblings on open, `"multiple"` allows concurrent open items. `defaultValue` (`string | string[]`, optional) — pre-opened item(s) passed to `Accordion.Root`. `children` (ReactNode, required) — one or more `<FAQItem>` elements.
+- `collapsible` on the Accordion is always `true` when `type="single"` — all items can be closed so users are never trapped in an expanded state.
+- A11y: `Section` root renders `<section aria-labelledby={titleId}>` — the FAQ block is a named region landmark. Accordion implements the ARIA Accordion pattern via Radix: each trigger is `<button aria-expanded aria-controls>` inside a heading element; each panel is `role="region" aria-labelledby`. FAQItem question headings default to h3 (correct under an h2 Section title). Keyboard: Space/Enter toggle; Arrow Up/Down move focus between triggers; Home/End jump to first/last.
+- Tokens: all tokens inherited from `Section` (`--space-16`, `--space-12`, `--space-2`, `--space-4`, `--space-12`, `--hero-max`) and `Accordion`/`FAQItem` (`--fg`, `--fg-muted`, `--hairline`, `--hairline-w`, `--font-sans`, `--fs-h3`, `--fs-body`, `--lh-body`, `--space-6`, `--accent`, `--radius-1`, `--dur-mid`, `--easing`, `--icon-sm`).
+- Depends on: `Section` molecule, `Accordion` molecule (`@radix-ui/react-accordion`), `FAQItem` molecule.
+
+```tsx
+// (a) Standard FAQ section (most common):
+<FAQSection eyebrow="FAQ" title="Frequently asked questions">
+  <FAQItem value="q1" question="What is Poukai?">
+    <p>A senior-only AI consulting practice that ships production systems end-to-end.</p>
+  </FAQItem>
+  <FAQItem value="q2" question="Who do you work with?">
+    <p>Founders and platform teams bridging pilot and production.</p>
+  </FAQItem>
+</FAQSection>
+
+// (b) With lede and default open:
+<FAQSection
+  eyebrow="FAQ"
+  title="Frequently asked questions"
+  lede="Everything you need to know about working with Poukai."
+  defaultValue="q1"
+>
+  <FAQItem value="q1" question="What is Poukai?">
+    <p>A senior-only AI consulting practice.</p>
+  </FAQItem>
+</FAQSection>
+
+// (c) Multiple open simultaneously:
+<FAQSection title="FAQ" type="multiple" defaultValue={["q1", "q2"]}>
+  <FAQItem value="q1" question="Do you take retainers?">
+    <p>Yes — some engagements evolve into ongoing advisory relationships.</p>
+  </FAQItem>
+  <FAQItem value="q2" question="What industries?">
+    <p>B2B SaaS, fintech, and professional services.</p>
+  </FAQItem>
+</FAQSection>
+
+// (d) Tight padding, nested h3 override:
+<FAQSection title="More questions" titleAs="h3" size="tight">
+  <FAQItem value="q1" question="Nested FAQ item" questionAs="h4">
+    <p>Answer content here.</p>
+  </FAQItem>
+</FAQSection>
+```

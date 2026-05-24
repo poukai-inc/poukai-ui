@@ -8,6 +8,12 @@ export type TableDensity = "compact" | "comfortable";
 export type TableTone = "default" | "subtle";
 export type TableAlign = "start" | "center" | "end";
 
+const ALIGN_CLASS: Record<TableAlign, "alignStart" | "alignCenter" | "alignEnd"> = {
+  start: "alignStart",
+  center: "alignCenter",
+  end: "alignEnd",
+};
+
 /* ---------- Table root ---------- */
 
 export interface TableProps extends ComponentPropsWithoutRef<"table"> {
@@ -101,16 +107,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
       <th
         ref={ref}
         scope="col"
-        className={clsx(
-          styles.headerCell,
-          styles[
-            `align${align[0].toUpperCase()}${align.slice(1)}` as
-              | "alignStart"
-              | "alignCenter"
-              | "alignEnd"
-          ],
-          className,
-        )}
+        className={clsx(styles.headerCell, styles[ALIGN_CLASS[align]], className)}
         {...rest}
       >
         {children}
@@ -133,20 +130,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(functi
   ref,
 ) {
   return (
-    <td
-      ref={ref}
-      className={clsx(
-        styles.cell,
-        styles[
-          `align${align[0].toUpperCase()}${align.slice(1)}` as
-            | "alignStart"
-            | "alignCenter"
-            | "alignEnd"
-        ],
-        className,
-      )}
-      {...rest}
-    >
+    <td ref={ref} className={clsx(styles.cell, styles[ALIGN_CLASS[align]], className)} {...rest}>
       {children}
     </td>
   );

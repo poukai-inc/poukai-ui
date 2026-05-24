@@ -332,3 +332,4 @@ export {
   type PricingTableColumns,
   type PricingTableAlign,
 } from "./organisms/PricingTable";
+export { BlogList, type BlogListProps, type BlogListSize } from "./organisms/BlogList";

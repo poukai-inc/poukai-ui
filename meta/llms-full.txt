@@ -2051,6 +2051,17 @@ Anti-patterns: single Stat, non-Stat children, nested StatLists, status indicato
 </Fieldset>
 ```
 
+### HoverCard
+
+- Radix-wrapped hover/focus-triggered preview card. Compound API: `HoverCard.Root`, `HoverCard.Trigger` (use `asChild` to project onto Link or any anchor), `HoverCard.Content`.
+- Built on `@radix-ui/react-hover-card`. Runtime-destructured Radix imports (see `Toast` for the pattern) avoid CT bundler collisions.
+- Side / align driven by props (`side`, `align`); width via `--width-card-sm` / `--width-card-md` per spec.
+- Open / close delays via `--dur-hover-open` / `--dur-hover-close` tokens. Enter/exit motion behind `prefers-reduced-motion: no-preference` — reduced-motion collapses to instant show/hide.
+- Content portals to `document.body`; consumers must inspect via `page.locator(...)` in tests, not the mounted root.
+- Use for link-preview cards: author hover, project preview, profile mentions. Not for click-triggered panels — that is `Popover`.
+- Do NOT nest interactive controls inside `HoverCard.Content` — touch / keyboard users cannot reach them. For interactive overlays use `Popover`.
+
+
 ### Popover
 
 - Anchored, dismissible floating-content molecule. Wraps `@radix-ui/react-popover`. Use for filter pickers, inline action panels, form field helpers — not for dialogs, tooltips, or navigation.

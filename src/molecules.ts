@@ -73,6 +73,15 @@ export {
 export { MetaList, type MetaListProps, type MetaListItem } from "./molecules/MetaList";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
 export {
+  HoverCard,
+  type HoverCardRootProps,
+  type HoverCardTriggerProps,
+  type HoverCardContentProps,
+  type HoverCardSide,
+  type HoverCardAlign,
+  type HoverCardWidth,
+} from "./molecules/HoverCard";
+export {
   Popover,
   type PopoverRootProps,
   type PopoverTriggerProps,

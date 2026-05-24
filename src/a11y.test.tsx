@@ -52,6 +52,7 @@ import { NavLink } from "./molecules/NavLink";
 import { StatList } from "./molecules/StatList";
 import { Caption } from "./molecules/Caption";
 import { Byline } from "./molecules/Byline";
+import { HoverCard } from "./molecules/HoverCard";
 import { Stepper } from "./molecules/Stepper";
 import { SearchField } from "./molecules/SearchField";
 import { LinkList } from "./molecules/LinkList";
@@ -1987,6 +1988,18 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — HoverCard (trigger rest state)", async ({ mount, page }) => {
+  await mount(
+    <HoverCard.Root>
+      <HoverCard.Trigger asChild>
+        <a href="/people/jane">Jane Doe</a>
+      </HoverCard.Trigger>
+      <HoverCard.Content>Author preview content</HoverCard.Content>
+    </HoverCard.Root>,
   );
   await expectAxeClean(page);
 });

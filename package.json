@@ -470,6 +470,11 @@
       "import": "./dist/molecules/AudioPlayer.js",
       "require": "./dist/molecules/AudioPlayer.cjs"
     },
+    "./molecules/Accordion": {
+      "types": "./dist/molecules/Accordion.d.ts",
+      "import": "./dist/molecules/Accordion.js",
+      "require": "./dist/molecules/Accordion.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",
@@ -625,6 +630,7 @@
     "react-dom": ">=18 || >=19"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-checkbox": "^1.1.0",
     "@radix-ui/react-context-menu": "^2.2.16",
     "@radix-ui/react-dialog": "^1.1.0",

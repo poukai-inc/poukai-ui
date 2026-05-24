@@ -112,6 +112,7 @@ import { VideoEmbed } from "./molecules/VideoEmbed";
 import { GalleryGrid } from "./organisms/GalleryGrid";
 import { Combobox } from "./molecules/Combobox";
 import { AudioPlayer } from "./molecules/AudioPlayer";
+import { Accordion } from "./molecules/Accordion";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2875,6 +2876,28 @@ test("a11y — Carousel (no indicators, loop)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- Accordion ---------- */
+
+test("a11y — Accordion (single, collapsible, closed)", async ({ mount, page }) => {
+  await mount(
+    <Accordion.Root type="single" collapsible>
+      <Accordion.Item value="q1">
+        <Accordion.Trigger>What is Poukai?</Accordion.Trigger>
+        <Accordion.Content>
+          <p>A senior-only AI consulting practice.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+      <Accordion.Item value="q2">
+        <Accordion.Trigger>How do engagements work?</Accordion.Trigger>
+        <Accordion.Content>
+          <p>Scoped, time-boxed, production-focused.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- Sheet ---------- */
 
 import { Sheet } from "./organisms/Sheet";
@@ -2897,6 +2920,26 @@ test("a11y — Sheet (right, open, title + description)", async ({ mount, page }
   await expectAxeClean(page);
 });
 
+test("a11y — Accordion (single, one item open)", async ({ mount, page }) => {
+  await mount(
+    <Accordion.Root type="single" collapsible defaultValue="q1">
+      <Accordion.Item value="q1">
+        <Accordion.Trigger>What is Poukai?</Accordion.Trigger>
+        <Accordion.Content>
+          <p>A senior-only AI consulting practice.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+      <Accordion.Item value="q2">
+        <Accordion.Trigger>How do engagements work?</Accordion.Trigger>
+        <Accordion.Content>
+          <p>Scoped, time-boxed, production-focused.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- CodeBlock ---------- */
 
 test("a11y — CodeBlock (default, copy visible)", async ({ mount, page }) => {
@@ -2909,6 +2952,26 @@ test("a11y — CodeBlock (with language label and caption)", async ({ mount, pag
     <CodeBlock language="tsx" caption="src/components/Example.tsx">
       {`const x = 1;`}
     </CodeBlock>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Accordion (multiple type)", async ({ mount, page }) => {
+  await mount(
+    <Accordion.Root type="multiple" defaultValue={["build", "automate"]}>
+      <Accordion.Item value="build">
+        <Accordion.Trigger>Build</Accordion.Trigger>
+        <Accordion.Content>
+          <p>Custom AI pipelines and production-grade integrations.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+      <Accordion.Item value="automate">
+        <Accordion.Trigger>Automate</Accordion.Trigger>
+        <Accordion.Content>
+          <p>Workflow automation that closes the loop.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>,
   );
   await expectAxeClean(page);
 });
@@ -2963,6 +3026,26 @@ test("a11y — PricingTable (3-tier default)", async ({ mount, page }) => {
         }
       />
     </PricingTable>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Accordion (with disabled item)", async ({ mount, page }) => {
+  await mount(
+    <Accordion.Root type="single" collapsible>
+      <Accordion.Item value="enabled">
+        <Accordion.Trigger>Available topic</Accordion.Trigger>
+        <Accordion.Content>
+          <p>Available content.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+      <Accordion.Item value="disabled" disabled>
+        <Accordion.Trigger>Unavailable topic</Accordion.Trigger>
+        <Accordion.Content>
+          <p>Not reachable.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>,
   );
   await expectAxeClean(page);
 });
@@ -3207,5 +3290,18 @@ test("a11y — Combobox (open, with selection)", async ({ mount, page }) => {
   await trigger.click();
   // Wait for animations to settle before axe scan
   await page.waitForTimeout(200);
+  await expectAxeClean(page);
+});
+test("a11y — Accordion (tinted tone)", async ({ mount, page }) => {
+  await mount(
+    <Accordion.Root type="single" collapsible tone="tinted" defaultValue="t1">
+      <Accordion.Item value="t1">
+        <Accordion.Trigger>Tinted item</Accordion.Trigger>
+        <Accordion.Content>
+          <p>Content on tinted panel.</p>
+        </Accordion.Content>
+      </Accordion.Item>
+    </Accordion.Root>,
+  );
   await expectAxeClean(page);
 });

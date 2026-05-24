@@ -3120,6 +3120,35 @@ const [tz, setTz] = useState("");
 
 // (e) Small size:
 <Combobox options={OPTIONS} size="sm" value={v} onValueChange={setV} aria-label="Size" />
+### Accordion
+- Collapsible-disclosure group molecule. Use when two or more items form a logical group and must be progressively disclosed. Supports `type="single"` (one item open at a time) and `type="multiple"` (any number open simultaneously). Built on `@radix-ui/react-accordion`.
+- Compound API: `Accordion.Root` (owns type/value/tone), `Accordion.Item` (one trigger + content pair), `Accordion.Trigger` (full-width button row with trailing chevron), `Accordion.Content` (animated height-collapse panel).
+- `Accordion.Root` props: `type` (`"single" | "multiple"`, default `"single"`), `collapsible` (boolean, default `true`, single only), `value` (controlled), `defaultValue` (uncontrolled), `onValueChange` (handler), `tone` (`"default" | "tinted"`, default `"default"`). All standard `div` props forwarded.
+- `Accordion.Item` props: `value` (string, required), `disabled` (boolean, default `false`). `forwardRef<HTMLDivElement>`. `...rest` spread.
+- `Accordion.Trigger` props: `children` (ReactNode — the label). Chevron (`ChevronDown`, `--icon-sm`) always rendered by DS, `aria-hidden="true"`. `forwardRef<HTMLButtonElement>`. `...rest` spread.
+- `Accordion.Content` props: `children` (ReactNode). `forwardRef<HTMLDivElement>`. `...rest` spread. Background: `--bg` (default) or `--surface` (tinted tone).
+- A11y: Radix wires `aria-expanded`, `aria-controls`, `role="region"`, `aria-labelledby`. Chevron is `aria-hidden`. Keyboard: Space/Enter toggle; Arrow Up/Down move focus; Home/End jump to first/last.
+- Tokens: `--fg`, `--fg-muted`, `--bg`, `--surface`, `--hairline`, `--hairline-w`, `--font-sans`, `--fs-body`, `--lh-body`, `--space-4`, `--space-6`, `--accent`, `--radius-1`, `--dur-fast`, `--easing`, `--icon-sm`.
+- Motion: height animates via Radix CSS custom property `--radix-accordion-content-height`. Chevron rotates 180° on open. `prefers-reduced-motion` handled globally by `tokens.css`.
+
+```tsx
+// (a) Single, collapsible FAQ:
+<Accordion.Root type="single" collapsible defaultValue="q1">
+  <Accordion.Item value="q1">
+    <Accordion.Trigger>What is Poukai?</Accordion.Trigger>
+    <Accordion.Content><p>A senior-only AI consulting practice.</p></Accordion.Content>
+  </Accordion.Item>
+  <Accordion.Item value="q2">
+    <Accordion.Trigger>How do engagements work?</Accordion.Trigger>
+    <Accordion.Content><p>Scoped, time-boxed, production-focused.</p></Accordion.Content>
+  </Accordion.Item>
+</Accordion.Root>
+
+// (b) Multiple, all independent:
+<Accordion.Root type="multiple">
+  <Accordion.Item value="build"><Accordion.Trigger>Build</Accordion.Trigger><Accordion.Content><p>...</p></Accordion.Content></Accordion.Item>
+  <Accordion.Item value="automate"><Accordion.Trigger>Automate</Accordion.Trigger><Accordion.Content><p>...</p></Accordion.Content></Accordion.Item>
+</Accordion.Root>
 ```
 
 ### PricingTable

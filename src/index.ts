@@ -258,6 +258,16 @@ export {
   type ContextMenuSeparatorProps,
 } from "./molecules/ContextMenu";
 export { AudioPlayer, type AudioPlayerProps } from "./molecules/AudioPlayer";
+export {
+  Accordion,
+  type AccordionRootProps,
+  type AccordionRootSingleProps,
+  type AccordionRootMultipleProps,
+  type AccordionItemProps,
+  type AccordionTriggerProps,
+  type AccordionContentProps,
+  type AccordionTone,
+} from "./molecules/Accordion";
 /* ---------- organisms ---------- */
 export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";

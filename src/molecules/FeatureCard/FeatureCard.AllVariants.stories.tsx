@@ -76,7 +76,7 @@ const GitBranchIcon = ({ size = 24 }: { size?: number }) => (
 );
 
 export default {
-  title: "Components / Cards / FeatureCard / All Variants",
+  title: "Molecules / Cards / FeatureCard / All Variants",
 } satisfies StoryDefault;
 
 /**

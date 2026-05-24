@@ -3,7 +3,7 @@ import { ToastProvider, useToast } from "./Toast";
 import { Button } from "../../atoms/Button";
 
 export default {
-  title: "Components / Toast",
+  title: "Organisms / Toast",
 } satisfies StoryDefault;
 
 /* ─── Helper: trigger button wired to useToast ──────────────── */

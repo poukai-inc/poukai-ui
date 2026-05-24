@@ -1,0 +1,33 @@
+.root {
+  /* Section handles outer padding and band — no overrides needed here. */
+}
+
+.surfaceSection {
+  background-color: var(--surface-section);
+}
+
+/* ---- Grid container ---- */
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+@media (min-width: 768px) {
+  /* --bp-md is a custom media query — use the raw value for Vite/PostCSS compat */
+  .grid.columns2 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-8);
+  }
+
+  .grid.columns3 {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-8);
+  }
+
+  .grid.columns4 {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-8);
+  }
+}

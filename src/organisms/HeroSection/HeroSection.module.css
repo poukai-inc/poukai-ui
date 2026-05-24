@@ -1,0 +1,78 @@
+/* ============================================================
+   HeroSection — marketing-page primary hero band organism
+   Two-column layout at md+ (text left, media right);
+   single stacked column below.
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Default block padding: --space-16 (64px) top + bottom */
+  padding-block: var(--space-16);
+  background: var(--bg);
+}
+
+/* Tight variant: --space-12 (48px) top + bottom */
+.sectionSizeTight {
+  padding-block: var(--space-12);
+}
+
+/* ---------- Container ---------- */
+
+.container {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+/* ---------- Solo layout (no media — text column constrained to hero-max) ---------- */
+
+.textColSolo {
+  max-width: var(--hero-max);
+}
+
+/* ---------- Two-column grid (media present) ---------- */
+
+.grid {
+  display: grid;
+  /* Single column by default (mobile-first) */
+  grid-template-columns: 1fr;
+  gap: var(--space-12);
+  align-items: start;
+}
+
+@media (--bp-md) {
+  .grid {
+    /* Text column: up to --hero-max; media column: up to --hero-illustration-max */
+    grid-template-columns: minmax(0, var(--hero-max)) minmax(0, var(--hero-illustration-max));
+    align-items: center;
+  }
+}
+
+/* ---------- Text column ---------- */
+
+.textCol {
+  /* Text column leads in DOM order — no reordering needed */
+  min-width: 0;
+}
+
+/* Hero rendered inside the text column — no max-width cap needed here;
+   the grid column already constrains it via minmax(0, --hero-max) */
+.heroInner {
+  width: 100%;
+}
+
+/* ---------- Media column ---------- */
+
+.mediaCol {
+  min-width: 0;
+  /* Media column: constrained by the grid track at md+.
+     On mobile it stacks below the text column in DOM order — no order override. */
+}
+
+@media (--bp-md) {
+  .mediaCol {
+    /* Ensure media fills the column without overflow */
+    max-width: var(--hero-illustration-max);
+  }
+}

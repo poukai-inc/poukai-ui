@@ -268,6 +268,7 @@ export {
   type AccordionContentProps,
   type AccordionTone,
 } from "./molecules/Accordion";
+export { FAQItem, type FAQItemProps, type FAQItemQuestionAs } from "./molecules/FAQItem";
 /* ---------- organisms ---------- */
 export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";

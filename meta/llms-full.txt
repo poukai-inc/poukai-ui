@@ -3265,3 +3265,40 @@ Props (`HeaderProps`): `homeHref?: string` (default `"/"`), `logo?: ReactNode` (
 - Content portals to `document.body`; tests query via `page.locator(...)` not `component.locator(...)`.
 - Use for: file-row menus, canvas-item menus, table-row right-click. Trigger fires on `contextmenu` event and long-press on touch.
 - Do NOT use for click-triggered menus — use `DropdownMenu`. Do NOT replace `Sheet` or `Dialog`.
+### FAQItem
+- Single collapsible question-and-answer row for FAQ surfaces. Thin wrapper around `Accordion.Item` + `Accordion.Trigger` + `Accordion.Content`. Must be placed inside an `<Accordion.Root>` wrapper — Radix's keyboard model and open/closed state management require the wrapper.
+- `forwardRef<HTMLDivElement, FAQItemProps>`. `displayName = "FAQItem"`. `...rest` spread to `Accordion.Item`.
+- `question` (string, required) — question text; rendered as a heading inside the trigger button. `value` (string, required) — unique key for Accordion state (Radix requirement). `questionAs` (`"h2" | "h3" | "h4"`, default `"h3"`) — heading level; h3 is correct when FAQItem sits inside a Section with an h2 title; override to h2 for standalone FAQ with no parent heading. `children` (ReactNode, required) — answer content; consumers pass `<Prose>` or a plain paragraph.
+- No `defaultOpen` prop — set `defaultValue` on the parent `<Accordion.Root>` instead. FAQItem holds no open/closed state of its own.
+- A11y: Radix wires `aria-expanded`, `aria-controls`, `role="region"`, `aria-labelledby` automatically. `questionAs` controls heading level; default h3 is correct when FAQItem lives under a Section h2. Keyboard: Space/Enter toggle; Arrow Up/Down move focus; Home/End jump to first/last (Radix keyboard model).
+- Tokens: `--fg`, `--font-sans`, `--fs-h3`, `--lh-body` (question heading); all other tokens inherited from Accordion (`--hairline`, `--hairline-w`, `--space-4`, `--space-6`, `--fg-muted`, `--accent`, `--radius-1`, `--dur-fast`, `--dur-mid`, `--easing`, `--icon-sm`).
+- Depends on: `Accordion` molecule (`@radix-ui/react-accordion`).
+
+```tsx
+// (a) Single FAQ list (most common):
+<Accordion.Root type="single" collapsible defaultValue="q1">
+  <FAQItem value="q1" question="What is Poukai?">
+    <p>A senior-only AI consulting practice that ships production systems end-to-end.</p>
+  </FAQItem>
+  <FAQItem value="q2" question="Who do you work with?">
+    <p>Founders and platform teams bridging pilot and production.</p>
+  </FAQItem>
+</Accordion.Root>
+
+// (b) Multiple open simultaneously:
+<Accordion.Root type="multiple">
+  <FAQItem value="build" question="What do you build?">
+    <p>Custom AI pipelines and production-grade integrations.</p>
+  </FAQItem>
+  <FAQItem value="advise" question="Do you advise?">
+    <p>Yes — advisory engagements for model selection, safety, and scale.</p>
+  </FAQItem>
+</Accordion.Root>
+
+// (c) Override heading level for standalone FAQ (no parent heading):
+<Accordion.Root type="single" collapsible>
+  <FAQItem value="s1" question="Is FAQItem accessible?" questionAs="h2">
+    <p>Yes — Radix wires all required ARIA attributes automatically.</p>
+  </FAQItem>
+</Accordion.Root>
+```

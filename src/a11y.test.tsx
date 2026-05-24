@@ -74,6 +74,7 @@ import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
+import { CopyButton } from "./molecules/CopyButton";
 import { Pagination } from "./molecules/Pagination";
 import { EmptyState } from "./molecules/EmptyState";
 import { TimePicker } from "./atoms/TimePicker";
@@ -1976,6 +1977,23 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
       </Field>
     </Fieldset>,
   );
+  await expectAxeClean(page);
+});
+
+/* ---------- CopyButton ---------- */
+
+test("a11y — CopyButton (default, with label)", async ({ mount, page }) => {
+  await mount(<CopyButton value="npm install @poukai-inc/ui" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — CopyButton (icon-only with aria-label)", async ({ mount, page }) => {
+  await mount(<CopyButton value="sk-proj-abc123" label={false} aria-label="Copy API key" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — CopyButton (disabled)", async ({ mount, page }) => {
+  await mount(<CopyButton value="test" disabled />);
   await expectAxeClean(page);
 });
 

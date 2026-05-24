@@ -45,6 +45,7 @@ export {
 export { StatList, type StatListProps } from "./molecules/StatList";
 export { Caption, type CaptionProps } from "./molecules/Caption";
 export { Byline, type BylineProps } from "./molecules/Byline/index.js";
+export { SearchField, type SearchFieldProps } from "./molecules/SearchField";
 export {
   LinkList,
   type LinkListProps,

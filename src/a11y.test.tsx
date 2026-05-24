@@ -52,6 +52,7 @@ import { NavLink } from "./molecules/NavLink";
 import { StatList } from "./molecules/StatList";
 import { Caption } from "./molecules/Caption";
 import { Byline } from "./molecules/Byline";
+import { SearchField } from "./molecules/SearchField";
 import { LinkList } from "./molecules/LinkList";
 import { MetaList } from "./molecules/MetaList";
 import { Form } from "./organisms/Form";
@@ -1608,6 +1609,11 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
   );
+  await expectAxeClean(page);
+});
+
+test("a11y — SearchField", async ({ mount, page }) => {
+  await mount(<SearchField label="Search" value="" onValueChange={() => {}} />);
   await expectAxeClean(page);
 });
 

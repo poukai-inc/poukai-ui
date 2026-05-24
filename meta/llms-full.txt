@@ -1219,6 +1219,36 @@ import { Icon } from "@poukai-inc/ui";
 - Do NOT use Byline for team grids or person cards — that is TeamCard.
 - Do NOT add authorHref, timeFormat prop, responsive collapse, or skeleton state — all out of scope in v1.
 
+### TeamGrid
+- Section-framed responsive grid of `TeamCard` molecules. Presents the "about the team" surface: portrait + name + role cards with consistent column rhythm and correct semantic structure.
+- Composes `Section` organism for heading, optional eyebrow, optional lede, and section background. TeamGrid passes those props straight through to Section — the Section `<section>` element is the root.
+- `heading` (required `string`) — Section heading, e.g. `"The team"`. A nameless team grid is not a valid surface.
+- `eyebrow` (optional `string`) — micro-label above the heading, passed to Section.
+- `lede` (optional `string`) — supporting sentence below heading, passed to Section.
+- `columns` (`2 | 3`, default `3`) — maximum column count at wide viewports. Below `--bp-md` (768px): always 1 column. Between `--bp-md` and 1024px: always 2 columns regardless of this prop. At ≥1024px: `columns=3` → 3 columns; `columns=2` → 2 columns.
+- `tone` (`"default" | "section"`, default `"default"`) — passed to Section. `"section"` applies `--surface-section` band background.
+- `children` (required `ReactNode`) — `TeamCard` instances. TeamGrid does not validate or wrap individual cards; it positions whatever is slotted.
+- Grid gap: `--space-6` (1.5rem) column and row at all breakpoints. Top margin between Section heading block and grid: `--space-16` (4rem).
+- `forwardRef` forwards to the Section root (`<section>` element). `className`, `data-*`, and `aria-*` spread to Section root.
+- Tokens consumed: `--space-6`, `--space-16`, `--surface-section`. No new tokens introduced.
+- Do NOT use TeamGrid for non-person content — use FeatureGrid for features, RoleGrid for roles.
+- Do NOT set `columns={3}` for a 2-person team — use `columns={2}` to prevent an orphan card.
+- Do NOT exceed ~12 cards without a filtering or pagination mechanism.
+- Do NOT strip the Section wrapper — the heading/landmark contract requires it.
+
+```tsx
+<TeamGrid
+  heading="The team"
+  eyebrow="Who we are"
+  lede="Senior practitioners only."
+>
+  <TeamCard portrait={<Portrait src="…" alt="…" aspect="1:1" width={800} />} name="Arian Zargaran" role="Founder, Engineering" />
+  <TeamCard portrait={<Portrait src="…" alt="…" aspect="1:1" width={800} />} name="Jane Doe" role="Design Lead" />
+  <TeamCard portrait={<Portrait src="…" alt="…" aspect="1:1" width={800} />} name="John Smith" role="Engineering" />
+</TeamGrid>
+```
+
+=======
 ### MenuItem
 - Individual menu-row primitive. Composed inside DropdownMenu and ContextMenu wrappers. Not for standalone use.
 - Owns visual row shape only: typography, spacing, icon alignment, shortcut placement. ARIA roles, keyboard nav, focus management, and portal behaviour are entirely delegated to the parent Radix wrapper.

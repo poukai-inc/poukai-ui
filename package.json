@@ -395,6 +395,11 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./organisms/TeamGrid": {
+      "types": "./dist/organisms/TeamGrid.d.ts",
+      "import": "./dist/organisms/TeamGrid.js",
+      "require": "./dist/organisms/TeamGrid.cjs"
+    },
     "./organisms/FailureModeList": {
       "types": "./dist/organisms/FailureModeList.d.ts",
       "import": "./dist/organisms/FailureModeList.js",

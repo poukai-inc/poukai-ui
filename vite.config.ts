@@ -125,6 +125,7 @@ export default defineConfig({
               "molecules/Pagination": resolve(__dirname, "src/molecules/Pagination/index.ts"),
               "molecules/EmptyState": resolve(__dirname, "src/molecules/EmptyState/index.ts"),
               "molecules/Breadcrumb": resolve(__dirname, "src/molecules/Breadcrumb/index.ts"),
+              "organisms/TeamGrid": resolve(__dirname, "src/organisms/TeamGrid/index.ts"),
               "organisms/FailureModeList": resolve(
                 __dirname,
                 "src/organisms/FailureModeList/index.ts",

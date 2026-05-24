@@ -222,6 +222,7 @@ export {
 } from "./molecules/TableOfContents";
 export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";
 /* ---------- organisms ---------- */
+export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";
 export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";

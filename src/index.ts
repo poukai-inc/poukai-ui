@@ -165,6 +165,14 @@ export { StatList, type StatListProps } from "./molecules/StatList";
 export { Caption, type CaptionProps } from "./molecules/Caption";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
 export {
+  Popover,
+  type PopoverRootProps,
+  type PopoverTriggerProps,
+  type PopoverPortalProps,
+  type PopoverContentProps,
+  type PopoverCloseProps,
+} from "./molecules/Popover";
+export {
   Table,
   TableHead,
   TableBody,

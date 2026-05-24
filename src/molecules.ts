@@ -73,6 +73,14 @@ export {
 export { MetaList, type MetaListProps, type MetaListItem } from "./molecules/MetaList";
 export { Fieldset, type FieldsetProps } from "./molecules/Fieldset";
 export {
+  Popover,
+  type PopoverRootProps,
+  type PopoverTriggerProps,
+  type PopoverPortalProps,
+  type PopoverContentProps,
+  type PopoverCloseProps,
+} from "./molecules/Popover";
+export {
   Table,
   TableHead,
   TableBody,

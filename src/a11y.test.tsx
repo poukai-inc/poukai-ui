@@ -75,6 +75,7 @@ import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
+import { PopoverA11yHarness } from "./molecules/Popover/__test_harness__";
 import {
   Table,
   TableHead,
@@ -1987,6 +1988,12 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
       </Field>
     </Fieldset>,
   );
+  await expectAxeClean(page);
+});
+
+test("a11y — Popover (open, compound API)", async ({ mount, page }) => {
+  await mount(<PopoverA11yHarness />);
+  await expect(page.locator("[aria-label='Accessibility test popover']")).toBeVisible();
   await expectAxeClean(page);
 });
 

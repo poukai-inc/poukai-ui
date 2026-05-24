@@ -118,6 +118,7 @@ export default defineConfig({
               "molecules/StatList": resolve(__dirname, "src/molecules/StatList/index.ts"),
               "molecules/Caption": resolve(__dirname, "src/molecules/Caption/index.ts"),
               "molecules/Fieldset": resolve(__dirname, "src/molecules/Fieldset/index.ts"),
+              "molecules/Popover": resolve(__dirname, "src/molecules/Popover/index.ts"),
               "molecules/Table": resolve(__dirname, "src/molecules/Table/index.ts"),
               "molecules/CopyButton": resolve(__dirname, "src/molecules/CopyButton/index.ts"),
               "molecules/Pagination": resolve(__dirname, "src/molecules/Pagination/index.ts"),

@@ -4,7 +4,7 @@ import { Icon } from "./Icon";
 import type { IconProps, IconSize } from "./Icon";
 
 export default {
-  title: "Atoms/Icon",
+  title: "Atoms / Icon",
   argTypes: {
     size: {
       control: { type: "select" },

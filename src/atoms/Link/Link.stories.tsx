@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Link, type LinkVariant } from "./Link";
 
 export default {
-  title: "Components / Link",
+  title: "Atoms / Link",
   args: {
     href: "https://pouk.ai",
     variant: "default",

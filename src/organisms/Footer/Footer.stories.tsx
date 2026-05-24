@@ -4,7 +4,7 @@ import { SiteShell } from "../SiteShell";
 import type { FooterLink } from "./Footer";
 
 export default {
-  title: "Components / Footer",
+  title: "Organisms / Footer",
   args: {
     copyright: "© Pouk AI INC 2026",
     email: "hello@pouk.ai",

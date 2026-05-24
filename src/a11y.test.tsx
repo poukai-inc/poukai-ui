@@ -3072,7 +3072,6 @@ test("a11y — DropdownMenu (open, icons + separator + danger item)", async ({ m
   // because accessibility is broken. The portalled menu content (role="menu",
   // role="menuitem", aria-disabled) is fully scanned without suppression.
   await expectAxeClean(page, {
-    configure: (b) =>
-      b.disableRules([...AXE_ISOLATED_MOUNT_RULES, "aria-hidden-focus"]),
+    configure: (b) => b.disableRules([...AXE_ISOLATED_MOUNT_RULES, "aria-hidden-focus"]),
   });
 });

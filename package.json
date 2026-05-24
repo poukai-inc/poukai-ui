@@ -190,6 +190,11 @@
       "import": "./dist/atoms/Radio.js",
       "require": "./dist/atoms/Radio.cjs"
     },
+    "./atoms/TimePicker": {
+      "types": "./dist/atoms/TimePicker.d.ts",
+      "import": "./dist/atoms/TimePicker.js",
+      "require": "./dist/atoms/TimePicker.cjs"
+    },
     "./molecules/Alert": {
       "types": "./dist/molecules/Alert.d.ts",
       "import": "./dist/molecules/Alert.js",

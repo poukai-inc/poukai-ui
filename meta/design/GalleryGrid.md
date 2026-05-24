@@ -1,13 +1,10 @@
 # GalleryGrid
 
-**Status:** Draft (poukai-design — Phase 1 batch scaffold; pending approval).
+**Status:** Approved (Phase 2 — orchestrator sign-off for pilot wave; poukai-design human review pending).
 
 ## 1. Intent
 
 `<GalleryGrid>` is a Section-framed responsive grid of `Portrait` molecules where each item can be clicked to open an enlarged view via a `Dialog` overlay. It serves editorial and portfolio surfaces — "Selected work", "Project screenshots", "Team photos" — where consumers need a scannable thumbnail grid with a lightbox affordance. Optional per-image captions appear below each thumbnail and inside the enlarged Dialog.
-
-> Status: deferred / demand-pull. Do not implement until a consumer
-> surface explicitly requests it.
 
 ## 2. Anatomy
 

@@ -1,0 +1,118 @@
+/* ============================================================
+   DropdownMenu — floating panel + item reset
+   Token contract: meta/design/DropdownMenu.md §3
+   All values reference CSS custom properties from tokens.css.
+   ============================================================ */
+
+/* ─── Content panel ───────────────────────────────────────── */
+
+.content {
+  background: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-3);
+  padding-block: var(--space-2);
+  /* min-width driven by inline style (minWidth prop — "160px" default) */
+  outline: none;
+  /* Ensure content floats above page content. Z-index is out of component
+     scope per spec §2; consumers can override via className. */
+  z-index: 50;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.08),
+    0 2px 4px -2px rgb(0 0 0 / 0.06);
+}
+
+/* Open entrance: scale(0.97→1) + opacity(0→1) */
+.content[data-state="open"] {
+  animation: contentIn var(--dur-fast) var(--easing) forwards;
+}
+
+/* Close exit: inverse */
+.content[data-state="closed"] {
+  animation: contentOut var(--dur-fast) var(--easing) forwards;
+}
+
+@keyframes contentIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes contentOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+/* ─── Reduced motion ──────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .content[data-state] {
+    animation: none;
+  }
+}
+
+/* ─── Item reset ──────────────────────────────────────────── */
+
+/* Radix Item wraps the content — remove default button/div UA styles
+   so MenuItem controls all visual presentation. The Radix host element
+   handles pointer semantics, role, and keyboard events. */
+.item {
+  /* Strip any UA padding/margin that would double-space with MenuItem. */
+  padding: 0;
+  margin: 0;
+  /* Ensure padding is applied inside the box */
+  box-sizing: border-box;
+  outline: none;
+  cursor: default;
+  /* Allow MenuItem's border-radius to be the visible shape. */
+  border-radius: var(--radius-2);
+  /* Side padding for the item container — content padding from --space-3 */
+  padding-inline: var(--space-2);
+  /* Radix sets [data-highlighted] on keyboard-focused / hovered items */
+  background-color: transparent;
+  transition: background-color 80ms ease;
+}
+
+/* Radix data-highlighted: keyboard focus or pointer hover on item */
+.item[data-highlighted] > * {
+  /* Delegate highlight to MenuItem's hover state by resetting — MenuItem
+     uses :hover / :focus-visible internally. We trigger via data-highlighted
+     by setting background on the .item host instead. */
+}
+
+.item[data-highlighted] {
+  background-color: var(--surface);
+  outline: none;
+}
+
+.item[data-disabled] {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Remove MenuItem's own hover/focus background when inside a Radix item
+   since Radix manages focus via data-highlighted on the host. */
+.item > * {
+  background-color: transparent !important;
+  transition: none !important;
+}
+
+/* ─── Separator ───────────────────────────────────────────── */
+
+.separator {
+  height: var(--hairline-w);
+  background-color: var(--hairline);
+  margin-block: var(--space-1);
+  /* Full width of the content panel. */
+  margin-inline: 0;
+}

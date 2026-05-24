@@ -2785,6 +2785,33 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   lede="How we closed the gap between pilot and production."
   byline={<Byline name="Arian Zargaran" publishedAt="2024-06-01" readTime="5 min read" />}
   tags={<TagList><Tag>AI</Tag><Tag>Engineering</Tag></TagList>}
+### DropdownMenu
+- Compound Radix-wrapped menu trigger + floating item list. Canonical pattern for "More" overflow menus, per-row post-card action menus, and page-settings menus. Replaces ad-hoc useState + outside-click listener patterns.
+- Compound API: `DropdownMenu.Root` (context provider) · `DropdownMenu.Trigger` (asChild-capable anchor) · `DropdownMenu.Content` (floating portal panel) · `DropdownMenu.Item` (action row, composes MenuItem) · `DropdownMenu.Separator` (1px hairline rule). Convenience: `DropdownMenuBasic` (declarative trigger + items array).
+- `DropdownMenu.Content` props: `align` (`"start"|"center"|"end"`, default `"start"`) · `side` (`"top"|"bottom"|"left"|"right"`, default `"bottom"`) · `sideOffset` (number, default `4`) · `minWidth` (string, default `"160px"`) · `container` (HTMLElement|null).
+- `DropdownMenu.Item` props: `tone` (`"default"|"danger"`, default `"default"`) · `disabled` (boolean) · `onSelect` ((event: Event) => void) · `icon` (ReactNode, 16px lucide icon) · `shortcut` (string hint). Renders via MenuItem molecule.
+- `DropdownMenuBasic` props: `trigger` (ReactNode) · `items` (Array<{label, onSelect, tone?, disabled?, icon?, shortcut?}>) · `align` (forwarded to Content).
+- A11y: Radix manages `aria-haspopup="menu"`, `aria-expanded`, `role="menu"`, `role="menuitem"`, `aria-disabled`, portal, focus return on close. Icon slot is decorative — pass `aria-hidden="true"` on icon elements.
+- Tokens: `--bg-elevated`, `--hairline`, `--hairline-w`, `--fg`, `--fg-muted`, `--surface`, `--danger`, `--bg-danger`, `--font-sans`, `--fs-meta`, `--lh-meta`, `--space-1`, `--space-2`, `--space-3`, `--space-4`, `--radius-2`, `--radius-3`, `--dur-fast`, `--easing`.
+- Anti-patterns: not for navigation links · not for form controls · not for >10 items (use Combobox/Select) · not as a Select replacement · not for always-visible lists.
+
+```tsx
+// Compound API
+<DropdownMenu.Root>
+  <DropdownMenu.Trigger asChild>
+    <IconButton icon={MoreHorizontal} aria-label="More actions" variant="ghost" />
+  </DropdownMenu.Trigger>
+  <DropdownMenu.Content align="end">
+    <DropdownMenu.Item icon={<Edit size={16} aria-hidden="true" />} onSelect={handleEdit}>Edit</DropdownMenu.Item>
+    <DropdownMenu.Separator />
+    <DropdownMenu.Item tone="danger" onSelect={handleDelete}>Delete</DropdownMenu.Item>
+  </DropdownMenu.Content>
+</DropdownMenu.Root>
+
+// Convenience wrapper
+<DropdownMenuBasic
+  trigger={<Button variant="secondary">Actions</Button>}
+  items={[{ label: "Edit", onSelect: handleEdit }, { label: "Delete", tone: "danger", onSelect: handleDelete }]}
 />
 
 // (b) With cover image:

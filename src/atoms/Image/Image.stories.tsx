@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Image, type ImageFit, type ImageRadius } from "./Image";
 
 export default {
-  title: "Components / Image",
+  title: "Atoms / Image",
 } satisfies StoryDefault;
 
 /* ---------- Aspect ratios ---------- */

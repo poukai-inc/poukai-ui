@@ -55,22 +55,22 @@ Named sub-components: `Sheet`, `Sheet.Trigger`, `Sheet.Content`, `Sheet.Title`, 
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `side` | `"right" \| "left" \| "top" \| "bottom"` | `"right"` | Right is the most common: detail panels, settings. Bottom serves mobile-nav sheets. |
-| `size` | `"sm" \| "md" \| "lg" \| "full"` | `"md"` | Controls panel width (right/left) or height (top/bottom). See size ladder below. |
-| `open` | `boolean` | — | Controlled open state. |
-| `defaultOpen` | `boolean` | `false` | Uncontrolled initial state. |
-| `onOpenChange` | `(open: boolean) => void` | — | Controlled state callback. |
-| `modal` | `boolean` | `true` | `false` disables the scrim and allows background interaction — use only for persistent side panels. |
+| Prop           | Type                                     | Default   | Rationale                                                                                           |
+| -------------- | ---------------------------------------- | --------- | --------------------------------------------------------------------------------------------------- |
+| `side`         | `"right" \| "left" \| "top" \| "bottom"` | `"right"` | Right is the most common: detail panels, settings. Bottom serves mobile-nav sheets.                 |
+| `size`         | `"sm" \| "md" \| "lg" \| "full"`         | `"md"`    | Controls panel width (right/left) or height (top/bottom). See size ladder below.                    |
+| `open`         | `boolean`                                | —         | Controlled open state.                                                                              |
+| `defaultOpen`  | `boolean`                                | `false`   | Uncontrolled initial state.                                                                         |
+| `onOpenChange` | `(open: boolean) => void`                | —         | Controlled state callback.                                                                          |
+| `modal`        | `boolean`                                | `true`    | `false` disables the scrim and allows background interaction — use only for persistent side panels. |
 
 Size ladder for `right` / `left` panels (panel width):
 
-| Size | Width |
-|---|---|
-| `sm` | `320px` |
-| `md` | `400px` |
-| `lg` | `560px` |
+| Size   | Width   |
+| ------ | ------- |
+| `sm`   | `320px` |
+| `md`   | `400px` |
+| `lg`   | `560px` |
 | `full` | `100vw` |
 
 For `top` / `bottom` panels height follows the same ladder mapped to viewport height fractions: `sm` → `40vh`, `md` → `60vh`, `lg` → `80vh`, `full` → `100vh`.
@@ -102,12 +102,12 @@ Exit: panel translates back out and overlay fades over `--dur-fast` (`180ms`). E
 
 Slide axes by side:
 
-| Side | Entrance from |
-|---|---|
-| `right` | `translateX(100%)` |
-| `left` | `translateX(-100%)` |
-| `bottom` | `translateY(100%)` |
-| `top` | `translateY(-100%)` |
+| Side     | Entrance from       |
+| -------- | ------------------- |
+| `right`  | `translateX(100%)`  |
+| `left`   | `translateX(-100%)` |
+| `bottom` | `translateY(100%)`  |
+| `top`    | `translateY(-100%)` |
 
 `prefers-reduced-motion: reduce`: the global `tokens.css` block clamps all `transition-duration` to `0.01ms`. No per-component override needed — the panel appears and disappears instantly. Radix respects the clamped duration automatically.
 

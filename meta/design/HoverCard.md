@@ -48,14 +48,14 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `openDelay` | `number` (ms) | `700` | Radix default; long enough to prevent accidental opens on fast mouse-through |
-| `closeDelay` | `number` (ms) | `300` | Short enough to feel responsive when moving cursor away |
-| `side` | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Radix positioning; bottom is natural for inline text triggers |
-| `align` | `"start" \| "center" \| "end"` | `"start"` | Aligns card edge to trigger edge; `start` keeps card near trigger origin |
-| `showArrow` | `boolean` | `true` | Directional caret visually anchors card to trigger |
-| `width` | `"sm" \| "md"` | `"md"` | `sm` = 220px (avatar-only previews), `md` = 280px (full profile card) |
+| Prop         | Type                                     | Default    | Rationale                                                                    |
+| ------------ | ---------------------------------------- | ---------- | ---------------------------------------------------------------------------- |
+| `openDelay`  | `number` (ms)                            | `700`      | Radix default; long enough to prevent accidental opens on fast mouse-through |
+| `closeDelay` | `number` (ms)                            | `300`      | Short enough to feel responsive when moving cursor away                      |
+| `side`       | `"top" \| "bottom" \| "left" \| "right"` | `"bottom"` | Radix positioning; bottom is natural for inline text triggers                |
+| `align`      | `"start" \| "center" \| "end"`           | `"start"`  | Aligns card edge to trigger edge; `start` keeps card near trigger origin     |
+| `showArrow`  | `boolean`                                | `true`     | Directional caret visually anchors card to trigger                           |
+| `width`      | `"sm" \| "md"`                           | `"md"`     | `sm` = 220px (avatar-only previews), `md` = 280px (full profile card)        |
 
 Content shape inside `HoverCard.Content` is consumer-controlled; no enforced slot API on the content node — consumers compose Avatar, Text, StatusBadge, etc. freely.
 

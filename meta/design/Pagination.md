@@ -19,6 +19,7 @@
 - **Next button**: `<button>` with trailing chevron icon; disabled on last page.
 
 Page number visibility algorithm:
+
 - Always show `boundaryCount` pages at each end.
 - Always show `siblingCount` pages either side of current page.
 - Fill gaps with a single ellipsis span when the gap is larger than one page.
@@ -43,19 +44,20 @@ Page number visibility algorithm:
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `page` | `number` | — | Current page (1-indexed). Required. |
-| `pageCount` | `number` | — | Total number of pages. Required. |
-| `onPageChange` | `(page: number) => void` | — | Required; component is stateless/controlled. |
-| `siblingCount` | `number` | `1` | Pages shown each side of current. `1` covers the common case; raise to `2` for wide layouts. |
-| `boundaryCount` | `number` | `1` | Pages shown at each end. `1` is sufficient for most list pages. |
-| `size` | `"sm" \| "md"` | `"md"` | `"sm"` reduces to `--fs-micro` + `--btn-h-sm`; `"md"` uses `--fs-meta` + `--btn-h-compact`. Dashboard density often favors `"sm"`. |
-| `disabled` | `boolean` | `false` | Disables all buttons; useful during loading state. |
+| Prop            | Type                     | Default | Rationale                                                                                                                          |
+| --------------- | ------------------------ | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `page`          | `number`                 | —       | Current page (1-indexed). Required.                                                                                                |
+| `pageCount`     | `number`                 | —       | Total number of pages. Required.                                                                                                   |
+| `onPageChange`  | `(page: number) => void` | —       | Required; component is stateless/controlled.                                                                                       |
+| `siblingCount`  | `number`                 | `1`     | Pages shown each side of current. `1` covers the common case; raise to `2` for wide layouts.                                       |
+| `boundaryCount` | `number`                 | `1`     | Pages shown at each end. `1` is sufficient for most list pages.                                                                    |
+| `size`          | `"sm" \| "md"`           | `"md"`  | `"sm"` reduces to `--fs-micro` + `--btn-h-sm`; `"md"` uses `--fs-meta` + `--btn-h-compact`. Dashboard density often favors `"sm"`. |
+| `disabled`      | `boolean`                | `false` | Disables all buttons; useful during loading state.                                                                                 |
 
 ## 5. Interaction
 
 **Keyboard navigation:**
+
 - All buttons are focusable tab stops in DOM order: Prev → page 1 → … → page N → Next.
 - Ellipsis spans are skipped (`aria-hidden`, not focusable).
 - `Enter` / `Space` activate the focused button.

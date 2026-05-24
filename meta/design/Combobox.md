@@ -57,33 +57,36 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `options` | `Array<{ value: string; label: string; group?: string }>` | required | Flat array; groups derived from `group` field |
-| `value` | `string \| undefined` | — | Controlled selected value |
-| `defaultValue` | `string \| undefined` | `undefined` | Uncontrolled initial value |
-| `onValueChange` | `(value: string) => void` | — | Selection callback |
-| `placeholder` | `string` | `"Select…"` | Shown in trigger when no value selected |
-| `disabled` | `boolean` | `false` | Disables trigger; `opacity: 0.5`, no pointer events |
-| `invalid` | `boolean` | `false` | Applies `--danger` border to trigger; pairs with Field error state |
-| `size` | `"sm" \| "md"` | `"md"` | `sm` uses `--btn-h-sm` (32px) and `--fs-meta`; `md` uses `--btn-h-md` (44px) and `--fs-body` |
-| `filter` | `(option: { value: string; label: string }, query: string) => boolean` | substring match on `label` | Custom filter for locale-sensitive or transliterated search |
-| `name` | `string` | — | Hidden `<input type="hidden">` for native form submission |
+| Prop            | Type                                                                   | Default                    | Rationale                                                                                    |
+| --------------- | ---------------------------------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------- |
+| `options`       | `Array<{ value: string; label: string; group?: string }>`              | required                   | Flat array; groups derived from `group` field                                                |
+| `value`         | `string \| undefined`                                                  | —                          | Controlled selected value                                                                    |
+| `defaultValue`  | `string \| undefined`                                                  | `undefined`                | Uncontrolled initial value                                                                   |
+| `onValueChange` | `(value: string) => void`                                              | —                          | Selection callback                                                                           |
+| `placeholder`   | `string`                                                               | `"Select…"`                | Shown in trigger when no value selected                                                      |
+| `disabled`      | `boolean`                                                              | `false`                    | Disables trigger; `opacity: 0.5`, no pointer events                                          |
+| `invalid`       | `boolean`                                                              | `false`                    | Applies `--danger` border to trigger; pairs with Field error state                           |
+| `size`          | `"sm" \| "md"`                                                         | `"md"`                     | `sm` uses `--btn-h-sm` (32px) and `--fs-meta`; `md` uses `--btn-h-md` (44px) and `--fs-body` |
+| `filter`        | `(option: { value: string; label: string }, query: string) => boolean` | substring match on `label` | Custom filter for locale-sensitive or transliterated search                                  |
+| `name`          | `string`                                                               | —                          | Hidden `<input type="hidden">` for native form submission                                    |
 
 No `open` / `onOpenChange` controlled-popover prop in Phase 1 — uncontrolled open state only. Add when a consumer surface requires programmatic control.
 
 ## 5. Interaction
 
 **Mouse / touch:**
+
 - Click trigger → opens popover, focuses search input.
 - Click option → selects, closes popover, returns focus to trigger.
 - Click outside popover → closes, no selection change.
 
 **Keyboard (trigger focused):**
+
 - `Enter` / `Space` / `ArrowDown` → opens popover, focuses search input.
 - `Escape` → closes popover, returns focus to trigger.
 
 **Keyboard (popover open):**
+
 - `ArrowDown` / `ArrowUp` → moves focus through option list.
 - `Enter` → selects focused option, closes, returns focus to trigger.
 - `Escape` → closes, no selection change, returns focus to trigger.

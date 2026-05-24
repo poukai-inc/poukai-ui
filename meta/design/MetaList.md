@@ -41,12 +41,12 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `items` | `Array<{ label: ReactNode; value: ReactNode }>` | required | Data-driven API matches the spec usage pattern; avoids verbose compound child syntax for a simple list. |
-| `orientation` | `"stacked" \| "horizontal"` | `"stacked"` | Stacked (dt above dd) suits narrow sidebars; horizontal (dt inline with dd) suits wider panels. |
-| `dividers` | `boolean` | `false` | Opt-in hairline between rows; off by default so the component reads quietly without chrome. |
-| `labelWidth` | `string` | `undefined` | CSS value (e.g. `"8rem"`) for the dt column width in horizontal mode. Consumer-controlled; no token default forces a fixed width across unknown label lengths. |
+| Prop          | Type                                            | Default     | Rationale                                                                                                                                                      |
+| ------------- | ----------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `items`       | `Array<{ label: ReactNode; value: ReactNode }>` | required    | Data-driven API matches the spec usage pattern; avoids verbose compound child syntax for a simple list.                                                        |
+| `orientation` | `"stacked" \| "horizontal"`                     | `"stacked"` | Stacked (dt above dd) suits narrow sidebars; horizontal (dt inline with dd) suits wider panels.                                                                |
+| `dividers`    | `boolean`                                       | `false`     | Opt-in hairline between rows; off by default so the component reads quietly without chrome.                                                                    |
+| `labelWidth`  | `string`                                        | `undefined` | CSS value (e.g. `"8rem"`) for the dt column width in horizontal mode. Consumer-controlled; no token default forces a fixed width across unknown label lengths. |
 
 No size ladder. `--fs-meta` is the only correct register for this component.
 

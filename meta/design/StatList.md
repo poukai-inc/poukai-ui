@@ -35,12 +35,12 @@ No new tokens introduced.
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `dividers` | `boolean` | `false` | Opt-in hairline rules between items. Off by default so StatList can be used without visual separators in tighter contexts. |
-| `align` | `"start" \| "center"` | `"center"` | Center-aligns the row in its container — the marketing default. `"start"` for left-docked layouts (docs, sidebars). |
-| `children` | `ReactNode` | — | Required. Expects `Stat` atoms; consumer owns composition. |
-| `className` | `string` | — | For layout overrides (max-width, margin) from the parent. |
+| Prop        | Type                  | Default    | Rationale                                                                                                                  |
+| ----------- | --------------------- | ---------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `dividers`  | `boolean`             | `false`    | Opt-in hairline rules between items. Off by default so StatList can be used without visual separators in tighter contexts. |
+| `align`     | `"start" \| "center"` | `"center"` | Center-aligns the row in its container — the marketing default. `"start"` for left-docked layouts (docs, sidebars).        |
+| `children`  | `ReactNode`           | —          | Required. Expects `Stat` atoms; consumer owns composition.                                                                 |
+| `className` | `string`              | —          | For layout overrides (max-width, margin) from the parent.                                                                  |
 
 **Collapse behavior**: below `--bp-md` the row stacks to a single column (`flex-direction: column`). Dividers become horizontal rules in the stacked state (`width: 100%; height: var(--hairline-w); border: none`). Gap shrinks to `--space-8` at all sizes (the `--space-12` step applies only in the desktop row).
 

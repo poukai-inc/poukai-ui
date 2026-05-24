@@ -44,17 +44,17 @@
 
 ## 4. Variants / Props
 
-| Prop          | Type                             | Default              | Rationale |
-| ------------- | -------------------------------- | -------------------- | --------- |
-| `action`      | `string \| undefined`            | `undefined`          | Native form `action` for progressive enhancement / server actions. |
-| `method`      | `"get" \| "post"`                | `"post"`             | Standard form method when `action` is set. |
-| `onSubmit`    | `FormEventHandler \| undefined`  | `undefined`          | JS-controlled submission. Coexists with `action`. |
-| `placeholder` | `string`                         | `"you@example.com"`  | Descriptive; reinforces expected format. |
-| `cta`         | `string`                         | `"Subscribe"`        | Button label. Surfaces vary: "Subscribe", "Join waitlist", "Notify me". |
-| `name`        | `string`                         | `"email"`            | Input `name` attribute — required for native form submission. |
-| `disabled`    | `boolean`                        | `false`              | Disables both input and button; propagated to both children. |
-| `note`        | `ReactNode \| undefined`         | `undefined`          | Privacy copy or inline error. Renders below the row in `--fg-muted` at `--fs-meta`. |
-| `size`        | `"compact" \| "md"`             | `"compact"`          | Maps to Button size. `compact` (40px) is correct for inline footer placement; `md` (44px) for section-hero placement. |
+| Prop          | Type                            | Default             | Rationale                                                                                                             |
+| ------------- | ------------------------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `action`      | `string \| undefined`           | `undefined`         | Native form `action` for progressive enhancement / server actions.                                                    |
+| `method`      | `"get" \| "post"`               | `"post"`            | Standard form method when `action` is set.                                                                            |
+| `onSubmit`    | `FormEventHandler \| undefined` | `undefined`         | JS-controlled submission. Coexists with `action`.                                                                     |
+| `placeholder` | `string`                        | `"you@example.com"` | Descriptive; reinforces expected format.                                                                              |
+| `cta`         | `string`                        | `"Subscribe"`       | Button label. Surfaces vary: "Subscribe", "Join waitlist", "Notify me".                                               |
+| `name`        | `string`                        | `"email"`           | Input `name` attribute — required for native form submission.                                                         |
+| `disabled`    | `boolean`                       | `false`             | Disables both input and button; propagated to both children.                                                          |
+| `note`        | `ReactNode \| undefined`        | `undefined`         | Privacy copy or inline error. Renders below the row in `--fg-muted` at `--fs-meta`.                                   |
+| `size`        | `"compact" \| "md"`             | `"compact"`         | Maps to Button size. `compact` (40px) is correct for inline footer placement; `md` (44px) for section-hero placement. |
 
 No `value` / `defaultValue` prop at the molecule layer — the input is uncontrolled by default and controlled only when the consumer passes `onSubmit` and manages state at that level. The molecule does not own email-validation state; that belongs to the consumer.
 

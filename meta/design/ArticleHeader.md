@@ -41,14 +41,14 @@ Slots: `eyebrow` (string), `title` (ReactNode — supports `<em>` for italic acc
 
 ## 4. Variants / Props
 
-| Prop      | Type      | Default     | Rationale                                                                 |
-| --------- | --------- | ----------- | ------------------------------------------------------------------------- |
-| `eyebrow` | `string`  | —           | Required. Category label above the title ("Engineering", "Design").       |
-| `title`   | `ReactNode` | —         | Required. Rendered as `<h1>`. Accepts `<em>` for serif-italic accent.     |
-| `lede`    | `string`  | —           | Required. 1–3 sentence article summary; rendered in `--fg-muted`.         |
-| `byline`  | `ReactNode` | —         | Required slot. Accepts `<Byline>` molecule.                               |
-| `share`   | `ReactNode` | `undefined` | Optional slot. Accepts `<ShareLinks>`. Omit on pages without social share.|
-| `divider` | `boolean` | `false`     | When true, renders a `--hairline` rule below the block before body prose. |
+| Prop      | Type        | Default     | Rationale                                                                  |
+| --------- | ----------- | ----------- | -------------------------------------------------------------------------- |
+| `eyebrow` | `string`    | —           | Required. Category label above the title ("Engineering", "Design").        |
+| `title`   | `ReactNode` | —           | Required. Rendered as `<h1>`. Accepts `<em>` for serif-italic accent.      |
+| `lede`    | `string`    | —           | Required. 1–3 sentence article summary; rendered in `--fg-muted`.          |
+| `byline`  | `ReactNode` | —           | Required slot. Accepts `<Byline>` molecule.                                |
+| `share`   | `ReactNode` | `undefined` | Optional slot. Accepts `<ShareLinks>`. Omit on pages without social share. |
+| `divider` | `boolean`   | `false`     | When true, renders a `--hairline` rule below the block before body prose.  |
 
 No size or alignment variants. Article headers are always left-aligned; the `--fs-tagline-intimate` ramp is the fixed register. Display-scale (`--fs-tagline`) is for marketing heroes — not editorial article titles.
 

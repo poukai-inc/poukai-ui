@@ -39,15 +39,15 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `value` | `string` | — (required) | The string written to the clipboard. |
-| `label` | `string \| false` | `"Copy"` | Visible label. Pass `false` to render icon-only (requires `aria-label` on root). |
-| `successLabel` | `string` | `"Copied"` | Label shown during success state. |
-| `timeout` | `number` | `1500` | Ms before reverting from success to idle. Keeps the positive signal brief. |
-| `size` | `"sm" \| "md"` | `"sm"` | `sm` uses `--fs-meta` + `--icon-xs`; `md` uses `--fs-body` + `--icon-sm`. Default `sm` — CopyButton is a secondary affordance. |
-| `onCopy` | `(value: string) => void` | — | Optional callback fired after a successful write. Useful for analytics or toast coordination. |
-| `onError` | `(err: unknown) => void` | — | Called when `navigator.clipboard.writeText` rejects. Consumer decides whether to surface a toast. |
+| Prop           | Type                      | Default      | Rationale                                                                                                                      |
+| -------------- | ------------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------ |
+| `value`        | `string`                  | — (required) | The string written to the clipboard.                                                                                           |
+| `label`        | `string \| false`         | `"Copy"`     | Visible label. Pass `false` to render icon-only (requires `aria-label` on root).                                               |
+| `successLabel` | `string`                  | `"Copied"`   | Label shown during success state.                                                                                              |
+| `timeout`      | `number`                  | `1500`       | Ms before reverting from success to idle. Keeps the positive signal brief.                                                     |
+| `size`         | `"sm" \| "md"`            | `"sm"`       | `sm` uses `--fs-meta` + `--icon-xs`; `md` uses `--fs-body` + `--icon-sm`. Default `sm` — CopyButton is a secondary affordance. |
+| `onCopy`       | `(value: string) => void` | —            | Optional callback fired after a successful write. Useful for analytics or toast coordination.                                  |
+| `onError`      | `(err: unknown) => void`  | —            | Called when `navigator.clipboard.writeText` rejects. Consumer decides whether to surface a toast.                              |
 
 ## 5. Interaction
 

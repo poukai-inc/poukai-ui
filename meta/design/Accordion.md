@@ -49,14 +49,14 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `type` | `"single" \| "multiple"` | `"single"` | Single is the FAQ default; multiple for settings groups where independent rows matter |
-| `collapsible` | `boolean` | `true` | Allows the sole open item to close; `false` forces one always-open (rare, explicit opt-out) |
-| `defaultValue` | `string \| string[]` | `undefined` | Uncontrolled initial open item(s) |
-| `value` | `string \| string[]` | `undefined` | Controlled open state |
-| `onValueChange` | `fn` | `undefined` | Controlled change handler |
-| `tone` | `"default" \| "tinted"` | `"default"` | `tinted` applies `--surface` to content panels for increased separation |
+| Prop            | Type                     | Default     | Rationale                                                                                   |
+| --------------- | ------------------------ | ----------- | ------------------------------------------------------------------------------------------- |
+| `type`          | `"single" \| "multiple"` | `"single"`  | Single is the FAQ default; multiple for settings groups where independent rows matter       |
+| `collapsible`   | `boolean`                | `true`      | Allows the sole open item to close; `false` forces one always-open (rare, explicit opt-out) |
+| `defaultValue`  | `string \| string[]`     | `undefined` | Uncontrolled initial open item(s)                                                           |
+| `value`         | `string \| string[]`     | `undefined` | Controlled open state                                                                       |
+| `onValueChange` | `fn`                     | `undefined` | Controlled change handler                                                                   |
+| `tone`          | `"default" \| "tinted"`  | `"default"` | `tinted` applies `--surface` to content panels for increased separation                     |
 
 `Accordion.Item` props: `value: string` (required), `disabled?: boolean`.
 

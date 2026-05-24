@@ -47,12 +47,12 @@ FAQItem is a single collapsible question-and-answer row for FAQ surfaces. It wra
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `question` | `string` | required | The question text. Always a string; heading semantics applied internally. |
-| `value` | `string` | required | Unique key for Accordion state (Radix requirement). |
-| `questionAs` | `"h2" \| "h3" \| "h4"` | `"h3"` | Heading level. h3 is correct when FAQItem sits inside a Section with an h2 title; override to h2 for standalone FAQ with no parent heading. |
-| `children` | `ReactNode` | required | Answer content. Consumers pass `<Prose>` or a plain paragraph. FAQItem does not opine on answer formatting beyond the Prose slot. |
+| Prop         | Type                   | Default  | Rationale                                                                                                                                   |
+| ------------ | ---------------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `question`   | `string`               | required | The question text. Always a string; heading semantics applied internally.                                                                   |
+| `value`      | `string`               | required | Unique key for Accordion state (Radix requirement).                                                                                         |
+| `questionAs` | `"h2" \| "h3" \| "h4"` | `"h3"`   | Heading level. h3 is correct when FAQItem sits inside a Section with an h2 title; override to h2 for standalone FAQ with no parent heading. |
+| `children`   | `ReactNode`            | required | Answer content. Consumers pass `<Prose>` or a plain paragraph. FAQItem does not opine on answer formatting beyond the Prose slot.           |
 
 No `defaultOpen` prop — that is set on the parent `<Accordion>` via its `defaultValue`. FAQItem is a pure item; it holds no open/closed state of its own.
 

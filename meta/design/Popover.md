@@ -40,16 +40,16 @@ Content renders via a portal so it is never clipped by `overflow: hidden` ancest
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `open` | `boolean` | — | Controlled open state |
-| `defaultOpen` | `boolean` | `false` | Uncontrolled initial state |
-| `onOpenChange` | `(open: boolean) => void` | — | State change callback |
-| `side` | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Preferred placement; Radix auto-flips when viewport-clipped |
-| `align` | `"start" \| "center" \| "end"` | `"center"` | Alignment along the cross axis |
-| `sideOffset` | `number` (px) | `8` | Gap between trigger and panel; matches `--space-2` |
-| `arrow` | `boolean` | `false` | Renders `<Popover.Arrow>` caret |
-| `modal` | `boolean` | `false` | When true, blocks pointer interaction outside panel (Dialog posture) |
+| Prop           | Type                                     | Default    | Rationale                                                            |
+| -------------- | ---------------------------------------- | ---------- | -------------------------------------------------------------------- |
+| `open`         | `boolean`                                | —          | Controlled open state                                                |
+| `defaultOpen`  | `boolean`                                | `false`    | Uncontrolled initial state                                           |
+| `onOpenChange` | `(open: boolean) => void`                | —          | State change callback                                                |
+| `side`         | `"top" \| "right" \| "bottom" \| "left"` | `"bottom"` | Preferred placement; Radix auto-flips when viewport-clipped          |
+| `align`        | `"start" \| "center" \| "end"`           | `"center"` | Alignment along the cross axis                                       |
+| `sideOffset`   | `number` (px)                            | `8`        | Gap between trigger and panel; matches `--space-2`                   |
+| `arrow`        | `boolean`                                | `false`    | Renders `<Popover.Arrow>` caret                                      |
+| `modal`        | `boolean`                                | `false`    | When true, blocks pointer interaction outside panel (Dialog posture) |
 
 No `size` prop in Phase 1. Content width is set by the consumer's children; the panel has no min/max-width of its own.
 
@@ -74,10 +74,12 @@ No `size` prop in Phase 1. Content width is set by the consumer's children; the 
 ## 7. Motion
 
 Enter (Content mounts):
+
 - `opacity: 0 → 1`, duration `--dur-fast` (180ms), easing `--easing` (expo-out).
 - `transform: translateY(4px) → translateY(0)` for `side="bottom"`; axis mirrors for other sides.
 
 Exit (Content unmounts):
+
 - `opacity: 1 → 0`, duration `--dur-fast`, easing `ease-in`.
 - Transform reverses.
 

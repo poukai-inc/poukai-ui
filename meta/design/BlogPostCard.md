@@ -47,16 +47,16 @@
 
 ## 4. Variants / Props
 
-| Prop        | Type                        | Default     | Rationale                                                                 |
-|-------------|-----------------------------|-------------|---------------------------------------------------------------------------|
-| `href`      | `string`                    | required    | Destination URL; forwarded to `LinkCard` root anchor.                     |
-| `title`     | `string`                    | required    | Post heading. Rendered as `<h2>` by default; level overridable via `headingLevel`. |
-| `lede`      | `string`                    | required    | Short excerpt. Capped to 3 lines via `-webkit-line-clamp: 3`.             |
-| `byline`    | `ReactNode`                 | required    | Accepts a `Byline` instance.                                              |
-| `tags`      | `ReactNode`                 | `undefined` | Accepts a `TagList` instance. Omitted when no tags are provided.          |
-| `cover`     | `{ src: string; alt: string }` | `undefined` | Optional cover image. Renders at 16:9 aspect ratio above the body.    |
-| `headingLevel` | `2 \| 3`               | `2`         | Allows `BlogList` to semantically nest cards under a section `<h2>`.      |
-| `tone`      | `"default" \| "subtle"`     | `"default"` | `subtle` uses transparent background + hairline border for use on `--surface-section` banded contexts. |
+| Prop           | Type                           | Default     | Rationale                                                                                              |
+| -------------- | ------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------ |
+| `href`         | `string`                       | required    | Destination URL; forwarded to `LinkCard` root anchor.                                                  |
+| `title`        | `string`                       | required    | Post heading. Rendered as `<h2>` by default; level overridable via `headingLevel`.                     |
+| `lede`         | `string`                       | required    | Short excerpt. Capped to 3 lines via `-webkit-line-clamp: 3`.                                          |
+| `byline`       | `ReactNode`                    | required    | Accepts a `Byline` instance.                                                                           |
+| `tags`         | `ReactNode`                    | `undefined` | Accepts a `TagList` instance. Omitted when no tags are provided.                                       |
+| `cover`        | `{ src: string; alt: string }` | `undefined` | Optional cover image. Renders at 16:9 aspect ratio above the body.                                     |
+| `headingLevel` | `2 \| 3`                       | `2`         | Allows `BlogList` to semantically nest cards under a section `<h2>`.                                   |
+| `tone`         | `"default" \| "subtle"`        | `"default"` | `subtle` uses transparent background + hairline border for use on `--surface-section` banded contexts. |
 
 ## 5. Interaction
 

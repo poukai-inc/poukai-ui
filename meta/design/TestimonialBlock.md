@@ -47,13 +47,13 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `quote` | `ReactNode` | required | The testimonial text. ReactNode to allow `<em>` emphasis within the quote string. |
-| `byline` | `ReactNode` | required | A `Byline` instance (name + role). Required — an unattributed quote is not a testimonial. |
-| `portrait` | `ReactNode` | `undefined` | Optional `Portrait` or `<img>`. When absent, layout collapses to quote + byline only. |
+| Prop          | Type                        | Default     | Rationale                                                                                                                                                                                                                               |
+| ------------- | --------------------------- | ----------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `quote`       | `ReactNode`                 | required    | The testimonial text. ReactNode to allow `<em>` emphasis within the quote string.                                                                                                                                                       |
+| `byline`      | `ReactNode`                 | required    | A `Byline` instance (name + role). Required — an unattributed quote is not a testimonial.                                                                                                                                               |
+| `portrait`    | `ReactNode`                 | `undefined` | Optional `Portrait` or `<img>`. When absent, layout collapses to quote + byline only.                                                                                                                                                   |
 | `orientation` | `"stacked" \| "horizontal"` | `"stacked"` | `"stacked"`: portrait above quote, all centered. `"horizontal"`: portrait left-aligned beside byline below the quote. `"stacked"` is the canonical testimonial moment; `"horizontal"` is for surfaces with sufficient horizontal width. |
-| `align` | `"start" \| "center"` | `"center"` | Text alignment of quote and byline within the column. Center is the editorial default for a single isolated testimonial. `"start"` for left-rail or card-adjacent contexts. |
+| `align`       | `"start" \| "center"`       | `"center"`  | Text alignment of quote and byline within the column. Center is the editorial default for a single isolated testimonial. `"start"` for left-rail or card-adjacent contexts.                                                             |
 
 ## 5. Interaction
 

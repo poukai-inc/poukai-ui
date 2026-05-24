@@ -52,13 +52,13 @@ All tokens are pre-existing in `src/tokens/tokens.css`.
 
 `StepsSection` itself carries the minimal prop surface needed for the Section header; all step data is delegated to `Stepper`.
 
-| Prop       | Type       | Default     | Rationale                                              |
-|------------|------------|-------------|--------------------------------------------------------|
-| `heading`  | `string`   | —           | Required. Becomes the Section `title` (rendered as `h2`). |
-| `eyebrow`  | `string \| ReactNode` | `undefined` | Optional. Forwarded to Section `eyebrow` slot. Useful for "01 · Process" style labels. |
-| `lede`     | `string \| ReactNode` | `undefined` | Optional. Supporting copy below the heading.           |
-| `steps`    | `Array<{ label: string; body?: string }>` | — | Required. Forwarded to the Stepper `steps` prop. `body` is the per-step description for the marketing context. |
-| `size`     | `"default" \| "tight"` | `"default"` | Forwarded to Section `size`. Use `"tight"` when StepsSection is embedded in a denser page. |
+| Prop      | Type                                      | Default     | Rationale                                                                                                      |
+| --------- | ----------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------- |
+| `heading` | `string`                                  | —           | Required. Becomes the Section `title` (rendered as `h2`).                                                      |
+| `eyebrow` | `string \| ReactNode`                     | `undefined` | Optional. Forwarded to Section `eyebrow` slot. Useful for "01 · Process" style labels.                         |
+| `lede`    | `string \| ReactNode`                     | `undefined` | Optional. Supporting copy below the heading.                                                                   |
+| `steps`   | `Array<{ label: string; body?: string }>` | —           | Required. Forwarded to the Stepper `steps` prop. `body` is the per-step description for the marketing context. |
+| `size`    | `"default" \| "tight"`                    | `"default"` | Forwarded to Section `size`. Use `"tight"` when StepsSection is embedded in a denser page.                     |
 
 `current` on the internal `Stepper` is always `-1` (no active step) in this organism. The organism is not a progress indicator — it is a process explainer. Consumers who need a live progress stepper use `Stepper` directly, not `StepsSection`.
 

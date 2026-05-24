@@ -34,16 +34,16 @@
 
 ## 4. Variants / Props
 
-| Prop        | Type                       | Default   | Rationale                                                                                     |
-| ----------- | -------------------------- | --------- | --------------------------------------------------------------------------------------------- |
-| `variant`   | `"grid" \| "strip"`        | `"grid"`  | Grid for curated small sets (4–12 logos); strip for larger sets or when motion aids browsing  |
-| `columns`   | `2 \| 3 \| 4 \| 5 \| 6`   | `4`       | Grid only. CSS `grid-template-columns: repeat(N, 1fr)`. Responsive: halved at `< --bp-md`    |
-| `divider`   | `boolean`                  | `false`   | Renders a 1px `--hairline` rule above the logo container — separates the cloud from hero band |
-| `heading`   | `string \| ReactNode`      | —         | Passed through to Section's `title` slot. Optional.                                           |
-| `eyebrow`   | `string \| ReactNode`      | —         | Passed through to Section's `eyebrow` slot. Optional.                                         |
-| `lede`      | `string \| ReactNode`      | —         | Passed through to Section's `lede` slot. Optional.                                            |
-| `size`      | `"default" \| "tight"`     | `"tight"` | Passed to Section's `size` prop. Logo clouds typically sit in dense marketing rows.           |
-| `children`  | `ReactNode`                | required  | `Logo` atoms. Consumer is responsible for correct count and ordering.                          |
+| Prop       | Type                    | Default   | Rationale                                                                                     |
+| ---------- | ----------------------- | --------- | --------------------------------------------------------------------------------------------- |
+| `variant`  | `"grid" \| "strip"`     | `"grid"`  | Grid for curated small sets (4–12 logos); strip for larger sets or when motion aids browsing  |
+| `columns`  | `2 \| 3 \| 4 \| 5 \| 6` | `4`       | Grid only. CSS `grid-template-columns: repeat(N, 1fr)`. Responsive: halved at `< --bp-md`     |
+| `divider`  | `boolean`               | `false`   | Renders a 1px `--hairline` rule above the logo container — separates the cloud from hero band |
+| `heading`  | `string \| ReactNode`   | —         | Passed through to Section's `title` slot. Optional.                                           |
+| `eyebrow`  | `string \| ReactNode`   | —         | Passed through to Section's `eyebrow` slot. Optional.                                         |
+| `lede`     | `string \| ReactNode`   | —         | Passed through to Section's `lede` slot. Optional.                                            |
+| `size`     | `"default" \| "tight"`  | `"tight"` | Passed to Section's `size` prop. Logo clouds typically sit in dense marketing rows.           |
+| `children` | `ReactNode`             | required  | `Logo` atoms. Consumer is responsible for correct count and ordering.                         |
 
 `columns` has no effect when `variant="strip"` — strip lays out logos in a single horizontal row regardless.
 
@@ -52,6 +52,7 @@
 **Grid variant**: static. No hover state on the container. Individual `Logo` atoms may carry a hover treatment (opacity shift) per their own spec; LogoCloud does not add to it.
 
 **Strip variant**:
+
 - Scrolls continuously via CSS `animation: scroll linear infinite` on the `.track` element.
 - Pauses on `:hover` and `:focus-within` via `animation-play-state: paused` — prevents the strip from moving under a user's pointer or keyboard focus.
 - Keyboard: no interactive elements inside the strip by default. If Logo atoms are wrapped in anchor elements, natural tab order applies; the strip pause-on-focus-within ensures the focused logo is visible.

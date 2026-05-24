@@ -39,12 +39,12 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `posts` | `BlogPostCardProps[]` | required | Data for each card; BlogList maps them to `<li><BlogPostCard /></li>` |
-| `pagination` | `ReactNode` | `undefined` | Slot for a `<Pagination>` instance; omit on single-page lists |
-| `size` | `"default" \| "tight"` | `"default"` | Mirrors Section's size axis: `--space-16` block padding vs `--space-12` |
-| `aria-label` | `string` | `"Blog posts"` | Names the region landmark; override for category pages (e.g. `"Posts tagged design"`) |
+| Prop         | Type                   | Default        | Rationale                                                                             |
+| ------------ | ---------------------- | -------------- | ------------------------------------------------------------------------------------- |
+| `posts`      | `BlogPostCardProps[]`  | required       | Data for each card; BlogList maps them to `<li><BlogPostCard /></li>`                 |
+| `pagination` | `ReactNode`            | `undefined`    | Slot for a `<Pagination>` instance; omit on single-page lists                         |
+| `size`       | `"default" \| "tight"` | `"default"`    | Mirrors Section's size axis: `--space-16` block padding vs `--space-12`               |
+| `aria-label` | `string`               | `"Blog posts"` | Names the region landmark; override for category pages (e.g. `"Posts tagged design"`) |
 
 No `columns` prop in this spec — BlogList is a single-column vertical list. Grid layout belongs to a future `BlogGrid` organism if the need arises.
 

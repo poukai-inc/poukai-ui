@@ -36,13 +36,13 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `heading` | `ReactNode` | — | Section title; passed through to `Section`'s `title` slot. Required in practice — an unlabeled PrincipleList has no accessible region name. |
-| `eyebrow` | `string \| ReactNode` | — | Optional; passed through to `Section`'s `eyebrow` slot. |
-| `lede` | `ReactNode` | — | Optional supporting copy; passed through to `Section`'s `lede` slot. |
-| `size` | `"default" \| "tight"` | `"default"` | Passed through to `Section`. Use `"tight"` on dense editorial pages. |
-| `children` | `ReactNode` | — | Required. The `Principle` molecule instances. Each child is wrapped in a `<li>`. |
+| Prop       | Type                   | Default     | Rationale                                                                                                                                   |
+| ---------- | ---------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `heading`  | `ReactNode`            | —           | Section title; passed through to `Section`'s `title` slot. Required in practice — an unlabeled PrincipleList has no accessible region name. |
+| `eyebrow`  | `string \| ReactNode`  | —           | Optional; passed through to `Section`'s `eyebrow` slot.                                                                                     |
+| `lede`     | `ReactNode`            | —           | Optional supporting copy; passed through to `Section`'s `lede` slot.                                                                        |
+| `size`     | `"default" \| "tight"` | `"default"` | Passed through to `Section`. Use `"tight"` on dense editorial pages.                                                                        |
+| `children` | `ReactNode`            | —           | Required. The `Principle` molecule instances. Each child is wrapped in a `<li>`.                                                            |
 
 No `dividers` prop — dividers between items are always present. The editorial rhythm of PrincipleList is defined by the separation between numeraled items; toggling dividers off is not a supported variant.
 

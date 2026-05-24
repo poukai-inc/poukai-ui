@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { StatusBadge, type StatusBadgeStatus } from "./StatusBadge";
 
 export default {
-  title: "Components / StatusBadge",
+  title: "Atoms / StatusBadge",
   args: { status: "available", children: "Currently taking conversations for Q3." },
   argTypes: {
     status: {

@@ -1,6 +1,6 @@
 # HeroSection
 
-**Status:** Draft (poukai-design — Phase 1 batch scaffold; pending approval).
+**Status:** Approved (Phase 2 pilot — user-stakeholder sign-off; pending poukai-design canonical pass).
 
 ## 1. Intent
 

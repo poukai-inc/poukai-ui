@@ -3,7 +3,7 @@ import { Banner } from "./Banner";
 import { Button } from "../../atoms/Button/Button";
 
 export default {
-  title: "Components / Banner",
+  title: "Molecules / Banner",
 } satisfies StoryDefault;
 
 /** InfoDefault — quiet, on-page register. No icon, no action.

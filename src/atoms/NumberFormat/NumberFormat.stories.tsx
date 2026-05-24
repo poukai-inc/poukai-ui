@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { NumberFormat } from "./NumberFormat";
 
 export default {
-  title: "Components / NumberFormat",
+  title: "Atoms / NumberFormat",
 } satisfies StoryDefault;
 
 /** Standard notation — grouped integer. en-US locale. */

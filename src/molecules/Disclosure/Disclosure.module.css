@@ -1,0 +1,64 @@
+/* ============================================================
+   Disclosure — molecule
+   Native <details> / <summary> open/close toggle row.
+   ============================================================ */
+
+.root {
+  font-family: var(--font-sans);
+  color: var(--fg);
+}
+
+.root.divider {
+  border-top: var(--hairline-w) solid var(--hairline);
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding-block: var(--space-3);
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+}
+
+/* Remove default disclosure triangle in WebKit */
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary.summaryMuted {
+  color: var(--fg-muted);
+}
+
+.summary:focus {
+  outline: none;
+}
+
+.summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}
+
+.label {
+  flex: 1;
+}
+
+.chevron {
+  flex-shrink: 0;
+  transition: transform var(--dur-fast) var(--easing);
+}
+
+/* Rotate chevron 180deg when details is open */
+.root[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.content {
+  padding-block-start: var(--space-4);
+  padding-block-end: var(--space-3);
+}

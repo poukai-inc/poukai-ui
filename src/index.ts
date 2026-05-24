@@ -126,6 +126,7 @@ export {
   type BreadcrumbItemProps,
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
+export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";
 /* ---------- organisms ---------- */
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";

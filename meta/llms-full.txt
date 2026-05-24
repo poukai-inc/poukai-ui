@@ -1763,3 +1763,45 @@ ADR-0011: Wordmark gap 120 SVG units, wordtype 1.8x, isotype 1.25x. ViewBox 0 0 
 </Breadcrumb>
 ```
 ```
+
+### PriceTier
+- Single pricing-plan card molecule. Use inside a `PricingTable` organism grid — do not render at full page width in isolation.
+- Root element: `<article>` with `aria-label` derived from `name` (e.g. `"Pro plan"`). Each tier is an independently meaningful unit; `article` is the correct landmark.
+- `name` (required string) — tier label, rendered as `<h3>`.
+- `price` (required string) — displayed at `--fs-stat` / `--font-serif` scale. Examples: `"$29"`, `"Free"`, `"Custom"`.
+- `per` (optional string) — period label at `--fs-meta` / `--fg-muted`. Omit for free or custom tiers. Renders as `"/ month"` etc.
+- `bullets` (optional `string[]`, default `[]`) — feature list as `<ul>` / `<li>`. List is omitted entirely when empty.
+- `bulletIcon` (optional ReactNode) — leading icon per bullet. Wrapped in `<span aria-hidden="true">`. When absent, native list marker is shown.
+- `cta` (required ReactNode) — CTA slot; renders full-width at card bottom. Typically a `<Button>`.
+- `featured` (optional boolean, default `false`) — elevates to `--bg-elevated` surface with `--hairline` border; shows badge above name.
+- `featuredLabel` (optional string, default `"Recommended"`) — overrides badge text when `featured` is true.
+- Featured badge renders as `<p aria-label="Recommended">` — no heading semantics; visual annotation only. Uses `--accent` color.
+- Divider: `1px` `--hairline` rule between price block and bullet list. Token: `--hairline-w`, `--hairline`.
+- Tokens: `--bg`, `--bg-elevated`, `--fg`, `--fg-muted`, `--accent`, `--hairline`, `--hairline-w`, `--font-serif`, `--font-sans`, `--fs-stat`, `--fs-h3`, `--fs-meta`, `--fs-micro`, `--tracking-micro`, `--tracking-stat`, `--fs-body`, `--lh-body`, `--lh-meta`, `--space-2`, `--space-4`, `--space-6`, `--space-8`, `--radius-3`.
+- Stateless container. No hover or click on the card. All interaction delegated to `cta` slot.
+- Do NOT set `featured` on more than one tier in a group — semantic ambiguity.
+- Do NOT render in isolation at full page width — designed for a constrained grid column.
+- Do NOT embed multiple CTAs in one tier — the slot is singular.
+- Do NOT put long prose in `bullets` — each item should be ≤ 8 words.
+- Do NOT import `<Stat>` or `<LinkList>` — price uses tokens directly; bullets are a plain `<ul>`.
+
+```tsx
+// Default tier:
+<PriceTier
+  name="Starter"
+  price="$0"
+  bullets={["5 projects", "1 GB storage", "Community support"]}
+  cta={<Button variant="secondary" size="md">Get started free</Button>}
+/>
+
+// Featured (recommended) tier:
+<PriceTier
+  featured
+  name="Pro"
+  price="$29"
+  per="month"
+  bullets={["Unlimited projects", "100 GB storage", "Priority support"]}
+  cta={<Button variant="primary" size="md">Start free trial</Button>}
+/>
+```
+```

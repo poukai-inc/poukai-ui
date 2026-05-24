@@ -20,6 +20,7 @@ import { LinkCard } from "./molecules/LinkCard";
 import { TeamCard } from "./molecules/TeamCard";
 import { Portrait } from "./molecules/Portrait";
 import { FeatureCard } from "./molecules/FeatureCard";
+import { PriceTier } from "./molecules/PriceTier";
 import { FieldNote } from "./molecules/FieldNote";
 import { Quote } from "./molecules/Quote";
 import { Avatar } from "./atoms/Avatar";
@@ -1563,6 +1564,32 @@ test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
         <Input placeholder="you@example.com" />
       </Field>
     </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — PriceTier (default, with bullets + CTA)", async ({ mount, page }) => {
+  await mount(
+    <PriceTier
+      name="Starter"
+      price="$0"
+      bullets={["5 projects", "1 GB storage", "Community support"]}
+      cta={<button type="button">Get started free</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — PriceTier (featured with badge)", async ({ mount, page }) => {
+  await mount(
+    <PriceTier
+      featured
+      name="Pro"
+      price="$29"
+      per="month"
+      bullets={["Unlimited projects", "Priority support"]}
+      cta={<button type="button">Start free trial</button>}
+    />,
   );
   await expectAxeClean(page);
 });

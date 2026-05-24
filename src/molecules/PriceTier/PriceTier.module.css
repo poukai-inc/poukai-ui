@@ -1,0 +1,133 @@
+/* ============================================================
+   PriceTier — single pricing-plan card molecule
+   ============================================================
+
+   Layout model: flex column, stretch-aligned content.
+
+   Gap stack (top → bottom):
+     badge → name:       --space-6  (24px)
+     name → price block: --space-2  ( 8px)
+     price block → hr:   --space-4  (16px)
+     hr → bullet list:   --space-4  (16px)
+     bullet list → CTA:  --space-4  (16px)
+
+   Card padding: --space-8 block, --space-6 inline (spec §3).
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-block: var(--space-8);
+  padding-inline: var(--space-6);
+  background: var(--bg);
+  border-radius: var(--radius-3);
+  color: var(--fg);
+}
+
+/* ---------- Featured state ---------- */
+
+.featured {
+  background: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+}
+
+/* ---------- Featured badge ---------- */
+
+.badge {
+  margin: 0;
+  margin-bottom: var(--space-6);
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  font-weight: 600;
+  letter-spacing: var(--tracking-micro);
+  text-transform: uppercase;
+  color: var(--accent);
+  line-height: var(--lh-meta);
+}
+
+/* ---------- Tier name ---------- */
+
+.name {
+  margin: 0;
+  margin-bottom: var(--space-2);
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+  color: var(--fg);
+}
+
+/* ---------- Price block ---------- */
+
+.priceBlock {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.priceNumeral {
+  font-family: var(--font-serif);
+  font-size: var(--fs-stat);
+  font-weight: 400;
+  letter-spacing: var(--tracking-stat);
+  color: var(--fg);
+  line-height: 1;
+}
+
+.pricePer {
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  color: var(--fg-muted);
+  line-height: var(--lh-meta);
+}
+
+/* ---------- Divider ---------- */
+
+.divider {
+  border: 0;
+  border-top: var(--hairline-w) solid var(--hairline);
+  margin: 0;
+  margin-bottom: var(--space-4);
+}
+
+/* ---------- Bullet list ---------- */
+
+.bulletList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg);
+}
+
+.bulletItem {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.bulletIconSlot {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: currentColor;
+  margin-top: 0.15em;
+}
+
+/* ---------- CTA slot ---------- */
+
+.ctaSlot {
+  margin-top: auto;
+  width: 100%;
+}

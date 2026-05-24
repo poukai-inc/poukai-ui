@@ -1,0 +1,113 @@
+/* ============================================================
+   Alert — inline semantic banner molecule
+   Five variants: info, success, warn, error, note.
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: var(--space-2);
+
+  padding-block: var(--space-3);
+  padding-inline: var(--space-4);
+
+  border-radius: var(--radius-2);
+  border: var(--hairline-w) solid var(--hairline);
+
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-body);
+}
+
+/* ---------- Variants ---------- */
+
+.info {
+  background-color: var(--surface);
+  color: var(--fg);
+}
+
+.success {
+  background-color: var(--bg-success);
+  color: var(--fg-on-success);
+}
+
+.warn {
+  background-color: var(--bg-warning);
+  color: var(--fg-on-warning);
+}
+
+.error {
+  background-color: var(--bg-danger);
+  color: var(--fg-on-danger);
+}
+
+.note {
+  background-color: var(--surface);
+  color: var(--fg-muted);
+}
+
+/* ---------- Icon slot ---------- */
+
+.iconSlot {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  /* Nudge icon down slightly to optically align with the first text baseline.
+     Uses --space-1 (4px) — the minimum rhythm step. */
+  padding-top: var(--space-1);
+}
+
+/* Icon color per variant — currentColor flows into the SVG stroke. */
+.info .iconSlot {
+  color: var(--accent);
+}
+
+.success .iconSlot {
+  color: var(--success);
+}
+
+.warn .iconSlot {
+  color: var(--warning);
+}
+
+.error .iconSlot {
+  color: var(--danger);
+}
+
+.note .iconSlot {
+  color: var(--fg-muted);
+}
+
+/* ---------- Content column ---------- */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+/* ---------- Title ---------- */
+
+.title {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  line-height: var(--lh-body);
+  /* color inherits from variant root */
+}
+
+/* ---------- Body ---------- */
+
+.body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-body);
+  /* color inherits from variant root */
+}

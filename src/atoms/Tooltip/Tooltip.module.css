@@ -1,0 +1,67 @@
+/* ============================================================
+   Tooltip — atom
+   Spec: meta/design/Tooltip.md §3, §7
+   ============================================================ */
+
+.content {
+  /* Surface */
+  background: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-2);
+
+  /* Typography */
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg);
+
+  /* Spacing */
+  padding-block: var(--space-2);
+  padding-inline: var(--space-3);
+
+  /* Stacking — ensure tooltip is above all other layers */
+  z-index: 9999;
+
+  /* Motion — open: fade + scale in; close: reverse.
+     Radix sets data-state="instant-open" | "delayed-open" | "closed".
+     We use data-state selectors to drive the animation. */
+  transform-origin: var(--radix-tooltip-content-transform-origin);
+  animation-duration: var(--dur-fast);
+  animation-timing-function: var(--easing);
+  animation-fill-mode: both;
+}
+
+.content[data-state="delayed-open"],
+.content[data-state="instant-open"] {
+  animation-name: tooltipEnter;
+}
+
+.content[data-state="closed"] {
+  animation-name: tooltipExit;
+}
+
+@keyframes tooltipEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tooltipExit {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+}
+
+/* prefers-reduced-motion: the global tokens.css block clamps all
+   transition-duration and animation-duration to 0.01ms — no per-component
+   override needed per spec §7. */

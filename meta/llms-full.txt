@@ -1072,6 +1072,18 @@ import { Icon } from "@poukai-inc/ui";
 </Banner>
 ```
 
+### HeroSection
+- Organism layer. Marketing-page primary hero band — the sole `<h1>` moment on any page.
+- Composes `Hero` molecule (title, status, lede, CTA, entrance stagger) inside a landmark `<section>`.
+- Optional `media` slot: two-column CSS grid at `md+` (≥ 768px), text left (`--hero-max`), media right (`--hero-illustration-max`). Single stacked column below.
+- Props: `title` (required), `status`, `lede`, `cta`, `media`, `size` (`"display"` | `"intimate"`), `entrance` (`"stagger"`), `sectionSize` (`"default"` | `"tight"`), `as` (`"section"` | `"article"` | `"div"`).
+- `sectionSize` controls block padding independently of Hero's `size`. Default: `--space-16`; tight: `--space-12`.
+- A11y: root `<section>` is a region landmark via `aria-labelledby` pointing at the text column (which contains the `<h1>`). One HeroSection per page only.
+- Media column follows text column in DOM order — do NOT reorder with CSS `order`.
+- Do NOT nest HeroSection inside Section or another HeroSection.
+- Do NOT use HeroSection when no title is needed — use `Hero variant="no-title"` instead.
+- Import: `import { HeroSection } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/HeroSection"`.
+
 ### CtaBlock
 - Heading + body + action row molecule. The reusable inline conversion moment — "Ready to start? [Get a demo]" pattern.
 - Root element: `<div>`. `forwardRef<HTMLDivElement, CtaBlockProps>`. `...rest` spread. `displayName = "CtaBlock"`.

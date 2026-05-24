@@ -300,6 +300,11 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./organisms/HeroSection": {
+      "types": "./dist/organisms/HeroSection.d.ts",
+      "import": "./dist/organisms/HeroSection.js",
+      "require": "./dist/organisms/HeroSection.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

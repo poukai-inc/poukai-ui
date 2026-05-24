@@ -1144,6 +1144,22 @@ import { Icon } from "@poukai-inc/ui";
 - Do NOT use Byline for team grids or person cards — that is TeamCard.
 - Do NOT add authorHref, timeFormat prop, responsive collapse, or skeleton state — all out of scope in v1.
 
+### LinkList
+- Canonical vertical list of styled anchor rows. Use for footer columns, sidebar nav sections, and on-this-page TOC panels. A molecule because it pairs the `Link` atom with an optional `Heading` and a semantic `<ul>` / `<li>` structure that a bare Link cannot provide.
+- Compound component: `<LinkList>` (root) + `<LinkList.Item>` (each row).
+- Root renders a `<div>` with an optional `Heading` atom and a `<ul>`. `forwardRef<HTMLDivElement, LinkListProps>`. `displayName = "LinkList"`.
+- `heading` (optional string | ReactNode) — column heading via `Heading` atom at `headingLevel` (default h3).
+- `headingLevel` (optional 2 | 3 | 4, default 3) — semantic heading element level.
+- `size` ("sm" | "md", default "sm") — `"sm"`: `--fs-meta` (14px) for footer/sidebar; `"md"`: `--fs-body` for TOC/reading-flow contexts.
+- `divider` (boolean, default false) — renders `--hairline-w` solid `--hairline` rule below the heading. Requires `heading` to be visible.
+- `LinkList.Item` props: `href` (required), `external?` (adds `target="_blank" rel="noopener noreferrer"` + visually-hidden "(opens in new tab)"), `current?` (sets `aria-current="page"`, renders at full `--fg`), `icon?` (trailing ReactNode icon slot). `forwardRef<HTMLLIElement, LinkListItemProps>`.
+- Link color: `--fg-muted` at rest → `--fg` on hover. Transition: `color var(--dur-fast) var(--easing)`. No underline (`variant="muted-link"`). Current item stays at `--fg` at rest.
+- Focus-visible: `2px solid var(--accent)`, `4px` offset, `var(--radius-1)` border-radius — matches global `a:focus-visible`.
+- Tokens consumed: `--font-sans`, `--fs-meta`, `--fs-body`, `--fg-muted`, `--fg`, `--accent`, `--hairline`, `--hairline-w`, `--space-1`, `--space-2`, `--space-3`, `--lh-meta`, `--lh-body`, `--dur-fast`, `--easing`, `--radius-1`.
+- A11y: semantic `<ul>` / `<li>` exposes item count. `aria-current="page"` on active item (WCAG 2.4.8). External items include visually-hidden "(opens in new tab)" — no icon-only signal. Wrap in `<nav aria-label="…">` at the consumer level for navigation regions; the component does not add `<nav>` automatically.
+- Do NOT use LinkList for command menus, action buttons, tag clouds, or top-level primary navigation. Those are DropdownMenu, Button, Tag, and NavLink/Header respectively.
+- Do NOT add onClick-only handlers — items are `<a>` anchors, not `<button>` elements.
+
 ### SiteShell
 - Do NOT nest SiteShell inside another SiteShell. It is min-height: 100dvh.
 - Emits plain <a href> tags — framework-router consumers intercept at app level.

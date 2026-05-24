@@ -455,6 +455,11 @@
       "import": "./dist/organisms/Sheet.js",
       "require": "./dist/organisms/Sheet.cjs"
     },
+    "./molecules/VideoEmbed": {
+      "types": "./dist/molecules/VideoEmbed.d.ts",
+      "import": "./dist/molecules/VideoEmbed.js",
+      "require": "./dist/molecules/VideoEmbed.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

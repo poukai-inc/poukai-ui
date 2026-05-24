@@ -2812,6 +2812,41 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 <DropdownMenuBasic
   trigger={<Button variant="secondary">Actions</Button>}
   items={[{ label: "Edit", onSelect: handleEdit }, { label: "Delete", tone: "danger", onSelect: handleDelete }]}
+### VideoEmbed
+- Responsive iframe wrapper molecule for embedded video (YouTube, Vimeo, generic). Renders a `<figure>` root with a CSS `aspect-ratio` box that prevents Cumulative Layout Shift (CLS) as the embed loads. For editorial pages, case studies, and documentation surfaces.
+- Root element: `<figure>`. `forwardRef<HTMLElement, VideoEmbedProps>`. `...rest` spread onto `<figure>`. `displayName = "VideoEmbed"`.
+- `src` (string, required) — embed URL (YouTube `/embed/`, Vimeo player, or generic).
+- `title` (string, required) — passed to `<iframe title>`; primary a11y label for screen readers navigating by frame.
+- `aspectRatio` (`"16/9" | "4/3" | "1/1" | string`, default `"16/9"`) — CSS `aspect-ratio` value. Preset strings map to stable CSS class names; any other string is applied as inline style.
+- `lazy` (boolean, default `true`) — sets `loading="lazy"` on the iframe. Set `false` for above-fold video.
+- `bordered` (boolean, default `false`) — adds `--hairline-w solid var(--hairline)` border around the ratio box. Useful in docs contexts.
+- `caption` (ReactNode, optional) — rendered below the ratio box inside the `<figure>`. Pass a `Caption` molecule.
+- A11y: `<figure>` root is the correct semantic wrapper; optional `caption` slot accepts `<figcaption>` / `Caption` molecule for native association. `title` on `<iframe>` is the primary screen-reader label. `allow` attribute set to `"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"`.
+- Tokens: `--radius-3`, `--surface`, `--hairline`, `--hairline-w`, `--space-4`.
+- No Radix dependency. Static presentational — no internal state.
+- Do NOT use for self-hosted `<video>` elements. Do NOT use for audio embeds. Do NOT use for arbitrary third-party scripts. Do NOT omit `title` prop.
+
+```tsx
+// (a) Default YouTube embed:
+<VideoEmbed
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  title="Product demo — Q4 2024"
+/>
+
+// (b) 4/3 Vimeo with Caption:
+<VideoEmbed
+  src="https://player.vimeo.com/video/148751763"
+  title="Design system overview"
+  aspectRatio="4/3"
+  caption={<Caption>Fig. 1 — design system overview, recorded live.</Caption>}
+/>
+
+// (c) Above-fold, bordered, eager:
+<VideoEmbed
+  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+  title="Hero video"
+  lazy={false}
+  bordered
 />
 
 // (b) With cover image:

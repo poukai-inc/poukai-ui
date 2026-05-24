@@ -140,6 +140,7 @@ export default defineConfig({
               ),
               "molecules/PriceTier": resolve(__dirname, "src/molecules/PriceTier/index.ts"),
               "molecules/Carousel": resolve(__dirname, "src/molecules/Carousel/index.ts"),
+              "molecules/ContextMenu": resolve(__dirname, "src/molecules/ContextMenu/index.ts"),
               "molecules/NewsletterField": resolve(
                 __dirname,
                 "src/molecules/NewsletterField/index.ts",

@@ -73,6 +73,7 @@ import { CtaBlock } from "./molecules/CtaBlock";
 import { TagList } from "./molecules/TagList";
 import { MenuItem } from "./molecules/MenuItem";
 import { Alert } from "./molecules/Alert";
+import { ContextMenu } from "./molecules/ContextMenu";
 import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
 import { TimelineItem } from "./molecules/TimelineItem";
@@ -3074,4 +3075,19 @@ test("a11y — DropdownMenu (open, icons + separator + danger item)", async ({ m
   await expectAxeClean(page, {
     configure: (b) => b.disableRules([...AXE_ISOLATED_MOUNT_RULES, "aria-hidden-focus"]),
   });
+});
+/* ---------- ContextMenu ---------- */
+
+test("a11y — ContextMenu (trigger only, closed)", async ({ mount, page }) => {
+  await mount(
+    <ContextMenu.Root>
+      <ContextMenu.Trigger>
+        <div style={{ padding: "1rem", border: "1px dashed gray" }}>Right-click me</div>
+      </ContextMenu.Trigger>
+      <ContextMenu.Content>
+        <ContextMenu.Item>Action</ContextMenu.Item>
+      </ContextMenu.Content>
+    </ContextMenu.Root>,
+  );
+  await expectAxeClean(page);
 });

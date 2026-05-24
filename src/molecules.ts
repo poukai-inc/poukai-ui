@@ -140,3 +140,11 @@ export {
   type CarouselIndicatorsProps,
 } from "./molecules/Carousel";
 export { DatePicker, type DatePickerProps } from "./molecules/DatePicker";
+export {
+  ContextMenu,
+  type ContextMenuRootProps,
+  type ContextMenuTriggerProps,
+  type ContextMenuContentProps,
+  type ContextMenuItemProps,
+  type ContextMenuSeparatorProps,
+} from "./molecules/ContextMenu";

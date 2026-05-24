@@ -440,6 +440,11 @@
       "import": "./dist/organisms/SiteShell.js",
       "require": "./dist/organisms/SiteShell.cjs"
     },
+    "./organisms/LogoCloud": {
+      "types": "./dist/organisms/LogoCloud.d.ts",
+      "import": "./dist/organisms/LogoCloud.js",
+      "require": "./dist/organisms/LogoCloud.cjs"
+    },
     "./organisms/PrincipleList": {
       "types": "./dist/organisms/PrincipleList.d.ts",
       "import": "./dist/organisms/PrincipleList.js",

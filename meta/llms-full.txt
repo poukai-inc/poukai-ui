@@ -2500,3 +2500,31 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 </FeatureGrid>
 ```
 ```
+
+### LogoCloud
+- Canonical "trusted by" / partner logo surface. Section-framed collection of `Logo` atoms in grid or scrolling strip layout.
+- Root element: `<section>` via Section molecule. `forwardRef<HTMLElement, LogoCloudProps>`. `...rest` spread. `displayName = "LogoCloud"`.
+- `variant` (`"grid" | "strip"`, default `"grid"`) — grid for curated sets (4–12 logos); strip for larger sets or when motion aids browsing.
+- `columns` (`2 | 3 | 4 | 5 | 6`, default `4`) — grid only; responsive halved at `< --bp-md`. No effect on strip.
+- `divider` (boolean, default `false`) — renders a 1px `--hairline` rule above the logo container.
+- `heading` (string | ReactNode) — passed to Section `title` slot; wires `aria-labelledby` automatically.
+- `eyebrow` (string | ReactNode) — passed to Section `eyebrow` slot.
+- `lede` (string | ReactNode) — passed to Section `lede` slot.
+- `size` (`"default" | "tight"`, default `"tight"`) — passed to Section size prop.
+- `children` (ReactNode, required) — `Logo` atoms. Consumer controls count and order.
+- Strip: two track elements (first visible, second `aria-hidden="true"`) for seamless CSS loop. Track animates `translateX(0 → -100%)` via `calc(var(--dur-slow) * 10) linear infinite`. Pauses on `:hover` / `:focus-within`. Reduced-motion: `animation: none`, overflow-x auto.
+- A11y: when heading provided, Section wires `aria-labelledby`. Without heading, pass `aria-label` via spread props.
+- Tokens: `--space-8` (grid gap), `--space-6` (strip gap), `--space-12` (container padding), `--hairline`, `--hairline-w`, `--dur-slow`, `--bp-md`.
+
+```tsx
+// Grid (default):
+<LogoCloud eyebrow="Customers" heading="Trusted by teams at" columns={3}>
+  <Logo src="/logos/acme.svg" alt="Acme" />
+  <Logo src="/logos/globex.svg" alt="Globex" />
+</LogoCloud>
+
+// Strip:
+<LogoCloud variant="strip" aria-label="Our partners">
+  <Logo src="/logos/acme.svg" alt="Acme" />
+</LogoCloud>
+```

@@ -257,6 +257,12 @@ export {
   type ToastPayload,
   type ToastTone,
 } from "./organisms/Toast";
+export {
+  LogoCloud,
+  type LogoCloudProps,
+  type LogoCloudVariant,
+  type LogoCloudColumns,
+} from "./organisms/LogoCloud";
 export { PrincipleList, type PrincipleListProps } from "./organisms/PrincipleList";
 export { FeatureGrid, type FeatureGridProps } from "./organisms/FeatureGrid";
 export {

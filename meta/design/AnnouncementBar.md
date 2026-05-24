@@ -45,14 +45,14 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `id` | `string` | — (required) | `localStorage` key for dismissal persistence. Required so each bar is independently dismissable. |
-| `tone` | `"warm" \| "neutral" \| "success" \| "danger" \| "warning"` | `"warm"` | `"warm"` maps to `--bg-warm-accent` — the brand editorial band; the natural register for launch announcements. Other tones use the status color tier for maintenance / outage notices. |
-| `dismissable` | `boolean` | `true` | When false, no dismiss button is rendered and no `localStorage` entry is written. Useful for mandatory maintenance notices. |
-| `action` | `ReactNode` | `undefined` | Slot for a link or ghost button. Positioned inline after the message. |
-| `children` | `ReactNode` | — (required) | The announcement copy. Short: one sentence target. |
-| `onDismiss` | `() => void` | `undefined` | Optional callback fired after dismissal animation completes. |
+| Prop          | Type                                                        | Default      | Rationale                                                                                                                                                                              |
+| ------------- | ----------------------------------------------------------- | ------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `id`          | `string`                                                    | — (required) | `localStorage` key for dismissal persistence. Required so each bar is independently dismissable.                                                                                       |
+| `tone`        | `"warm" \| "neutral" \| "success" \| "danger" \| "warning"` | `"warm"`     | `"warm"` maps to `--bg-warm-accent` — the brand editorial band; the natural register for launch announcements. Other tones use the status color tier for maintenance / outage notices. |
+| `dismissable` | `boolean`                                                   | `true`       | When false, no dismiss button is rendered and no `localStorage` entry is written. Useful for mandatory maintenance notices.                                                            |
+| `action`      | `ReactNode`                                                 | `undefined`  | Slot for a link or ghost button. Positioned inline after the message.                                                                                                                  |
+| `children`    | `ReactNode`                                                 | — (required) | The announcement copy. Short: one sentence target.                                                                                                                                     |
+| `onDismiss`   | `() => void`                                                | `undefined`  | Optional callback fired after dismissal animation completes.                                                                                                                           |
 
 ## 5. Interaction
 

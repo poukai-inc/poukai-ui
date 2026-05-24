@@ -45,17 +45,17 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `status` | `ReactNode` | — | StatusBadge or equivalent; forwarded to `Hero` |
-| `title` | `ReactNode` | required | Page `<h1>`; forwarded to `Hero` |
-| `lede` | `string \| ReactNode` | — | Supporting copy; forwarded to `Hero` |
-| `cta` | `ReactNode` | — | Button(s) or equivalent; forwarded to `Hero` |
-| `media` | `ReactNode` | — | Portrait, illustration, or any media ReactNode; occupies the right column at `md+`. When absent, text column is full-width |
-| `size` | `"display" \| "intimate"` | `"display"` | Forwarded to `Hero`; controls title type scale and vertical rhythm |
-| `entrance` | `"stagger" \| undefined` | — | Forwarded to `Hero`; CSS-only stagger on page load |
-| `sectionSize` | `"default" \| "tight"` | `"default"` | Controls block padding — `--space-16` (default) or `--space-12` (tight) |
-| `as` | `"section" \| "article" \| "div"` | `"section"` | Root landmark element |
+| Prop          | Type                              | Default     | Rationale                                                                                                                  |
+| ------------- | --------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `status`      | `ReactNode`                       | —           | StatusBadge or equivalent; forwarded to `Hero`                                                                             |
+| `title`       | `ReactNode`                       | required    | Page `<h1>`; forwarded to `Hero`                                                                                           |
+| `lede`        | `string \| ReactNode`             | —           | Supporting copy; forwarded to `Hero`                                                                                       |
+| `cta`         | `ReactNode`                       | —           | Button(s) or equivalent; forwarded to `Hero`                                                                               |
+| `media`       | `ReactNode`                       | —           | Portrait, illustration, or any media ReactNode; occupies the right column at `md+`. When absent, text column is full-width |
+| `size`        | `"display" \| "intimate"`         | `"display"` | Forwarded to `Hero`; controls title type scale and vertical rhythm                                                         |
+| `entrance`    | `"stagger" \| undefined`          | —           | Forwarded to `Hero`; CSS-only stagger on page load                                                                         |
+| `sectionSize` | `"default" \| "tight"`            | `"default"` | Controls block padding — `--space-16` (default) or `--space-12` (tight)                                                    |
+| `as`          | `"section" \| "article" \| "div"` | `"section"` | Root landmark element                                                                                                      |
 
 `sectionSize` is named to avoid collision with `Hero`'s `size` prop — both are passed down but govern distinct dimensions.
 

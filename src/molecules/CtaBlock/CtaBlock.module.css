@@ -1,0 +1,104 @@
+/* ============================================================
+   CtaBlock — heading + body + action row molecule
+   Spec: meta/design/CtaBlock.md
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* No background, no border, no padding — not a card, not a section. */
+  display: flex;
+  flex-direction: column;
+  /* stacked default: gap between copy block and actions */
+  gap: var(--space-6);
+}
+
+/* ---------- Orientation: stacked (default) ---------- */
+
+.stacked {
+  flex-direction: column;
+}
+
+/* ---------- Orientation: horizontal ---------- */
+/* Heading + body column left; actions column trailing-aligned. */
+/* Collapses to stacked below --bp-md. */
+
+.horizontal {
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .horizontal {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+  }
+
+  .horizontal .copy {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .horizontal .actions {
+    flex-shrink: 0;
+    padding-inline-start: var(--space-6);
+  }
+}
+
+/* ---------- Alignment ---------- */
+
+.alignCenter {
+  align-items: center;
+  text-align: center;
+}
+
+/* ---------- Copy block ---------- */
+
+.copy {
+  /* No margin by default; gap on .root handles spacing. */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ---------- Heading ---------- */
+
+.heading {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: var(--fs-h2);
+  line-height: 1.2;
+  color: var(--fg);
+  margin: 0;
+  padding: 0;
+  text-wrap: balance;
+}
+
+/* ---------- Body ---------- */
+
+.body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--fg-muted);
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Actions slot ---------- */
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+/* When body is absent: heading jumps directly to actions with --space-8 gap. */
+/* Applied by adjusting the root gap via a modifier class on .actions. */
+/* We use a separate modifier on the root to override gap. */
+
+.root:has(.actionsNoBody) {
+  gap: var(--space-8);
+}

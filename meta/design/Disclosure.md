@@ -39,15 +39,15 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `summary` | `string` | — (required) | Trigger label text |
-| `open` | `boolean` | `undefined` | Controlled open state; uncontrolled when omitted |
-| `defaultOpen` | `boolean` | `false` | Uncontrolled initial state |
-| `onOpenChange` | `(open: boolean) => void` | `undefined` | Controlled state callback |
-| `divider` | `boolean` | `false` | Adds `border-top: var(--hairline-w) solid var(--hairline)` to root — for use in list contexts |
-| `tone` | `"default" \| "muted"` | `"default"` | `muted` applies `--fg-muted` to summary label; used when Disclosure must recede |
-| `children` | `ReactNode` | — (required) | The revealed content region |
+| Prop           | Type                      | Default      | Rationale                                                                                     |
+| -------------- | ------------------------- | ------------ | --------------------------------------------------------------------------------------------- |
+| `summary`      | `string`                  | — (required) | Trigger label text                                                                            |
+| `open`         | `boolean`                 | `undefined`  | Controlled open state; uncontrolled when omitted                                              |
+| `defaultOpen`  | `boolean`                 | `false`      | Uncontrolled initial state                                                                    |
+| `onOpenChange` | `(open: boolean) => void` | `undefined`  | Controlled state callback                                                                     |
+| `divider`      | `boolean`                 | `false`      | Adds `border-top: var(--hairline-w) solid var(--hairline)` to root — for use in list contexts |
+| `tone`         | `"default" \| "muted"`    | `"default"`  | `muted` applies `--fg-muted` to summary label; used when Disclosure must recede               |
+| `children`     | `ReactNode`               | — (required) | The revealed content region                                                                   |
 
 ## 5. Interaction
 

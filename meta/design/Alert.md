@@ -46,22 +46,22 @@
 
 ## 4. Variants / Props
 
-| Prop       | Type                                           | Default  | Rationale                                                         |
-| ---------- | ---------------------------------------------- | -------- | ----------------------------------------------------------------- |
+| Prop       | Type                                                 | Default  | Rationale                                                        |
+| ---------- | ---------------------------------------------------- | -------- | ---------------------------------------------------------------- |
 | `variant`  | `"info" \| "success" \| "warn" \| "error" \| "note"` | `"info"` | Maps to semantic color tier + ARIA role                          |
-| `title`    | `string`                                       | —        | Optional scannable label above body; omit for single-line alerts |
-| `children` | `ReactNode`                                    | required | Body copy; typically a string or short prose                     |
-| `icon`     | `ReactNode`                                    | auto     | Consumer can override the default icon; pass `null` to suppress  |
+| `title`    | `string`                                             | —        | Optional scannable label above body; omit for single-line alerts |
+| `children` | `ReactNode`                                          | required | Body copy; typically a string or short prose                     |
+| `icon`     | `ReactNode`                                          | auto     | Consumer can override the default icon; pass `null` to suppress  |
 
 **Variant mapping:**
 
-| Variant   | Background       | Text color         | Icon color   | ARIA role       |
-| --------- | ---------------- | ------------------ | ------------ | --------------- |
-| `info`    | `--surface`      | `--fg`             | `--accent`   | `role="status"` |
-| `success` | `--bg-success`   | `--fg-on-success`  | `--success`  | `role="status"` |
-| `warn`    | `--bg-warning`   | `--fg-on-warning`  | `--warning`  | `role="status"` |
-| `error`   | `--bg-danger`    | `--fg-on-danger`   | `--danger`   | `role="alert"`  |
-| `note`    | `--surface`      | `--fg-muted`       | `--fg-muted` | `role="note"`   |
+| Variant   | Background     | Text color        | Icon color   | ARIA role       |
+| --------- | -------------- | ----------------- | ------------ | --------------- |
+| `info`    | `--surface`    | `--fg`            | `--accent`   | `role="status"` |
+| `success` | `--bg-success` | `--fg-on-success` | `--success`  | `role="status"` |
+| `warn`    | `--bg-warning` | `--fg-on-warning` | `--warning`  | `role="status"` |
+| `error`   | `--bg-danger`  | `--fg-on-danger`  | `--danger`   | `role="alert"`  |
+| `note`    | `--surface`    | `--fg-muted`      | `--fg-muted` | `role="note"`   |
 
 `error` uses `role="alert"` (assertive live region — announced immediately). All other variants use `role="status"` or `role="note"` (polite — announced when idle). `note` uses `role="note"` (non-live landmark, content is static annotation).
 

@@ -40,13 +40,13 @@
 
 ## 4. Variants / Props
 
-| Prop          | Type                           | Default       | Rationale                                                                                     |
-| ------------- | ------------------------------ | ------------- | --------------------------------------------------------------------------------------------- |
-| `icon`        | `ReactNode`                    | `undefined`   | Decorative slot. Lucide icon at `--icon-lg` (24px) is the idiomatic usage.                   |
-| `title`       | `string`                       | — (required)  | The primary message. Short, scannable, present tense ("No scheduled posts").                  |
-| `description` | `string \| ReactNode`          | `undefined`   | Supporting sentence. Accepts ReactNode to allow inline `<a>` / `<strong>` where needed.       |
-| `action`      | `ReactNode`                    | `undefined`   | CTA slot. Consumer owns the Button variant and handler.                                       |
-| `tone`        | `"default" \| "subtle"`        | `"default"`   | `default`: transparent background, sits on any parent surface. `subtle`: `--surface` fill + `--radius-3` for use inside card or panel contexts where a contained visual is preferred. |
+| Prop          | Type                    | Default      | Rationale                                                                                                                                                                             |
+| ------------- | ----------------------- | ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `icon`        | `ReactNode`             | `undefined`  | Decorative slot. Lucide icon at `--icon-lg` (24px) is the idiomatic usage.                                                                                                            |
+| `title`       | `string`                | — (required) | The primary message. Short, scannable, present tense ("No scheduled posts").                                                                                                          |
+| `description` | `string \| ReactNode`   | `undefined`  | Supporting sentence. Accepts ReactNode to allow inline `<a>` / `<strong>` where needed.                                                                                               |
+| `action`      | `ReactNode`             | `undefined`  | CTA slot. Consumer owns the Button variant and handler.                                                                                                                               |
+| `tone`        | `"default" \| "subtle"` | `"default"`  | `default`: transparent background, sits on any parent surface. `subtle`: `--surface` fill + `--radius-3` for use inside card or panel contexts where a contained visual is preferred. |
 
 ## 5. Interaction
 

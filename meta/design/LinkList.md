@@ -56,6 +56,7 @@ divider?: boolean                 // renders --hairline rule below heading; defa
 ```
 
 `LinkList.Item`:
+
 ```
 href: string                      // required
 external?: boolean                // adds rel="noopener noreferrer" + target="_blank"

@@ -1,6 +1,6 @@
 # NavLink
 
-**Status:** Draft (poukai-design — Phase 1 batch scaffold; pending approval).
+**Status:** Approved (Phase 2 pilot — user-stakeholder sign-off; pending poukai-design canonical pass).
 
 ## 1. Intent
 
@@ -38,11 +38,11 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `href` | `string` | required | The destination URL. Passed through to `<a>`. |
-| `active` | `boolean` | `false` | Drives `aria-current="page"` and the active indicator. Consumer computes from routing context (e.g. `pathname.startsWith(href)`). |
-| `children` | `ReactNode` | required | The visible label. Short plain string is idiomatic. |
+| Prop       | Type        | Default  | Rationale                                                                                                                         |
+| ---------- | ----------- | -------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `href`     | `string`    | required | The destination URL. Passed through to `<a>`.                                                                                     |
+| `active`   | `boolean`   | `false`  | Drives `aria-current="page"` and the active indicator. Consumer computes from routing context (e.g. `pathname.startsWith(href)`). |
+| `children` | `ReactNode` | required | The visible label. Short plain string is idiomatic.                                                                               |
 
 No `size` prop. Nav labels are fixed at `--fs-meta` (14px) — the single correct register for top-nav chrome. No `tone` prop; NavLink has one visual register. No `external` prop; icon treatment for external links is the consumer's responsibility.
 

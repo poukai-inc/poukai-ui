@@ -51,20 +51,20 @@
 
 ## 4. Variants / Props
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `label` | `string` | `"Sidebar"` | `aria-label` for both `<aside>` and `<nav>`; override for locale or multi-sidebar pages |
-| `sticky` | `boolean` | `true` | Enables `position: sticky; top: var(--space-12)`. Disable for app shells where the sidebar lives in a fixed-height scroll container instead |
-| `children` | `ReactNode` | — | One or more `<Sidebar.Group>` elements |
+| Prop       | Type        | Default     | Rationale                                                                                                                                   |
+| ---------- | ----------- | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `label`    | `string`    | `"Sidebar"` | `aria-label` for both `<aside>` and `<nav>`; override for locale or multi-sidebar pages                                                     |
+| `sticky`   | `boolean`   | `true`      | Enables `position: sticky; top: var(--space-12)`. Disable for app shells where the sidebar lives in a fixed-height scroll container instead |
+| `children` | `ReactNode` | —           | One or more `<Sidebar.Group>` elements                                                                                                      |
 
 **`Sidebar.Group`**
 
-| Prop | Type | Default | Rationale |
-|---|---|---|---|
-| `heading` | `string` | — | Optional group label; omit to suppress the heading element entirely (no empty `<h3>`) |
-| `collapsible` | `boolean` | `false` | Wraps the group's LinkList in a `<Disclosure>` / `<details>` collapse affordance |
-| `defaultOpen` | `boolean` | `true` | Initial open state when `collapsible` is true |
-| `children` | `ReactNode` | — | `LinkList.Item` elements |
+| Prop          | Type        | Default | Rationale                                                                             |
+| ------------- | ----------- | ------- | ------------------------------------------------------------------------------------- |
+| `heading`     | `string`    | —       | Optional group label; omit to suppress the heading element entirely (no empty `<h3>`) |
+| `collapsible` | `boolean`   | `false` | Wraps the group's LinkList in a `<Disclosure>` / `<details>` collapse affordance      |
+| `defaultOpen` | `boolean`   | `true`  | Initial open state when `collapsible` is true                                         |
+| `children`    | `ReactNode` | —       | `LinkList.Item` elements                                                              |
 
 Default `collapsible: false` — most doc sidebars want all groups visible on load. Collapsible groups are an explicit opt-in for large navigation trees that would otherwise overflow the viewport.
 

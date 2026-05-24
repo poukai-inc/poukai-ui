@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { VisuallyHidden } from "./VisuallyHidden";
 
 export default {
-  title: "Components / VisuallyHidden",
+  title: "Atoms / VisuallyHidden",
   args: {
     children: "Screen-reader-only announcement text",
     as: "span",

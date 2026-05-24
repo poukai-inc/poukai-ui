@@ -48,6 +48,10 @@ import { Switch } from "./atoms/Switch";
 import { Textarea } from "./atoms/Textarea";
 import { Field } from "./molecules/Field";
 import { Banner } from "./molecules/Banner";
+import { NavLink } from "./molecules/NavLink";
+import { StatList } from "./molecules/StatList";
+import { Caption } from "./molecules/Caption";
+import { Byline } from "./molecules/Byline";
 import { Form } from "./organisms/Form";
 import { Harness as ToastHarness, ToastA11yHarness } from "./organisms/Toast/__test_harness__";
 import { Label } from "./atoms/Label";
@@ -57,6 +61,9 @@ import { IconButtonVariantFixture } from "./atoms/IconButton/IconButton.fixtures
 import { Prose } from "./atoms/Prose";
 import { Time } from "./atoms/Time";
 import { Radio, RadioGroup } from "./atoms/Radio";
+import { CtaBlock } from "./molecules/CtaBlock";
+import { TagList } from "./molecules/TagList";
+import { Fieldset } from "./molecules/Fieldset";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -816,6 +823,46 @@ test("a11y — FeatureCard (as='li' inside ul)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — CtaBlock (stacked, with body)", async ({ mount, page }) => {
+  await mount(
+    <CtaBlock
+      heading="Ready to start?"
+      body="We work with senior-only teams who'd rather ship than speculate."
+      actions={<button type="button">Get a demo</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — CtaBlock (horizontal, center-aligned, two actions)", async ({ mount, page }) => {
+  await mount(
+    <CtaBlock
+      orientation="horizontal"
+      align="center"
+      heading="Interested in working together?"
+      body="Senior-only teams. Production from day one."
+      actions={
+        <>
+          <button type="button">Start a project</button>
+          <button type="button">Learn more</button>
+        </>
+      }
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — CtaBlock (no body, headingAs=h3)", async ({ mount, page }) => {
+  await mount(
+    <CtaBlock
+      headingAs="h3"
+      heading="Section closing moment."
+      actions={<button type="button">Act</button>}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — Banner (all four tones)", async ({ mount, page }) => {
   await mount(
     <div>
@@ -824,6 +871,64 @@ test("a11y — Banner (all four tones)", async ({ mount, page }) => {
       <Banner tone="danger">Deployment failed. Check the logs.</Banner>
       <Banner tone="success">Deployment complete. Changes are live.</Banner>
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Byline (all props)", async ({ mount, page }) => {
+  await mount(
+    <Byline
+      avatar="https://i.pravatar.cc/64?img=5"
+      name="Jane Doe"
+      role="Editor"
+      publishedAt="2026-05-21T10:00:00Z"
+      readTime="6 min read"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Byline (name only, no trailing content)", async ({ mount, page }) => {
+  await mount(<Byline name="Jane Doe" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — Byline (initials fallback)", async ({ mount, page }) => {
+  await mount(
+    <Byline initials="JD" name="Jane Doe" role="Editor" publishedAt="2026-05-21T10:00:00Z" />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TagList (default, multiple Tags)", async ({ mount, page }) => {
+  await mount(
+    <TagList>
+      <Tag>Engineering</Tag>
+      <Tag>Design Systems</Tag>
+      <Tag tone="muted">Draft</Tag>
+    </TagList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TagList (with max overflow pill)", async ({ mount, page }) => {
+  await mount(
+    <TagList max={2}>
+      <Tag>Engineering</Tag>
+      <Tag>Design Systems</Tag>
+      <Tag>A11y</Tag>
+      <Tag>React</Tag>
+    </TagList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TagList (gap=sm)", async ({ mount, page }) => {
+  await mount(
+    <TagList gap="sm">
+      <Tag>Engineering</Tag>
+      <Tag>Design Systems</Tag>
+    </TagList>,
   );
   await expectAxeClean(page);
 });
@@ -1500,6 +1605,87 @@ test("a11y — Prose (default width=full, inline content only)", async ({ mount,
     <Prose>
       <p>Standalone paragraph in default-width Prose.</p>
     </Prose>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — NavLink (rest + active)", async ({ mount, page }) => {
+  await mount(
+    <nav aria-label="Primary">
+      <NavLink href="/about">About</NavLink>
+      <NavLink href="/work" active>
+        Work
+      </NavLink>
+    </nav>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatList", async ({ mount, page }) => {
+  await mount(
+    <StatList>
+      <Stat value="85%" caption="of AI pilots never ship." source="MIT Sloan, 2025" />
+      <Stat value="$300B" caption="annual enterprise AI spend." source="IDC, 2025" />
+      <Stat value="3.2×" caption="faster delivery with a working dev loop." />
+    </StatList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Caption", async ({ mount, page }) => {
+  await mount(<Caption>Caption</Caption>);
+  await expectAxeClean(page);
+});
+
+test("a11y — Fieldset (default — billing address)", async ({ mount, page }) => {
+  await mount(
+    <Fieldset legend="Billing address">
+      <Field label="Street" id="a11y-street">
+        <Input placeholder="123 Main St" />
+      </Field>
+      <Field label="City" id="a11y-city">
+        <Input placeholder="San Francisco" />
+      </Field>
+      <Field label="Postal code" id="a11y-postal">
+        <Input placeholder="94105" />
+      </Field>
+    </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatList with dividers", async ({ mount, page }) => {
+  await mount(
+    <StatList dividers>
+      <Stat value="12k" caption="Users" />
+      <Stat value="200" caption="Customers" />
+      <Stat value="99.9%" caption="Uptime" />
+    </StatList>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Fieldset (bordered + spacious)", async ({ mount, page }) => {
+  await mount(
+    <Fieldset legend="Payment details" bordered spacing="spacious">
+      <Field label="Card number" id="a11y-card">
+        <Input placeholder="1234 5678 9012 3456" />
+      </Field>
+      <Field label="Expiry" id="a11y-expiry">
+        <Input placeholder="MM / YY" />
+      </Field>
+    </Fieldset>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Fieldset (muted legend)", async ({ mount, page }) => {
+  await mount(
+    <Fieldset legend="Optional preferences" legendTone="muted">
+      <Field label="Email notifications" id="a11y-notif">
+        <Input placeholder="you@example.com" />
+      </Field>
+    </Fieldset>,
   );
   await expectAxeClean(page);
 });

@@ -49,13 +49,13 @@ All tokens are consumed transitively via `Section` and `NewsletterField`. `Newsl
 ```tsx
 // INTENT ONLY — engineer designs the actual API
 interface NewsletterSectionProps {
-  heading: string;                    // required — h2 text; e.g. "Get monthly updates"
-  body?: string | React.ReactNode;    // optional lede; string auto-wrapped in <p class="lede">
+  heading: string; // required — h2 text; e.g. "Get monthly updates"
+  body?: string | React.ReactNode; // optional lede; string auto-wrapped in <p class="lede">
   eyebrow?: string | React.ReactNode; // optional eyebrow; passed to Section
-  field: React.ReactNode;             // required — the <NewsletterField> instance
-  size?: "default" | "tight";         // default "default" — maps to Section's size prop
-  surface?: boolean;                  // default false — when true, applies --surface-section bg
-  titleAs?: "h2" | "h3";             // default "h2"; "h3" when nested below existing h2
+  field: React.ReactNode; // required — the <NewsletterField> instance
+  size?: "default" | "tight"; // default "default" — maps to Section's size prop
+  surface?: boolean; // default false — when true, applies --surface-section bg
+  titleAs?: "h2" | "h3"; // default "h2"; "h3" when nested below existing h2
   as?: "section" | "article" | "div"; // default "section"; passed through to Section
 }
 ```

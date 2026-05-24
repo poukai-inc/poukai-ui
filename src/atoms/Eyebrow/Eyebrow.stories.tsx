@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Eyebrow, type EyebrowVariant } from "./Eyebrow";
 
 export default {
-  title: "Components / Eyebrow",
+  title: "Atoms / Eyebrow",
   args: { children: "Role 01", variant: "muted" },
   argTypes: {
     variant: {

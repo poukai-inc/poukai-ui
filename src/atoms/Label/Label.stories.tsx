@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Label } from "./Label";
 
 export default {
-  title: "Components / Label",
+  title: "Atoms / Label",
   args: { children: "Email address", htmlFor: "demo", required: false, tone: "default" },
   argTypes: {
     tone: {

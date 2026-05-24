@@ -3,7 +3,7 @@ import { Mail } from "lucide-react";
 import { EmailLink } from "./EmailLink";
 
 export default {
-  title: "Components / EmailLink / All Variants",
+  title: "Atoms / EmailLink / All Variants",
 } satisfies StoryDefault;
 
 /**

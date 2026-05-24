@@ -285,6 +285,11 @@
       "import": "./dist/molecules/TeamCard.js",
       "require": "./dist/molecules/TeamCard.cjs"
     },
+    "./molecules/TimelineItem": {
+      "types": "./dist/molecules/TimelineItem.d.ts",
+      "import": "./dist/molecules/TimelineItem.js",
+      "require": "./dist/molecules/TimelineItem.cjs"
+    },
     "./molecules/NewsletterField": {
       "types": "./dist/molecules/NewsletterField.d.ts",
       "import": "./dist/molecules/NewsletterField.js",

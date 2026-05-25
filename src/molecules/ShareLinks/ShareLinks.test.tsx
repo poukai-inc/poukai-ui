@@ -44,7 +44,10 @@ test("renders all three networks by default", async ({ mount }) => {
 
 test("respects network order from prop", async ({ mount }) => {
   const component = await mount(<ShareLinks url={DEMO_URL} networks={["linkedin", "x"]} />);
-  const buttons = component.getByRole("button");
+  // Use direct CSS selector — webkit's a11y tree resolution of `getByRole`
+  // can race with the locator query in CT, returning an empty array.
+  const buttons = component.locator("button");
+  await expect(buttons).toHaveCount(2);
   const texts = await buttons.evaluateAll((els) => els.map((el) => el.getAttribute("aria-label")));
   expect(texts[0]).toBe("Share on LinkedIn");
   expect(texts[1]).toBe("Share on X");

@@ -6,6 +6,7 @@
 .root {
   display: inline-block;
   font-family: var(--font-sans);
+  position: relative;
 }
 
 /* ─── Trigger ─────────────────────────────────────────────── */
@@ -81,6 +82,17 @@
 
 /* ─── Calendar panel ──────────────────────────────────────── */
 
+.panelWrapper {
+  /* Absolute anchor so the panel stays in document flow and is scrollable
+     into view in Playwright CT (position: fixed elements cannot be scrolled
+     into view by scrollIntoViewIfNeeded). */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 50;
+  padding-top: var(--space-1);
+}
+
 .panel {
   background: var(--bg-elevated);
   border: var(--hairline-w) solid var(--hairline);
@@ -88,7 +100,6 @@
   padding: var(--space-6) var(--space-3);
   min-width: 17rem;
   box-shadow: 0 4px 16px var(--accent-glow);
-  z-index: 50;
 
   /* Popover entrance animation */
   transform-origin: top left;
@@ -98,10 +109,6 @@
     opacity: 1;
     transform: translateY(0);
     animation: dpPanelIn var(--dur-fast) var(--easing);
-  }
-
-  &[data-state="closed"] {
-    animation: dpPanelOut var(--dur-fast) var(--easing);
   }
 }
 

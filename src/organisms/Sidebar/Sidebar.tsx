@@ -1,8 +1,14 @@
-import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from "react";
+import React, {
+  forwardRef,
+  useContext,
+  type ComponentPropsWithoutRef,
+  type ReactNode,
+} from "react";
 import clsx from "clsx";
 import { Heading } from "../../atoms/Heading/Heading";
 import { LinkList } from "../../molecules/LinkList/LinkList";
 import { Disclosure } from "../../molecules/Disclosure/Disclosure";
+import { SidebarLandmarkContext } from "../../organisms/DocsLayout/DocsLayout";
 import styles from "./Sidebar.module.css";
 
 /* ---------- Sidebar.Group ---------- */
@@ -94,6 +100,31 @@ export const SidebarRoot = forwardRef<HTMLElement, SidebarProps>(function Sideba
   { label = "Sidebar", sticky = true, className, children, ...rest },
   ref,
 ) {
+  // When Sidebar is rendered inside DocsLayout's complementary landmark
+  // (<aside aria-label="Sidebar navigation">), skip the outer <aside> wrapper
+  // to avoid nesting two complementary landmarks — which axe flags as
+  // landmark-complementary-is-top-level. The nav landmark is always rendered.
+  const insideComplementaryLandmark = useContext(SidebarLandmarkContext);
+
+  const nav = (
+    <nav aria-label={label} className={styles.nav}>
+      {children}
+    </nav>
+  );
+
+  if (insideComplementaryLandmark) {
+    // Render only the nav; the parent <aside> provides the landmark.
+    return (
+      <div
+        ref={ref as React.Ref<HTMLDivElement>}
+        className={clsx(styles.root, sticky && styles.sticky, className)}
+        {...rest}
+      >
+        {nav}
+      </div>
+    );
+  }
+
   return (
     <aside
       ref={ref}
@@ -101,9 +132,7 @@ export const SidebarRoot = forwardRef<HTMLElement, SidebarProps>(function Sideba
       className={clsx(styles.root, sticky && styles.sticky, className)}
       {...rest}
     >
-      <nav aria-label={label} className={styles.nav}>
-        {children}
-      </nav>
+      {nav}
     </aside>
   );
 });

@@ -364,6 +364,7 @@ export {
   type SheetSize,
 } from "./organisms/Sheet";
 export { VideoEmbed, type VideoEmbedProps } from "./molecules/VideoEmbed";
+export {
   GalleryGrid,
   type GalleryGridProps,
   type GalleryGridItemProps,

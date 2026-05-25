@@ -52,7 +52,10 @@ const TONE_CLASS: Record<ToastItemTone, string | undefined> = {
 
 /* ─── Root ────────────────────────────────────────────────────── */
 
-export interface ToastItemProps extends Omit<ComponentPropsWithoutRef<"li">, "onChange"> {
+export interface ToastItemProps extends Omit<
+  ComponentPropsWithoutRef<"li">,
+  "onChange" | "onPause" | "onResume"
+> {
   /** Visual + semantic tone. Default: "info". */
   tone?: ToastItemTone;
   /** Controlled open state. */

@@ -1,5 +1,121 @@
 # @poukai-inc/ui
 
+## 2.10.0
+
+### Minor Changes
+
+- 8c15b9e: feat(molecule): add CopyButton — copy-to-clipboard button with transient success state
+
+  State machine: idle → success → idle on timeout. Uses `navigator.clipboard.writeText` with `document.execCommand` fallback. Composes `Icon` atom (Copy/Check from lucide-react). Fires `onCopy` and `onError` callbacks. Accessible: `aria-live="polite"` on label, native `<button>`, WCAG 2.5.8-compliant tap target.
+
+- 4f38c39: feat(molecule): add PriceTier
+
+  Introduces the `PriceTier` molecule — a single pricing-plan card that composes a tier name (`<h3>`), a stat-scale price display, an optional period label, a feature bullet list, and a CTA slot. An optional `featured` boolean elevates the card to `--bg-elevated` surface and shows a configurable badge above the name. Designed to live inside a `PricingTable` organism grid. Root is `<article aria-label="…plan">` for correct landmark semantics.
+
+  Props: `name`, `price`, `per?`, `bullets?`, `bulletIcon?`, `cta`, `featured?`, `featuredLabel?`.
+
+- 7391d3c: feat(organism): add RoleGrid — Section + RoleCard responsive grid
+
+  Implements the RoleGrid organism per the approved spec at `meta/design/RoleGrid.md`.
+  Arranges `RoleCard` molecules into a responsive 1/2/3/4-column CSS grid framed by the
+  `Section` molecule. Props: `heading` (required), `eyebrow`, `surface` (`"default"` | `"section"`),
+  `columns` (2 | 3 | 4, default 3), `children`. Token-only CSS: `--space-6`, `--space-8`,
+  `--surface-section`, `--bp-md`. Zero new tokens introduced.
+
+- 6252339: feat(molecule): add HoverCard — Radix-wrapped link-preview card. Compound API: HoverCard.Root / Trigger / Content. Adds `@radix-ui/react-hover-card` peer dep. Closes #182.
+- 007f273: feat(molecule): add Table — semantic data-display primitive
+
+  Implements the `Table` molecule per `meta/design/Table.md`. Provides a
+  composable `<table>` with sub-components `Table.Head`, `Table.Body`,
+  `Table.Row`, `Table.HeaderCell` (`<th scope="col">`), and `Table.Cell`.
+
+  Props: `density` (`"compact" | "comfortable"`, default `"comfortable"`)
+  controls vertical cell padding; `tone` (`"default" | "subtle"`, default
+  `"default"`) controls row-hover background register. All sub-components
+  forward `ref`, `className`, and arbitrary props (`data-*`, `aria-*`).
+
+  No sort / filter / pagination — those belong to the future `DataTable`
+  organism. Closes #150.
+
+- 2b399b5: feat(molecule): add TableOfContents
+
+  Sticky `<nav aria-label="Table of contents">` molecule for long-form article right-rail navigation. Tracks scroll position via `IntersectionObserver` and highlights the currently visible section with an accent left-border and `aria-current="true"`.
+
+  Props: `items` (required anchor list), `heading` (optional "On this page" label), `activeId` (controlled override), `onActiveChange` (escape hatch), `offset` (IntersectionObserver rootMargin top).
+
+  Supports `depth: 1 | 2` for H2/H3 hierarchy. All styles are token-only. Zero axe violations.
+
+- f927667: feat(organism): add LogoCloud — partner/customer logo grid or strip
+
+  New `LogoCloud` organism: Section-framed collection of `Logo` atoms rendered
+  as a static responsive grid (`variant="grid"`, default) or a continuously
+  scrolling horizontal strip (`variant="strip"`).
+
+  Props: `variant`, `columns` (2–6, grid only, responsive halved at `--bp-md`),
+  `divider`, `heading`, `eyebrow`, `lede`, `size`. All Section slots pass through.
+
+  Strip uses CSS `animation: logoScroll calc(var(--dur-slow) * 10) linear infinite`
+  with seamless loop via duplicated `aria-hidden` track. Pauses on hover /
+  focus-within. Reduced-motion: `animation: none` + `overflow-x: auto`.
+
+  Exported from `@poukai-inc/ui`, `@poukai-inc/ui/organisms`, and
+  `@poukai-inc/ui/organisms/LogoCloud` subpath.
+
+- e5c3c59: feat(organism): add PrincipleList — Section + Principle ordered stack
+
+  Implements the PrincipleList organism per the approved spec at `meta/design/PrincipleList.md`.
+  Composes `Section` (molecule) as the root landmark with `<ol>` + `<li>`-wrapped `Principle`
+  molecules. Hairline dividers between items and inter-item spacing (`--space-8` mobile,
+  `--space-12` desktop) are enforced at the organism layer. Zero new tokens introduced.
+
+- 3c8a7f8: feat(organism): add FeatureGrid — responsive Section + FeatureCard grid
+
+  Implements the FeatureGrid organism per the approved spec at `meta/design/FeatureGrid.md`.
+
+  Composes `Section` (landmark, eyebrow, heading, lede, block padding) with a CSS `auto-fit` grid container. Supports `columns=2|3`, `size="default"|"tight"`, and arbitrary `FeatureCard` children.
+
+  Token-only CSS: `--space-6`, `--space-8` (gap), `--bp-md` (gap breakpoint). No new tokens introduced. All layout tokens were already in `tokens.css`.
+
+  Exports: `FeatureGrid`, `FeatureGridProps` from `@poukai-inc/ui`, `@poukai-inc/ui/organisms`, and `@poukai-inc/ui/organisms/FeatureGrid`.
+
+- 89816d1: feat(molecule): add Figure — semantic `<figure>` + `<figcaption>` pairing molecule
+
+  Implements the Figure molecule per `meta/design/Figure.md`. Wraps a media slot (Portrait, img, or any block-level content) and an optional caption inside a semantic `<figure>` element.
+  - `Figure` root component with `children`, `caption`, `align` (`"start" | "center"`), `className` props
+  - `Figure.Caption` compound sub-component for richer caption markup
+  - Token-only CSS: `--font-sans`, `--fs-micro`, `--lh-meta`, `--tracking-micro`, `--fg-muted`, `--space-2`, `--space-4`
+  - Subpath export: `@poukai-inc/ui/molecules/Figure`
+  - Playwright CT tests + axe a11y assertions
+
+- 15812ef: feat(molecule): add Popover — Radix-wrapped anchored content panel
+
+  Implements `<Popover>` molecule per `meta/design/Popover.md`. Wraps
+  `@radix-ui/react-popover` with DS tokens (surface elevation, motion,
+  focus ring, border). Compound API: `Popover.Root`, `Popover.Trigger`,
+  `Popover.Content`, `Popover.Close`. Content always renders via a portal
+  so it is never clipped by `overflow:hidden` ancestors. Adds
+  `@radix-ui/react-popover` as a new runtime dependency.
+
+  Closes #181.
+
+- fd77e74: feat(molecule): add ShareLinks — horizontal share-action row for editorial surfaces
+
+  Composes `IconButton` and `CopyButton` into a horizontal row for sharing to X,
+  LinkedIn, or copying the URL. Includes a `navigator.share` fast-path that
+  replaces the row with a single native-share button on supporting platforms.
+
+  Props: `url` (required), `title`, `networks` (`["x","linkedin","copy"]`), `size` (`"sm" | "md"`), `className`.
+
+- b9fcd0f: feat(atom): add Tooltip — Radix-wrapped hover-hint primitive
+
+  Implements `Tooltip` atom per `meta/design/Tooltip.md`. Wraps
+  `@radix-ui/react-tooltip` with DS tokens for surface, hairline, and
+  motion. Ships both a shorthand `<Tooltip content="…">` form and a
+  compound `<Tooltip.Root>` / `<Tooltip.Trigger>` / `<Tooltip.Content>`
+  API. Adds `TooltipProvider` for app-root setup. Adds
+  `@radix-ui/react-tooltip` as a new runtime dependency (same `^1.x`
+  major as existing Radix peers).
+
 ## 2.9.0
 
 ### Minor Changes

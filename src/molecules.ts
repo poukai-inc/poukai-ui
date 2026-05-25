@@ -130,3 +130,12 @@ export {
 } from "./molecules/TableOfContents";
 export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";
 export { CodeBlock, type CodeBlockProps } from "./molecules/CodeBlock";
+export {
+  Carousel,
+  type CarouselRootProps,
+  type CarouselSlideProps,
+  type CarouselTrackProps,
+  type CarouselPrevProps,
+  type CarouselNextProps,
+  type CarouselIndicatorsProps,
+} from "./molecules/Carousel";

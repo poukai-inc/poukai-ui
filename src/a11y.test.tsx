@@ -105,6 +105,7 @@ import { BlogPostCard } from "./organisms/BlogPostCard";
 import { PriceTier } from "./molecules/PriceTier";
 import { PricingTable } from "./organisms/PricingTable";
 import { CodeBlock } from "./molecules/CodeBlock";
+import { Carousel } from "./molecules/Carousel";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2691,6 +2692,33 @@ test("a11y — TimePicker (default, with label)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- Carousel ---------- */
+
+test("a11y — Carousel (three slides, indicators)", async ({ mount, page }) => {
+  await mount(
+    <Carousel.Root aria-label="Feature highlights">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "auto 1fr auto",
+          alignItems: "center",
+          gap: "8px",
+        }}
+      >
+        <Carousel.Prev />
+        <Carousel.Track>
+          <Carousel.Slide>First slide content.</Carousel.Slide>
+          <Carousel.Slide>Second slide content.</Carousel.Slide>
+          <Carousel.Slide>Third slide content.</Carousel.Slide>
+        </Carousel.Track>
+        <Carousel.Next />
+      </div>
+      <Carousel.Indicators />
+    </Carousel.Root>,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- PriceTier ---------- */
 
 test("a11y — PriceTier (standard, full slots)", async ({ mount, page }) => {
@@ -2814,6 +2842,29 @@ test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
       <label htmlFor="a11y-tp-dis">Start time</label>
       <TimePicker id="a11y-tp-dis" disabled />
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Carousel (no indicators, loop)", async ({ mount, page }) => {
+  await mount(
+    <Carousel.Root aria-label="Gallery" loop indicators={false}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "auto 1fr auto",
+          alignItems: "center",
+          gap: "8px",
+        }}
+      >
+        <Carousel.Prev />
+        <Carousel.Track>
+          <Carousel.Slide>Image one.</Carousel.Slide>
+          <Carousel.Slide>Image two.</Carousel.Slide>
+        </Carousel.Track>
+        <Carousel.Next />
+      </div>
+    </Carousel.Root>,
   );
   await expectAxeClean(page);
 });

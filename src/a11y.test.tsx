@@ -103,12 +103,12 @@ import { TimePicker } from "./atoms/TimePicker";
 import { TestimonialBlock } from "./organisms/TestimonialBlock";
 import { ContactBlock } from "./organisms/ContactBlock";
 import { BlogPostCard } from "./organisms/BlogPostCard";
-import { PriceTier } from "./molecules/PriceTier";
 import { PricingTable } from "./organisms/PricingTable";
 import { CodeBlock } from "./molecules/CodeBlock";
 import { Carousel } from "./molecules/Carousel";
 import { DatePicker } from "./molecules/DatePicker";
 import { A11yHarness as DropdownMenuA11yHarness } from "./atoms/DropdownMenu/__test_harness__";
+import { VideoEmbed } from "./molecules/VideoEmbed";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2991,6 +2991,18 @@ test("a11y — ComparisonTable", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- VideoEmbed ---------- */
+
+test("a11y — VideoEmbed (default 16/9)", async ({ mount, page }) => {
+  await mount(
+    <VideoEmbed
+      src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+      title="Rick Astley — Never Gonna Give You Up"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — ArticleHeader (with share slot + divider)", async ({ mount, page }) => {
   await mount(
     <article>
@@ -3021,6 +3033,19 @@ test("a11y — BlogPostCard (tone=subtle)", async ({ mount, page }) => {
       lede="Tracing and alerting patterns that work when behavior is non-deterministic."
       byline={<Byline name="Arian Zargaran" publishedAt="2024-03-12" />}
       tone="subtle"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — VideoEmbed (bordered with caption)", async ({ mount, page }) => {
+  await mount(
+    <VideoEmbed
+      src="https://player.vimeo.com/video/148751763"
+      title="Design system walkthrough"
+      aspectRatio="4/3"
+      bordered
+      caption={<figcaption>Fig. 1 — design system walkthrough, Q4 2024.</figcaption>}
     />,
   );
   await expectAxeClean(page);

@@ -148,3 +148,4 @@ export {
   type ContextMenuItemProps,
   type ContextMenuSeparatorProps,
 } from "./molecules/ContextMenu";
+export { VideoEmbed, type VideoEmbedProps } from "./molecules/VideoEmbed";

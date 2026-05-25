@@ -1,7 +1,7 @@
 # Design spec: ToastItem
 
 **Atomic layer**: molecule
-**Status:** Approved (Phase 2 — orchestrator sign-off for pilot wave; poukai-design human review pending).
+**Status**: Approved
 **Author**: poukai-design
 **Last updated**: 2026-05-24
 
@@ -52,17 +52,18 @@
 
 ### `ToastItem` (root)
 
-| Prop           | Type                                                | Default  | Description                                             |
-| -------------- | --------------------------------------------------- | -------- | ------------------------------------------------------- |
-| `tone`         | `"info" \| "success" \| "warning" \| "danger"`      | `"info"` | Visual + semantic tone                                  |
-| `open`         | `boolean`                                           | —        | Controlled open state                                   |
-| `defaultOpen`  | `boolean`                                           | —        | Uncontrolled initial open state                         |
-| `onOpenChange` | `(open: boolean) => void`                           | —        | Callback when open state changes                        |
-| `duration`     | `number`                                            | `5000`   | Auto-dismiss duration in ms                             |
-| `className`    | `string`                                            | —        | Merged with internal classes                            |
-| `children`     | `ReactNode`                                         | required | `Title`, `Description`, `Close`, `Action` sub-parts     |
+| Prop           | Type                                           | Default  | Description                                         |
+| -------------- | ---------------------------------------------- | -------- | --------------------------------------------------- |
+| `tone`         | `"info" \| "success" \| "warning" \| "danger"` | `"info"` | Visual + semantic tone                              |
+| `open`         | `boolean`                                      | —        | Controlled open state                               |
+| `defaultOpen`  | `boolean`                                      | —        | Uncontrolled initial open state                     |
+| `onOpenChange` | `(open: boolean) => void`                      | —        | Callback when open state changes                    |
+| `duration`     | `number`                                       | `5000`   | Auto-dismiss duration in ms                         |
+| `className`    | `string`                                       | —        | Merged with internal classes                        |
+| `children`     | `ReactNode`                                    | required | `Title`, `Description`, `Close`, `Action` sub-parts |
 
 Tone maps to Radix `type`:
+
 - `"info"` / `"success"` → `type="background"` (polite live region)
 - `"warning"` / `"danger"` → `type="foreground"` (assertive live region)
 
@@ -77,12 +78,14 @@ Thin wrapper over `Toast.Description`. Accepts all `<div>` props + `className`.
 ### `ToastItem.Close`
 
 Wraps Radix `Toast.Close`. Renders a 20×20 button with X icon. Props:
+
 - `aria-label` (default `"Close"`)
 - `className`
 
 ### `ToastItem.Action`
 
 Wraps Radix `Toast.Action`. Props:
+
 - `altText` (required string) — screen-reader alternative text
 - `onClick` — click handler
 - `children` — button label
@@ -94,12 +97,12 @@ Wraps Radix `Toast.Action`. Props:
 
 Inherits from `meta/design/Toast.md §3`. No new tokens. Same tone contract as the organism.
 
-| Tone      | Background      | Left rule        | Text color        | Radix type     |
-| --------- | --------------- | ---------------- | ----------------- | -------------- |
-| `info`    | `--bg-elevated` | hairline border  | `--fg`            | `"background"` |
-| `success` | `--bg-elevated` | `--accent`       | `--fg`            | `"background"` |
-| `warning` | `--bg-warning`  | `--warning`      | `--fg-on-warning` | `"foreground"` |
-| `danger`  | `--bg-danger`   | `--danger`       | `--fg-on-danger`  | `"foreground"` |
+| Tone      | Background      | Left rule       | Text color        | Radix type     |
+| --------- | --------------- | --------------- | ----------------- | -------------- |
+| `info`    | `--bg-elevated` | hairline border | `--fg`            | `"background"` |
+| `success` | `--bg-elevated` | `--accent`      | `--fg`            | `"background"` |
+| `warning` | `--bg-warning`  | `--warning`     | `--fg-on-warning` | `"foreground"` |
+| `danger`  | `--bg-danger`   | `--danger`      | `--fg-on-danger`  | `"foreground"` |
 
 ---
 

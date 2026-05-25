@@ -1,6 +1,6 @@
 # ArticleHeader
 
-**Status:** Approved (Phase 2 — orchestrator sign-off for pilot wave; poukai-design human review pending).
+**Status**: Approved
 
 ## 1. Intent
 

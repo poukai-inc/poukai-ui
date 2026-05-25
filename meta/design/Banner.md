@@ -1,6 +1,6 @@
 # Banner — design spec
 
-**Status:** Approved
+**Status**: Approved
 **Layer:** molecule
 **Owner:** poukai-design
 **Authored:** 2026-05-19

@@ -2918,6 +2918,34 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   <Carousel.Next />
   <Carousel.Indicators />
 </Carousel.Root>
+### Sheet
+- Side-anchored Dialog variant that slides in from a viewport edge. Use for settings panels, detail views, filter drawers, and mobile navigation — contexts where a centered modal feels too disruptive.
+- Built on `@radix-ui/react-dialog` (no new dep). Compound API: `Sheet.Root`, `Sheet.Trigger`, `Sheet.Content`, `Sheet.Title`, `Sheet.Description`, `Sheet.Close`.
+- `Sheet.Content` props: `side` (`"right" | "left" | "top" | "bottom"`, default `"right"`) — which viewport edge; `size` (`"sm" | "md" | "lg" | "full"`, default `"md"`) — panel width (right/left: 320/400/560px/100vw) or height (top/bottom: 40/60/80/100vh); `modal` (boolean, default `true`) — pass `false` on `Sheet.Root` for non-modal persistent panels. All other `Sheet.Content` props forward to the `<div role="dialog">`.
+- `Sheet.Title` required in DOM (visually-hidden if design omits it). `Sheet.Description` optional but recommended. Both wired to `aria-labelledby` / `aria-describedby` by Radix.
+- Motion: entrance slides from the `side` edge over `--dur-mid` (`240ms`) using `--easing`. Exit translates back over `--dur-fast` (`180ms`). `prefers-reduced-motion` collapses both to instant via tokens.css global clamp.
+- Tokens: `--bg-elevated`, `--fg`, `--fg-muted`, `--hairline`, `--hairline-w`, `--surface`, `--accent`, `--radius-1`, `--radius-3`, `--space-4`, `--space-6`, `--dur-mid`, `--dur-fast`, `--easing`.
+- Do NOT use Sheet for destructive confirmations (use Dialog). Do NOT stack Sheets. Do NOT omit Sheet.Title from the DOM.
+
+```tsx
+// (a) Right panel (default):
+<Sheet.Root open={open} onOpenChange={setOpen}>
+  <Sheet.Content side="right" size="md">
+    <Sheet.Title>Settings</Sheet.Title>
+    <Sheet.Description>Manage your preferences.</Sheet.Description>
+    {children}
+    <Sheet.Close asChild><Button variant="ghost">Close</Button></Sheet.Close>
+  </Sheet.Content>
+</Sheet.Root>
+
+// (b) Bottom sheet with Trigger:
+<Sheet.Root>
+  <Sheet.Trigger asChild><Button>Open actions</Button></Sheet.Trigger>
+  <Sheet.Content side="bottom" size="sm">
+    <Sheet.Title>Actions</Sheet.Title>
+    <Sheet.Close asChild><Button variant="ghost">Cancel</Button></Sheet.Close>
+  </Sheet.Content>
+</Sheet.Root>
 ```
 
 ### PricingTable

@@ -2870,6 +2870,28 @@ test("a11y — Carousel (no indicators, loop)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- Sheet ---------- */
+
+import { Sheet } from "./organisms/Sheet";
+
+test("a11y — Sheet (right, open, title + description)", async ({ mount, page }) => {
+  await mount(
+    <Sheet.Root defaultOpen>
+      <Sheet.Content side="right" size="md">
+        <Sheet.Title>Accessible sheet</Sheet.Title>
+        <Sheet.Description>
+          This sheet has a title and description for screen readers.
+        </Sheet.Description>
+        <p>Body content.</p>
+        <Sheet.Close asChild>
+          <Button variant="ghost">Close</Button>
+        </Sheet.Close>
+      </Sheet.Content>
+    </Sheet.Root>,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- CodeBlock ---------- */
 
 test("a11y — CodeBlock (default, copy visible)", async ({ mount, page }) => {
@@ -3022,5 +3044,19 @@ test("a11y — AnnouncementBar (warm tone, color-contrast suppressed for warm ba
 
 test("a11y — DatePicker (trigger closed)", async ({ mount, page }) => {
   await mount(<DatePicker aria-label="Event date" />);
+  await expectAxeClean(page);
+});
+test("a11y — Sheet (bottom, open)", async ({ mount, page }) => {
+  await mount(
+    <Sheet.Root defaultOpen>
+      <Sheet.Content side="bottom" size="sm">
+        <Sheet.Title>Bottom sheet</Sheet.Title>
+        <Sheet.Description>A bottom-anchored panel.</Sheet.Description>
+        <Sheet.Close asChild>
+          <Button variant="ghost">Close</Button>
+        </Sheet.Close>
+      </Sheet.Content>
+    </Sheet.Root>,
+  );
   await expectAxeClean(page);
 });

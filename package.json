@@ -440,6 +440,11 @@
       "import": "./dist/molecules/CodeBlock.js",
       "require": "./dist/molecules/CodeBlock.cjs"
     },
+    "./organisms/Sheet": {
+      "types": "./dist/organisms/Sheet.d.ts",
+      "import": "./dist/organisms/Sheet.js",
+      "require": "./dist/organisms/Sheet.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

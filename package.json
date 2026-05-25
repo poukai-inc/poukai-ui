@@ -565,6 +565,11 @@
       "import": "./dist/organisms/BlogList.js",
       "require": "./dist/organisms/BlogList.cjs"
     },
+    "./organisms/GalleryGrid": {
+      "types": "./dist/organisms/GalleryGrid.d.ts",
+      "import": "./dist/organisms/GalleryGrid.js",
+      "require": "./dist/organisms/GalleryGrid.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",

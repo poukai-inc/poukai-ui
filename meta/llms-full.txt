@@ -3008,6 +3008,43 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
     <Sheet.Close asChild><Button variant="ghost">Cancel</Button></Sheet.Close>
   </Sheet.Content>
 </Sheet.Root>
+### GalleryGrid
+- Responsive editorial photo grid organism. Section-framed CSS grid of Portrait thumbnails; click any thumbnail to open an enlarged Dialog overlay (lightbox). Serves "Selected work", "Project screenshots", "Team photos" surfaces. Optional per-image captions below thumbnail and inside Dialog.
+- Root element: `<section>` (via Section molecule) wrapping a `<div role="list">` grid. Each item is a `<figure role="listitem">` containing a `<button>` trigger, a Portrait thumbnail, and optional `<figcaption>`. Shared single Dialog.Root instance swaps content on open. `forwardRef<HTMLElement, GalleryGridProps>`. `...rest` spread to Section. `displayName = "GalleryGrid"`.
+- `heading` (optional string) — Section eyebrow/title rendered as h2; omit for anonymous grids.
+- `columns` (`2 | 3 | 4`, default `3`) — CSS grid `repeat(n, 1fr)` at ≥ 768 px. Collapses to 1 col below 480 px, 2 col at 480–767 px regardless of prop.
+- `gap` (`"default" | "tight"`, default `"default"`) — `"default"` uses `--space-4`; `"tight"` uses `--space-2`.
+- `items` (GalleryGridItemProps[]) — array of `{ src: string; alt: string; caption?: string }`. Each item: `src` passed to Portrait, `alt` required (WCAG 1.1.1), `caption` optional.
+- Interaction: click/Enter/Space on thumbnail opens Dialog with enlarged Portrait and caption. Esc, backdrop-click, or close IconButton dismisses Dialog. Focus returns to triggering thumbnail on close.
+- Hover: thumbnail opacity transitions to 0.85 over `--dur-fast`. Suppressed by `prefers-reduced-motion: reduce`.
+- A11y: `<figure>` + `<figcaption>` anatomy. Trigger is a native `<button>` with descriptive `aria-label`. Dialog has `role="dialog"`, `aria-modal="true"`, `aria-labelledby` pointing at visually-hidden title. Close button has `aria-label="Close"`. `alt` required and non-empty on Portrait.
+- Tokens: `--space-2`, `--space-4`, `--space-6`, `--fs-micro`, `--fg-muted`, `--font-sans`, `--lh-meta`, `--radius-3`, `--radius-1`, `--accent`, `--dur-fast`, `--easing`. Dialog tokens delegated to Dialog atom.
+- Depends on: Section (framing), Portrait (thumbnail + enlarged view), Dialog (overlay), IconButton (close button), VisuallyHidden (screen-reader title).
+
+```tsx
+// (a) Default 3-column grid with heading:
+<GalleryGrid
+  heading="Selected work"
+  columns={3}
+  items={[
+    { src: "https://example.com/a.jpg", alt: "Mural on brick wall", caption: "Berlin, 2024" },
+    { src: "https://example.com/b.jpg", alt: "Studio interior" },
+    { src: "https://example.com/c.jpg", alt: "Landscape at dusk", caption: "Brandenburg, 2023" },
+  ]}
+/>
+
+// (b) Tight 2-column grid without heading:
+<GalleryGrid
+  columns={2}
+  gap="tight"
+  items={[
+    { src: "https://example.com/d.jpg", alt: "Portrait against concrete wall", caption: "Series 02" },
+    { src: "https://example.com/e.jpg", alt: "Urban street at night" },
+  ]}
+/>
+
+// (c) 4-column dense grid:
+<GalleryGrid heading="Project screenshots" columns={4} items={screenshots} />
 ```
 
 ### PricingTable

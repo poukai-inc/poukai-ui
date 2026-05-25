@@ -257,6 +257,7 @@ export {
   type ContextMenuItemProps,
   type ContextMenuSeparatorProps,
 } from "./molecules/ContextMenu";
+export { AudioPlayer, type AudioPlayerProps } from "./molecules/AudioPlayer";
 /* ---------- organisms ---------- */
 export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";

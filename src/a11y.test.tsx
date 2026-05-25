@@ -111,6 +111,7 @@ import { A11yHarness as DropdownMenuA11yHarness } from "./atoms/DropdownMenu/__t
 import { VideoEmbed } from "./molecules/VideoEmbed";
 import { GalleryGrid } from "./organisms/GalleryGrid";
 import { Combobox } from "./molecules/Combobox";
+import { AudioPlayer } from "./molecules/AudioPlayer";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2993,6 +2994,20 @@ test("a11y — ComparisonTable", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- AudioPlayer ---------- */
+
+test("a11y — AudioPlayer (caption + transcript link)", async ({ mount, page }) => {
+  await mount(
+    <AudioPlayer
+      src="https://www.w3schools.com/html/horse.ogg"
+      aria-label="Episode 12 — Design systems"
+      caption="Episode 12 — Design systems"
+      transcriptHref="/transcripts/ep-12"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- Combobox ---------- */
 
 test("a11y — Combobox (closed, no selection)", async ({ mount, page }) => {
@@ -3003,6 +3018,16 @@ test("a11y — Combobox (closed, no selection)", async ({ mount, page }) => {
         { value: "b", label: "Option B" },
       ]}
       aria-label="Choice"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — AudioPlayer (minimal — no caption, no transcript)", async ({ mount, page }) => {
+  await mount(
+    <AudioPlayer
+      src="https://www.w3schools.com/html/horse.ogg"
+      aria-label="Voice note from Arian"
     />,
   );
   await expectAxeClean(page);

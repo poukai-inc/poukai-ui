@@ -143,6 +143,7 @@ export default defineConfig({
               "molecules/ContextMenu": resolve(__dirname, "src/molecules/ContextMenu/index.ts"),
               "molecules/VideoEmbed": resolve(__dirname, "src/molecules/VideoEmbed/index.ts"),
               "molecules/Combobox": resolve(__dirname, "src/molecules/Combobox/index.ts"),
+              "molecules/AudioPlayer": resolve(__dirname, "src/molecules/AudioPlayer/index.ts"),
               "molecules/NewsletterField": resolve(
                 __dirname,
                 "src/molecules/NewsletterField/index.ts",

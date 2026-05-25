@@ -1,0 +1,67 @@
+/* ============================================================
+   AudioPlayer — HTML5 audio embed with caption + transcript link
+   Tokens only — no raw values. All values resolve to CSS custom
+   properties declared in src/tokens/tokens.css.
+   ============================================================ */
+
+/* ---------- Root <figure> ---------- */
+
+.root {
+  /* Remove default UA margin on <figure>. */
+  margin: 0;
+  padding: 0;
+
+  /* Column register: matches prose column cap used by Quote, Pull, Section. */
+  max-width: var(--hero-max);
+
+  /* Vertical rhythm with surrounding content. */
+  margin-block: var(--space-8);
+
+  font-family: var(--font-sans);
+}
+
+/* ---------- Audio wrapper ---------- */
+
+.audioWrapper {
+  /* Subtle surface behind the native audio control bar. */
+  background: var(--surface);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-2);
+  overflow: hidden;
+}
+
+/* ---------- <audio> element ---------- */
+
+.audio {
+  display: block;
+  width: 100%;
+}
+
+/* ---------- Caption ---------- */
+
+.caption {
+  margin-top: var(--space-2);
+}
+
+/* ---------- Transcript link ---------- */
+
+.transcriptLink {
+  display: inline-block;
+  margin-top: var(--space-1);
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg);
+  text-decoration-color: var(--hairline);
+  text-underline-offset: 2px;
+}
+
+.transcriptLink:hover {
+  text-decoration-color: var(--accent);
+}
+
+.transcriptLink:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}

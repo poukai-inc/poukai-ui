@@ -465,6 +465,11 @@
       "import": "./dist/molecules/Combobox.js",
       "require": "./dist/molecules/Combobox.cjs"
     },
+    "./molecules/AudioPlayer": {
+      "types": "./dist/molecules/AudioPlayer.d.ts",
+      "import": "./dist/molecules/AudioPlayer.js",
+      "require": "./dist/molecules/AudioPlayer.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

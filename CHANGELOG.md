@@ -1,5 +1,321 @@
 # @poukai-inc/ui
 
+## 2.11.0
+
+### Minor Changes
+
+- ab94758: feat(organism): add ContactBlock — EmailLink + CTAs + StatusBadge line
+
+  Implements the ContactBlock organism per `meta/design/ContactBlock.md` (Phase 2).
+
+  ContactBlock is the end-of-page contact moment: a centered, editorial section
+  framing an `EmailLink` at display scale (`--fs-h3`), an optional `StatusBadge`
+  slot for availability signal, and an optional `actions` slot for CTA Button(s).
+
+  Props: `email` (required), `emailLabel`, `heading`, `status`, `actions`, `as`.
+  When `heading` is provided the root landmark is named via `aria-labelledby`.
+  No `tone`/`variant` — one visual register only.
+
+  Distinct from `Footer` (persistent page chrome) and `CtaBlock` (general conversion
+  moment). Not a form container.
+
+  Closes #204.
+
+- 1206f2d: feat(atom): add DropdownMenu — Radix-wrapped menu trigger + items
+
+  Adds `DropdownMenu` compound atom built on `@radix-ui/react-dropdown-menu`. Exports:
+  - `DropdownMenu.Root` / `.Trigger` / `.Content` / `.Item` / `.Separator` — compound API
+  - `DropdownMenuBasic` — convenience wrapper (trigger + items array)
+
+  Adds `@radix-ui/react-dropdown-menu` as a direct runtime dependency (^2.1.x).
+
+  Closes #146.
+
+- e1dbfdd: feat(organism): add PricingTable organism and PriceTier molecule
+
+  New components for building responsive pricing pages:
+  - `PriceTier` molecule — pricing plan card with name, price, cadence, description, feature bullet list, and CTA slot. Featured variant with elevated surface, accent border, and entrance animation. Full axe/a11y coverage.
+  - `PricingTable` organism — responsive CSS grid of `PriceTier` cards with optional heading slot, optional comparison body slot, `columns` (2 | 3 | "auto") and `align` ("top" | "stretch") props. `<section>` wrapper with auto-wired `aria-labelledby` when heading is provided.
+
+  Both components: `forwardRef`, `displayName`, tokens-only CSS, Ladle stories, Playwright CT tests, axe-core a11y assertions.
+
+- 72fe12c: feat(organism): add TimelineSection — Section-framed vertical list of TimelineItem molecules
+
+  Implements `TimelineSection` organism per `meta/design/TimelineSection.md`.
+  Ships with `TimelineItem` molecule (copied from feat/molecule-timelineitem).
+  - `TimelineSection`: `<section>` landmark via `Section` molecule, `<ol>` track with `gap: --space-8` between entries, `reversed` prop via HTML `<ol reversed>`.
+  - `TimelineItem`: dated entry molecule with left-rail marker dot and optional connector line.
+  - Full Ladle stories, Playwright CT tests, and axe a11y assertions included.
+  - New subpath exports: `@poukai-inc/ui/organisms/TimelineSection`, `@poukai-inc/ui/molecules/TimelineItem`.
+
+- 2b15d06: Add `BlogList` organism — blog index with BlogPostCard previews and optional Pagination slot.
+
+  Introduces `BlogList` (vertical `<ul>` of `BlogPostCard` previews inside a named `<section>` region landmark, with an optional `pagination` footer slot) and `BlogPostCard` (minimal stub pending approved spec — `<article>` with title, lede, date, author, tags, href). Spec: `meta/design/BlogList.md`.
+
+- 42a2515: feat(molecule): add Carousel — scroll-snap compound slide container
+
+  Implements `Carousel` molecule per `meta/design/Carousel.md`. Compound
+  API: `Carousel.Root` / `Carousel.Track` / `Carousel.Slide` /
+  `Carousel.Prev` / `Carousel.Next` / `Carousel.Indicators`.
+  - CSS scroll-snap (`scroll-snap-type: x mandatory`) with no external dep.
+  - `autoplay` prop (default `false`); never starts under
+    `prefers-reduced-motion: reduce`; pauses on hover and focus-within.
+  - `loop` prop (default `false`); Prev/Next disable at boundaries when
+    `loop={false}`.
+  - `Carousel.Indicators` — `role="tablist"` dot row with arrow-key
+    navigation; each dot carries `role="tab"`, `aria-selected`,
+    `aria-controls`.
+  - Live region (`aria-live="polite"`) announces active slide on change.
+  - Tokens only in CSS; no hex values, no magic numbers.
+  - Subpath export `@poukai-inc/ui/molecules/Carousel` added.
+
+- 6896b36: feat(organism): add Header — standalone site nav-bar organism
+
+  Implements `Header` per `meta/design/Header.md`. Compound API: `Header`,
+  `Header.Brand`, `Header.Nav`, `Header.Actions`. Composes `Wordmark`,
+  `NavLink`, and `Button`. Props: `homeHref`, `logo`, `navLabel`, `sticky`,
+  `bordered`, `constrained`. Sticky scroll detection via `IntersectionObserver`.
+  Mobile nav hidden below 768px (Sheet/Drawer deferred). Closes #194.
+
+- dcddced: feat(organism): add StatsSection — StatList in section frame
+
+  Implements the StatsSection organism per `meta/design/StatsSection.md` (Phase 2 pilot).
+
+  StatsSection composes a `Section` molecule (band wrapper, heading slot, block padding)
+  with a `StatList` molecule (horizontal stat row, optional hairline dividers) to create
+  the canonical "by the numbers" marketing band.
+
+  Props: `heading` (optional string — renders as `<h2>` via Section), `dividers` (boolean,
+  default false), `fill` (boolean — applies `--surface-section` band background), `children`
+  (required — one or more `Stat` atoms).
+
+  Closes #207.
+
+- f9b187b: feat(organism): add TeamGrid — Section-framed responsive grid of TeamCard molecules
+
+  Implements the TeamGrid organism per meta/design/TeamGrid.md. Composes the Section molecule as its structural frame (heading, optional eyebrow/lede, optional band background) with a responsive CSS grid container (1 → 2 → 3 columns). Exposes `heading` (required), `eyebrow`, `lede`, `columns` (2|3, default 3), and `tone` ("default"|"section") props. forwardRef forwards to the Section root; className and rest props spread to root. No new tokens introduced — consumes --space-6, --space-16, --surface-section.
+
+- 8235dcb: feat(molecule): add Accordion — Radix-wrapped compound accordion (single + multiple)
+
+  Wraps `@radix-ui/react-accordion` with a compound API: `Accordion.Root`,
+  `Accordion.Item`, `Accordion.Trigger`, `Accordion.Content`. Supports
+  `type="single"` (collapsible) and `type="multiple"`. Animated height
+  collapse via Radix CSS custom property. Chevron rotation transition with
+  `prefers-reduced-motion` handled globally by `tokens.css`. `tone="tinted"`
+  applies `--surface` to content panels. Full keyboard navigation and ARIA
+  wiring via Radix. Zero axe violations.
+
+- 842c639: feat(molecule): add AudioPlayer
+
+  HTML5 audio embed molecule with Caption row and optional transcript link. Wraps native `<audio controls>` inside a `<figure>` for semantic association. Supports `src`, `aria-label`, `caption`, `transcriptHref`, `transcriptLabel`, `autoPlay`, `loop`, `muted`, and `preload` props. `autoPlay` defaults to `false` (WCAG 1.4.2 compliance).
+
+  Closes #192.
+
+- 8216a9a: feat(molecule): add CodeBlock — fenced code block with optional language label, copy-to-clipboard, and caption slot.
+
+  Implements `meta/design/CodeBlock.md`. Semantic `<figure><pre><code>` structure. Horizontal overflow scroll on `<pre>`. No syntax highlighting dependency shipped. Closes #189.
+
+- b380d2b: feat(molecule): add Combobox
+
+  Searchable single-select dropdown molecule. Replaces native `<select>` for option lists too large to scan without search (timezone pickers, page/org pickers, data-source selectors).
+  - Pure React implementation with full ARIA combobox pattern (no cmdk/Radix dep)
+  - Controlled and uncontrolled usage via `value` / `defaultValue` / `onValueChange`
+  - Substring filter by default; custom `filter` prop for locale-sensitive search
+  - Optional group headings derived from `options[].group`
+  - `size="sm" | "md"` tiers aligned with Input/Button height ladder
+  - `invalid` and `disabled` states wired for Field composition
+  - `name` prop emits a hidden input for native form submission
+  - Keyboard: Enter/Space/ArrowDown opens; ArrowDown/Up navigates; Enter selects; Escape closes; Tab advances focus
+  - Focus management: popover open → search input; close → trigger
+  - Token-only CSS — no raw values
+  - Playwright CT test suite + a11y gate entry
+
+  Closes #155.
+
+- 9d4c6c5: feat(molecule): add ContextMenu — Radix-wrapped right-click menu. Compound API: Root / Trigger / Content / Item / Separator. Adds `@radix-ui/react-context-menu` peer dep. Closes #183.
+- 92b1dea: feat(molecule): add DataTable — sortable, filterable, paginated table
+
+  Composes Table + Pagination + EmptyState into a single controlled unit.
+  Pure React, no TanStack Table dependency. Client-side sort/filter/paginate
+  via controlled props. Accessible: aria-sort, aria-live announcement, section
+  landmark, caption always in DOM.
+
+  Closes #158.
+
+- 1c7689d: feat(molecule): add DatePicker — calendar-based date input. Composes Input trigger + `@radix-ui/react-popover` calendar. Adds `@radix-ui/react-popover` peer dep. Closes #153.
+- 812b46a: feat(molecule): add FAQItem — collapsible question + answer row
+
+  Thin opinionated wrapper around `Accordion.Item` + `Accordion.Trigger` +
+  `Accordion.Content`. Exposes `question` (string), `value` (string), and
+  `children` (ReactNode) props. `questionAs` prop controls heading level
+  (h2/h3/h4, default h3). Must be placed inside an `<Accordion.Root>` wrapper —
+  Radix's keyboard model and open/closed state management require the wrapper.
+  Zero axe violations. Full keyboard navigation and ARIA wiring inherited from
+  Accordion.
+
+  Closes #173. Depends on Accordion (#184 / PR #296) which must merge first.
+
+- 51bb42d: Add `ToastItem` molecule — declarative compound Toast item.
+
+  Compound API: `ToastItem`, `ToastItem.Title`, `ToastItem.Description`, `ToastItem.Close`, `ToastItem.Action`. Wraps `@radix-ui/react-toast` primitives with DS tokens and tone variants (`info`, `success`, `warning`, `danger`). Complements the existing imperative `Toast` organism (`ToastProvider` + `useToast()`).
+
+  Closes #187.
+
+- 72f62c3: feat(molecule): add VideoEmbed
+
+  Responsive iframe wrapper for embedded video (YouTube, Vimeo, generic). Renders a `<figure>` root with a CSS `aspect-ratio` box that prevents CLS as the embed loads. Supports `src`, `title`, `aspectRatio` (16/9 | 4/3 | 1/1 | string), `lazy`, `bordered`, and `caption` props.
+
+  Closes #191.
+
+- 653ccf8: feat(organism): add AnnouncementBar — dismissable page-top banner
+
+  New `AnnouncementBar` organism for product announcements, maintenance
+  notices, and time-sensitive promotions. Renders full-width above the
+  Header organism. Dismissal state persisted via `localStorage` keyed by
+  `id`. SSR-safe: visible by default, hidden post-hydration if dismissed.
+
+  Props: `id` (required), `tone` (warm | neutral | success | danger |
+  warning, default warm), `dismissable` (bool, default true), `action`
+  (ReactNode slot), `onDismiss` callback.
+
+  Exports: `AnnouncementBar`, `AnnouncementBarProps`, `AnnouncementBarTone`.
+  Subpath: `@poukai-inc/ui/organisms/AnnouncementBar`.
+
+- 22cd975: feat(organism): add ArticleHeader — eyebrow + title + lede + Byline + ShareLinks
+
+  New `ArticleHeader` organism for long-form editorial surfaces. Composes `Eyebrow`, `Heading`, and `Text` atoms with `byline` and optional `share` ReactNode slots into a semantic `<header>` element. Props: `eyebrow`, `title` (ReactNode, supports `<em>`), `lede`, `byline`, `share`, `divider`. Token-only CSS; zero new tokens.
+
+- 2b2905b: feat(organism): add ArticleLayout — single-column long-form reading template
+
+  Implements `ArticleLayout` organism per `meta/design/ArticleLayout.md`. Wraps
+  content in a semantic `<article>` with a CSS grid exposing named width slots
+  (`text`, `wide`, `bleed`) for editorial content blocks. Ships a `header` prop
+  slot for `ArticleHeader` (or any ReactNode), a polymorphic `as` prop for
+  `<div>` override when nested in an existing article landmark, and full
+  `...rest` / `className` / `ref` forwarding.
+
+  TOKEN FALLBACK: The `text` column requires `--article-measure` (reading-comfort
+  prose measure, ~65ch). This token does not yet exist in `tokens.css`. Per
+  orchestrator decision, the implementation uses a hardcoded fallback of `65ch`
+  directly in `ArticleLayout.module.css`. This is a known follow-up item: once
+  `--article-measure` is ratified and added to `tokens.css`, replace the
+  hardcoded value with `var(--article-measure)` in the CSS module. No new token
+  was added in this PR.
+
+  Closes #214.
+
+- 1c4af8a: Add `BlogPostCard` organism — index-card preview for blog posts.
+
+  Composes `LinkCard` as the full-surface anchor root with an optional 16:9
+  cover thumbnail, a linked serif title (`h2`/`h3` via `headingLevel`), a
+  lede excerpt clamped to 3 lines, a `Byline` slot, and an optional `TagList`
+  slot. Supports `"default"` and `"subtle"` tone variants.
+
+  New exports: `BlogPostCard`, `BlogPostCardProps`, `BlogPostCardTone`,
+  `BlogPostCardHeadingLevel`, `BlogPostCardCover`.
+
+- f5f9e1a: feat(organism): add CommandPalette — cmdk-driven search + navigation overlay (⌘K)
+
+  Compound API: Root, Input, List, Group, Item, Empty. Wraps Dialog organism with a cmdk Command surface for fuzzy-filtered, keyboard-navigable item lists. Adds `cmdk >=1.0.0` peer dependency. Closes #221.
+
+- fee08b1: feat(organism): add CTASection — full-width end-of-page CtaBlock organism
+
+  Implements the `CTASection` organism per `meta/design/CTASection.md`. Composes
+  `CtaBlock` in a landmark `<section>` with optional `surface="recessed"` bleed-band
+  and hairline rule, centered layout (bilateral symmetry default), and `size` /
+  `headingAs` / `align` props. Wires `aria-labelledby` from the section root to the
+  `CtaBlock` heading element for a properly-named region landmark.
+
+  Closes #205.
+
+- 275337b: feat(organism): add DocsLayout — three-column documentation page template
+
+  Implements `DocsLayout` organism per `meta/design/DocsLayout.md`. Composes
+  `Sidebar` (left column, sticky, collapses to a slide-in drawer at mobile),
+  a center content slot (typically `<ArticleLayout as="div">`), and an optional
+  `toc` right-rail column (hidden below 1024px).
+
+  CSS grid with named template areas (`sidebar`, `content`, `toc`). Responsive:
+  collapses to single column at `< 768px` (--bp-md). Mobile hamburger trigger
+  with `aria-expanded` / `aria-controls` / `role="dialog"` drawer pattern.
+  `toc` prop is optional — when omitted the grid reflows to two columns; no
+  empty `<aside>` landmark is rendered.
+
+  Closes #215. Depends on ArticleLayout (#214 / #299).
+
+- f0eb56e: feat(organism): add FailureModeList — Section + FailureMode vertical stack
+
+  New organism `FailureModeList` collects `FailureMode` molecules into a Section-framed catalog block. Accepts `heading`, `eyebrow`, `lede`, `size`, `titleAs`, and `children` props. Ships with Ladle stories, Playwright CT tests, and axe a11y coverage. Closes #201.
+
+- 39e8069: feat(organism): add FAQSection — Section-framed Accordion of FAQItem children
+
+  Implements `<FAQSection>` per `meta/design/FAQSection.md`. Composes
+  a `Section` molecule (eyebrow, title, lede, landmark semantics) with an
+  `Accordion.Root` containing `FAQItem` children. The FAQ block is a named
+  region landmark with consistent vertical rhythm and collapsible Q&A rows.
+
+  Props: `eyebrow`, `title` (default "Frequently asked questions"), `titleAs`
+  ("h1" | "h2" | "h3", default "h2"), `lede`, `size` ("default" | "tight"),
+  `type` ("single" | "multiple", default "single"), `defaultValue`, `children`.
+
+  A11y: Section root renders `<section aria-labelledby>` — named region
+  landmark. Accordion keyboard model (Space/Enter toggle, Arrow Up/Down focus
+  movement) provided by Radix. FAQItem question headings are h3 by default
+  (correct under an h2 Section title).
+
+  Closes #210. Depends on Accordion (#184/#296) + FAQItem (#173/#298).
+
+- c7bc8f2: feat(organism): add GalleryGrid
+
+  Responsive editorial photo grid organism with click-to-enlarge Dialog lightbox. Section-framed CSS grid of Portrait thumbnails (2/3/4 columns, default/tight gap). Each item is keyboard-accessible; Dialog provides focus-trapped enlarged view with optional caption and close-on-Esc/backdrop/button. Full a11y: figure/figcaption anatomy, aria-modal dialog, descriptive aria-labels, reduced-motion support.
+
+  Closes #212.
+
+- fd980f3: feat(organism): add StepsSection — Stepper in section frame for marketing/process pages. Closes #209.
+- 4487c2b: feat(organism): add TestimonialBlock — single-voice editorial testimonial band
+
+  Adds `TestimonialBlock` organism: a `<blockquote>` quote + `Byline` attribution row
+  inside a recessed `--surface-section` section band. Optional `Portrait` slot with
+  `stacked` (portrait above quote) and `horizontal` (portrait beside byline) orientations.
+  `align` prop controls `center` (editorial default) vs `start` text alignment.
+
+  New exports: `TestimonialBlock`, `TestimonialBlockProps`, `TestimonialBlockOrientation`,
+  `TestimonialBlockAlign` from `@poukai-inc/ui` and `@poukai-inc/ui/organisms/TestimonialBlock`.
+
+- 0df8d25: feat(organism): add ComparisonTable — feature × tier pricing matrix
+
+  Semantic `<table>` organism with sticky `<thead>`, row-group headings,
+  featured-tier accent, striped variant, and full a11y scope attributes.
+  Accepts `tiers` (string[] or TierDef[]) and `rows` (ComparisonRow | ComparisonGroupHeading[]).
+
+- 2b3abd8: feat(organism): add NewsletterSection — NewsletterField in section frame
+
+  Implements the `NewsletterSection` organism per `meta/design/NewsletterSection.md`.
+  Composes the `Section` molecule with a required `field` slot (`NewsletterField`),
+  optional `body` lede, `eyebrow`, `size` (`default` | `tight`), `surface` background
+  toggle (`--surface-section`), `titleAs` heading level override, and polymorphic `as`
+  prop. No new tokens introduced.
+
+- 5ad4b0b: feat(organism): add Sheet — Radix Dialog side-anchored variant
+
+  Side-anchored overlay primitive that slides in from right/left/top/bottom. Reuses existing `@radix-ui/react-dialog` peer (no new dep). Compound API: `Sheet.Root`, `Sheet.Trigger`, `Sheet.Content`, `Sheet.Title`, `Sheet.Description`, `Sheet.Close`. Supports `side` and `size` props with slide-in/out motion honouring `prefers-reduced-motion`.
+
+### Patch Changes
+
+- 60ce4dd: DocsLayout: fix React 19 + axe `landmark-unique` regression on the mobile drawer
+
+  The mobile drawer used a JSX-spread of `{ inert: "" }` to mark itself
+  inert while hidden. React 19 dropped the attribute when the value
+  serialized to an empty string, so the closed drawer's `<nav>` landmark
+  re-entered the accessibility tree alongside the desktop sidebar's
+  landmark — axe flagged it as a `landmark-unique` violation, and the
+  "drawer drops inert attribute" test never saw the initial `inert=""`.
+
+  Replace the JSX-spread with an imperative `ref` callback that toggles
+  the attribute via `setAttribute` / `removeAttribute`. This sidesteps
+  React's version-specific prop coercion and works the same on React 18
+  and 19.
+
 ## 2.10.0
 
 ### Minor Changes

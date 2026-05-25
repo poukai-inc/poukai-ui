@@ -103,7 +103,6 @@ import { TimePicker } from "./atoms/TimePicker";
 import { TestimonialBlock } from "./organisms/TestimonialBlock";
 import { ContactBlock } from "./organisms/ContactBlock";
 import { BlogPostCard } from "./organisms/BlogPostCard";
-import { PriceTier } from "./molecules/PriceTier";
 import { PricingTable } from "./organisms/PricingTable";
 import { CodeBlock } from "./molecules/CodeBlock";
 import { Carousel } from "./molecules/Carousel";

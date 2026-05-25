@@ -110,6 +110,7 @@ import { DatePicker } from "./molecules/DatePicker";
 import { A11yHarness as DropdownMenuA11yHarness } from "./atoms/DropdownMenu/__test_harness__";
 import { VideoEmbed } from "./molecules/VideoEmbed";
 import { GalleryGrid } from "./organisms/GalleryGrid";
+import { Combobox } from "./molecules/Combobox";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -2992,6 +2993,21 @@ test("a11y — ComparisonTable", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- Combobox ---------- */
+
+test("a11y — Combobox (closed, no selection)", async ({ mount, page }) => {
+  await mount(
+    <Combobox
+      options={[
+        { value: "a", label: "Option A" },
+        { value: "b", label: "Option B" },
+      ]}
+      aria-label="Choice"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- GalleryGrid ---------- */
 
 test("a11y — GalleryGrid (default, with heading and captions)", async ({ mount, page }) => {
@@ -3143,5 +3159,28 @@ test("a11y — ContextMenu (trigger only, closed)", async ({ mount, page }) => {
       </ContextMenu.Content>
     </ContextMenu.Root>,
   );
+  await expectAxeClean(page);
+});
+
+test("a11y — Combobox (open, with selection)", async ({ mount, page }) => {
+  await mount(
+    <div style={{ paddingBottom: "300px" }}>
+      <Combobox
+        options={[
+          { value: "a", label: "Option A" },
+          { value: "b", label: "Option B" },
+          { value: "c", label: "Option C" },
+        ]}
+        value="b"
+        onValueChange={() => {}}
+        aria-label="Choice"
+      />
+    </div>,
+  );
+  // Open popover before axe scan
+  const trigger = page.getByRole("combobox");
+  await trigger.click();
+  // Wait for animations to settle before axe scan
+  await page.waitForTimeout(200);
   await expectAxeClean(page);
 });

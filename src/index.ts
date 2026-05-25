@@ -172,6 +172,12 @@ export { TimelineItem, type TimelineItemProps } from "./molecules/TimelineItem";
 
 export { Disclosure, type DisclosureProps } from "./molecules/Disclosure";
 export { SearchField, type SearchFieldProps } from "./molecules/SearchField";
+export {
+  Combobox,
+  type ComboboxProps,
+  type ComboboxOption,
+  type ComboboxSize,
+} from "./molecules/Combobox";
 export { NavLink, type NavLinkProps } from "./molecules/NavLink";
 export { StatList, type StatListProps } from "./molecules/StatList";
 export { Caption, type CaptionProps } from "./molecules/Caption";

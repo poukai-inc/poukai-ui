@@ -65,6 +65,12 @@ export {
 } from "./molecules/Stepper";
 export { SearchField, type SearchFieldProps } from "./molecules/SearchField";
 export {
+  Combobox,
+  type ComboboxProps,
+  type ComboboxOption,
+  type ComboboxSize,
+} from "./molecules/Combobox";
+export {
   LinkList,
   type LinkListProps,
   type LinkListItemProps,

@@ -1114,6 +1114,7 @@ import { CTASection } from "./organisms/CTASection";
 import { NewsletterSection } from "./organisms/NewsletterSection";
 import { AnnouncementBar } from "./organisms/AnnouncementBar";
 import { Header } from "./organisms/Header";
+import { ComparisonTable } from "./organisms/ComparisonTable";
 
 /* ---------- organisms ---------- */
 
@@ -2766,6 +2767,23 @@ test("a11y — TimePicker (disabled, with label)", async ({ mount, page }) => {
       <label htmlFor="a11y-tp-dis">Start time</label>
       <TimePicker id="a11y-tp-dis" disabled />
     </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — ComparisonTable", async ({ mount, page }) => {
+  await mount(
+    <ComparisonTable
+      caption="Plan feature comparison"
+      tiers={[{ label: "Free" }, { label: "Pro", featured: true }, { label: "Team" }]}
+      rows={[
+        { group: "Storage" },
+        { feature: "Projects", values: ["3", "Unlimited", "Unlimited"] },
+        { feature: "Members", values: ["1", "5", "Unlimited"] },
+        { group: "Support" },
+        { feature: "SLA", values: ["—", "Email", "Priority"] },
+      ]}
+    />,
   );
   await expectAxeClean(page);
 });

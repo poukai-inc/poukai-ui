@@ -162,6 +162,10 @@ export default defineConfig({
                 __dirname,
                 "src/organisms/TestimonialBlock/index.ts",
               ),
+              "organisms/ComparisonTable": resolve(
+                __dirname,
+                "src/organisms/ComparisonTable/index.ts",
+              ),
               "organisms/NewsletterSection": resolve(
                 __dirname,
                 "src/organisms/NewsletterSection/index.ts",

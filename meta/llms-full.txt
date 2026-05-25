@@ -2754,6 +2754,42 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   byline={<Byline name="Arian Zargaran" publishedAt="2024-04-15" />}
   cover={{ src: "/images/ds-cover.jpg", alt: "Design system diagram" }}
   headingLevel={3}
+### ComparisonTable
+- Feature × tier pricing comparison matrix organism. Dense, scannable grid for pricing pages.
+- Root element: `<section>`. `forwardRef<HTMLElement, ComparisonTableProps>`. `...rest` spread. `displayName = "ComparisonTable"`.
+- Renders a semantic `<table>` with `<thead>` (sticky by default) and `<tbody>` groups.
+- `tiers` (required `string[] | TierDef[]`) — column headers. `TierDef: { label: string; subtext?: string; featured?: boolean }`. String shorthand normalised internally.
+- `rows` (required `Array<ComparisonRow | ComparisonGroupHeading>`) — `ComparisonRow: { feature: string; values: string[] }`, `ComparisonGroupHeading: { group: string }`. Discriminated by `group` key.
+- `striped` (optional boolean, default `false`) — alternate-row fill via `--surface`.
+- `stickyHeader` (optional boolean, default `true`) — `position: sticky; top: 0` on `<thead>`.
+- `caption` (optional string) — rendered as `<caption>`. When absent, consumer must supply `aria-label`.
+- `captionVisibility` (optional `"visible" | "sr-only"`, default `"visible"`) — visually hides the caption while keeping it accessible.
+- `heading` (optional ReactNode) — optional section heading rendered above the scroll container.
+- A11y: `<th scope="col">` on tier headers; `<th scope="row">` on feature labels; `<th scope="colgroup" colSpan={n}>` on group headings. `<caption>` or `aria-label` required. axe rules: `td-headers-attr`, `th-has-data-cells`, `scope-attr-valid`.
+- Tokens: `--bg-elevated` (sticky thead bg), `--surface` (striped rows), `--surface-section` (group row bg), `--fg`, `--fg-muted`, `--hairline`, `--hairline-w`, `--fs-meta`, `--fs-micro`, `--font-sans`, `--tracking-micro`, `--space-2`, `--space-3`, `--space-4`, `--accent`, `--lh-meta`.
+- No interaction, no sort, no filter. Static display only. Use `DataTable` for interactive datasets.
+
+```tsx
+// (a) Default 3-tier table with group headings:
+<ComparisonTable
+  caption="Plan feature comparison"
+  tiers={[{ label: "Free" }, { label: "Pro", featured: true }, { label: "Team" }]}
+  rows={[
+    { group: "Storage" },
+    { feature: "Projects", values: ["3", "Unlimited", "Unlimited"] },
+    { feature: "Members", values: ["1", "5", "Unlimited"] },
+    { group: "Support" },
+    { feature: "SLA", values: ["—", "Email", "Priority"] },
+  ]}
+/>
+
+// (b) Shorthand tiers, striped, sr-only caption:
+<ComparisonTable
+  caption="Plan comparison"
+  captionVisibility="sr-only"
+  tiers={["Starter", "Pro", "Enterprise"]}
+  rows={[{ feature: "API calls", values: ["10k", "100k", "Unlimited"] }]}
+  striped
 />
 ```
 ### NewsletterSection

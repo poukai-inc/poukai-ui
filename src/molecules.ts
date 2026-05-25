@@ -156,3 +156,13 @@ export {
 } from "./molecules/ContextMenu";
 export { VideoEmbed, type VideoEmbedProps } from "./molecules/VideoEmbed";
 export { AudioPlayer, type AudioPlayerProps } from "./molecules/AudioPlayer";
+export {
+  Accordion,
+  type AccordionRootProps,
+  type AccordionRootSingleProps,
+  type AccordionRootMultipleProps,
+  type AccordionItemProps,
+  type AccordionTriggerProps,
+  type AccordionContentProps,
+  type AccordionTone,
+} from "./molecules/Accordion";

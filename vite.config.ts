@@ -144,6 +144,7 @@ export default defineConfig({
               "molecules/VideoEmbed": resolve(__dirname, "src/molecules/VideoEmbed/index.ts"),
               "molecules/Combobox": resolve(__dirname, "src/molecules/Combobox/index.ts"),
               "molecules/AudioPlayer": resolve(__dirname, "src/molecules/AudioPlayer/index.ts"),
+              "molecules/Accordion": resolve(__dirname, "src/molecules/Accordion/index.ts"),
               "molecules/NewsletterField": resolve(
                 __dirname,
                 "src/molecules/NewsletterField/index.ts",

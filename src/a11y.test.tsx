@@ -2987,6 +2987,11 @@ test("a11y — ComparisonTable", async ({ mount, page }) => {
         { group: "Support" },
         { feature: "SLA", values: ["—", "Email", "Priority"] },
       ]}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- VideoEmbed ---------- */
 
 test("a11y — VideoEmbed (default 16/9)", async ({ mount, page }) => {
@@ -3029,6 +3034,11 @@ test("a11y — BlogPostCard (tone=subtle)", async ({ mount, page }) => {
       lede="Tracing and alerting patterns that work when behavior is non-deterministic."
       byline={<Byline name="Arian Zargaran" publishedAt="2024-03-12" />}
       tone="subtle"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — VideoEmbed (bordered with caption)", async ({ mount, page }) => {
   await mount(
     <VideoEmbed

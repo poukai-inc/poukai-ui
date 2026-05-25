@@ -1,6 +1,8 @@
 import type { Story } from "@ladle/react";
 import { TableOfContents, type TableOfContentsItem } from "./TableOfContents";
 
+export default { title: "Molecules / TableOfContents" };
+
 /* ---------- shared fixtures ---------- */
 
 const LONG_ARTICLE_ITEMS: TableOfContentsItem[] = [

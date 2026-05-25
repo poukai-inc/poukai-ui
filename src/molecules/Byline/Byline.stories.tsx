@@ -1,7 +1,7 @@
 import type { Story } from "@ladle/react";
 import { Byline } from "./Byline.js";
 
-export default { title: "Molecules/Byline" };
+export default { title: "Molecules / Byline" };
 
 export const WithAllProps: Story = () => (
   <Byline

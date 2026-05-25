@@ -2,7 +2,7 @@ import type { StoryDefault, Story } from "@ladle/react";
 import { NavLink } from "./NavLink";
 
 export default {
-  title: "Molecules/NavLink",
+  title: "Molecules / NavLink",
 } satisfies StoryDefault;
 
 export const Default: Story = () => <NavLink href="/about">About</NavLink>;

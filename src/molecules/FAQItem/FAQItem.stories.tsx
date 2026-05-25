@@ -2,7 +2,7 @@ import type { Story } from "@ladle/react";
 import { Accordion } from "../Accordion";
 import { FAQItem } from "./FAQItem";
 
-export default { title: "Molecules/FAQItem" };
+export default { title: "Molecules / FAQItem" };
 
 /* ─── Default (single, collapsible) ─────────────────────────────── */
 

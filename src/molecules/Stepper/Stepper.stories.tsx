@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Stepper } from "./Stepper";
 
 export default {
-  title: "Components / Stepper",
+  title: "Molecules / Stepper",
 } satisfies StoryDefault;
 
 const THREE_STEPS = [{ label: "Account" }, { label: "Profile" }, { label: "Confirm" }];

@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { NewsletterField } from "./NewsletterField";
 
 export default {
-  title: "Components / NewsletterField",
+  title: "Molecules / NewsletterField",
   argTypes: {
     cta: { control: { type: "text" } },
     placeholder: { control: { type: "text" } },

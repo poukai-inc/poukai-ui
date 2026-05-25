@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Caption } from "./Caption";
 
 export default {
-  title: "Components / Caption",
+  title: "Molecules / Caption",
 } satisfies StoryDefault;
 
 /** Default — figcaption element inside a figure.

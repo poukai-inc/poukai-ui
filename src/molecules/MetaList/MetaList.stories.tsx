@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { MetaList } from "./MetaList";
 
 export default {
-  title: "Components / MetaList",
+  title: "Molecules / MetaList",
 } satisfies StoryDefault;
 
 export const Default: Story = () => (

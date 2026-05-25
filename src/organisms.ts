@@ -18,6 +18,7 @@ export {
   type HeaderNavProps,
   type HeaderActionsProps,
 } from "./organisms/Header";
+export { ArticleHeader, type ArticleHeaderProps } from "./organisms/ArticleHeader";
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
 export {
   CTASection,

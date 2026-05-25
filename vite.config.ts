@@ -145,6 +145,7 @@ export default defineConfig({
               "organisms/CTASection": resolve(__dirname, "src/organisms/CTASection/index.ts"),
               "organisms/ContactBlock": resolve(__dirname, "src/organisms/ContactBlock/index.ts"),
               "organisms/Header": resolve(__dirname, "src/organisms/Header/index.ts"),
+              "organisms/ArticleHeader": resolve(__dirname, "src/organisms/ArticleHeader/index.ts"),
               "organisms/HeroSection": resolve(__dirname, "src/organisms/HeroSection/index.ts"),
               "organisms/StepsSection": resolve(__dirname, "src/organisms/StepsSection/index.ts"),
               "organisms/StatsSection": resolve(__dirname, "src/organisms/StatsSection/index.ts"),

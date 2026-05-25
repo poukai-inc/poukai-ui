@@ -1,0 +1,66 @@
+/* ============================================================
+   ArticleHeader — canonical top-of-article block
+   Eyebrow → h1 title → lede → Byline row → optional ShareLinks
+   ============================================================ */
+
+.root {
+  /* Block bottom margin before article body */
+  margin-block-end: var(--space-8);
+}
+
+@media (min-width: 48rem) {
+  .root {
+    margin-block-end: var(--space-10);
+  }
+}
+
+/* Optional hairline rule below the block */
+.withDivider {
+  padding-block-end: var(--space-8);
+  border-block-end: var(--hairline-w) solid var(--hairline);
+}
+
+@media (min-width: 48rem) {
+  .withDivider {
+    padding-block-end: var(--space-10);
+  }
+}
+
+/* ---------- Eyebrow ---------- */
+
+.eyebrow {
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-eyebrow);
+  color: var(--fg-muted);
+  font-family: var(--font-sans);
+  margin-block-end: var(--space-2);
+}
+
+/* ---------- Title ---------- */
+
+.title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-tagline-intimate);
+  color: var(--fg);
+  margin-block-end: var(--space-6);
+}
+
+/* ---------- Lede ---------- */
+
+.lede {
+  font-size: var(--fs-body);
+  color: var(--fg-muted);
+  margin-block-end: var(--space-6);
+}
+
+/* ---------- Byline row ---------- */
+
+.bylineRow {
+  margin-block-end: 0;
+}
+
+/* ---------- ShareLinks row ---------- */
+
+.shareRow {
+  margin-block-start: var(--space-4);
+}

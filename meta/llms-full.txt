@@ -2823,6 +2823,33 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   features={["Unlimited projects", "Priority support"]}
   cta={<Button asChild><a href="/signup/pro">Get started with Pro</a></Button>}
 />
+### CodeBlock
+- Fenced code molecule. Semantic `<figure>` root with optional header bar (language label + copy button), a scrollable `<pre><code>` pane, and an optional `<figcaption>`. No syntax highlighting shipped — consumer injects highlighted markup via `children`.
+- `children` (required `ReactNode`) — code content. Plain string idiomatic; pre-highlighted markup accepted.
+- `language` (optional `string`) — short language identifier (e.g. `"tsx"`, `"bash"`). Renders the language label at the leading end of the header bar when present.
+- `hideCopy` (optional `boolean`, default `false`) — suppresses the copy-to-clipboard button. For decorative/display-only snippets.
+- `caption` (optional `ReactNode`) — rendered as `<figcaption>` below the code pane. File path, attribution, or explanatory note.
+- `className` (optional `string`) — merged onto the root `<figure>` via `clsx`.
+- Header bar only renders when `language` is set or `hideCopy` is false (i.e. copy button is visible). Absent entirely when both conditions are false.
+- Copy button: inline SVG icon, `aria-label="Copy"` at rest / `"Copied"` after success (~1.5s revert). Uses `navigator.clipboard.writeText`; silently no-ops if the API is unavailable.
+- Token contract: `--surface`, `--hairline`, `--hairline-w`, `--radius-3`, `--font-mono`, `--font-sans`, `--fs-meta`, `--fs-micro`, `--fg`, `--fg-muted`, `--space-2`, `--space-3`, `--space-4`, `--lh-body`, `--accent` (copy button focus ring), `--radius-1` (copy button focus ring).
+- `forwardRef<HTMLElement, CodeBlockProps>`, `displayName="CodeBlock"`. Remaining `ComponentPropsWithoutRef<"figure">` spread onto root.
+- Do NOT use for inline code literals — use `<Code>`. Do NOT bundle a syntax highlighter inside this primitive. Do NOT set a fixed height — height grows with content; consumers constrain externally.
+
+```tsx
+// (a) Minimal — no language, copy visible:
+<CodeBlock>{`const x = 1;`}</CodeBlock>
+
+// (b) With language label:
+<CodeBlock language="tsx">{`const x = 1;`}</CodeBlock>
+
+// (c) Hide copy (decorative):
+<CodeBlock hideCopy>{`const decorative = true;`}</CodeBlock>
+
+// (d) Full anatomy — language + caption:
+<CodeBlock language="tsx" caption="src/components/Example.tsx">
+  {`const x = 1;`}
+</CodeBlock>
 ```
 
 ### PricingTable

@@ -425,6 +425,11 @@
       "import": "./dist/molecules/PriceTier.js",
       "require": "./dist/molecules/PriceTier.cjs"
     },
+    "./molecules/CodeBlock": {
+      "types": "./dist/molecules/CodeBlock.d.ts",
+      "import": "./dist/molecules/CodeBlock.js",
+      "require": "./dist/molecules/CodeBlock.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

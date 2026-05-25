@@ -129,3 +129,4 @@ export {
   type TableOfContentsItem,
 } from "./molecules/TableOfContents";
 export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";
+export { CodeBlock, type CodeBlockProps } from "./molecules/CodeBlock";

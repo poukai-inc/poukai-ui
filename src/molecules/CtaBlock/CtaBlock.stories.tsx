@@ -3,7 +3,7 @@ import { CtaBlock } from "./CtaBlock";
 import { Button } from "../../atoms/Button";
 
 export default {
-  title: "Molecules/CtaBlock",
+  title: "Molecules / CtaBlock",
 };
 
 /* ---------- Default (stacked, start-aligned) ---------- */

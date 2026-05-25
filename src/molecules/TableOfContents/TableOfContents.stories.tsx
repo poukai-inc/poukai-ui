@@ -1,5 +1,9 @@
-import type { Story } from "@ladle/react";
+import type { Story, StoryDefault } from "@ladle/react";
 import { TableOfContents, type TableOfContentsItem } from "./TableOfContents";
+
+export default {
+  title: "Molecules / TableOfContents",
+} satisfies StoryDefault;
 
 /* ---------- shared fixtures ---------- */
 

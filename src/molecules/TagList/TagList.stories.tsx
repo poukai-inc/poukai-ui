@@ -2,7 +2,7 @@ import type { Story } from "@ladle/react";
 import { TagList } from "./TagList.js";
 import { Tag } from "../../atoms/Tag/index.js";
 
-export default { title: "Molecules/TagList" };
+export default { title: "Molecules / TagList" };
 
 export const Default: Story = () => (
   <TagList>

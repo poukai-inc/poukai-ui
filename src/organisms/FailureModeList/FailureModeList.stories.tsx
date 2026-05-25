@@ -3,7 +3,7 @@ import { FailureModeList } from "./FailureModeList";
 import { FailureMode } from "../../molecules/FailureMode";
 
 export default {
-  title: "Organisms/FailureModeList",
+  title: "Organisms / FailureModeList",
 };
 
 export const Default: Story = () => (

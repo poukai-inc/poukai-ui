@@ -2,7 +2,7 @@ import type { Story } from "@ladle/react";
 import { FeatureGrid } from "./FeatureGrid";
 import { FeatureCard } from "../../molecules/FeatureCard";
 
-export default { title: "Organisms/FeatureGrid" };
+export default { title: "Organisms / FeatureGrid" };
 
 /* ---------- Default (3-column) ---------- */
 

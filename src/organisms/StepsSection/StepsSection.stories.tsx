@@ -1,5 +1,9 @@
-import type { Story } from "@ladle/react";
+import type { Story, StoryDefault } from "@ladle/react";
 import { StepsSection } from "./StepsSection";
+
+export default {
+  title: "Organisms / StepsSection",
+} satisfies StoryDefault;
 
 const HOW_IT_WORKS_STEPS = [
   {

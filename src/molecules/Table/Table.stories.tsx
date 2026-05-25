@@ -1,5 +1,9 @@
-import type { Story } from "@ladle/react";
+import type { Story, StoryDefault } from "@ladle/react";
 import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from "./Table";
+
+export default {
+  title: "Molecules / Table",
+} satisfies StoryDefault;
 
 /* ---------- Shared sample data ---------- */
 

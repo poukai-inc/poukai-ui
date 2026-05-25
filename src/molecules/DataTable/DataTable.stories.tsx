@@ -1,7 +1,11 @@
 import { useState } from "react";
-import type { Story } from "@ladle/react";
+import type { Story, StoryDefault } from "@ladle/react";
 import { DataTable } from "./DataTable";
 import type { ColumnDef, SortState } from "./DataTable";
+
+export default {
+  title: "Molecules / DataTable",
+} satisfies StoryDefault;
 
 /* ---------- Shared sample data ---------- */
 

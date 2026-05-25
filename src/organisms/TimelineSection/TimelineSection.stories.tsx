@@ -3,7 +3,7 @@ import { TimelineSection } from "./TimelineSection";
 import { TimelineItem } from "../../molecules/TimelineItem";
 
 export default {
-  title: "Organisms/TimelineSection",
+  title: "Organisms / TimelineSection",
 };
 
 export const Default: Story = () => (

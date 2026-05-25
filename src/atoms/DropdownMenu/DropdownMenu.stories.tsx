@@ -1,8 +1,12 @@
-import type { Story } from "@ladle/react";
+import type { Story, StoryDefault } from "@ladle/react";
 import { MoreHorizontal, Copy, Trash2, Edit, Share, Download, Star } from "lucide-react";
 import { DropdownMenu, DropdownMenuBasic } from "./DropdownMenu";
 import { Button } from "../Button";
 import { IconButton } from "../IconButton";
+
+export default {
+  title: "Atoms / DropdownMenu",
+} satisfies StoryDefault;
 
 /* ─── Default ────────────────────────────────────────────── */
 

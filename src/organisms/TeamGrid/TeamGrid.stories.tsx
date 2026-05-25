@@ -1,7 +1,11 @@
-import type { Story } from "@ladle/react";
+import type { Story, StoryDefault } from "@ladle/react";
 import { TeamGrid } from "./TeamGrid";
 import { TeamCard } from "../../molecules/TeamCard";
 import { Portrait } from "../../molecules/Portrait";
+
+export default {
+  title: "Organisms / TeamGrid",
+} satisfies StoryDefault;
 
 const IMAGE_PIXEL =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";

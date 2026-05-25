@@ -1,7 +1,7 @@
 import type { Story } from "@ladle/react";
 import { TimelineItem } from "./TimelineItem.js";
 
-export default { title: "Molecules/TimelineItem" };
+export default { title: "Molecules / TimelineItem" };
 
 export const Default: Story = () => (
   <ol style={{ listStyle: "none", padding: 0, margin: 0 }}>

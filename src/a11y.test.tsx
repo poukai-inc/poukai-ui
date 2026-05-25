@@ -114,6 +114,7 @@ import { GalleryGrid } from "./organisms/GalleryGrid";
 import { Combobox } from "./molecules/Combobox";
 import { AudioPlayer } from "./molecules/AudioPlayer";
 import { Accordion } from "./molecules/Accordion";
+import { FAQItem } from "./molecules/FAQItem";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -3331,6 +3332,36 @@ test("a11y — TimelineSection reversed", async ({ mount, page }) => {
       <TimelineItem date="2024-01" title="v0.1.0" body="Initial atoms." connector />
       <TimelineItem date="2025-01" title="v0.5.0" body="Organisms shipped." connector={false} />
     </TimelineSection>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- FAQItem ---------- */
+
+test("a11y — FAQItem (all closed)", async ({ mount, page }) => {
+  await mount(
+    <Accordion.Root type="single" collapsible>
+      <FAQItem value="q1" question="What is Poukai?">
+        <p>A senior-only AI consulting practice.</p>
+      </FAQItem>
+      <FAQItem value="q2" question="Who do you work with?">
+        <p>Founders and platform teams.</p>
+      </FAQItem>
+    </Accordion.Root>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FAQItem (one item open)", async ({ mount, page }) => {
+  await mount(
+    <Accordion.Root type="single" collapsible defaultValue="q1">
+      <FAQItem value="q1" question="What is Poukai?">
+        <p>A senior-only AI consulting practice that ships production systems end-to-end.</p>
+      </FAQItem>
+      <FAQItem value="q2" question="How do engagements work?">
+        <p>Scoped, time-boxed, and focused on a specific production outcome.</p>
+      </FAQItem>
+    </Accordion.Root>,
   );
   await expectAxeClean(page);
 });

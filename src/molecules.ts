@@ -166,3 +166,4 @@ export {
   type AccordionContentProps,
   type AccordionTone,
 } from "./molecules/Accordion";
+export { FAQItem, type FAQItemProps, type FAQItemQuestionAs } from "./molecules/FAQItem";

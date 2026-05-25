@@ -475,6 +475,11 @@
       "import": "./dist/molecules/Accordion.js",
       "require": "./dist/molecules/Accordion.cjs"
     },
+    "./molecules/FAQItem": {
+      "types": "./dist/molecules/FAQItem.d.ts",
+      "import": "./dist/molecules/FAQItem.js",
+      "require": "./dist/molecules/FAQItem.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

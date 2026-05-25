@@ -2791,6 +2791,57 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
   rows={[{ feature: "API calls", values: ["10k", "100k", "Unlimited"] }]}
   striped
 />
+### PriceTier
+- Pricing plan card molecule. Presents a single plan: name, price, cadence, optional description, feature bullet list, and CTA slot.
+- Root element: `<article aria-labelledby={titleId}>`. `forwardRef<HTMLElement, PriceTierProps>`. `...rest` spread. `displayName = "PriceTier"`.
+- `name` (required `ReactNode`) — plan name, rendered as `<h3>` inside the card; auto-assigned `id` for `aria-labelledby`.
+- `price` (required `ReactNode`) — price display (e.g. `"$49"`); editorial serif at `--fs-stat` scale.
+- `cadence` (optional `ReactNode`) — billing label (e.g. `"per month"`); `--fs-meta` / `--fg-muted`.
+- `description` (optional `ReactNode`) — supporting copy; string → auto-wrapped `<p>`.
+- `features` (optional `ReactNode[] | ReactNode`) — array → `<ul role="list"><li>` markup; ReactNode → raw slot.
+- `cta` (optional `ReactNode`) — CTA slot at card bottom; typically a `<Button>` with tier-specific accessible name.
+- `featured` (optional boolean, default `false`) — elevated surface (`--bg-elevated`), `--accent` border, `"Recommended"` label, entrance animation. Hover lift suppressed on featured.
+- A11y: `aria-labelledby` wired to `<h3>` id. `"Recommended"` label is in DOM (not pseudo-element). Bullet list uses `<ul role="list">`. CTA accessible name must be tier-specific.
+- Tokens: `--bg-elevated`, `--accent`, `--hairline`, `--hairline-w`, `--fg`, `--fg-muted`, `--font-sans`, `--font-serif`, `--fs-card-title`, `--fs-stat`, `--fs-meta`, `--fs-body`, `--lh-body`, `--lh-meta`, `--tracking-stat`, `--tracking-eyebrow`, `--space-2`, `--space-4`, `--space-6`, `--space-8`, `--radius-3`, `--easing`, `--dur-fast`.
+
+```tsx
+// Standard tier:
+<PriceTier
+  name="Starter"
+  price="$0"
+  cadence="free forever"
+  features={["5 projects", "Community support"]}
+  cta={<Button variant="secondary" asChild><a href="/signup">Get started with Starter</a></Button>}
+/>
+
+// Featured tier:
+<PriceTier
+  featured
+  name="Pro"
+  price="$49"
+  cadence="per month"
+  features={["Unlimited projects", "Priority support"]}
+  cta={<Button asChild><a href="/signup/pro">Get started with Pro</a></Button>}
+/>
+```
+
+### PricingTable
+- Pricing page organism. Frames a responsive CSS grid of `PriceTier` molecules with optional heading and comparison body slots.
+- Root element: `<section>` with `--surface-section` band. `forwardRef<HTMLElement, PricingTableProps>`. `...rest` spread. `displayName = "PricingTable"`.
+- `children` (required `ReactNode`) — one or more `PriceTier` children; canonical 2–3, max 4.
+- `heading` (optional `ReactNode`) — slot above the grid; auto-wires `aria-labelledby` on the root `<section>`.
+- `comparison` (optional `ReactNode`) — slot below the grid; for `ComparisonTable` / `ComparisonRow` organism.
+- `columns` (optional `2 | 3 | "auto"`, default `"auto"`) — `"auto"` uses CSS `minmax` for responsive collapse; explicit values lock column count.
+- `align` (optional `"top" | "stretch"`, default `"stretch"`) — `"stretch"` equalises card heights; `"top"` lets cards size to content.
+- A11y: `<section>` is region landmark; `aria-labelledby` auto-set when `heading` provided. Tier grid is presentational `<div>`, not ARIA grid. Pass `aria-label` via spread when no heading slot is used.
+- Tokens: `--surface-section`, `--page-pad`, `--content-max`, `--space-6`, `--space-8`, `--space-12`, `--space-16`.
+
+```tsx
+<PricingTable heading={<h2>Choose your plan</h2>}>
+  <PriceTier name="Starter" price="$0" cadence="free forever" ... />
+  <PriceTier featured name="Pro" price="$49" cadence="per month" ... />
+  <PriceTier name="Enterprise" price="Custom" ... />
+</PricingTable>
 ```
 ### NewsletterSection
 - Organism layer. Section-framed email signup surface — the canonical "end-of-post / footer signup" moment.

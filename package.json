@@ -470,6 +470,11 @@
       "import": "./dist/organisms/TestimonialBlock.js",
       "require": "./dist/organisms/TestimonialBlock.cjs"
     },
+    "./organisms/PricingTable": {
+      "types": "./dist/organisms/PricingTable.d.ts",
+      "import": "./dist/organisms/PricingTable.js",
+      "require": "./dist/organisms/PricingTable.cjs"
+    },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
       "import": "./dist/organisms/Dialog.js",

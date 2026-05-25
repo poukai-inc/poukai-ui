@@ -315,3 +315,9 @@ export {
   type BlogPostCardCover,
 } from "./organisms/BlogPostCard";
 export { ComparisonTable, type ComparisonTableProps } from "./organisms/ComparisonTable";
+export {
+  PricingTable,
+  type PricingTableProps,
+  type PricingTableColumns,
+  type PricingTableAlign,
+} from "./organisms/PricingTable";

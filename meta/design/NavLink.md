@@ -1,6 +1,6 @@
 # NavLink
 
-**Status:** Approved (Phase 2 pilot — user-stakeholder sign-off; pending poukai-design canonical pass).
+**Status**: Approved
 
 ## 1. Intent
 

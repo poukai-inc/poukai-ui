@@ -86,11 +86,17 @@ test("shorthand — side prop accepted without error (bottom)", async ({ mount, 
 /* ─── Escape closes the tooltip ──────────────────────────────── */
 
 test("pressing Escape closes an open tooltip", async ({ mount, page }) => {
-  await mount(<FocusHarness />);
-  await page.getByTestId("focus-trigger").focus();
-  await expect(page.locator("[role='tooltip']")).toBeVisible();
+  // `defaultOpen` mounts the tooltip in the actually-open Radix state, which
+  // is what Escape needs to dismiss. Programmatic `.focus()` does not satisfy
+  // Radix's focus-visible heuristic in webkit, so the live panel never enters
+  // the open state and Escape has nothing to close. `defaultOpen` sidesteps
+  // that and is sufficient to exercise the Escape→close path.
+  await mount(<ShorthandHarness content="Focus label" defaultOpen />);
+  const tooltip = page.locator("[role='tooltip']");
+  await expect(tooltip).toBeVisible();
+  await page.getByTestId("trigger").focus();
   await page.keyboard.press("Escape");
-  await expect(page.locator("[role='tooltip']")).not.toBeVisible();
+  await expect(tooltip).toHaveCount(0);
 });
 
 /* ─── Reduced motion ─────────────────────────────────────────── */

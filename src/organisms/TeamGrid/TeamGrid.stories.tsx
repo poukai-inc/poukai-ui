@@ -3,6 +3,8 @@ import { TeamGrid } from "./TeamGrid";
 import { TeamCard } from "../../molecules/TeamCard";
 import { Portrait } from "../../molecules/Portrait";
 
+export default { title: "Organisms / TeamGrid" };
+
 const IMAGE_PIXEL =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
 

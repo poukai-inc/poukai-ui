@@ -1,6 +1,8 @@
 import type { Story } from "@ladle/react";
 import { Table, TableHead, TableBody, TableRow, TableHeaderCell, TableCell } from "./Table";
 
+export default { title: "Molecules / Table" };
+
 /* ---------- Shared sample data ---------- */
 
 const COLUMNS = ["Name", "Role", "Status", "Joined"];

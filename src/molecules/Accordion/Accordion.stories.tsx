@@ -1,7 +1,7 @@
 import type { Story } from "@ladle/react";
 import { Accordion } from "./Accordion";
 
-export default { title: "Molecules/Accordion" };
+export default { title: "Molecules / Accordion" };
 
 /* ─── Default (single, collapsible) ─────────────────────────────── */
 

@@ -4,6 +4,8 @@ import { DropdownMenu, DropdownMenuBasic } from "./DropdownMenu";
 import { Button } from "../Button";
 import { IconButton } from "../IconButton";
 
+export default { title: "Atoms / DropdownMenu" };
+
 /* ─── Default ────────────────────────────────────────────── */
 
 export const Default: Story = () => (

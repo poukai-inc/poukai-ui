@@ -3396,4 +3396,58 @@ Props (`HeaderProps`): `homeHref?: string` (default `"/"`), `logo?: ReactNode` (
 <ArticleLayout as="div" header={<ArticleHeader title="Installation" />}>
   <Prose>…</Prose>
 </ArticleLayout>
+### CommandPalette
+- cmdk-driven search + navigation overlay organism (⌘K). Renders a Dialog organism wrapping a `cmdk` Command surface for fuzzy-filtered, keyboard-navigable item lists.
+- Root element: `<dialog>` (via Radix Dialog portal). `forwardRef<HTMLDivElement, CommandPaletteRootProps>`. `displayName = "CommandPalette"`.
+- Compound API: `CommandPalette` (root) + `CommandPalette.Input` + `CommandPalette.List` + `CommandPalette.Group` + `CommandPalette.Item` + `CommandPalette.Empty`.
+- `open` (boolean, required) — controlled open state.
+- `onOpenChange` ((open: boolean) => void, required) — dismiss callback; fires on Esc or backdrop click.
+- `placeholder` (optional string, default `"Search…"`) — input placeholder text.
+- `children` (ReactNode) — `CommandPalette.Group`, `CommandPalette.Item`, and `CommandPalette.Empty` nodes.
+- `CommandPalette.Group` sub-component: `heading` (string, required) — group label. `children` (ReactNode). `className` (optional string).
+- `CommandPalette.Item` sub-component: `onSelect` (optional `(value: string) => void`) — fires on Enter or click. `icon` (optional ReactNode) — leading icon. `shortcut` (optional string) — trailing kbd hint. `value` (optional string) — override cmdk filter value. `disabled` (optional boolean). `children` (ReactNode). `className` (optional string).
+- `CommandPalette.Empty` sub-component: `children` (ReactNode) — shown when no items match the current query. `className` (optional string).
+- `CommandPalette.Input` sub-component: full `<input>` prop passthrough; for consumers who want to place the input manually outside the root. `className` (optional string).
+- `CommandPalette.List` sub-component: `children` (ReactNode). `className` (optional string).
+- A11y: wraps Radix `Dialog.Content` (`role="dialog"`, focus trap, Esc dismiss). cmdk emits `role="combobox"` on input and `role="listbox"` + `role="option"` on items. `aria-label="Command palette"` on Dialog.Content. Footer navigation hints are `aria-hidden="true"`. Search icon is `aria-hidden="true"`.
+- Tokens: `--bg`, `--surface`, `--fg`, `--fg-muted`, `--hairline`, `--hairline-w`, `--accent`, `--accent-glow`, `--font-sans`, `--fs-body`, `--fs-meta`, `--radius-3`, `--space-2`, `--space-3`, `--space-4`, `--space-6`, `--dur-fast`, `--easing`.
+- Peer dep: `cmdk >=1.0.0`. Runtime dep: `@radix-ui/react-dialog` (via Dialog organism).
+- ⌘K wiring is the consumer's responsibility — the component only accepts `open` + `onOpenChange`.
+- Do NOT use for settings forms or navigation menus — use Dialog or Sidebar respectively.
+- Do NOT use when the item list is static and small — use a Disclosure or Select instead.
+
+```tsx
+// (a) Basic controlled palette with ⌘K wiring:
+const [open, setOpen] = useState(false);
+useEffect(() => {
+  const handler = (e: KeyboardEvent) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === "k") {
+      e.preventDefault();
+      setOpen(true);
+    }
+  };
+  window.addEventListener("keydown", handler);
+  return () => window.removeEventListener("keydown", handler);
+}, []);
+
+<CommandPalette open={open} onOpenChange={setOpen} placeholder="Search…">
+  <CommandPalette.Group heading="Pages">
+    <CommandPalette.Item onSelect={() => navigate("/dashboard")}>Dashboard</CommandPalette.Item>
+    <CommandPalette.Item onSelect={() => navigate("/docs")}>Documentation</CommandPalette.Item>
+  </CommandPalette.Group>
+  <CommandPalette.Group heading="Actions">
+    <CommandPalette.Item icon={<Settings size={16} />} shortcut="⌘," onSelect={() => navigate("/settings")}>
+      Settings
+    </CommandPalette.Item>
+  </CommandPalette.Group>
+  <CommandPalette.Empty>No results found.</CommandPalette.Empty>
+</CommandPalette>
+
+// (b) With icon and shortcut on item:
+<CommandPalette.Item icon={<FileText size={16} />} shortcut="⌘D" onSelect={handleSelect}>
+  Documents
+</CommandPalette.Item>
+
+// (c) Disabled item:
+<CommandPalette.Item disabled onSelect={() => {}}>Unavailable action</CommandPalette.Item>
 ```

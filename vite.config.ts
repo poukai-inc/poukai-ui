@@ -173,6 +173,9 @@ export default defineConfig({
               "organisms/TestimonialBlock": resolve(
                 __dirname,
                 "src/organisms/TestimonialBlock/index.ts",
+              "organisms/CommandPalette": resolve(
+                __dirname,
+                "src/organisms/CommandPalette/index.ts",
               ),
               "organisms/TimelineSection": resolve(
                 __dirname,

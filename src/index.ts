@@ -399,6 +399,7 @@ export {
   type GalleryGridGap,
 } from "./organisms/GalleryGrid";
 export { TimelineSection, type TimelineSectionProps } from "./organisms/TimelineSection";
+export {
   CommandPalette,
   type CommandPaletteRootProps,
   type CommandPaletteInputProps,

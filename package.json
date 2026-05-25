@@ -540,6 +540,11 @@
       "import": "./dist/organisms/AnnouncementBar.js",
       "require": "./dist/organisms/AnnouncementBar.cjs"
     },
+    "./organisms/BlogList": {
+      "types": "./dist/organisms/BlogList.d.ts",
+      "import": "./dist/organisms/BlogList.js",
+      "require": "./dist/organisms/BlogList.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",

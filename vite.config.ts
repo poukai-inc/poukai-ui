@@ -179,6 +179,7 @@ export default defineConfig({
               ),
               "organisms/BlogPostCard": resolve(__dirname, "src/organisms/BlogPostCard/index.ts"),
               "organisms/PricingTable": resolve(__dirname, "src/organisms/PricingTable/index.ts"),
+              "organisms/BlogList": resolve(__dirname, "src/organisms/BlogList/index.ts"),
             },
             name: "PoukaiUI",
             formats: ["es", "cjs"] as const,

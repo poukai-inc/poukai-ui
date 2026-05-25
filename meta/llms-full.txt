@@ -2534,6 +2534,47 @@ Zero-data placeholder — shown when a list, table, or content region has no rec
 
 // (c) With bounds:
 <TimePicker min="08:00" max="20:00" onValueChange={setTime} aria-label="Working hours" />
+
+### BlogPostCard
+- Organism layer. Single blog-post preview card — minimal stub pending approved BlogPostCard spec.
+- Root element: `<article>`. `forwardRef<HTMLElement, BlogPostCardProps>`. `...rest` spread. `displayName = "BlogPostCard"`.
+- Props: `title` (required `ReactNode`), `lede` (optional `ReactNode`), `date` (optional string), `author` (optional string), `tags` (optional string), `href` (optional string).
+- When `href` is provided, title is wrapped in `<a href>` for navigation. Without `href`, title is plain text.
+- Meta row (`<footer>`) renders only when at least one of `date`, `author`, or `tags` is provided.
+- A11y: `<article>` landmark. Title in `<h2>`. Date in `<time>`. All text inherits `--fg` / `--fg-muted` cascade.
+- Tokens: `--font-sans`, `--fs-h3`, `--fs-body`, `--fs-meta`, `--lh-meta`, `--lh-body`, `--fg`, `--fg-muted`, `--space-2`.
+- Import: `import { BlogPostCard } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/BlogPostCard"`.
+
+```tsx
+// (a) Full card with link:
+<BlogPostCard title="Closing the pilot gap" lede="How teams ship AI." date="12 May 2026" author="Arian Z." href="/blog/post" />
+
+// (b) Title only:
+<BlogPostCard title="Closing the pilot gap" />
+```
+
+### BlogList
+- Organism layer. Blog index — vertical sequence of `BlogPostCard` previews with optional `Pagination` slot.
+- Root element: `<section aria-label="Blog posts">`. `forwardRef<HTMLElement, BlogListProps>`. `...rest` spread. `displayName = "BlogList"`.
+- Props: `posts` (required `BlogPostCardProps[]`), `pagination` (optional `ReactNode`), `size` (`"default" | "tight"`, default `"default"`), `aria-label` (string, default `"Blog posts"`).
+- Cards are rendered as `<ul role="list"><li><BlogPostCard /></li>…</ul>`. Gap between items: `--space-4`.
+- `pagination` slot: wrapped in `<footer>` with `border-top: var(--hairline-w) solid var(--hairline)` and `margin-block-start: var(--space-12)`.
+- `size="default"` → `padding-block: var(--space-16)`. `size="tight"` → `padding-block: var(--space-12)`.
+- A11y: named `<section>` is a region landmark. `<ul role="list">` restores list semantics in Safari/VoiceOver. Pagination slot is consumer-owned.
+- Do NOT render with zero posts — gate on `posts.length > 0` and use `<EmptyState>` for the empty case.
+- Tokens: `--space-4`, `--space-12`, `--space-16`, `--hairline`, `--hairline-w`, `--fg`, `--fg-muted`.
+- Import: `import { BlogList } from "@poukai-inc/ui"` or `"@poukai-inc/ui/organisms/BlogList"`.
+
+```tsx
+// (a) Default:
+<BlogList posts={posts} />
+
+// (b) With pagination:
+<BlogList posts={posts} pagination={<Pagination … />} />
+
+// (c) Category page:
+<BlogList posts={posts} aria-label="Posts tagged design" size="tight" />
+```
 ```
 
 ### PriceTier

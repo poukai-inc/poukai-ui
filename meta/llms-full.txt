@@ -3301,4 +3301,38 @@ Props (`HeaderProps`): `homeHref?: string` (default `"/"`), `logo?: ReactNode` (
     <p>Yes — Radix wires all required ARIA attributes automatically.</p>
   </FAQItem>
 </Accordion.Root>
+### ArticleLayout
+- Single-column long-form reading template organism. Owns the reading-measure container and a CSS grid with named width slots (`text`, `wide`, `bleed`) for editorial content blocks.
+- Root element: `<article>` (default) or `<div>` (when `as="div"`). `forwardRef<HTMLElement, ArticleLayoutProps>`. `...rest` spread. `displayName = "ArticleLayout"`.
+- `as` (`"article" | "div"`, default `"article"`) — override to `"div"` when nested inside an existing `<article>` (e.g. inside `DocsLayout`) to avoid invalid landmark nesting.
+- `header` (optional ReactNode) — rendered above the content grid, constrained to `text` column width. Canonical value: `<ArticleHeader>`. When omitted, no header slot is emitted.
+- `children` (ReactNode, required) — article body. Direct children land in the `text` column (reading measure) by default. Wide/bleed children opt in via layout wrapper classes.
+- Content grid: CSS grid with three named column tracks: `text` (reading measure, `min(65ch, 100%)`), `wide` (`min(var(--content-max), 100%)`), `bleed` (`var(--content-max-bleed)`). Children default to `text` track.
+- TOKEN FALLBACK: `text` column uses hardcoded `65ch` because `--article-measure` does not yet exist in `tokens.css`. Replace with `var(--article-measure)` once that token is ratified.
+- A11y: `<article>` root carries the `article` landmark role. Assistive technology users can jump to it from the landmarks list. No ARIA attributes added by `ArticleLayout` itself — semantic structure provided by slotted children. `bleed`-width children must not create horizontal scroll; consumer ensures `overflow-x: hidden/clip` on root if bleed is used.
+- Tokens: `--bg`, `--page-pad`, `--space-8`, `--space-12`, `--space-16`, `--content-max`, `--content-max-bleed`.
+- Static layout shell. No interactive behavior. No focus management. No scroll orchestration.
+- Do NOT use as a general page layout — for single-column long-form reading surfaces only. Do NOT nest `SiteShell` inside `ArticleLayout`. Do NOT place interactive shell elements (nav, global header) inside the article grid.
+
+```tsx
+// (a) Basic usage:
+<ArticleLayout
+  header={<ArticleHeader title="The case for AI fluency" />}
+>
+  <Prose>
+    <p>Long-form body copy…</p>
+  </Prose>
+</ArticleLayout>
+
+// (b) No header:
+<ArticleLayout>
+  <Prose>
+    <p>Article without a dedicated header slot.</p>
+  </Prose>
+</ArticleLayout>
+
+// (c) Nested inside DocsLayout (avoid double article landmark):
+<ArticleLayout as="div" header={<ArticleHeader title="Installation" />}>
+  <Prose>…</Prose>
+</ArticleLayout>
 ```

@@ -272,6 +272,7 @@ export { FAQItem, type FAQItemProps, type FAQItemQuestionAs } from "./molecules/
 /* ---------- organisms ---------- */
 export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";
+export { ArticleLayout, type ArticleLayoutProps } from "./organisms/ArticleLayout";
 export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";
 export { ContactBlock, type ContactBlockProps } from "./organisms/ContactBlock";
 export {

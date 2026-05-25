@@ -480,6 +480,11 @@
       "import": "./dist/molecules/FAQItem.js",
       "require": "./dist/molecules/FAQItem.cjs"
     },
+    "./organisms/ArticleLayout": {
+      "types": "./dist/organisms/ArticleLayout.d.ts",
+      "import": "./dist/organisms/ArticleLayout.js",
+      "require": "./dist/organisms/ArticleLayout.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

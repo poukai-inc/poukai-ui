@@ -151,6 +151,7 @@ export default defineConfig({
                 "src/molecules/NewsletterField/index.ts",
               ),
               "molecules/CodeBlock": resolve(__dirname, "src/molecules/CodeBlock/index.ts"),
+              "organisms/ArticleLayout": resolve(__dirname, "src/organisms/ArticleLayout/index.ts"),
               "organisms/Sidebar": resolve(__dirname, "src/organisms/Sidebar/index.ts"),
               "organisms/CTASection": resolve(__dirname, "src/organisms/CTASection/index.ts"),
               "organisms/ContactBlock": resolve(__dirname, "src/organisms/ContactBlock/index.ts"),

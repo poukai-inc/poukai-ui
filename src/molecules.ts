@@ -122,13 +122,10 @@ export {
   type BreadcrumbItemProps,
   type BreadcrumbItemData,
 } from "./molecules/Breadcrumb";
-<<<<<<< HEAD
 export { ShareLinks, type ShareLinksProps } from "./molecules/ShareLinks";
 export {
   TableOfContents,
   type TableOfContentsProps,
   type TableOfContentsItem,
 } from "./molecules/TableOfContents";
-=======
->>>>>>> 2472d7f (feat(organism): add PricingTable — PriceTier grid)
 export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";

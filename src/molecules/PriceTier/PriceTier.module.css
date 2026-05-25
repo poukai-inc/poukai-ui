@@ -1,5 +1,4 @@
 /* ============================================================
-<<<<<<< HEAD
    PriceTier — single pricing-plan card molecule
    ============================================================
 
@@ -13,22 +12,6 @@
      bullet list → CTA:  --space-4  (16px)
 
    Card padding: --space-8 block, --space-6 inline (spec §3).
-=======
-   PriceTier — pricing plan card molecule
-   ============================================================
-
-   Layout model: flex column, stretch. Internal stack:
-     featured label (when present)
-     name (h3)
-     price block (price + cadence)
-     description (p)
-     features (ul)
-     cta (div)
-
-   The featured variant lifts to --bg-elevated + --accent border.
-   Non-featured tiers lift slightly on hover (translateY -2px).
-   Featured tier hover lift is suppressed per spec §5.
->>>>>>> 2472d7f (feat(organism): add PricingTable — PriceTier grid)
    ============================================================ */
 
 /* ---------- Root ---------- */
@@ -36,7 +19,6 @@
 .root {
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
   align-items: stretch;
   padding-block: var(--space-8);
   padding-inline: var(--space-6);
@@ -77,98 +59,17 @@
   line-height: 1.3;
   letter-spacing: -0.005em;
   color: var(--fg);
-=======
-  padding: var(--space-8);
-  border-radius: var(--radius-3);
-  border: var(--hairline-w) solid var(--hairline);
-  background: transparent;
-  color: var(--fg);
-  font-family: var(--font-sans);
-  transition:
-    transform var(--dur-fast) var(--easing),
-    box-shadow var(--dur-fast) var(--easing);
-  position: relative;
-}
-
-@media (hover: hover) {
-  .root:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 var(--space-2) var(--space-6) rgba(0, 0, 0, 0.08);
-  }
-}
-
-/* ---------- Featured variant ---------- */
-
-.featured {
-  background: var(--bg-elevated);
-  border-color: var(--accent);
-  animation: tierEntrance var(--dur-fast) var(--easing) both;
-}
-
-/* Suppress hover lift on featured — already at elevated state */
-@media (hover: hover) {
-  .featured:hover {
-    transform: none;
-    box-shadow: none;
-  }
-}
-
-@keyframes tierEntrance {
-  from {
-    transform: translateY(4px);
-    opacity: 0.85;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .featured {
-    animation: none;
-  }
-}
-
-/* ---------- Featured label ---------- */
-
-.featuredLabel {
-  display: inline-block;
-  font-family: var(--font-sans);
-  font-size: var(--fs-meta);
-  color: var(--accent);
-  letter-spacing: var(--tracking-eyebrow);
-  text-transform: uppercase;
-  margin-bottom: var(--space-4);
-}
-
-/* ---------- Name ---------- */
-
-.name {
-  font-family: var(--font-sans);
-  font-size: var(--fs-card-title);
-  font-weight: 500;
-  color: var(--fg);
-  margin: 0 0 var(--space-6);
-  line-height: 1.2;
-  letter-spacing: -0.005em;
->>>>>>> 2472d7f (feat(organism): add PricingTable — PriceTier grid)
 }
 
 /* ---------- Price block ---------- */
 
 .priceBlock {
   display: flex;
-<<<<<<< HEAD
   align-items: baseline;
-=======
-  flex-direction: column;
->>>>>>> 2472d7f (feat(organism): add PricingTable — PriceTier grid)
   gap: var(--space-2);
   margin-bottom: var(--space-4);
 }
 
-<<<<<<< HEAD
 .priceNumeral {
   font-family: var(--font-serif);
   font-size: var(--fs-stat);
@@ -179,25 +80,12 @@
 }
 
 .pricePer {
-=======
-.price {
-  font-family: var(--font-serif);
-  font-size: var(--fs-stat);
-  font-weight: 400;
-  color: var(--fg);
-  letter-spacing: var(--tracking-stat);
-  line-height: 1;
-}
-
-.cadence {
->>>>>>> 2472d7f (feat(organism): add PricingTable — PriceTier grid)
   font-family: var(--font-sans);
   font-size: var(--fs-meta);
   color: var(--fg-muted);
   line-height: var(--lh-meta);
 }
 
-<<<<<<< HEAD
 /* ---------- Divider ---------- */
 
 .divider {
@@ -210,33 +98,12 @@
 /* ---------- Bullet list ---------- */
 
 .bulletList {
-=======
-/* ---------- Description ---------- */
-
-.description {
-  font-family: var(--font-sans);
-  font-size: var(--fs-body);
-  color: var(--fg-muted);
-  line-height: var(--lh-body);
-  margin: 0 0 var(--space-4);
-}
-
-/* ---------- Features ---------- */
-
-.features {
-  flex: 1;
-  margin-bottom: var(--space-6);
-}
-
-.featureList {
->>>>>>> 2472d7f (feat(organism): add PricingTable — PriceTier grid)
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-<<<<<<< HEAD
   margin-bottom: var(--space-4);
   font-family: var(--font-sans);
   font-size: var(--fs-body);
@@ -263,19 +130,4 @@
 .ctaSlot {
   margin-top: auto;
   width: 100%;
-=======
-}
-
-.featureItem {
-  font-family: var(--font-sans);
-  font-size: var(--fs-body);
-  color: var(--fg-muted);
-  line-height: var(--lh-body);
-}
-
-/* ---------- CTA ---------- */
-
-.cta {
-  margin-top: auto;
->>>>>>> 2472d7f (feat(organism): add PricingTable — PriceTier grid)
 }

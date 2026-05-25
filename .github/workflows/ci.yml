@@ -126,11 +126,29 @@ jobs:
   # that name here means we can split work into parallel jobs without
   # reconfiguring protected-branch rules. This job only passes when every
   # parallel job above is green.
+  #
+  # `if: always()` is required: without it, GitHub auto-skips this job when
+  # any dependency fails, and the `ci` check reports its conclusion as
+  # `skipped`. A skipped required check shows up as a gray neutral icon in
+  # the PR UI rather than a red X, which makes test failures easy to miss
+  # at a glance. `always()` forces the job to run, inspect dep results, and
+  # explicitly fail (red) on any failure or cancellation.
   ci:
     needs: [static, build, size, test, secret-scan]
+    if: always()
     runs-on: ubuntu-latest
     steps:
-      - run: echo "All required checks passed."
+      - name: Verify all dependent jobs succeeded
+        run: |
+          if [[ "${{ contains(needs.*.result, 'failure') }}" == "true" ]]; then
+            echo "::error::One or more required jobs failed."
+            exit 1
+          fi
+          if [[ "${{ contains(needs.*.result, 'cancelled') }}" == "true" ]]; then
+            echo "::error::One or more required jobs were cancelled."
+            exit 1
+          fi
+          echo "All required checks passed."
 
   release:
     needs: ci

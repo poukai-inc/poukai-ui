@@ -115,8 +115,21 @@ export const DocsLayout = forwardRef<HTMLDivElement, DocsLayoutProps>(function D
         aria-label={sidebarLabel}
         role="dialog"
         aria-modal={mobileOpen ? "true" : undefined}
-        // `inert` disables focus on hidden children — replaces aria-hidden+focusable trap.
-        {...(!mobileOpen && { inert: "" })}
+        // `inert` disables focus on hidden children and removes the subtree from
+        // the accessibility tree (so axe's landmark-unique rule ignores the
+        // drawer's nav landmark while it is hidden). React's prop serialization
+        // for `inert` varies between major versions (string `""` works on 18
+        // but is dropped on 19; `true` works on 19 but is unknown to React 18
+        // typed JSX). Imperatively setting the attribute via ref sidesteps the
+        // version difference entirely.
+        ref={(node) => {
+          if (!node) return;
+          if (mobileOpen) {
+            node.removeAttribute("inert");
+          } else {
+            node.setAttribute("inert", "");
+          }
+        }}
       >
         <div className={styles.drawerInner}>{sidebar}</div>
       </div>

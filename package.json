@@ -2,7 +2,7 @@
   "name": "@poukai-inc/ui",
   "version": "2.11.1",
   "description": "Poukai design system — React component library, design tokens, and brand assets.",
-  "license": "SEE LICENSE IN LICENSE",
+  "license": "UNLICENSED",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
     "access": "restricted"

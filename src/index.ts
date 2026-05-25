@@ -243,6 +243,14 @@ export {
   type CarouselNextProps,
   type CarouselIndicatorsProps,
 } from "./molecules/Carousel";
+export {
+  ContextMenu,
+  type ContextMenuRootProps,
+  type ContextMenuTriggerProps,
+  type ContextMenuContentProps,
+  type ContextMenuItemProps,
+  type ContextMenuSeparatorProps,
+} from "./molecules/ContextMenu";
 /* ---------- organisms ---------- */
 export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";

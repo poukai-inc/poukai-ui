@@ -3052,3 +3052,11 @@ Props (`HeaderProps`): `homeHref?: string` (default `"/"`), `logo?: ReactNode` (
 - Reduced motion: enter/exit motion collapses to instant under `prefers-reduced-motion: reduce`.
 - Adds new Radix peer dep `@radix-ui/react-popover`.
 - Do NOT use for time selection — use `TimePicker`. Do NOT use for free-text date entry — use a plain `Input` with validation.
+### ContextMenu
+
+- Radix-wrapped right-click / long-press menu. Compound API: `ContextMenu.Root`, `ContextMenu.Trigger` (asChild — wraps a region, no visible trigger), `ContextMenu.Content`, `ContextMenu.Item` (composes the MenuItem molecule), `ContextMenu.Separator`.
+- Built on `@radix-ui/react-context-menu`. Runtime-destructured Radix imports (see Toast) avoid CT bundler collisions.
+- Tokens consumed: `--surface`, `--hairline`, `--hairline-w`, `--radius-2`, spacing tokens. No new tokens.
+- Content portals to `document.body`; tests query via `page.locator(...)` not `component.locator(...)`.
+- Use for: file-row menus, canvas-item menus, table-row right-click. Trigger fires on `contextmenu` event and long-press on touch.
+- Do NOT use for click-triggered menus — use `DropdownMenu`. Do NOT replace `Sheet` or `Dialog`.

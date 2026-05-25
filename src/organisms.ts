@@ -122,3 +122,4 @@ export {
   type GalleryGridColumns,
   type GalleryGridGap,
 } from "./organisms/GalleryGrid";
+export { TimelineSection, type TimelineSectionProps } from "./organisms/TimelineSection";

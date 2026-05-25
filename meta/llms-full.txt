@@ -1379,6 +1379,35 @@ import { Icon } from "@poukai-inc/ui";
 - Emits plain <a href> tags — framework-router consumers intercept at app level.
 - navLabel (default: "Primary") is the aria-label for the nav element.
 
+### TimelineItem
+- Single entry in a sequential chronological list. Renders a date, title, and optional body copy with a left-rail marker dot and optional connector line to the next item.
+- Must live inside a `<ol>` supplied by a parent Timeline organism. Do NOT use standalone.
+- Composes Time atom (semantic `<time dateTime>`), Heading atom (title slot), and Text atom (body slot). Marker dot and connector rendered via CSS `::before` / `::after` pseudo-elements — no extra DOM nodes.
+- date (required string) — ISO 8601 string; forwarded to Time dateTime. Displayed as-is in the date slot (uppercase micro register).
+- title (required ReactNode) — entry heading. Rendered via Heading atom at the level specified by headingLevel.
+- body (optional ReactNode) — supporting copy. Omitted when absent; some milestone entries are title-only.
+- connector (boolean, default true) — whether to render the downward connector stub. Pass false for the last item in the list.
+- headingLevel (HeadingLevel, default "h3") — semantic heading level for the title. Decoupled from visual size so the document outline can differ from the visual rank.
+- Root: `<li>`, forwardRef<HTMLLIElement, TimelineItemProps>. ...rest spread to root. displayName = "TimelineItem".
+- Tokens consumed: `--fs-meta`, `--fs-h3`, `--fs-body`, `--font-sans`, `--fg`, `--fg-muted`, `--accent`, `--hairline`, `--hairline-w`, `--lh-body`, `--lh-meta`, `--space-1`, `--space-2`, `--space-6`, `--space-8`, `--tracking-micro`. Zero new tokens.
+- A11y: outer `<li>` inside consumer `<ol>`. `<time datetime>` for machine-readable date. Pseudo-elements are decorative — no content, no ARIA.
+- Do NOT use for navigation menus or step indicators — use Stepper for interactive flows.
+- Import: `import { TimelineItem } from "@poukai-inc/ui"` or `import { TimelineItem } from "@poukai-inc/ui/molecules/TimelineItem"`.
+
+### TimelineSection
+- Organism layer. Section-framed vertical list of `TimelineItem` molecules. Owns the Section header block and the `<ol>` track for changelog, company-milestone, and process-explainer surfaces.
+- Composes `Section` molecule (eyebrow, heading, lede, block padding) around an `<ol>` track. Each `TimelineItem` is a direct child of the `<ol>`; TimelineItem owns marker dot and connector styling.
+- Props: `eyebrow` (string | ReactNode), `heading` (ReactNode), `headingAs` ("h1" | "h2" | "h3", default "h2"), `lede` (ReactNode), `size` ("default" | "tight", default "default"), `children` (required ReactNode — one or more TimelineItem), `reversed` (boolean, default false).
+- `reversed` uses HTML `<ol reversed>` — displays list newest-first without changing source order. Screen readers receive correct reversed numbering.
+- `size` delegates to Section: "default" = `--space-16` block padding; "tight" = `--space-12`.
+- Track `<ol>`: `list-style: none`, `display: flex`, `flex-direction: column`, `gap: var(--space-8)`.
+- A11y: `<section>` root is a region landmark via Section's `aria-labelledby` wired to heading id. `<ol>` communicates sequence to AT. Rail pseudo-elements on TimelineItem are decorative and AT-invisible. `<ol reversed>` correctly signals reversed numbering.
+- Static organism — no interactive states. Tab order follows natural DOM sequence through any interactive children inside TimelineItem bodies.
+- Tokens consumed: `--space-8` (item gap), `--space-12` / `--space-16` (block padding via Section). Marker/connector tokens delegated to TimelineItem.
+- Do NOT use for a single item — use TimelineItem inside a plain Section. Do NOT use for horizontal step flows — use StepsSection/Stepper. Do NOT put navigational links in the rail.
+- Import: `import { TimelineSection } from "@poukai-inc/ui"` or `import { TimelineSection } from "@poukai-inc/ui/organisms/TimelineSection"`.
+- Usage: `<TimelineSection eyebrow="History" heading="Our story"><TimelineItem date="2024-01" title="Founded" connector /><TimelineItem date="2025-03" title="Launched" connector={false} /></TimelineSection>`
+
 ### Footer
 - Canonical site-footer content block. Composes copyright + email (via `<EmailLink variant="muted">`) + optional secondary link row.
 - Does NOT own the hairline rule or outer padding when slotted into SiteShell — SiteShell's `.footer` CSS provides those. When used standalone (`as="footer"`), Footer adds `border-top: var(--hairline-w) solid var(--hairline)` and `padding: var(--space-8) var(--page-pad)` via the `[data-standalone="true"]` selector.

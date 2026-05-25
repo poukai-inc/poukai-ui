@@ -76,6 +76,7 @@ import { Alert } from "./molecules/Alert";
 import { ContextMenu } from "./molecules/ContextMenu";
 import { Disclosure } from "./molecules/Disclosure";
 import { FormRow } from "./molecules/FormRow";
+import { TimelineSection } from "./organisms/TimelineSection";
 import { TimelineItem } from "./molecules/TimelineItem";
 import { Fieldset } from "./molecules/Fieldset";
 import { TeamGrid } from "./organisms/TeamGrid";
@@ -2676,6 +2677,24 @@ test("a11y — ContactBlock (full composition)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- TimelineSection ---------- */
+
+test("a11y — TimelineSection with heading and items", async ({ mount, page }) => {
+  await mount(
+    <TimelineSection eyebrow="History" heading="Our story" lede="From side project to production.">
+      <TimelineItem
+        date="2024-01"
+        title="Side project begins"
+        body="First experiments."
+        connector
+      />
+      <TimelineItem date="2024-09" title="First client" body="First contract." connector />
+      <TimelineItem date="2025-03" title="Incorporated" connector={false} />
+    </TimelineSection>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — EmptyState (tone='subtle')", async ({ mount, page }) => {
   await mount(
     <EmptyState
@@ -3302,6 +3321,16 @@ test("a11y — Accordion (tinted tone)", async ({ mount, page }) => {
         </Accordion.Content>
       </Accordion.Item>
     </Accordion.Root>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — TimelineSection reversed", async ({ mount, page }) => {
+  await mount(
+    <TimelineSection heading="Changelog" reversed>
+      <TimelineItem date="2024-01" title="v0.1.0" body="Initial atoms." connector />
+      <TimelineItem date="2025-01" title="v0.5.0" body="Organisms shipped." connector={false} />
+    </TimelineSection>,
   );
   await expectAxeClean(page);
 });

@@ -585,6 +585,11 @@
       "import": "./dist/organisms/GalleryGrid.js",
       "require": "./dist/organisms/GalleryGrid.cjs"
     },
+    "./organisms/TimelineSection": {
+      "types": "./dist/organisms/TimelineSection.d.ts",
+      "import": "./dist/organisms/TimelineSection.js",
+      "require": "./dist/organisms/TimelineSection.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",

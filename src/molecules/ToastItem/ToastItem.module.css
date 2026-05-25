@@ -70,6 +70,9 @@
 }
 
 .description {
+  /* Explicit --fg — avoids inheriting any global muted color and meets
+     WCAG AA 4.5:1 on --bg-elevated (--fg-muted at --fs-meta size = 3.01:1). */
+  color: var(--fg);
   font-size: var(--fs-meta);
   font-weight: 400;
   line-height: var(--lh-body);

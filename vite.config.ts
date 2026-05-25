@@ -147,6 +147,7 @@ export default defineConfig({
               "molecules/Accordion": resolve(__dirname, "src/molecules/Accordion/index.ts"),
               "molecules/FAQItem": resolve(__dirname, "src/molecules/FAQItem/index.ts"),
               "molecules/DataTable": resolve(__dirname, "src/molecules/DataTable/index.ts"),
+              "molecules/ToastItem": resolve(__dirname, "src/molecules/ToastItem/index.ts"),
               "molecules/NewsletterField": resolve(
                 __dirname,
                 "src/molecules/NewsletterField/index.ts",
@@ -173,6 +174,7 @@ export default defineConfig({
               "organisms/TestimonialBlock": resolve(
                 __dirname,
                 "src/organisms/TestimonialBlock/index.ts",
+              ),
               "organisms/CommandPalette": resolve(
                 __dirname,
                 "src/organisms/CommandPalette/index.ts",

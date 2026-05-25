@@ -88,6 +88,7 @@ import { RoleGrid } from "./organisms/RoleGrid";
 import { ShareLinks } from "./molecules/ShareLinks";
 import { TableOfContents } from "./molecules/TableOfContents";
 import { PopoverA11yHarness } from "./molecules/Popover/__test_harness__";
+import { ToastItemA11yHarness } from "./molecules/ToastItem/__test_harness__";
 import {
   Table,
   TableHead,
@@ -3504,5 +3505,12 @@ test("a11y — FAQSection (multiple type, all open)", async ({ mount, page }) =>
       </FAQItem>
     </FAQSection>,
   );
+  await expectAxeClean(page);
+});
+
+/* ---------- ToastItem ---------- */
+
+test("a11y — ToastItem (success, open)", async ({ mount, page }) => {
+  await mount(<ToastItemA11yHarness />);
   await expectAxeClean(page);
 });

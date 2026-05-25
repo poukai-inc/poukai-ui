@@ -3500,4 +3500,34 @@ useEffect(() => {
     <p>Answer content here.</p>
   </FAQItem>
 </FAQSection>
+### ToastItem
+- Declarative compound Toast molecule. Single Radix `Toast.Root` item with named sub-parts: `ToastItem`, `ToastItem.Title`, `ToastItem.Description`, `ToastItem.Close`, `ToastItem.Action`.
+- Complements the imperative `Toast` organism (`ToastProvider` + `useToast()`). Use `ToastItem` when you need declarative control over individual toast items; use `useToast()` for queue management.
+- Must be rendered inside a Radix `<Toast.Provider>` + `<Toast.Viewport>`. The organism's `ToastProvider` already provides both.
+- Root element: `<li>` (Radix `Toast.Root` renders as `li`). `forwardRef<HTMLLIElement, ToastItemProps>`. `displayName = "ToastItem"`.
+- `tone` (`"info" | "success" | "warning" | "danger"`, default `"info"`) — visual + semantic tone. Maps to Radix `type`: info/success → `"background"` (polite live region); warning/danger → `"foreground"` (assertive live region).
+- `open` (optional boolean) — controlled open state. `defaultOpen` (optional boolean) — uncontrolled initial open. `onOpenChange` ((open: boolean) => void) — dismissal callback. `duration` (optional number, default `5000`) — auto-dismiss ms.
+- Sub-parts: `ToastItem.Title` — optional heading, `font-weight: 500`. `ToastItem.Description` — body copy. `ToastItem.Close` — 20×20 close button with X icon, `aria-label="Close"`. `ToastItem.Action` — inline action button; requires `altText` prop (Radix requirement for screen-reader alternative).
+- Tone contract: info → `--bg-elevated`, hairline border, `--fg`; success → `--bg-elevated`, `--accent` left-rule, `--fg`; warning → `--bg-warning`, `--warning` left-rule, `--fg-on-warning`; danger → `--bg-danger`, `--danger` left-rule, `--fg-on-danger`.
+- Tokens: `--bg-elevated`, `--bg-warning`, `--bg-danger`, `--fg`, `--fg-on-warning`, `--fg-on-danger`, `--accent`, `--warning`, `--danger`, `--hairline`, `--hairline-w`, `--font-sans`, `--fs-meta`, `--lh-meta`, `--lh-body`, `--space-1`, `--space-2`, `--space-3`, `--space-4`, `--space-6`, `--radius-1`, `--radius-2`, `--dur-fast`, `--easing`, `--page-pad`.
+
+```tsx
+// Basic success toast:
+<Toast.Provider>
+  <ToastItem tone="success" open onOpenChange={setOpen}>
+    <ToastItem.Title>Saved</ToastItem.Title>
+    <ToastItem.Description>Your changes have been saved.</ToastItem.Description>
+    <ToastItem.Close />
+  </ToastItem>
+  <Toast.Viewport />
+</Toast.Provider>
+
+// With action:
+<ToastItem tone="danger" open onOpenChange={setOpen}>
+  <ToastItem.Description>Deployment failed.</ToastItem.Description>
+  <ToastItem.Action altText="Retry the deployment" onClick={handleRetry}>
+    Retry
+  </ToastItem.Action>
+  <ToastItem.Close />
+</ToastItem>
 ```

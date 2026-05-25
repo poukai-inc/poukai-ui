@@ -490,6 +490,11 @@
       "import": "./dist/molecules/DataTable.js",
       "require": "./dist/molecules/DataTable.cjs"
     },
+    "./molecules/ToastItem": {
+      "types": "./dist/molecules/ToastItem.d.ts",
+      "import": "./dist/molecules/ToastItem.js",
+      "require": "./dist/molecules/ToastItem.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

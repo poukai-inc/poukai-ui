@@ -1125,6 +1125,7 @@ test("a11y — FeatureCard (as='section')", async ({ mount, page }) => {
 });
 
 import { ArticleLayout } from "./organisms/ArticleLayout";
+import { DocsLayout } from "./organisms/DocsLayout";
 import { HeroSection } from "./organisms/HeroSection";
 import { StepsSection } from "./organisms/StepsSection";
 import { Sidebar } from "./organisms/Sidebar";
@@ -3309,6 +3310,39 @@ test("a11y — BlogPostCard (tone=subtle)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- DocsLayout ---------- */
+
+test("a11y — DocsLayout (with sidebar and toc)", async ({ mount, page }) => {
+  await mount(
+    <DocsLayout
+      sidebar={
+        <Sidebar>
+          <Sidebar.Group heading="Getting started">
+            <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+            <LinkList.Item href="/docs/install" current>
+              Installation
+            </LinkList.Item>
+          </Sidebar.Group>
+        </Sidebar>
+      }
+      toc={
+        <nav aria-label="On this page">
+          <ul>
+            <li>
+              <a href="#intro">Introduction</a>
+            </li>
+          </ul>
+        </nav>
+      }
+    >
+      <ArticleLayout as="div">
+        <p>Documentation page body content for accessibility testing.</p>
+      </ArticleLayout>
+    </DocsLayout>,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — VideoEmbed (bordered with caption)", async ({ mount, page }) => {
   await mount(
     <VideoEmbed
@@ -3512,5 +3546,23 @@ test("a11y — FAQSection (multiple type, all open)", async ({ mount, page }) =>
 
 test("a11y — ToastItem (success, open)", async ({ mount, page }) => {
   await mount(<ToastItemA11yHarness />);
+  await expectAxeClean(page);
+});
+test("a11y — DocsLayout (without toc, two-column)", async ({ mount, page }) => {
+  await mount(
+    <DocsLayout
+      sidebar={
+        <Sidebar>
+          <Sidebar.Group heading="Docs">
+            <LinkList.Item href="/docs/intro">Introduction</LinkList.Item>
+          </Sidebar.Group>
+        </Sidebar>
+      }
+    >
+      <ArticleLayout as="div">
+        <p>Documentation page body content without a TOC column.</p>
+      </ArticleLayout>
+    </DocsLayout>,
+  );
   await expectAxeClean(page);
 });

@@ -620,6 +620,11 @@
       "import": "./dist/organisms/FAQSection.js",
       "require": "./dist/organisms/FAQSection.cjs"
     },
+    "./organisms/DocsLayout": {
+      "types": "./dist/organisms/DocsLayout.d.ts",
+      "import": "./dist/organisms/DocsLayout.js",
+      "require": "./dist/organisms/DocsLayout.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",

@@ -134,3 +134,4 @@ export {
   type CommandPaletteEmptyProps,
 } from "./organisms/CommandPalette";
 export { FAQSection, type FAQSectionProps } from "./organisms/FAQSection";
+export { DocsLayout, type DocsLayoutProps } from "./organisms/DocsLayout";

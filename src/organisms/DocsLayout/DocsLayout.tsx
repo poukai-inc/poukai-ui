@@ -1,6 +1,23 @@
-import { forwardRef, useState, useId, type HTMLAttributes, type ReactNode } from "react";
+import {
+  forwardRef,
+  useState,
+  useId,
+  createContext,
+  type HTMLAttributes,
+  type ReactNode,
+} from "react";
 import clsx from "clsx";
 import styles from "./DocsLayout.module.css";
+
+/**
+ * Context consumed by Sidebar to suppress its own <aside> wrapper when it is
+ * already rendered inside a complementary landmark provided by the parent
+ * layout (e.g. DocsLayout). This prevents the axe
+ * landmark-complementary-is-top-level violation caused by nested <aside>s.
+ *
+ * @internal — not part of the public API surface.
+ */
+export const SidebarLandmarkContext = createContext(false);
 
 export interface DocsLayoutProps extends HTMLAttributes<HTMLDivElement> {
   /**
@@ -105,9 +122,12 @@ export const DocsLayout = forwardRef<HTMLDivElement, DocsLayoutProps>(function D
       </div>
 
       {/* Desktop sidebar column — hidden at mobile */}
+      {/* SidebarLandmarkContext tells the Sidebar organism to skip its own
+          <aside> wrapper so we don't nest two complementary landmarks, which
+          would trigger the axe landmark-complementary-is-top-level rule. */}
       <div className={styles.sidebarCol} data-area="sidebar">
         <aside aria-label="Sidebar navigation" className={styles.sidebarAside}>
-          {sidebar}
+          <SidebarLandmarkContext.Provider value={true}>{sidebar}</SidebarLandmarkContext.Provider>
         </aside>
       </div>
 

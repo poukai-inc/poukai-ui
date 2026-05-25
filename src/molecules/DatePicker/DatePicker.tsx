@@ -1,14 +1,14 @@
-import {
+import React, {
   forwardRef,
   useState,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useId,
   type ComponentPropsWithoutRef,
   type KeyboardEvent,
 } from "react";
-import * as Popover from "@radix-ui/react-popover";
 import clsx from "clsx";
 import styles from "./DatePicker.module.css";
 
@@ -376,70 +376,96 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(function D
     rows.push(cells.slice(i, i + 7));
   }
 
+  // Internal ref to root element for outside-click detection
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // Close panel when clicking outside the root element
+  useEffect(() => {
+    if (!open) return;
+    const handlePointerDown = (e: PointerEvent) => {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [open]);
+
+  // Focus management when panel opens
+  useEffect(() => {
+    if (!open) return;
+    requestAnimationFrame(() => {
+      if (gridRef.current) {
+        const target = focusedDay ?? null;
+        if (target !== null) {
+          const btn = gridRef.current.querySelector<HTMLButtonElement>(`[data-day="${target}"]`);
+          btn?.focus();
+        } else {
+          const first = gridRef.current.querySelector<HTMLButtonElement>("button:not([disabled])");
+          first?.focus();
+        }
+      }
+    });
+    // Only run when panel opens (open flips to true)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open]);
+
+  // Merge forwarded ref with internal rootRef
+  const mergedRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      (rootRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
+      if (typeof ref === "function") ref(node);
+      else if (ref) (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+    },
+    [ref],
+  );
+
   return (
-    <div ref={ref} className={clsx(styles.root, className)} {...rest}>
+    <div ref={mergedRef} className={clsx(styles.root, className)} {...rest}>
       {name && <input type="hidden" name={name} value={hiddenValue} />}
 
-      <Popover.Root open={open} onOpenChange={handleOpenChange}>
-        <Popover.Trigger asChild>
-          <button
-            ref={triggerRef}
-            id={triggerId}
-            type="button"
-            disabled={disabled}
-            aria-haspopup="dialog"
-            aria-expanded={open}
-            // aria-invalid not allowed on role=button by jsx-a11y; expose
-            // invalid state via data-invalid + visual class instead. Parent
-            // <Field> wires aria-describedby for any error text.
-            data-invalid={invalid ? "true" : undefined}
-            className={clsx(styles.trigger, invalid && styles.triggerInvalid)}
-          >
-            <span className={styles.triggerIcon}>
-              <CalendarIcon />
-            </span>
-            <span className={clsx(styles.triggerLabel, !selectedDate && styles.triggerPlaceholder)}>
-              {triggerLabel}
-            </span>
-            <span className={styles.triggerChevron}>
-              <ChevronIcon direction="down" />
-            </span>
-          </button>
-        </Popover.Trigger>
+      <button
+        ref={triggerRef}
+        id={triggerId}
+        type="button"
+        disabled={disabled}
+        aria-haspopup="dialog"
+        aria-expanded={open}
+        aria-controls={open ? dialogId : undefined}
+        // aria-invalid not allowed on role=button by jsx-a11y; expose
+        // invalid state via data-invalid + visual class instead. Parent
+        // <Field> wires aria-describedby for any error text.
+        data-invalid={invalid ? "true" : undefined}
+        className={clsx(styles.trigger, invalid && styles.triggerInvalid)}
+        onClick={() => handleOpenChange(!open)}
+      >
+        <span className={styles.triggerIcon}>
+          <CalendarIcon />
+        </span>
+        <span className={clsx(styles.triggerLabel, !selectedDate && styles.triggerPlaceholder)}>
+          {triggerLabel}
+        </span>
+        <span className={styles.triggerChevron}>
+          <ChevronIcon direction="down" />
+        </span>
+      </button>
 
-        <Popover.Portal>
-          <Popover.Content
+      {open && (
+        <div className={styles.panelWrapper}>
+          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions -- role="dialog" is interactive; Escape handler is required for ARIA dialog pattern */}
+          <div
             id={dialogId}
             role="dialog"
             aria-label="Choose date"
             aria-modal="true"
-            side="bottom"
-            align="start"
-            sideOffset={4}
-            onOpenAutoFocus={(e) => {
-              // Prevent Radix default focus; we manage it ourselves
-              e.preventDefault();
-              // Focus the selected day or first enabled day
-              requestAnimationFrame(() => {
-                if (gridRef.current) {
-                  const target = focusedDay ?? null;
-                  if (target !== null) {
-                    const btn = gridRef.current.querySelector<HTMLButtonElement>(
-                      `[data-day="${target}"]`,
-                    );
-                    btn?.focus();
-                  } else {
-                    const first =
-                      gridRef.current.querySelector<HTMLButtonElement>("button:not([disabled])");
-                    first?.focus();
-                  }
-                }
-              });
-            }}
-            onCloseAutoFocus={(e) => {
-              e.preventDefault();
-            }}
+            data-state="open"
             className={styles.panel}
+            onKeyDown={(e) => {
+              if (e.key === "Escape") {
+                setOpen(false);
+                requestAnimationFrame(() => triggerRef.current?.focus());
+              }
+            }}
           >
             {/* Month header */}
             <div className={styles.header}>
@@ -553,9 +579,9 @@ export const DatePicker = forwardRef<HTMLDivElement, DatePickerProps>(function D
                 ))}
               </tbody>
             </table>
-          </Popover.Content>
-        </Popover.Portal>
-      </Popover.Root>
+          </div>
+        </div>
+      )}
     </div>
   );
 });

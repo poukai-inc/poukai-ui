@@ -6,7 +6,7 @@ on:
     branches: [main]
 
 jobs:
-  ci:
+  static:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,6 +20,17 @@ jobs:
       - run: pnpm lint
       - run: pnpm format:check
       - run: pnpm check:llms
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Upload bundle stats
         if: always()
@@ -28,9 +39,60 @@ jobs:
           name: bundle-stats
           path: dist/stats.html
           retention-days: 30
-      - run: pnpm exec playwright install --with-deps chromium firefox webkit
-      - run: pnpm test
+      - name: Upload dist (for size job)
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 1
+
+  size:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
       - run: pnpm size
+
+  # React 18/19 × browser matrix. Sharding by browser cuts wall time ~3x
+  # vs running all three browsers serially in a single `pnpm test` invocation.
+  # Each shard installs only the one browser binary it needs.
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        react: ["18", "19"]
+        browser: [chromium, firefox, webkit]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Install React ${{ matrix.react }} (latest minor)
+        if: matrix.react == '19'
+        run: pnpm add -D react@^19 react-dom@^19 @types/react@^19 @types/react-dom@^19
+      - name: Cache Playwright browsers
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: pw-${{ runner.os }}-${{ matrix.browser }}-${{ hashFiles('pnpm-lock.yaml') }}
+      - name: Install Playwright browser (${{ matrix.browser }})
+        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+      - run: pnpm test --project=${{ matrix.browser }}
 
   secret-scan:
     name: secret-scan — gitleaks (R-048)
@@ -60,29 +122,15 @@ jobs:
         # --exit-code 1 makes any finding fail the CI run.
         run: gitleaks detect --source . --redact --verbose --exit-code 1
 
-  # React 18/19 dual-peer matrix: ensures component tests pass under both
-  # React majors so consumers on either version stay green. Lint/typecheck
-  # are covered by the primary `ci` job above; this matrix is test-only.
-  ct-react-matrix:
-    needs: ci
+  # Umbrella aggregator. Branch protection requires the `ci` check; keeping
+  # that name here means we can split work into parallel jobs without
+  # reconfiguring protected-branch rules. This job only passes when every
+  # parallel job above is green.
+  ci:
+    needs: [static, build, size, test, secret-scan]
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        react: ["18", "19"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - name: Install React ${{ matrix.react }} (latest minor)
-        if: matrix.react == '19'
-        run: pnpm add -D react@^19 react-dom@^19 @types/react@^19 @types/react-dom@^19
-      - run: pnpm exec playwright install --with-deps chromium firefox webkit
-      - run: pnpm test
+      - run: echo "All required checks passed."
 
   release:
     needs: ci

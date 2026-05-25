@@ -265,14 +265,13 @@ const CarouselSlide = forwardRef<HTMLLIElement, CarouselSlideProps>(function Car
   { className, children, ...rest },
   ref,
 ) {
-  const { baseId, slideCount, registerSlide } = useCarousel();
+  const { baseId, registerSlide } = useCarousel();
   // Each slide registers itself on first render to get its index.
   const indexRef = useRef<number | null>(null);
   if (indexRef.current === null) {
     indexRef.current = registerSlide();
   }
   const slideIndex = indexRef.current;
-  const total = slideCount;
   const slideId = `${baseId}-slide-${slideIndex}`;
 
   return (
@@ -280,7 +279,6 @@ const CarouselSlide = forwardRef<HTMLLIElement, CarouselSlideProps>(function Car
       ref={ref}
       id={slideId}
       aria-roledescription="slide"
-      aria-label={`Slide ${slideIndex + 1} of ${total}`}
       className={clsx(styles.slide, className)}
       {...rest}
     >

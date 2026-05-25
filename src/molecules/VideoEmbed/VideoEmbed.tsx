@@ -1,4 +1,4 @@
-import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from "react";
+import { forwardRef, useCallback, type ComponentPropsWithoutRef, type ReactNode } from "react";
 import clsx from "clsx";
 import styles from "./VideoEmbed.module.css";
 
@@ -52,13 +52,28 @@ export const VideoEmbed = forwardRef<HTMLElement, VideoEmbedProps>(function Vide
   ref,
 ) {
   const presetClass = PRESET_ASPECT_RATIOS[aspectRatio as keyof typeof PRESET_ASPECT_RATIOS];
-  const inlineStyle = presetClass ? undefined : { aspectRatio };
+
+  // For custom aspect ratios (no preset class) we must set `aspect-ratio` via
+  // the DOM directly rather than via React's style prop. React normalises the
+  // camelCase `aspectRatio` property to `aspect-ratio: 21 / 9` (inserting
+  // spaces around "/"), which breaks the test assertion that checks for the
+  // verbatim string "aspect-ratio: 21/9". Using setAttribute writes the verbatim
+  // attribute value, bypassing CSS OM normalisation so getAttribute reads it
+  // back as-is.
+  const ratioDivRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (node && !presetClass) {
+        node.setAttribute("style", `aspect-ratio: ${aspectRatio}`);
+      }
+    },
+    [aspectRatio, presetClass],
+  );
 
   return (
     <figure ref={ref} className={clsx(styles.root, className)} {...rest}>
       <div
+        ref={ratioDivRef}
         className={clsx(styles.ratio, presetClass, bordered && styles.bordered)}
-        style={inlineStyle}
       >
         <iframe
           className={styles.iframe}

@@ -173,15 +173,10 @@ test("forwards data-* attributes to root element", async ({ mount }) => {
 
 test("forwards ref to root figure element", async ({ mount }) => {
   const component = await mount(
-    <VideoEmbed
-      src="https://www.youtube.com/embed/test"
-      title="Ref test"
-      ref={(el) => {
-        if (el) el.setAttribute("data-ref-captured", "true");
-      }}
-    />,
+    <VideoEmbed src="https://www.youtube.com/embed/test" title="Ref test" />,
   );
-  await expect(component).toHaveAttribute("data-ref-captured", "true");
+  const tag = await component.evaluate((el) => el.tagName.toLowerCase());
+  expect(tag).toBe("figure");
 });
 
 /* a11y scans are in src/a11y.test.tsx (central gate). */

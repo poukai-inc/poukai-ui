@@ -107,6 +107,7 @@ import { PricingTable } from "./organisms/PricingTable";
 import { CodeBlock } from "./molecules/CodeBlock";
 import { Carousel } from "./molecules/Carousel";
 import { DatePicker } from "./molecules/DatePicker";
+import { A11yHarness as DropdownMenuA11yHarness } from "./atoms/DropdownMenu/__test_harness__";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -3059,4 +3060,18 @@ test("a11y — Sheet (bottom, open)", async ({ mount, page }) => {
     </Sheet.Root>,
   );
   await expectAxeClean(page);
+});
+test("a11y — DropdownMenu (open, icons + separator + danger item)", async ({ mount, page }) => {
+  await mount(<DropdownMenuA11yHarness />);
+  // Menu is defaultOpen — content portalled to body, scan with it live
+  await expect(page.getByRole("menu")).toBeVisible();
+  // aria-hidden-focus is suppressed: Radix intentionally sets aria-hidden="true" on
+  // #root (the Playwright CT mount container) when the portal opens, hiding the trigger
+  // button from AT. This is correct Radix behavior for modal menus. The rule fires as
+  // a false positive because the trigger is inside the aria-hidden container, not
+  // because accessibility is broken. The portalled menu content (role="menu",
+  // role="menuitem", aria-disabled) is fully scanned without suppression.
+  await expectAxeClean(page, {
+    configure: (b) => b.disableRules([...AXE_ISOLATED_MOUNT_RULES, "aria-hidden-focus"]),
+  });
 });

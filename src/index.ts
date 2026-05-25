@@ -88,6 +88,17 @@ export { Select, type SelectProps, type SelectSize } from "./atoms/Select";
 export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Textarea";
 export { Radio, RadioGroup, type RadioProps, type RadioGroupProps } from "./atoms/Radio";
 export { TimePicker, type TimePickerProps, type TimePickerSize } from "./atoms/TimePicker";
+export {
+  DropdownMenu,
+  DropdownMenuBasic,
+  type DropdownMenuRootProps,
+  type DropdownMenuTriggerProps,
+  type DropdownMenuContentProps,
+  type DropdownMenuItemProps,
+  type DropdownMenuSeparatorProps,
+  type DropdownMenuBasicProps,
+  type DropdownMenuBasicItem,
+} from "./atoms/DropdownMenu";
 
 export {
   Tooltip,

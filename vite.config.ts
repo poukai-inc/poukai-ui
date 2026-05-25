@@ -83,6 +83,7 @@ export default defineConfig({
               "atoms/Textarea": resolve(__dirname, "src/atoms/Textarea/index.ts"),
               "atoms/Time": resolve(__dirname, "src/atoms/Time/index.ts"),
               "atoms/TimePicker": resolve(__dirname, "src/atoms/TimePicker/index.ts"),
+              "atoms/DropdownMenu": resolve(__dirname, "src/atoms/DropdownMenu/index.ts"),
               "atoms/VisuallyHidden": resolve(__dirname, "src/atoms/VisuallyHidden/index.ts"),
               "atoms/Wordmark": resolve(__dirname, "src/atoms/Wordmark/index.ts"),
               "atoms/Tooltip": resolve(__dirname, "src/atoms/Tooltip/index.ts"),

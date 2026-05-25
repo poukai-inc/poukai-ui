@@ -117,6 +117,7 @@ import { Accordion } from "./molecules/Accordion";
 import { FAQItem } from "./molecules/FAQItem";
 import { DataTable } from "./molecules/DataTable";
 import type { ColumnDef } from "./molecules/DataTable";
+import { FAQSection } from "./organisms/FAQSection";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -3458,6 +3459,50 @@ test("a11y — FAQItem (one item open)", async ({ mount, page }) => {
         <p>Scoped, time-boxed, and focused on a specific production outcome.</p>
       </FAQItem>
     </Accordion.Root>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- FAQSection ---------- */
+
+test("a11y — FAQSection (all closed)", async ({ mount, page }) => {
+  await mount(
+    <FAQSection eyebrow="FAQ" title="Frequently asked questions">
+      <FAQItem value="q1" question="What is Poukai?">
+        <p>A senior-only AI consulting practice.</p>
+      </FAQItem>
+      <FAQItem value="q2" question="Who do you work with?">
+        <p>Founders and platform teams.</p>
+      </FAQItem>
+    </FAQSection>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FAQSection (one item open)", async ({ mount, page }) => {
+  await mount(
+    <FAQSection title="Frequently asked questions" defaultValue="q1">
+      <FAQItem value="q1" question="What is Poukai?">
+        <p>A senior-only AI consulting practice that ships production systems end-to-end.</p>
+      </FAQItem>
+      <FAQItem value="q2" question="How do engagements work?">
+        <p>Scoped, time-boxed, and focused on a specific production outcome.</p>
+      </FAQItem>
+    </FAQSection>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FAQSection (multiple type, all open)", async ({ mount, page }) => {
+  await mount(
+    <FAQSection title="Frequently asked questions" type="multiple" defaultValue={["q1", "q2"]}>
+      <FAQItem value="q1" question="What is Poukai?">
+        <p>A senior-only AI consulting practice.</p>
+      </FAQItem>
+      <FAQItem value="q2" question="Who do you work with?">
+        <p>Founders and platform teams.</p>
+      </FAQItem>
+    </FAQSection>,
   );
   await expectAxeClean(page);
 });

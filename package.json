@@ -610,6 +610,11 @@
       "import": "./dist/organisms/TimelineSection.js",
       "require": "./dist/organisms/TimelineSection.cjs"
     },
+    "./organisms/FAQSection": {
+      "types": "./dist/organisms/FAQSection.d.ts",
+      "import": "./dist/organisms/FAQSection.js",
+      "require": "./dist/organisms/FAQSection.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",

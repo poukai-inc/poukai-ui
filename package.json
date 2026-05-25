@@ -200,10 +200,25 @@
       "import": "./dist/atoms/TimePicker.js",
       "require": "./dist/atoms/TimePicker.cjs"
     },
+    "./atoms/DropdownMenu": {
+      "types": "./dist/atoms/DropdownMenu.d.ts",
+      "import": "./dist/atoms/DropdownMenu.js",
+      "require": "./dist/atoms/DropdownMenu.cjs"
+    },
     "./molecules/Alert": {
       "types": "./dist/molecules/Alert.d.ts",
       "import": "./dist/molecules/Alert.js",
       "require": "./dist/molecules/Alert.cjs"
+    },
+    "./molecules/DatePicker": {
+      "types": "./dist/molecules/DatePicker.d.ts",
+      "import": "./dist/molecules/DatePicker.js",
+      "require": "./dist/molecules/DatePicker.cjs"
+    },
+    "./molecules/ContextMenu": {
+      "types": "./dist/molecules/ContextMenu.d.ts",
+      "import": "./dist/molecules/ContextMenu.js",
+      "require": "./dist/molecules/ContextMenu.cjs"
     },
     "./molecules/Byline": {
       "types": "./dist/molecules/Byline.d.ts",
@@ -395,6 +410,16 @@
       "import": "./dist/molecules/Breadcrumb.js",
       "require": "./dist/molecules/Breadcrumb.cjs"
     },
+    "./organisms/TeamGrid": {
+      "types": "./dist/organisms/TeamGrid.d.ts",
+      "import": "./dist/organisms/TeamGrid.js",
+      "require": "./dist/organisms/TeamGrid.cjs"
+    },
+    "./organisms/FailureModeList": {
+      "types": "./dist/organisms/FailureModeList.d.ts",
+      "import": "./dist/organisms/FailureModeList.js",
+      "require": "./dist/organisms/FailureModeList.cjs"
+    },
     "./organisms/FeatureGrid": {
       "types": "./dist/organisms/FeatureGrid.d.ts",
       "import": "./dist/organisms/FeatureGrid.js",
@@ -415,15 +440,110 @@
       "import": "./dist/molecules/PriceTier.js",
       "require": "./dist/molecules/PriceTier.cjs"
     },
+    "./molecules/Carousel": {
+      "types": "./dist/molecules/Carousel.d.ts",
+      "import": "./dist/molecules/Carousel.js",
+      "require": "./dist/molecules/Carousel.cjs"
+    },
+    "./molecules/CodeBlock": {
+      "types": "./dist/molecules/CodeBlock.d.ts",
+      "import": "./dist/molecules/CodeBlock.js",
+      "require": "./dist/molecules/CodeBlock.cjs"
+    },
+    "./organisms/Sheet": {
+      "types": "./dist/organisms/Sheet.d.ts",
+      "import": "./dist/organisms/Sheet.js",
+      "require": "./dist/organisms/Sheet.cjs"
+    },
+    "./molecules/VideoEmbed": {
+      "types": "./dist/molecules/VideoEmbed.d.ts",
+      "import": "./dist/molecules/VideoEmbed.js",
+      "require": "./dist/molecules/VideoEmbed.cjs"
+    },
+    "./molecules/Combobox": {
+      "types": "./dist/molecules/Combobox.d.ts",
+      "import": "./dist/molecules/Combobox.js",
+      "require": "./dist/molecules/Combobox.cjs"
+    },
+    "./molecules/AudioPlayer": {
+      "types": "./dist/molecules/AudioPlayer.d.ts",
+      "import": "./dist/molecules/AudioPlayer.js",
+      "require": "./dist/molecules/AudioPlayer.cjs"
+    },
+    "./molecules/Accordion": {
+      "types": "./dist/molecules/Accordion.d.ts",
+      "import": "./dist/molecules/Accordion.js",
+      "require": "./dist/molecules/Accordion.cjs"
+    },
+    "./molecules/FAQItem": {
+      "types": "./dist/molecules/FAQItem.d.ts",
+      "import": "./dist/molecules/FAQItem.js",
+      "require": "./dist/molecules/FAQItem.cjs"
+    },
+    "./organisms/ArticleLayout": {
+      "types": "./dist/organisms/ArticleLayout.d.ts",
+      "import": "./dist/organisms/ArticleLayout.js",
+      "require": "./dist/organisms/ArticleLayout.cjs"
+    },
+    "./molecules/DataTable": {
+      "types": "./dist/molecules/DataTable.d.ts",
+      "import": "./dist/molecules/DataTable.js",
+      "require": "./dist/molecules/DataTable.cjs"
+    },
+    "./molecules/ToastItem": {
+      "types": "./dist/molecules/ToastItem.d.ts",
+      "import": "./dist/molecules/ToastItem.js",
+      "require": "./dist/molecules/ToastItem.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",
       "require": "./dist/organisms/Sidebar.cjs"
     },
+    "./organisms/CTASection": {
+      "types": "./dist/organisms/CTASection.d.ts",
+      "import": "./dist/organisms/CTASection.js",
+      "require": "./dist/organisms/CTASection.cjs"
+    },
+    "./organisms/ArticleHeader": {
+      "types": "./dist/organisms/ArticleHeader.d.ts",
+      "import": "./dist/organisms/ArticleHeader.js",
+      "require": "./dist/organisms/ArticleHeader.cjs"
+    },
+    "./organisms/Header": {
+      "types": "./dist/organisms/Header.d.ts",
+      "import": "./dist/organisms/Header.js",
+      "require": "./dist/organisms/Header.cjs"
+    },
+    "./organisms/ContactBlock": {
+      "types": "./dist/organisms/ContactBlock.d.ts",
+      "import": "./dist/organisms/ContactBlock.js",
+      "require": "./dist/organisms/ContactBlock.cjs"
+    },
     "./organisms/HeroSection": {
       "types": "./dist/organisms/HeroSection.d.ts",
       "import": "./dist/organisms/HeroSection.js",
       "require": "./dist/organisms/HeroSection.cjs"
+    },
+    "./organisms/StepsSection": {
+      "types": "./dist/organisms/StepsSection.d.ts",
+      "import": "./dist/organisms/StepsSection.js",
+      "require": "./dist/organisms/StepsSection.cjs"
+    },
+    "./organisms/StatsSection": {
+      "types": "./dist/organisms/StatsSection.d.ts",
+      "import": "./dist/organisms/StatsSection.js",
+      "require": "./dist/organisms/StatsSection.cjs"
+    },
+    "./organisms/TestimonialBlock": {
+      "types": "./dist/organisms/TestimonialBlock.d.ts",
+      "import": "./dist/organisms/TestimonialBlock.js",
+      "require": "./dist/organisms/TestimonialBlock.cjs"
+    },
+    "./organisms/PricingTable": {
+      "types": "./dist/organisms/PricingTable.d.ts",
+      "import": "./dist/organisms/PricingTable.js",
+      "require": "./dist/organisms/PricingTable.cjs"
     },
     "./organisms/Dialog": {
       "types": "./dist/organisms/Dialog.d.ts",
@@ -434,6 +554,11 @@
       "types": "./dist/organisms/Footer.d.ts",
       "import": "./dist/organisms/Footer.js",
       "require": "./dist/organisms/Footer.cjs"
+    },
+    "./organisms/CommandPalette": {
+      "types": "./dist/organisms/CommandPalette.d.ts",
+      "import": "./dist/organisms/CommandPalette.js",
+      "require": "./dist/organisms/CommandPalette.cjs"
     },
     "./organisms/SiteShell": {
       "types": "./dist/organisms/SiteShell.d.ts",
@@ -454,6 +579,51 @@
       "types": "./dist/organisms/RoleGrid.d.ts",
       "import": "./dist/organisms/RoleGrid.js",
       "require": "./dist/organisms/RoleGrid.cjs"
+    },
+    "./organisms/ComparisonTable": {
+      "types": "./dist/organisms/ComparisonTable.d.ts",
+      "import": "./dist/organisms/ComparisonTable.js",
+      "require": "./dist/organisms/ComparisonTable.cjs"
+    },
+    "./organisms/BlogPostCard": {
+      "types": "./dist/organisms/BlogPostCard.d.ts",
+      "import": "./dist/organisms/BlogPostCard.js",
+      "require": "./dist/organisms/BlogPostCard.cjs"
+    },
+    "./organisms/NewsletterSection": {
+      "types": "./dist/organisms/NewsletterSection.d.ts",
+      "import": "./dist/organisms/NewsletterSection.js",
+      "require": "./dist/organisms/NewsletterSection.cjs"
+    },
+    "./organisms/AnnouncementBar": {
+      "types": "./dist/organisms/AnnouncementBar.d.ts",
+      "import": "./dist/organisms/AnnouncementBar.js",
+      "require": "./dist/organisms/AnnouncementBar.cjs"
+    },
+    "./organisms/BlogList": {
+      "types": "./dist/organisms/BlogList.d.ts",
+      "import": "./dist/organisms/BlogList.js",
+      "require": "./dist/organisms/BlogList.cjs"
+    },
+    "./organisms/GalleryGrid": {
+      "types": "./dist/organisms/GalleryGrid.d.ts",
+      "import": "./dist/organisms/GalleryGrid.js",
+      "require": "./dist/organisms/GalleryGrid.cjs"
+    },
+    "./organisms/TimelineSection": {
+      "types": "./dist/organisms/TimelineSection.d.ts",
+      "import": "./dist/organisms/TimelineSection.js",
+      "require": "./dist/organisms/TimelineSection.cjs"
+    },
+    "./organisms/FAQSection": {
+      "types": "./dist/organisms/FAQSection.d.ts",
+      "import": "./dist/organisms/FAQSection.js",
+      "require": "./dist/organisms/FAQSection.cjs"
+    },
+    "./organisms/DocsLayout": {
+      "types": "./dist/organisms/DocsLayout.d.ts",
+      "import": "./dist/organisms/DocsLayout.js",
+      "require": "./dist/organisms/DocsLayout.cjs"
     },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
@@ -495,22 +665,27 @@
   },
   "packageManager": "pnpm@10.33.0",
   "peerDependencies": {
+    "cmdk": ">=1.0.0",
     "lucide-react": ">=0.500.0",
     "react": ">=18 || >=19",
     "react-dom": ">=18 || >=19"
   },
   "dependencies": {
+    "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-checkbox": "^1.1.0",
+    "@radix-ui/react-context-menu": "^2.2.16",
     "@radix-ui/react-dialog": "^1.1.0",
     "@radix-ui/react-hover-card": "^1.1.15",
     "@radix-ui/react-popover": "^1.1.15",
+    "@radix-ui/react-dropdown-menu": "^2.1.16",
     "@radix-ui/react-radio-group": "^1.3.8",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-switch": "^1.1.0",
     "@radix-ui/react-tabs": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.15",
     "@radix-ui/react-tooltip": "^1.2.8",
-    "clsx": "^2.1.1"
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.0",
@@ -544,6 +719,7 @@
     "size-limit": "^11.1.0",
     "typescript": "^5.6.0",
     "vite": "^5.4.0",
+    "cmdk": "^1.1.1",
     "vite-plugin-dts": "^4.2.0"
   },
   "size-limit": [
@@ -565,7 +741,7 @@
     {
       "name": "ESM — organisms subpath",
       "path": "dist/organisms.js",
-      "limit": "28 kB"
+      "limit": "32 kB"
     },
     {
       "name": "ESM — tree-shaken (Wordmark + Button)",

@@ -1,0 +1,42 @@
+/* ============================================================
+   TeamGrid — Section-framed responsive grid of TeamCard molecules
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+/* Section tone: "section" — recessed band background */
+.toneSection {
+  background: var(--surface-section);
+}
+
+/* ---------- Grid container ---------- */
+
+.grid {
+  /* Shared gap: --space-6 (1.5rem) column and row at all breakpoints */
+  display: grid;
+  gap: var(--space-6);
+  /* Default: single column — mobile-first */
+  grid-template-columns: 1fr;
+  /* Top margin between the Section heading block and the grid.
+     --space-16 (4rem) — spec §3 */
+  margin-top: var(--space-16);
+}
+
+/* ---------- Breakpoint: --bp-md (768px) → 2 columns ---------- */
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---------- Columns = 3 (default): expand to 3 at ~1024px ---------- */
+
+@media (min-width: 1024px) {
+  .columns3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* columns = 2: stays at 2 columns on all wide viewports — no override needed.
+   .columns2 has no additional rule; the 2-column breakpoint above is the final state. */

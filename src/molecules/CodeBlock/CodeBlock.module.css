@@ -1,0 +1,128 @@
+/* ============================================================
+   CodeBlock — fenced code molecule
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Reset UA figure margin */
+  margin: 0;
+  padding: 0;
+
+  /* Container */
+  display: flex;
+  flex-direction: column;
+
+  background-color: var(--surface);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-3);
+
+  /* Clip children to the container radius */
+  overflow: hidden;
+
+  font-family: var(--font-mono);
+}
+
+/* ---------- Header bar ---------- */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+
+  padding-block: var(--space-3);
+  padding-inline: var(--space-4);
+
+  border-bottom: var(--hairline-w) solid var(--hairline);
+}
+
+/* ---------- Language label ---------- */
+
+.language {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  line-height: 1;
+  color: var(--fg-muted);
+
+  /* Absorb space so the copy button stays end-aligned */
+  flex: 1;
+  min-width: 0;
+}
+
+/* ---------- Copy button ---------- */
+
+.copyBtn {
+  /* Reset button UA styles */
+  appearance: none;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  color: var(--fg-muted);
+
+  /* Transition for hover feedback */
+  transition: color 0.15s ease;
+}
+
+.copyBtn:hover {
+  color: var(--fg);
+}
+
+.copyBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+/* ---------- Pre / code pane ---------- */
+
+.pre {
+  /* Reset UA */
+  margin: 0;
+  padding: var(--space-4);
+
+  /* Horizontal scroll; no wrapping */
+  overflow-x: auto;
+  white-space: pre;
+
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-body);
+  color: var(--fg);
+
+  background-color: var(--surface);
+}
+
+.code {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background: none;
+
+  /* Inline element fills the pre */
+  display: block;
+}
+
+/* ---------- Caption ---------- */
+
+.caption {
+  padding-block: var(--space-3);
+  padding-inline: var(--space-4);
+
+  border-top: var(--hairline-w) solid var(--hairline);
+
+  font-family: var(--font-sans);
+  font-size: var(--fs-micro);
+  line-height: var(--lh-body);
+  color: var(--fg-muted);
+}

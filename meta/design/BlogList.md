@@ -1,6 +1,6 @@
 # BlogList
 
-**Status:** Draft (poukai-design — Phase 1 batch scaffold; pending approval).
+**Status:** Approved (Phase 2 — orchestrator sign-off for pilot wave; poukai-design human review pending).
 
 ## 1. Intent
 

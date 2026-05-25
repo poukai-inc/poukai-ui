@@ -1,0 +1,81 @@
+/* ============================================================
+   ArticleLayout — single-column long-form reading template.
+   Exposes a CSS grid with named width slots: text, wide, bleed.
+
+   TOKEN FALLBACK: The `text` column uses `65ch` as a hardcoded
+   fallback because `--article-measure` does not yet exist in
+   tokens.css. Replace with `var(--article-measure)` once ratified.
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  /* Bottom padding for reading comfort */
+  padding-block-end: var(--space-12);
+  background: var(--bg);
+}
+
+/* ---------- Header slot ---------- */
+
+.header {
+  /* Constrain header to the text column width. Uses same fallback as .content grid. */
+  max-width: min(65ch, 100%);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+  padding-block-end: var(--space-16);
+}
+
+/* ---------- Content grid ---------- */
+
+.content {
+  /*
+   * Three named column tracks:
+   *   text  — prose measure: min(65ch, 100%)  [TOKEN FALLBACK: replace 65ch with var(--article-measure)]
+   *   wide  — wider than measure: min(var(--content-max), 100%)
+   *   bleed — full viewport: var(--content-max-bleed)
+   *
+   * Column math (negative margin technique):
+   *   [bleed-start]  full-vw  [wide-start]  content-max  [text-start]  65ch  [text-end]  [wide-end]  [bleed-end]
+   *
+   * The symmetric structure uses a 1fr gutter on each side so the centre
+   * text column is always centred regardless of viewport.
+   */
+  display: grid;
+  grid-template-columns:
+    [bleed-start]
+    1fr
+    [wide-start]
+    minmax(0, calc((var(--content-max) - min(65ch, 100%)) / 2))
+    [text-start]
+    min(65ch, 100%)
+    [text-end]
+    minmax(0, calc((var(--content-max) - min(65ch, 100%)) / 2))
+    [wide-end]
+    1fr
+    [bleed-end];
+
+  /* Horizontal padding on the outer 1fr gutters */
+  padding-inline: var(--page-pad);
+
+  /* Vertical rhythm between grid rows */
+  row-gap: var(--space-8);
+}
+
+/* ---------- Default child placement ---------- */
+
+/* Direct children of the content grid default to the text column */
+.content > * {
+  grid-column: text;
+}
+
+/* ---------- Width modifier helpers (apply to direct children) ---------- */
+
+/* Wide: fills up to --content-max */
+.content > .wide {
+  grid-column: wide;
+}
+
+/* Bleed: full-viewport-width */
+.content > .bleed {
+  grid-column: bleed;
+}

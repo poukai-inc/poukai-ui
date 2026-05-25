@@ -1,0 +1,67 @@
+/* ============================================================
+   ContextMenu — floating right-click / long-press menu panel.
+   Owns panel surface and separator only.
+   MenuItem molecule owns individual row visual shape.
+   ============================================================ */
+
+/* ---------- Content panel ---------- */
+
+.content {
+  /* Floating panel surface */
+  background-color: var(--bg-elevated);
+  border: var(--hairline-w) solid var(--hairline);
+  border-radius: var(--radius-3);
+
+  /* Internal rhythm */
+  padding-block: var(--space-4);
+  padding-inline: var(--space-2);
+
+  /* Ensure panel floats above page chrome */
+  z-index: 50;
+
+  /* Prevent content from overflowing the viewport */
+  min-width: 180px;
+  max-width: 320px;
+  overflow: hidden;
+
+  /* Motion: enter */
+  transform-origin: var(--radix-context-menu-content-transform-origin);
+  animation: contentShow var(--dur-fast) var(--easing);
+}
+
+/* Motion: exit — Radix adds data-state="closed" before unmount */
+.content[data-state="closed"] {
+  animation: contentHide var(--dur-fast) var(--easing);
+}
+
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes contentHide {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* ---------- Separator ---------- */
+
+.separator {
+  height: var(--hairline-w);
+  background-color: var(--hairline);
+  margin-block: var(--space-1);
+  /* Pull separator flush with panel edges — override panel inline padding */
+  margin-inline: calc(-1 * var(--space-2));
+}

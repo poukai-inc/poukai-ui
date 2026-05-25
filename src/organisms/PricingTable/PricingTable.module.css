@@ -1,0 +1,72 @@
+/* ============================================================
+   PricingTable — pricing page organism
+   ============================================================
+
+   Layout model:
+     <section>  — --surface-section band, vertical padding
+       <div>    — container, max-width + page-pad
+         [heading slot]
+         <div>  — CSS grid of PriceTier cards
+         [comparison slot]
+
+   Grid: auto mode uses minmax(min(100%, 280px), 1fr) — collapses
+   responsively from 3-up → 1-up. Explicit columns lock via
+   repeat(N, 1fr).
+   ============================================================ */
+
+/* ---------- Root (section band) ---------- */
+
+.root {
+  background: var(--surface-section);
+  padding-block: var(--space-16);
+  padding-inline: var(--page-pad);
+}
+
+/* ---------- Container ---------- */
+
+.container {
+  max-width: var(--content-max);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* ---------- Heading slot ---------- */
+
+.headingSlot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* ---------- Tier grid ---------- */
+
+/* Default (auto): responsive 1 → N column layout using minmax.
+   Each cell stretches to fill row height by default (align-items: stretch). */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: var(--space-6);
+  align-items: stretch;
+}
+
+/* Explicit column locks */
+.columns2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.columns3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* Top alignment — cards size to their own content */
+.alignTop {
+  align-items: start;
+}
+
+/* ---------- Comparison body slot ---------- */
+
+.comparisonSlot {
+  margin-top: var(--space-12);
+}

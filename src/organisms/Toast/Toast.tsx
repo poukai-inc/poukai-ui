@@ -7,7 +7,9 @@
  *   ToastPayload   — payload type for show().
  *
  * Built on @radix-ui/react-toast for ARIA, focus, swipe-to-dismiss,
- * and prefers-reduced-motion support.
+ * and prefers-reduced-motion support. Rendered toast UI is composed
+ * via the ToastItem molecule — single source of truth for tone tokens,
+ * close button, and a11y wiring.
  *
  * @see meta/design/Toast.md
  */
@@ -18,18 +20,9 @@ import { createContext, useCallback, useContext, useState, type ReactNode } from
 // Radix's internal identifier of the same name when the test wrapper
 // hoists imports. Keeps Radix primitives out of the static module scope.
 import * as RadixToastModule from "@radix-ui/react-toast";
-const {
-  Provider: RadixToastProvider,
-  Viewport: RadixToastViewport,
-  Root: RadixToastRoot,
-  Title: RadixToastTitle,
-  Description: RadixToastDescription,
-  Action: RadixToastAction,
-  Close: RadixToastClose,
-} = RadixToastModule;
-import { X } from "lucide-react";
+const { Provider: RadixToastProvider, Viewport: RadixToastViewport } = RadixToastModule;
 import clsx from "clsx";
-import { Button } from "../../atoms/Button";
+import { ToastItem } from "../../molecules/ToastItem";
 import styles from "./Toast.module.css";
 
 /* ─── Types ──────────────────────────────────────────────────── */
@@ -146,52 +139,32 @@ function PoukaiToastProvider({
         {toasts.map(({ id, payload }) => {
           const tone: ToastTone = payload.tone ?? "info";
           const duration = payload.duration ?? defaultDuration;
-          // Radix uses `type="foreground"` for action-required (danger/warning → assertive)
-          // and `type="background"` for passive (info/success → polite).
-          const radixType = tone === "danger" || tone === "warning" ? "foreground" : "background";
 
           return (
-            <RadixToastRoot
+            <ToastItem
               key={id}
+              tone={tone}
               duration={duration}
-              type={radixType}
-              className={clsx(styles.root, styles[`tone-${tone}`])}
               data-tone={tone}
               onOpenChange={(open) => {
                 if (!open) dismiss(id);
               }}
             >
-              <div className={styles.inner}>
-                <div className={styles.textBlock}>
-                  {payload.title !== undefined && (
-                    <RadixToastTitle className={styles.title}>{payload.title}</RadixToastTitle>
-                  )}
-                  <RadixToastDescription className={styles.body}>
-                    {payload.body}
-                  </RadixToastDescription>
-                </div>
-
-                <div className={styles.controls}>
-                  {payload.action !== undefined && (
-                    <RadixToastAction
-                      altText={payload.action.label}
-                      className={styles.actionWrapper}
-                      onClick={payload.action.onClick}
-                    >
-                      <Button variant="ghost" size="sm">
-                        {payload.action.label}
-                      </Button>
-                    </RadixToastAction>
-                  )}
-
-                  <RadixToastClose asChild>
-                    <button className={styles.closeButton} aria-label={closeLabel} type="button">
-                      <X size={14} aria-hidden="true" />
-                    </button>
-                  </RadixToastClose>
-                </div>
+              <div className={styles.textBlock}>
+                {payload.title !== undefined && <ToastItem.Title>{payload.title}</ToastItem.Title>}
+                <ToastItem.Description>{payload.body}</ToastItem.Description>
               </div>
-            </RadixToastRoot>
+
+              <div className={styles.controls}>
+                {payload.action !== undefined && (
+                  <ToastItem.Action altText={payload.action.label} onClick={payload.action.onClick}>
+                    {payload.action.label}
+                  </ToastItem.Action>
+                )}
+
+                <ToastItem.Close aria-label={closeLabel} />
+              </div>
+            </ToastItem>
           );
         })}
       </RadixToastProvider>

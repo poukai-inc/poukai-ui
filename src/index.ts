@@ -88,6 +88,17 @@ export { Select, type SelectProps, type SelectSize } from "./atoms/Select";
 export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Textarea";
 export { Radio, RadioGroup, type RadioProps, type RadioGroupProps } from "./atoms/Radio";
 export { TimePicker, type TimePickerProps, type TimePickerSize } from "./atoms/TimePicker";
+export {
+  DropdownMenu,
+  DropdownMenuBasic,
+  type DropdownMenuRootProps,
+  type DropdownMenuTriggerProps,
+  type DropdownMenuContentProps,
+  type DropdownMenuItemProps,
+  type DropdownMenuSeparatorProps,
+  type DropdownMenuBasicProps,
+  type DropdownMenuBasicItem,
+} from "./atoms/DropdownMenu";
 
 export {
   Tooltip,
@@ -155,11 +166,18 @@ export { MetaList, type MetaListProps, type MetaListItem } from "./molecules/Met
 export { TagList, type TagListProps } from "./molecules/TagList/index.js";
 export { MenuItem, type MenuItemProps, type MenuItemTone } from "./molecules/MenuItem";
 export { Alert, type AlertProps, type AlertVariant } from "./molecules/Alert";
+export { DatePicker, type DatePickerProps } from "./molecules/DatePicker";
 export { FormRow, type FormRowProps, type FormRowGap } from "./molecules/FormRow";
 export { TimelineItem, type TimelineItemProps } from "./molecules/TimelineItem";
 
 export { Disclosure, type DisclosureProps } from "./molecules/Disclosure";
 export { SearchField, type SearchFieldProps } from "./molecules/SearchField";
+export {
+  Combobox,
+  type ComboboxProps,
+  type ComboboxOption,
+  type ComboboxSize,
+} from "./molecules/Combobox";
 export { NavLink, type NavLinkProps } from "./molecules/NavLink";
 export { StatList, type StatListProps } from "./molecules/StatList";
 export { Caption, type CaptionProps } from "./molecules/Caption";
@@ -221,9 +239,72 @@ export {
   type TableOfContentsItem,
 } from "./molecules/TableOfContents";
 export { PriceTier, type PriceTierProps } from "./molecules/PriceTier";
+export { CodeBlock, type CodeBlockProps } from "./molecules/CodeBlock";
+export {
+  Carousel,
+  type CarouselRootProps,
+  type CarouselSlideProps,
+  type CarouselTrackProps,
+  type CarouselPrevProps,
+  type CarouselNextProps,
+  type CarouselIndicatorsProps,
+} from "./molecules/Carousel";
+export {
+  ContextMenu,
+  type ContextMenuRootProps,
+  type ContextMenuTriggerProps,
+  type ContextMenuContentProps,
+  type ContextMenuItemProps,
+  type ContextMenuSeparatorProps,
+} from "./molecules/ContextMenu";
+export { AudioPlayer, type AudioPlayerProps } from "./molecules/AudioPlayer";
+export {
+  Accordion,
+  type AccordionRootProps,
+  type AccordionRootSingleProps,
+  type AccordionRootMultipleProps,
+  type AccordionItemProps,
+  type AccordionTriggerProps,
+  type AccordionContentProps,
+  type AccordionTone,
+} from "./molecules/Accordion";
+export { FAQItem, type FAQItemProps, type FAQItemQuestionAs } from "./molecules/FAQItem";
+export {
+  DataTable,
+  type DataTableProps,
+  type ColumnDef,
+  type SortState,
+  type SortDirection,
+  type FilterState,
+} from "./molecules/DataTable";
 /* ---------- organisms ---------- */
+export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
+export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";
+export { ArticleLayout, type ArticleLayoutProps } from "./organisms/ArticleLayout";
 export { Sidebar, type SidebarProps, type SidebarGroupProps } from "./organisms/Sidebar";
+export { ContactBlock, type ContactBlockProps } from "./organisms/ContactBlock";
+export {
+  Header,
+  HeaderBrand,
+  HeaderNav,
+  HeaderActions,
+  type HeaderProps,
+  type HeaderBrandProps,
+  type HeaderNavProps,
+  type HeaderActionsProps,
+} from "./organisms/Header";
+export { ArticleHeader, type ArticleHeaderProps } from "./organisms/ArticleHeader";
 export { HeroSection, type HeroSectionProps } from "./organisms/HeroSection";
+export { StepsSection, type StepsSectionProps } from "./organisms/StepsSection";
+export { StatsSection, type StatsSectionProps } from "./organisms/StatsSection";
+export {
+  CTASection,
+  type CTASectionProps,
+  type CTASectionSurface,
+  type CTASectionSize,
+  type CTASectionAlign,
+  type CTASectionHeadingAs,
+} from "./organisms/CTASection";
 export { SiteShell, type SiteShellProps, type SiteShellRoute } from "./organisms/SiteShell";
 export { Footer, type FooterProps, type FooterLink } from "./organisms/Footer";
 export {
@@ -271,3 +352,70 @@ export {
   type RoleGridColumns,
   type RoleGridSurface,
 } from "./organisms/RoleGrid";
+export {
+  TestimonialBlock,
+  type TestimonialBlockProps,
+  type TestimonialBlockOrientation,
+  type TestimonialBlockAlign,
+} from "./organisms/TestimonialBlock";
+export { NewsletterSection, type NewsletterSectionProps } from "./organisms/NewsletterSection";
+export {
+  AnnouncementBar,
+  type AnnouncementBarProps,
+  type AnnouncementBarTone,
+} from "./organisms/AnnouncementBar";
+export {
+  BlogPostCard,
+  type BlogPostCardProps,
+  type BlogPostCardTone,
+  type BlogPostCardHeadingLevel,
+  type BlogPostCardCover,
+} from "./organisms/BlogPostCard";
+export { ComparisonTable, type ComparisonTableProps } from "./organisms/ComparisonTable";
+export {
+  PricingTable,
+  type PricingTableProps,
+  type PricingTableColumns,
+  type PricingTableAlign,
+} from "./organisms/PricingTable";
+export { BlogList, type BlogListProps, type BlogListSize } from "./organisms/BlogList";
+export {
+  Sheet,
+  type SheetRootProps,
+  type SheetTriggerProps,
+  type SheetContentProps,
+  type SheetTitleProps,
+  type SheetDescriptionProps,
+  type SheetCloseProps,
+  type SheetSide,
+  type SheetSize,
+} from "./organisms/Sheet";
+export { VideoEmbed, type VideoEmbedProps } from "./molecules/VideoEmbed";
+export {
+  GalleryGrid,
+  type GalleryGridProps,
+  type GalleryGridItemProps,
+  type GalleryGridColumns,
+  type GalleryGridGap,
+} from "./organisms/GalleryGrid";
+export { TimelineSection, type TimelineSectionProps } from "./organisms/TimelineSection";
+export {
+  CommandPalette,
+  type CommandPaletteRootProps,
+  type CommandPaletteInputProps,
+  type CommandPaletteListProps,
+  type CommandPaletteGroupProps,
+  type CommandPaletteItemProps,
+  type CommandPaletteEmptyProps,
+} from "./organisms/CommandPalette";
+export { FAQSection, type FAQSectionProps } from "./organisms/FAQSection";
+export {
+  ToastItem,
+  type ToastItemProps,
+  type ToastItemTone,
+  type ToastItemTitleProps,
+  type ToastItemDescriptionProps,
+  type ToastItemCloseProps,
+  type ToastItemActionProps,
+} from "./molecules/ToastItem";
+export { DocsLayout, type DocsLayoutProps } from "./organisms/DocsLayout";

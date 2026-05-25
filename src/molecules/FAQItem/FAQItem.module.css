@@ -1,0 +1,36 @@
+/* ─── Item ───────────────────────────────────────────────────────── */
+
+/* The Accordion.Item base already applies hairline border-bottom via its own
+   CSS. No additional border rules needed here. */
+.item {
+  /* Inherits hairline borders from Accordion.Item */
+}
+
+/* ─── Trigger ────────────────────────────────────────────────────── */
+
+/* Accordion.Trigger already applies full-width flex layout, padding, and
+   chevron animation. We only need to size the question heading correctly. */
+.trigger {
+  /* Inherits layout from Accordion.Trigger */
+}
+
+/* ─── Question heading ───────────────────────────────────────────── */
+
+.question {
+  flex: 1;
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-h3);
+  font-weight: inherit;
+  line-height: var(--lh-body);
+  color: var(--fg);
+  text-align: left;
+}
+
+/* ─── Content ────────────────────────────────────────────────────── */
+
+/* Accordion.Content already applies padding and animation. This class is a
+   pass-through hook for consumers who need to override. */
+.content {
+  /* Inherits layout from Accordion.Content */
+}

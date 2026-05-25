@@ -178,6 +178,7 @@ export const LinkCard = forwardRef<HTMLAnchorElement, LinkCardProps>(function Li
 
   return (
     <a ref={ref} className={rootClassName} {...anchorProps} {...rest}>
+      {children}
       {cardContent}
     </a>
   );

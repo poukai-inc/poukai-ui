@@ -1,5 +1,6 @@
 import type { Story, StoryDefault } from "@ladle/react";
 import { BlogList } from "./BlogList";
+import { Byline } from "../../molecules/Byline";
 
 export default {
   title: "Components / BlogList",
@@ -9,22 +10,19 @@ const posts = [
   {
     title: "Closing the pilot gap",
     lede: "How teams move from proof-of-concept to production-grade AI.",
-    date: "12 May 2026",
-    author: "Arian Z.",
+    byline: <Byline name="Arian Z." publishedAt="2026-05-12" />,
     href: "/blog/closing-the-pilot-gap",
   },
   {
     title: "Model evaluation at scale",
     lede: "A practical framework for evaluating LLMs before deploying to production.",
-    date: "3 Apr 2026",
-    author: "Arian Z.",
+    byline: <Byline name="Arian Z." publishedAt="2026-04-03" />,
     href: "/blog/model-evaluation",
   },
   {
     title: "Prompt engineering is not enough",
     lede: "Why teams need structured evals alongside prompt iteration.",
-    date: "14 Mar 2026",
-    author: "Arian Z.",
+    byline: <Byline name="Arian Z." publishedAt="2026-03-14" />,
     href: "/blog/prompt-engineering-not-enough",
   },
 ];

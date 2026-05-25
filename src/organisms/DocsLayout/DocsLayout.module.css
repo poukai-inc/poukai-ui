@@ -76,6 +76,10 @@
   align-items: center;
   padding: var(--space-4) var(--page-pad);
   border-bottom: var(--hairline-w, 1px) solid var(--hairline);
+  /* Sit above the mobile drawer (z-index: 50) so the menu button remains
+     clickable to close the drawer after it opens. */
+  position: relative;
+  z-index: 51;
 }
 
 /* ---------- Menu button ---------- */

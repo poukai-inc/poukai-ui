@@ -87,8 +87,8 @@ export const BlogPostCard = forwardRef<HTMLAnchorElement, BlogPostCardProps>(fun
     <LinkCard
       ref={ref}
       href={href}
-      title={<TitleTag className={styles.title}>{title}</TitleTag>}
-      titleAs="h3"
+      title={title}
+      titleAs={TitleTag}
       variant={tone === "subtle" ? "quiet" : "default"}
       className={clsx(styles.root, tone === "subtle" && styles.toneSubtle, className)}
       body={

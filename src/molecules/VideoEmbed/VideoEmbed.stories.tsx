@@ -3,7 +3,7 @@ import { VideoEmbed } from "./VideoEmbed";
 import { Caption } from "../Caption";
 
 export default {
-  title: "Components / VideoEmbed",
+  title: "Molecules / VideoEmbed",
 } satisfies StoryDefault;
 
 /** Default — 16/9 YouTube embed with lazy loading.

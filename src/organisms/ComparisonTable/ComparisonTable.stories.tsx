@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { ComparisonTable } from "./ComparisonTable";
 
 export default {
-  title: "Components / ComparisonTable",
+  title: "Organisms / ComparisonTable",
 } satisfies StoryDefault;
 
 // ---------------------------------------------------------------------------

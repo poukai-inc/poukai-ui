@@ -4,7 +4,7 @@ import { Combobox } from "./Combobox";
 import { Field } from "../Field/Field";
 
 export default {
-  title: "Components / Combobox",
+  title: "Molecules / Combobox",
 } satisfies StoryDefault;
 
 const TIMEZONES = [

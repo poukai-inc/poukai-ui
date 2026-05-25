@@ -3,7 +3,7 @@ import { EmptyState } from "./EmptyState";
 import { Button } from "../../atoms/Button/Button";
 
 export default {
-  title: "Components / EmptyState",
+  title: "Molecules / EmptyState",
 } satisfies StoryDefault;
 
 /** Default — title only, transparent background.

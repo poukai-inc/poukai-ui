@@ -4,7 +4,7 @@ import { Field } from "../Field/Field";
 import { Input } from "../../atoms/Input/Input";
 
 export default {
-  title: "Components / Fieldset",
+  title: "Molecules / Fieldset",
 } satisfies StoryDefault;
 
 /** Default — billing address composition with three Field children. */

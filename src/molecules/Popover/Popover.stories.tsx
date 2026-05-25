@@ -3,7 +3,7 @@ import { Popover } from "./Popover";
 import { Button } from "../../atoms/Button";
 
 export default {
-  title: "Components / Popover",
+  title: "Molecules / Popover",
 } satisfies StoryDefault;
 
 /* ─── Default ─────────────────────────────────────────────────── */

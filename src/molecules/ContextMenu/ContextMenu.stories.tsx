@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { ContextMenu } from "./ContextMenu";
 
 export default {
-  title: "Components / ContextMenu",
+  title: "Molecules / ContextMenu",
 } satisfies StoryDefault;
 
 /* ------------------------------------------------------------------ */

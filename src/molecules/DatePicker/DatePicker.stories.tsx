@@ -3,7 +3,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { DatePicker } from "./DatePicker";
 
 export default {
-  title: "Components / DatePicker",
+  title: "Molecules / DatePicker",
 } satisfies StoryDefault;
 
 /** (a) Default — no date selected, placeholder visible. */

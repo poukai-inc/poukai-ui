@@ -3,7 +3,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { SearchField } from "./SearchField";
 
 export default {
-  title: "Components / SearchField",
+  title: "Molecules / SearchField",
 } satisfies StoryDefault;
 
 /** (a) Default — empty, controlled, no clear button visible. */

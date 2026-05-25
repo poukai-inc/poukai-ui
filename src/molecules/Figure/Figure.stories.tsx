@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Figure } from "./Figure";
 
 export default {
-  title: "Components / Figure",
+  title: "Molecules / Figure",
 } satisfies StoryDefault;
 
 /** Default — img with shorthand caption prop. */

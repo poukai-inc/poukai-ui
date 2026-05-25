@@ -5,7 +5,7 @@ import { Button } from "../../atoms/Button";
 import { Portrait } from "../../molecules/Portrait";
 
 export default {
-  title: "Components / HeroSection",
+  title: "Organisms / HeroSection",
 } satisfies StoryDefault;
 
 export const Default: Story = () => (

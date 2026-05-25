@@ -3,7 +3,7 @@ import { NewsletterSection } from "./NewsletterSection";
 import { NewsletterField } from "../../molecules/NewsletterField";
 
 export default {
-  title: "Components / NewsletterSection",
+  title: "Organisms / NewsletterSection",
 } satisfies StoryDefault;
 
 export const Default: Story = () => (

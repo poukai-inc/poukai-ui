@@ -3,7 +3,7 @@ import { ArticleHeader } from "./ArticleHeader";
 import { Byline } from "../../molecules/Byline";
 
 export default {
-  title: "Components / ArticleHeader",
+  title: "Organisms / ArticleHeader",
 } satisfies StoryDefault;
 
 const DefaultByline = (

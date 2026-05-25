@@ -3,7 +3,7 @@ import { FAQSection } from "./FAQSection";
 import { FAQItem } from "../../molecules/FAQItem";
 
 export default {
-  title: "Components / FAQSection",
+  title: "Organisms / FAQSection",
 } satisfies StoryDefault;
 
 /* ─── Default (single, collapsible) ─────────────────────────────── */

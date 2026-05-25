@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { PriceTier } from "./PriceTier";
 
 export default {
-  title: "Components / PriceTier",
+  title: "Molecules / PriceTier",
 } satisfies StoryDefault;
 
 const ctaButton = (label: string) => (

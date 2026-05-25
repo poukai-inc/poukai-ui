@@ -1,5 +1,11 @@
 # @poukai-inc/ui
 
+## 2.11.2
+
+### Patch Changes
+
+- 0ab6f96: fix: restore UNLICENSED SPDX value so pnpm license scanners report the package correctly
+
 ## 2.11.1
 
 ### Patch Changes

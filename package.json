@@ -485,6 +485,11 @@
       "import": "./dist/organisms/ArticleLayout.js",
       "require": "./dist/organisms/ArticleLayout.cjs"
     },
+    "./molecules/DataTable": {
+      "types": "./dist/molecules/DataTable.d.ts",
+      "import": "./dist/molecules/DataTable.js",
+      "require": "./dist/molecules/DataTable.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

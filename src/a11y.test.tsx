@@ -115,6 +115,8 @@ import { Combobox } from "./molecules/Combobox";
 import { AudioPlayer } from "./molecules/AudioPlayer";
 import { Accordion } from "./molecules/Accordion";
 import { FAQItem } from "./molecules/FAQItem";
+import { DataTable } from "./molecules/DataTable";
+import type { ColumnDef } from "./molecules/DataTable";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -3125,6 +3127,31 @@ test("a11y — ComparisonTable", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- DataTable a11y ---------- */
+
+const A11Y_COLUMNS: ColumnDef<{ id: string; name: string; role: string }>[] = [
+  { id: "name", header: "Name", accessor: (r) => r.name, sortable: true },
+  { id: "role", header: "Role", accessor: (r) => r.role },
+];
+
+const A11Y_ROWS = [
+  { id: "1", name: "Arian", role: "Founder" },
+  { id: "2", name: "Sam", role: "Engineer" },
+];
+
+test("a11y — DataTable (with rows)", async ({ mount, page }) => {
+  await mount(
+    <DataTable
+      columns={A11Y_COLUMNS}
+      rows={A11Y_ROWS}
+      pageCount={1}
+      caption="Team members"
+      totalRows={2}
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 /* ---------- AudioPlayer ---------- */
 
 test("a11y — AudioPlayer (caption + transcript link)", async ({ mount, page }) => {
@@ -3134,6 +3161,26 @@ test("a11y — AudioPlayer (caption + transcript link)", async ({ mount, page })
       aria-label="Episode 12 — Design systems"
       caption="Episode 12 — Design systems"
       transcriptHref="/transcripts/ep-12"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — DataTable (empty state)", async ({ mount, page }) => {
+  await mount(<DataTable columns={A11Y_COLUMNS} rows={[]} pageCount={0} caption="Team members" />);
+  await expectAxeClean(page);
+});
+
+test("a11y — DataTable (with pagination)", async ({ mount, page }) => {
+  await mount(
+    <DataTable
+      columns={A11Y_COLUMNS}
+      rows={A11Y_ROWS}
+      pageCount={5}
+      page={1}
+      caption="Team members"
+      totalRows={10}
+      onPageChange={() => undefined}
     />,
   );
   await expectAxeClean(page);

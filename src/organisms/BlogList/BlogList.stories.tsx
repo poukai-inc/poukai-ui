@@ -3,7 +3,7 @@ import { BlogList } from "./BlogList";
 import { Byline } from "../../molecules/Byline";
 
 export default {
-  title: "Components / BlogList",
+  title: "Organisms / BlogList",
 } satisfies StoryDefault;
 
 const posts = [

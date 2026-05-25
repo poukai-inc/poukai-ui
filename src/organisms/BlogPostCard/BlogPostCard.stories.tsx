@@ -5,7 +5,7 @@ import { TagList } from "../../molecules/TagList";
 import { Tag } from "../../atoms/Tag";
 
 export default {
-  title: "Components / BlogPostCard",
+  title: "Organisms / BlogPostCard",
 } satisfies StoryDefault;
 
 const sampleByline = (

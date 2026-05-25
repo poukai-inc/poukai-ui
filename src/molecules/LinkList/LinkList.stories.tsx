@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { LinkList } from "./LinkList";
 
 export default {
-  title: "Components / LinkList",
+  title: "Molecules / LinkList",
 } satisfies StoryDefault;
 
 /** Default — untitled footer column, sm size.

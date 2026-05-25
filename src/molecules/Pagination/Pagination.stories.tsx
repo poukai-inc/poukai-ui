@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Pagination } from "./Pagination";
 
 export default {
-  title: "Components / Pagination",
+  title: "Molecules / Pagination",
 } satisfies StoryDefault;
 
 /** Default — page 1 of 10, md size.

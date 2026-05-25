@@ -4,7 +4,7 @@ import { StatusBadge } from "../../atoms/StatusBadge";
 import { Button } from "../../atoms/Button";
 
 export default {
-  title: "Components / ContactBlock",
+  title: "Organisms / ContactBlock",
 } satisfies StoryDefault;
 
 export const Default: Story = () => <ContactBlock email="hello@pouk.ai" />;

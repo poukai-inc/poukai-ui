@@ -4,7 +4,7 @@ import { Byline } from "../../molecules/Byline";
 import { Portrait } from "../../molecules/Portrait";
 
 export default {
-  title: "Components / TestimonialBlock",
+  title: "Organisms / TestimonialBlock",
 } satisfies StoryDefault;
 
 const defaultByline = <Byline name="Jane Doe" role="Head of Design, Acme" />;

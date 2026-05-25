@@ -4,7 +4,7 @@ import { Avatar } from "../../atoms/Avatar";
 import { StatusBadge } from "../../atoms/StatusBadge";
 
 export default {
-  title: "Components / Cards / HoverCard",
+  title: "Molecules / HoverCard",
 } satisfies StoryDefault;
 
 /** Default — author link trigger with name, role, and bio.

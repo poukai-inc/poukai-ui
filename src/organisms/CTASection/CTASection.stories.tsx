@@ -3,7 +3,7 @@ import { CTASection } from "./CTASection";
 import { Button } from "../../atoms/Button";
 
 export default {
-  title: "Components / CTASection",
+  title: "Organisms / CTASection",
 } satisfies StoryDefault;
 
 export const Default: Story = () => (

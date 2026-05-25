@@ -3,7 +3,7 @@ import { StatsSection } from "./StatsSection";
 import { Stat } from "../../atoms/Stat";
 
 export default {
-  title: "Components / StatsSection",
+  title: "Organisms / StatsSection",
 } satisfies StoryDefault;
 
 export const Default: Story = () => (

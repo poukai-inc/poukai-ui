@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Alert } from "./Alert";
 
 export default {
-  title: "Components / Alert",
+  title: "Molecules / Alert",
 } satisfies StoryDefault;
 
 /** Default — info variant, body only. */

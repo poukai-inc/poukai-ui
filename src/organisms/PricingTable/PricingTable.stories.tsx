@@ -3,7 +3,7 @@ import { PricingTable } from "./PricingTable";
 import { PriceTier } from "../../molecules/PriceTier";
 
 export default {
-  title: "Components / PricingTable",
+  title: "Organisms / PricingTable",
 } satisfies StoryDefault;
 
 const makeButton = (label: string, primary = false) => (

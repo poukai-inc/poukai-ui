@@ -3,7 +3,7 @@ import { ArticleLayout } from "./ArticleLayout";
 import { Prose } from "../../atoms/Prose";
 
 export default {
-  title: "Components / ArticleLayout",
+  title: "Organisms / ArticleLayout",
 } satisfies StoryDefault;
 
 const bodyText = (

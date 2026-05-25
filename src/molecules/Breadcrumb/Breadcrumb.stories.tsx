@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { Breadcrumb } from "./Breadcrumb";
 
 export default {
-  title: "Components / Breadcrumb",
+  title: "Molecules / Breadcrumb",
 } satisfies StoryDefault;
 
 /** Default — 3-level compound usage.

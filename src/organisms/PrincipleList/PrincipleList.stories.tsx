@@ -3,7 +3,7 @@ import { PrincipleList } from "./PrincipleList";
 import { Principle } from "../../molecules/Principle";
 
 export default {
-  title: "Components / PrincipleList",
+  title: "Organisms / PrincipleList",
 } satisfies StoryDefault;
 
 export const Default: Story = () => (

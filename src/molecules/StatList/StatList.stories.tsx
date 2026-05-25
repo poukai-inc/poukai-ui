@@ -3,7 +3,7 @@ import { Stat } from "../../atoms/Stat";
 import { StatList, type StatListAlign } from "./StatList";
 
 export default {
-  title: "Components / StatList",
+  title: "Molecules / StatList",
   args: {
     dividers: false,
     align: "center",

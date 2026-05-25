@@ -3,7 +3,7 @@ import { LogoCloud } from "./LogoCloud";
 import { Logo } from "../../atoms/Logo";
 
 export default {
-  title: "Components / LogoCloud",
+  title: "Organisms / LogoCloud",
 } satisfies StoryDefault;
 
 /* ── Shared fixtures ───────────────────────────────────────── */

@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { CopyButton } from "./CopyButton";
 
 export default {
-  title: "Components / CopyButton",
+  title: "Molecules / CopyButton",
 } satisfies StoryDefault;
 
 /** Default — label + icon, idle state. Secondary affordance register.

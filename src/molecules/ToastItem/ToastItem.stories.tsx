@@ -5,7 +5,7 @@ const ToastViewport = RadixToastModule.Viewport;
 import { ToastItem } from "./ToastItem";
 
 export default {
-  title: "Components / ToastItem",
+  title: "Molecules / ToastItem",
 } satisfies StoryDefault;
 
 const viewportStyle: React.CSSProperties = {

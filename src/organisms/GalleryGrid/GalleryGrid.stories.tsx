@@ -2,7 +2,7 @@ import type { Story, StoryDefault } from "@ladle/react";
 import { GalleryGrid } from "./GalleryGrid";
 
 export default {
-  title: "Components / GalleryGrid",
+  title: "Organisms / GalleryGrid",
 } satisfies StoryDefault;
 
 const ITEMS_3 = [

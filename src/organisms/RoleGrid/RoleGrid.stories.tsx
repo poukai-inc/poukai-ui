@@ -3,7 +3,7 @@ import { RoleGrid } from "./RoleGrid";
 import { RoleCard } from "../../molecules/RoleCard";
 
 export default {
-  title: "Components / RoleGrid",
+  title: "Organisms / RoleGrid",
 } satisfies StoryDefault;
 
 const builderCard = (

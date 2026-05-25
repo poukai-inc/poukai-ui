@@ -4,7 +4,7 @@ import { Field } from "../Field/Field";
 import { Input } from "../Input/Input";
 
 export default {
-  title: "Components / FormRow",
+  title: "Molecules / FormRow",
 } satisfies StoryDefault;
 
 /** (a) Default — first name / last name side-by-side. */

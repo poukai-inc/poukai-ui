@@ -40,11 +40,12 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           # Bash is blocked by default — explicitly allow the tools the
           # session needs to branch, install, build, test, format, commit,
-          # push, and open the PR. File tools (Read/Edit/Write/Glob/Grep)
-          # are not gated.
+          # push, and open the PR. File/edit/task tools must be listed too;
+          # Write is gated by claude-code-action@v1 and the session will
+          # stall on the first file creation if it isn't whitelisted here.
           claude_args: >-
             --allowedTools
-            "Bash(git:*),Bash(gh:*),Bash(pnpm:*),Bash(npm:*),Bash(npx:*),Bash(node:*),Bash(ls:*),Bash(cat:*),Bash(grep:*),Bash(find:*),Bash(mkdir:*),Bash(rm:*),Bash(cp:*),Bash(mv:*),Bash(echo:*),Bash(test:*),Bash(sed:*),Bash(awk:*),Bash(head:*),Bash(tail:*),Bash(wc:*),Bash(sort:*),Bash(uniq:*),Bash(diff:*),Bash(cd:*),WebFetch,WebSearch"
+            "Bash(git:*),Bash(gh:*),Bash(pnpm:*),Bash(npm:*),Bash(npx:*),Bash(node:*),Bash(ls:*),Bash(cat:*),Bash(grep:*),Bash(find:*),Bash(mkdir:*),Bash(rm:*),Bash(cp:*),Bash(mv:*),Bash(echo:*),Bash(test:*),Bash(sed:*),Bash(awk:*),Bash(head:*),Bash(tail:*),Bash(wc:*),Bash(sort:*),Bash(uniq:*),Bash(diff:*),Bash(cd:*),Read,Write,Edit,MultiEdit,Glob,Grep,Task,TodoWrite,WebFetch,WebSearch"
           # Stream the full session output to the workflow log so we can
           # actually see what got blocked / what got done. Logs are only
           # visible to repo collaborators (private repo).
@@ -54,7 +55,7 @@ jobs:
             on this repo (`poukai-inc/poukai-ui`). The issue is #${{ github.event.issue.number }}.
 
             The issue body is a verbatim consumer-authored proposal — usually
-            from `poukai-inc/pouk.ai`. Treat it as the brief.
+            from `poukai-inc/poukai-site`. Treat it as the brief.
 
             Operating constraints:
 

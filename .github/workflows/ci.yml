@@ -184,23 +184,23 @@ jobs:
           # Packages PR fires `pull_request` workflows and can auto-merge.
           GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - name: Dispatch ds-package-published to poukai-inc/pouk.ai
+      - name: Dispatch ds-package-published to poukai-inc/poukai-site
         if: steps.changesets.outputs.published == 'true'
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.CONSUMER_DISPATCH_TOKEN }}
-          repository: poukai-inc/pouk.ai
+          repository: poukai-inc/poukai-site
           event-type: ds-package-published
           client-payload: |
             {
               "version": "${{ fromJson(steps.changesets.outputs.publishedPackages)[0].version }}"
             }
-      - name: Dispatch ds-package-published to poukai-inc/autopost
+      - name: Dispatch ds-package-published to poukai-inc/app-social-media
         if: steps.changesets.outputs.published == 'true'
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.CONSUMER_DISPATCH_TOKEN }}
-          repository: poukai-inc/autopost
+          repository: poukai-inc/app-social-media
           event-type: ds-package-published
           client-payload: |
             {

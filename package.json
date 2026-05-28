@@ -625,6 +625,11 @@
       "import": "./dist/organisms/DocsLayout.js",
       "require": "./dist/organisms/DocsLayout.cjs"
     },
+    "./organisms/NotFound": {
+      "types": "./dist/organisms/NotFound.d.ts",
+      "import": "./dist/organisms/NotFound.js",
+      "require": "./dist/organisms/NotFound.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",

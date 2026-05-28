@@ -119,6 +119,7 @@ import { FAQItem } from "./molecules/FAQItem";
 import { DataTable } from "./molecules/DataTable";
 import type { ColumnDef } from "./molecules/DataTable";
 import { FAQSection } from "./organisms/FAQSection";
+import { NotFound } from "./organisms/NotFound";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -3569,4 +3570,23 @@ test("a11y — DocsLayout (without toc, two-column)", async ({ mount, page }) =>
     </DocsLayout>,
   );
   await expectAxeClean(page);
+});
+
+/* ---------- NotFound ---------- */
+
+test("a11y — NotFound (default, no suggestions)", async ({ mount, page }) => {
+  await mount(<NotFound />);
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — NotFound (with suggestions)", async ({ mount, page }) => {
+  await mount(
+    <NotFound
+      suggestions={[
+        { label: "Home", href: "/" },
+        { label: "Why AI", href: "/why-ai" },
+      ]}
+    />,
+  );
+  await expectAxeClean(page, { fullPageSemantics: true });
 });

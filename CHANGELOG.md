@@ -1,5 +1,11 @@
 # @poukai-inc/ui
 
+## 2.13.0
+
+### Minor Changes
+
+- 24b1291: Add `NotFound` organism — a shared, RSC-safe 404 page component for all pouk.ai sub-apps. Accepts `homeHref`, `headline`, `description`, `suggestions`, and `homeLabel` props. Closes #367.
+
 ## 2.12.1
 
 ### Patch Changes

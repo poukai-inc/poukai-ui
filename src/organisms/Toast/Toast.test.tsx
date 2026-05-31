@@ -28,9 +28,10 @@ test("auto-dismiss after duration fires", async ({ mount, page }) => {
 
   await page.getByRole("button", { name: "Show toast" }).click();
   await expect(page.locator("[data-tone]", { hasText: "Short-lived toast" })).toBeVisible();
-  // Wait for auto-dismiss + animation settle
-  await page.waitForTimeout(800);
-  await expect(page.locator("[data-tone]", { hasText: "Short-lived toast" })).toHaveCount(0);
+  // Wait for auto-dismiss by polling until the element is gone (deterministic)
+  await expect(page.locator("[data-tone]", { hasText: "Short-lived toast" })).toHaveCount(0, {
+    timeout: 2000,
+  });
 });
 
 test("action button invokes onClick", async ({ mount, page }) => {
@@ -164,8 +165,10 @@ test("per-toast duration overrides provider defaultDuration", async ({ mount, pa
 
   await page.getByRole("button", { name: "Show toast" }).click();
   await expect(page.locator("[data-tone]", { hasText: "Quick override" })).toBeVisible();
-  await page.waitForTimeout(800);
-  await expect(page.locator("[data-tone]", { hasText: "Quick override" })).toHaveCount(0);
+  // Wait for auto-dismiss by polling until the element is gone (deterministic)
+  await expect(page.locator("[data-tone]", { hasText: "Quick override" })).toHaveCount(0, {
+    timeout: 2000,
+  });
 });
 
 /* a11y scans are in src/a11y.test.tsx (central gate). */

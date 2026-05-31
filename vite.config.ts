@@ -127,6 +127,12 @@ export default defineConfig({
               "molecules/Pagination": resolve(__dirname, "src/molecules/Pagination/index.ts"),
               "molecules/EmptyState": resolve(__dirname, "src/molecules/EmptyState/index.ts"),
               "molecules/Breadcrumb": resolve(__dirname, "src/molecules/Breadcrumb/index.ts"),
+              // Deprecated re-export shims (Input/Textarea promoted to the atom
+              // layer). Kept as standalone chunks so the advertised
+              // ./molecules/Input and ./molecules/Textarea subpaths resolve to
+              // real dist files instead of 404-ing.
+              "molecules/Input": resolve(__dirname, "src/molecules/Input/index.ts"),
+              "molecules/Textarea": resolve(__dirname, "src/molecules/Textarea/index.ts"),
               "organisms/TeamGrid": resolve(__dirname, "src/organisms/TeamGrid/index.ts"),
               "organisms/FailureModeList": resolve(
                 __dirname,

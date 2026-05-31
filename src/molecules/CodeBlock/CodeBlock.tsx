@@ -2,6 +2,8 @@ import {
   forwardRef,
   useState,
   useCallback,
+  useEffect,
+  useRef,
   type ComponentPropsWithoutRef,
   type ReactNode,
 } from "react";
@@ -51,13 +53,24 @@ export const CodeBlock = forwardRef<HTMLElement, CodeBlockProps>(function CodeBl
   ref,
 ) {
   const [copied, setCopied] = useState(false);
+  const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Clear any pending reset timer on unmount so setCopied never fires on an
+  // unmounted component.
+  useEffect(
+    () => () => {
+      if (resetTimer.current !== null) clearTimeout(resetTimer.current);
+    },
+    [],
+  );
 
   const handleCopy = useCallback(async () => {
     const text = typeof children === "string" ? children : "";
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
+      if (resetTimer.current !== null) clearTimeout(resetTimer.current);
+      resetTimer.current = setTimeout(() => setCopied(false), 1500);
     } catch {
       // clipboard API unavailable — silently no-op
     }

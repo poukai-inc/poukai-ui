@@ -3,7 +3,7 @@
 Living to-do for `@poukai-inc/ui`. PRs that close an item should tick its box.
 Items removed when stale or migrated to an issue.
 
-**Last reviewed:** 2026-05-20 (1.0.0 milestone plan authored; gate items added)
+**Last reviewed:** 2026-05-30 (five-lane repo audit; see § 🔎 Repo audit)
 
 ---
 
@@ -18,11 +18,11 @@ Items removed when stale or migrated to an issue.
       projects identically. Reproduces on a clean checkout of `main` —
       `src/atoms/Icon/Icon.test.tsx` (e.g. the `default size is sm (16px)`
       case) fails with the same React #130 stack. Verified via `git stash &&
-    pnpm test src/atoms/Icon/Icon.test.tsx -g "default size is sm"` on
+  pnpm test src/atoms/Icon/Icon.test.tsx -g "default size is sm"` on
       `cac41bc`. Non-Lucide CT suites (`Button`, `Spinner`, `Toast`, etc.)
       are unaffected. Lucide-react `0.577.0` pinned in `pnpm-lock.yaml`,
       React `18.3.1` resolved as the single copy. Adding `optimizeDeps.include:
-    ["lucide-react"]` to `ctViteConfig` does **not** fix it. The build,
+  ["lucide-react"]` to `ctViteConfig` does **not** fix it. The build,
       typecheck, lint, size-limit, and Ladle pipelines all stay green — only
       CT is broken. Until this is resolved, all Lucide-composing atoms
       (`Icon`, `IconButton`, future `EmailLink`-icon variants, anything in
@@ -30,7 +30,7 @@ Items removed when stale or migrated to an issue.
       regression-tested. Suspect Playwright CT's prop-serialisation
       transform on component-typed props (e.g. `icon={Mail}`) — needs
       bisection against an older Playwright CT version (`@playwright/
-    experimental-ct-react@1.60` is current; the suite last passed against
+  experimental-ct-react@1.60` is current; the suite last passed against
       whatever version was in CI for PR #107).
 
 ---
@@ -107,6 +107,104 @@ ordering by likely demand.
       consuming the published package end-to-end.
 - [ ] **Phase 4 cutover** — run the parity matrix from migration plan §6.1,
       then DNS swap on Vercel. Last step.
+
+---
+
+## 🔎 Repo audit (2026-05-30)
+
+Five-lane review (security, a11y, React correctness, build/packaging,
+test coverage), every finding verified against source before listing.
+All read-only gates green at audit time: `typecheck`, `lint`,
+`format:check`, `check:llms` (42 tokens, 128 components synced) pass.
+Most speculative findings were **checked and dismissed** — see the
+"verified non-issues" note at the end so they aren't re-chased.
+
+### High — contract-breaking or interactive gaps
+
+- [ ] **Deprecated subpath exports resolve to nonexistent files.** ([#371](https://github.com/poukai-inc/poukai-ui/issues/371))
+      `package.json` advertises `./molecules/Input` and
+      `./molecules/Textarea`, but neither has a `vite.config.ts`
+      `build.lib.entry` — so `dist/molecules/Input.js` and
+      `dist/molecules/Textarea.js` are never emitted (confirmed via
+      `ls dist/molecules/`). A consumer importing the deprecated path
+      gets a hard module-resolution error instead of the intended
+      `@deprecated` re-export shim (`src/molecules/Input/index.ts`,
+      `src/molecules/Textarea/index.ts`). Fix: either add the two
+      entries to `vite.config.ts` so the shims emit, or drop the two
+      subpaths from `package.json` exports if the deprecation window
+      is over.
+- [ ] **`atoms/Radio` has no CT test.** ([#372](https://github.com/poukai-inc/poukai-ui/issues/372)) Interactive form control,
+      `src/atoms/Radio/Radio.test.tsx` missing (confirmed). CLAUDE.md
+      checklist requires `<Name>.test.tsx` per atom. Add Playwright CT
+      covering checked/unchecked, keyboard selection, group semantics,
+      and append the axe case to `src/a11y.test.tsx`.
+
+### Medium — coverage + correctness polish
+
+- [ ] **`atoms/ProgressBar` has no CT test.** ([#373](https://github.com/poukai-inc/poukai-ui/issues/373)) Stories exist, test file
+      missing (`src/atoms/ProgressBar/ProgressBar.test.tsx`). Add CT for
+      value/max rendering, indeterminate state, and `role="progressbar"`
+      ARIA value attributes.
+- [ ] **`CodeBlock` copy-reset `setTimeout` has no cleanup.** ([#374](https://github.com/poukai-inc/poukai-ui/issues/374))
+      `src/molecules/CodeBlock/CodeBlock.tsx:60` —
+      `setTimeout(() => setCopied(false), 1500)` runs without a ref or
+      `clearTimeout`, so it fires `setState` after unmount (React warns).
+      `CopyButton` already does this correctly with a tracked ref
+      (`CopyButton.tsx:75-81`); mirror that pattern in `CodeBlock`.
+- [ ] **Replace hardcoded `waitForTimeout` waits in CT.** ([#375](https://github.com/poukai-inc/poukai-ui/issues/375)) Flaky timing
+      in `molecules/CopyButton.test.tsx` (350/150/150 ms),
+      `organisms/Toast.test.tsx` (2× 800 ms),
+      `organisms/Form.test.tsx` (50/100 ms),
+      `molecules/TableOfContents.test.tsx` (200 ms), and
+      `a11y.test.tsx` (200 ms). Swap for `expect.poll` / locator
+      visibility waits so CI is deterministic.
+- [ ] **Thin coverage on stateful components.** ([#376](https://github.com/poukai-inc/poukai-ui/issues/376)) `organisms/Form`,
+      `organisms/SiteShell`, `organisms/TeamGrid`, and `molecules/Popover`
+      sit at ≤9 CT cases despite holding layout/submission/overlay state.
+      Add interaction cases (submit/validation, nav state, click-outside).
+
+### Low — defensive hardening (consumer-supplied input)
+
+- [ ] **`VideoEmbed` iframe has no `sandbox` and a broad `allow`.** ([#377](https://github.com/poukai-inc/poukai-ui/issues/377))
+      `src/molecules/VideoEmbed/VideoEmbed.tsx:78-83` passes `src`
+      through unvalidated with `allow="… clipboard-write …"` and no
+      `sandbox`. It's a generic embed wrapper (src is consumer-owned),
+      so this is hardening, not an active hole: add an opt-in
+      `sandbox` default and/or document the trusted-src contract.
+- [ ] **Reject non-http(s) href schemes in link-bearing components.** ([#378](https://github.com/poukai-inc/poukai-ui/issues/378))
+      `AudioPlayer` `transcriptHref` (`AudioPlayer.tsx:98`) and similar
+      pass-through hrefs accept any string incl. `javascript:`. `Link`
+      already auto-applies `rel="noopener noreferrer"`; extend the same
+      defensive posture by stripping/ignoring `javascript:`/`data:`
+      schemes where an href is rendered verbatim.
+- [ ] **`Decisions.stories` renders `marked` output unsanitized.** ([#379](https://github.com/poukai-inc/poukai-ui/issues/379))
+      `src/stories/Decisions.stories.tsx:68,153` —
+      `dangerouslySetInnerHTML` of `marked.parse(...)` with no
+      sanitizer. Dev-only Ladle story over maintainer-authored ADR
+      markdown, so low risk, but either sanitize (DOMPurify) or add a
+      comment asserting the trusted-input assumption.
+- [ ] **Swap the `sk-proj-…` sample key in `CopyButton.stories`.** ([#380](https://github.com/poukai-inc/poukai-ui/issues/380))
+      `CopyButton.stories.tsx:57-58` uses a real-looking OpenAI/Anthropic
+      key prefix. Replace with an obviously-fake `demo_key_…` so it never
+      trips secret scanners or confuses readers.
+
+### Verified non-issues (checked, do not re-chase)
+
+- External-link `rel`: `Link` auto-applies `rel="noopener noreferrer"`
+  on `target="_blank"`; `LinkCard`/`LinkList`/`Footer` do too.
+- `Carousel` a11y/keyboard: has `aria-roledescription`, polite
+  `aria-live`, focusable scroll region; autoplay effect already lists
+  `slideCount` in deps (`Carousel.tsx:168`).
+- `Pagination`: has `<nav aria-label="Pagination">`, `aria-current="page"`,
+  icon-button `aria-label`s.
+- `DataTable`: emits `aria-sort` on sortable headers.
+- `Input`/`Select`/`Textarea`: expose an `invalid` prop wired to
+  `aria-invalid`, and spread `...rest` for `aria-describedby` etc.
+- `Toast`/`ToastItem`: live-region + focus handled by
+  `@radix-ui/react-toast`.
+- `CommandPalette`: covered in `a11y.test.tsx` (3 references).
+- `license: "UNLICENSED"`: intentional — restored deliberately in #363
+  (`0ab6f96`), not a mismatch with the `LICENSE` file.
 
 ---
 
@@ -300,7 +398,7 @@ Missing — icon & media primitives:
 - [ ] **ProgressBar** — linear determinate/indeterminate bar.
 - [ ] **Divider** — hairline rule (horizontal / vertical) using
       `--hairline`. Lifts the dozen inline `border-top: 1px solid
-  var(--hairline)` rules into one atom.
+var(--hairline)` rules into one atom.
 - [ ] **Spacer** — explicit-gap atom for templates where flex/grid
       `gap` can't reach (rare, but useful inside Prose).
 - [ ] **VisuallyHidden** — screen-reader-only span. A11y primitive

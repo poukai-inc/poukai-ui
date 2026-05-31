@@ -163,10 +163,8 @@ test("IntersectionObserver sets active item on scroll", async ({ mount, page }) 
     if (el) el.scrollIntoView();
   });
 
-  // Give the IntersectionObserver a tick to fire.
-  await page.waitForTimeout(200);
-
   // The "Approach" anchor should now carry aria-current="true".
+  // toHaveCount/toContainText retry automatically — no fixed sleep needed.
   const activeLink = page.locator("[aria-current='true']");
   await expect(activeLink).toHaveCount(1);
   await expect(activeLink).toContainText("Approach");

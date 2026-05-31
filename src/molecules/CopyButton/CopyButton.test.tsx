@@ -92,9 +92,8 @@ test("success state reverts to idle after timeout", async ({ mount, page }) => {
   await component.click();
   await expect(component.getByText("Copied")).toBeVisible();
 
-  // Wait for revert (200ms timeout + buffer)
-  await page.waitForTimeout(350);
-  await expect(component.getByText("Copy")).toBeVisible();
+  // Wait for revert using a web-first assertion — retries until "Copy" reappears
+  await expect(component.getByText("Copy")).toBeVisible({ timeout: 2000 });
 });
 
 /* ---------- onCopy callback ---------- */
@@ -149,10 +148,9 @@ test("onError fires — component stays idle when clipboard rejects", async ({ m
   });
 
   await component.click();
-  // Give promise rejection time to propagate
-  await page.waitForTimeout(150);
 
-  // Component stays in idle state — no success label
+  // Component stays in idle state — no success label.
+  // toBeVisible retries until the assertion passes, avoiding the fixed sleep.
   await expect(component.getByText("Copy")).toBeVisible();
 });
 
@@ -170,9 +168,9 @@ test("component stays in idle state when clipboard write fails", async ({ mount,
   });
 
   await component.click();
-  await page.waitForTimeout(150);
 
-  // Should still show idle label, not success
+  // Should still show idle label, not success.
+  // toBeVisible retries until the assertion passes, avoiding the fixed sleep.
   await expect(component.getByText("Copy")).toBeVisible();
 });
 

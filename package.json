@@ -250,6 +250,11 @@
       "import": "./dist/molecules/Input.js",
       "require": "./dist/molecules/Input.cjs"
     },
+    "./molecules/Textarea": {
+      "types": "./dist/molecules/Textarea.d.ts",
+      "import": "./dist/molecules/Textarea.js",
+      "require": "./dist/molecules/Textarea.cjs"
+    },
     "./molecules/Hero": {
       "types": "./dist/molecules/Hero.d.ts",
       "import": "./dist/molecules/Hero.js",

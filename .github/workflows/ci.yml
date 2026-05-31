@@ -184,8 +184,14 @@ jobs:
           # Packages PR fires `pull_request` workflows and can auto-merge.
           GITHUB_TOKEN: ${{ secrets.CHANGESETS_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # Cross-repo notifications are best-effort: the package is already
+      # published by this point, so a dispatch failure (e.g. an expired or
+      # under-scoped CONSUMER_DISPATCH_TOKEN) must NOT fail the release job.
+      # The token needs Contents: write on poukai-site AND app-social-media.
+      # See issue #388.
       - name: Dispatch ds-package-published to poukai-inc/poukai-site
         if: steps.changesets.outputs.published == 'true'
+        continue-on-error: true
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.CONSUMER_DISPATCH_TOKEN }}
@@ -197,6 +203,7 @@ jobs:
             }
       - name: Dispatch ds-package-published to poukai-inc/app-social-media
         if: steps.changesets.outputs.published == 'true'
+        continue-on-error: true
         uses: peter-evans/repository-dispatch@v3
         with:
           token: ${{ secrets.CONSUMER_DISPATCH_TOKEN }}

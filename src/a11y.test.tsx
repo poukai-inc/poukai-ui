@@ -3444,8 +3444,8 @@ test("a11y — Combobox (open, with selection)", async ({ mount, page }) => {
   // Open popover before axe scan
   const trigger = page.getByRole("combobox");
   await trigger.click();
-  // Wait for animations to settle before axe scan
-  await page.waitForTimeout(200);
+  // Wait for the dropdown options to be visible before axe scan (deterministic)
+  await expect(page.getByRole("option", { name: "Option A" })).toBeVisible();
   await expectAxeClean(page);
 });
 test("a11y — Accordion (tinted tone)", async ({ mount, page }) => {

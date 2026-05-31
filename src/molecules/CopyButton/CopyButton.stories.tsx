@@ -54,8 +54,8 @@ export const Inline: Story = () => (
         color: "var(--fg)",
       }}
     >
-      <span>sk-proj-abc123…xyz789</span>
-      <CopyButton value="sk-proj-abc123xyz789" label={false} aria-label="Copy API key" size="sm" />
+      <span>demo_key_abc123…xyz789</span>
+      <CopyButton value="demo_key_abc123xyz789" label={false} aria-label="Copy API key" size="sm" />
     </div>
   </div>
 );

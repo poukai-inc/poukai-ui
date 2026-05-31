@@ -3,6 +3,22 @@ import clsx from "clsx";
 import { Caption } from "../Caption";
 import styles from "./AudioPlayer.module.css";
 
+/**
+ * Returns `href` only if it uses a safe scheme, otherwise `undefined`.
+ *
+ * `transcriptHref` is consumer-supplied and rendered verbatim into an `<a href>`.
+ * A `javascript:` (or `data:`/`vbscript:`) value would execute on click, so we
+ * allow only schemeless URLs (relative, root-relative, protocol-relative,
+ * anchors, queries) and an explicit allowlist of safe schemes.
+ */
+function safeHref(href: string): string | undefined {
+  const value = href.trim();
+  // No scheme (relative / root-relative / protocol-relative / #anchor / ?query).
+  if (!/^[a-z][a-z0-9+.-]*:/i.test(value)) return href;
+  // Has a scheme — permit only the safe allowlist.
+  return /^(https?|mailto|tel):/i.test(value) ? href : undefined;
+}
+
 export interface AudioPlayerProps extends Omit<ComponentPropsWithoutRef<"figure">, "children"> {
   /**
    * The audio file URL passed to `<audio src>`.
@@ -72,6 +88,9 @@ export const AudioPlayer = forwardRef<HTMLElement, AudioPlayerProps>(function Au
   },
   ref,
 ) {
+  const resolvedTranscriptHref =
+    transcriptHref !== undefined ? safeHref(transcriptHref) : undefined;
+
   return (
     <figure ref={ref} className={clsx(styles.root, className)} {...rest}>
       <div className={styles.audioWrapper}>
@@ -94,8 +113,8 @@ export const AudioPlayer = forwardRef<HTMLElement, AudioPlayerProps>(function Au
           {caption}
         </Caption>
       )}
-      {transcriptHref !== undefined && (
-        <a href={transcriptHref} className={styles.transcriptLink}>
+      {resolvedTranscriptHref !== undefined && (
+        <a href={resolvedTranscriptHref} className={styles.transcriptLink}>
           {transcriptLabel}
         </a>
       )}

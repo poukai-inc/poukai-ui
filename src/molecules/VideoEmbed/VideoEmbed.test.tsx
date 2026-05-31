@@ -141,6 +141,36 @@ test("sets allow attribute on iframe", async ({ mount }) => {
   expect(allow).toContain("picture-in-picture");
 });
 
+/* ── sandbox attribute (#377) ────────────────────────────────────── */
+
+test("applies a default sandbox token list on the iframe", async ({ mount }) => {
+  const component = await mount(
+    <VideoEmbed src="https://www.youtube.com/embed/test" title="Sandbox default" />,
+  );
+  const sandbox = await component.locator("iframe").getAttribute("sandbox");
+  expect(sandbox).toContain("allow-scripts");
+  expect(sandbox).toContain("allow-same-origin");
+  expect(sandbox).not.toContain("allow-top-navigation");
+});
+
+test("applies a custom sandbox token list when provided", async ({ mount }) => {
+  const component = await mount(
+    <VideoEmbed
+      src="https://www.youtube.com/embed/test"
+      title="Sandbox custom"
+      sandbox="allow-scripts"
+    />,
+  );
+  expect(await component.locator("iframe").getAttribute("sandbox")).toBe("allow-scripts");
+});
+
+test("omits the sandbox attribute when sandbox={false}", async ({ mount }) => {
+  const component = await mount(
+    <VideoEmbed src="https://www.youtube.com/embed/test" title="No sandbox" sandbox={false} />,
+  );
+  expect(await component.locator("iframe").getAttribute("sandbox")).toBeNull();
+});
+
 /* ── className forwarding ────────────────────────────────────────── */
 
 test("merges consumer className with root class", async ({ mount }) => {

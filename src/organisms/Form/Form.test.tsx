@@ -38,8 +38,6 @@ test("calls onSubmit with FormData on submit event", async ({ mount, page }) => 
   );
 
   await page.getByRole("button", { name: "Submit" }).click();
-  // Give the synchronous handler time to run
-  await page.waitForTimeout(50);
   // The handler ran in the CT iframe context; we verify the form submitted by
   // checking the submit button is still present (no navigation occurred).
   await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
@@ -57,9 +55,9 @@ test("prevents default browser submit (no navigation)", async ({ mount, page }) 
 
   const initialUrl = page.url();
   await page.getByRole("button", { name: "Go" }).click();
-  await page.waitForTimeout(100);
-  // URL must not change — default submit was prevented
-  expect(page.url()).toBe(initialUrl);
+  // URL must not change — default submit was prevented.
+  // Use expect.poll so Playwright retries the assertion rather than a fixed sleep.
+  await expect.poll(() => page.url()).toBe(initialUrl);
 });
 
 /* ─── Ref forwarding ─────────────────────────────────────────── */

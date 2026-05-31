@@ -167,6 +167,14 @@ test("a11y — StatusBadge (all states)", async ({ mount, page }) => {
       <StatusBadge status="available">Available copy.</StatusBadge>
       <StatusBadge status="idle">Idle copy.</StatusBadge>
       <StatusBadge status="closed">Closed copy.</StatusBadge>
+      <StatusBadge tone="neutral">Draft.</StatusBadge>
+      <StatusBadge tone="info">Scheduled.</StatusBadge>
+      <StatusBadge tone="success">Published.</StatusBadge>
+      <StatusBadge tone="warning">Pending approval.</StatusBadge>
+      <StatusBadge tone="danger">Failed.</StatusBadge>
+      <StatusBadge tone="accent" pulse>
+        Publishing now.
+      </StatusBadge>
     </div>,
   );
   await expectAxeClean(page);

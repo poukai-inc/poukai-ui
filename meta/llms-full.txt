@@ -188,9 +188,11 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Path geometry changes require Arian's approval (ADR-0011).
 
 ### StatusBadge
-- Maximum 1 instance per page. Encodes consultant/service availability — not system status.
-- status="available" triggers pulse animation automatically. Do NOT add additional CSS animation.
-- prefers-reduced-motion disables the pulse at the CSS level — do NOT force-animate via JS or inline styles.
+- `tone` is the primary API: "neutral" | "info" | "success" | "warning" | "danger" | "accent" — a generic colored-dot status indicator. Multiple instances per page are allowed when using `tone` (e.g. list/table rows). Map your domain statuses (draft/scheduled/published/failed/…) onto these tones; do NOT fork the atom for app-specific statuses.
+- `status` ("available" | "idle" | "closed") is the legacy availability API and still works: it maps to a tone internally (available→accent+pulse, idle/closed→neutral). The "max 1 per page, availability only" rule applies to the pulsing availability use, not to generic `tone` badges.
+- `tone` takes precedence over `status` when both are set. `pulse` is opt-in (default false); `status="available"` enables it automatically. Only the accent tone carries the halo.
+- info shares the neutral dot color in this pass (text carries the distinction); no `--info` token yet.
+- prefers-reduced-motion disables the pulse at the CSS level — do NOT force-animate via JS or inline styles. Do NOT add additional CSS animation.
 - Children: single short clause, 10 words or fewer.
 
 ### Button

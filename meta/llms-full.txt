@@ -186,6 +186,7 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Aspect ratio locked at ~4.08:1 (viewBox 0 0 1184 290). Set only `height`; width is auto.
 - Do NOT render below height={40}. Do NOT add a second Wordmark inside SiteShell's children. Do NOT use as a watermark. Do NOT set label="" (it is the a11y name).
 - Path geometry changes require Arian's approval (ADR-0011).
+- White-label: pass `src` (a logo URL) to render `<img src alt={label} height>` instead of the bundled POUKAI mark. The image does NOT inherit currentColor (no auto dark-mode inversion — swap `src` per theme at the call site). `javascript:`/`data:` schemes are blocked and fall back to the bundled mark. `label` is required as the `<img>` alt when `src` is set.
 
 ### StatusBadge
 - Maximum 1 instance per page. Encodes consultant/service availability — not system status.

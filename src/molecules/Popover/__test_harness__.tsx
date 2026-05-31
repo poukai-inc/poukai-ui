@@ -94,3 +94,74 @@ export function PopoverA11yHarness() {
     </div>
   );
 }
+
+/**
+ * Popover with a focusable element inside the content panel.
+ * Used to verify focus moves into the content on open.
+ */
+export function PopoverWithFocusTarget() {
+  return (
+    <Popover.Root>
+      <Popover.Trigger asChild>
+        <Button variant="secondary" data-testid="focus-trigger">
+          Open
+        </Button>
+      </Popover.Trigger>
+      <Popover.Content aria-label="Focus test popover">
+        <p>Content</p>
+        <Button variant="ghost" size="sm" data-testid="focus-target">
+          Action
+        </Button>
+      </Popover.Content>
+    </Popover.Root>
+  );
+}
+
+/**
+ * Popover with an element outside it — used to verify outside-click dismissal.
+ * The outside element must be in the same mounted tree.
+ */
+export function PopoverWithOutsideElement() {
+  return (
+    <div>
+      <Popover.Root defaultOpen>
+        <Popover.Trigger asChild>
+          <Button variant="secondary" data-testid="outside-click-trigger">
+            Open
+          </Button>
+        </Popover.Trigger>
+        <Popover.Content aria-label="Outside click popover">
+          <p data-testid="outside-click-body">Popover content.</p>
+        </Popover.Content>
+      </Popover.Root>
+      <button data-testid="outside-element" style={{ marginTop: 200 }}>
+        Outside button
+      </button>
+    </div>
+  );
+}
+
+/**
+ * Controlled popover that exposes onOpenChange calls via a data attribute
+ * on a status element — lets tests observe state without cross-frame callbacks.
+ */
+export function PopoverWithOnOpenChange() {
+  return (
+    <Popover.Root
+      onOpenChange={(open) => {
+        const el = document.getElementById("open-change-status");
+        if (el) el.setAttribute("data-open", String(open));
+      }}
+    >
+      <Popover.Trigger asChild>
+        <Button variant="secondary" data-testid="ooc-trigger">
+          Toggle
+        </Button>
+      </Popover.Trigger>
+      <Popover.Content aria-label="onOpenChange popover">
+        <p data-testid="ooc-body">Body.</p>
+      </Popover.Content>
+      <span id="open-change-status" data-open="false" data-testid="ooc-status" />
+    </Popover.Root>
+  );
+}

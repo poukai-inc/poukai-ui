@@ -419,3 +419,4 @@ export {
   type ToastItemActionProps,
 } from "./molecules/ToastItem";
 export { DocsLayout, type DocsLayoutProps } from "./organisms/DocsLayout";
+export { NotFound, type NotFoundProps, type NotFoundSuggestion } from "./organisms/NotFound";

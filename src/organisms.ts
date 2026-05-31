@@ -135,3 +135,4 @@ export {
 } from "./organisms/CommandPalette";
 export { FAQSection, type FAQSectionProps } from "./organisms/FAQSection";
 export { DocsLayout, type DocsLayoutProps } from "./organisms/DocsLayout";
+export { NotFound, type NotFoundProps, type NotFoundSuggestion } from "./organisms/NotFound";

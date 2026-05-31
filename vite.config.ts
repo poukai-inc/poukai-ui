@@ -208,6 +208,7 @@ export default defineConfig({
               "organisms/GalleryGrid": resolve(__dirname, "src/organisms/GalleryGrid/index.ts"),
               "organisms/FAQSection": resolve(__dirname, "src/organisms/FAQSection/index.ts"),
               "organisms/DocsLayout": resolve(__dirname, "src/organisms/DocsLayout/index.ts"),
+              "organisms/NotFound": resolve(__dirname, "src/organisms/NotFound/index.ts"),
             },
             name: "PoukaiUI",
             formats: ["es", "cjs"] as const,

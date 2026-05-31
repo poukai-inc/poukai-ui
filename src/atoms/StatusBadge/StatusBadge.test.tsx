@@ -1,23 +1,23 @@
 import { test, expect } from "@playwright/experimental-ct-react";
 import { StatusBadge } from "./StatusBadge";
 
-/* ---- legacy status prop — back-compat ---- */
+/* ---- legacy status prop — back-compat (drives data-status) ---- */
 
 test("renders available status with pulse", async ({ mount }) => {
   const component = await mount(<StatusBadge status="available">Open</StatusBadge>);
   await expect(component.getByText("Open")).toBeVisible();
-  await expect(component.locator("[data-tone='accent']")).toBeVisible();
+  await expect(component.locator("[data-status='available']")).toBeVisible();
 });
 
 test("available status emits a single pulse element inside the dot", async ({ mount }) => {
   const component = await mount(<StatusBadge status="available">Open</StatusBadge>);
-  const dot = component.locator("[data-tone='accent']");
+  const dot = component.locator("[data-status='available']");
   await expect(dot.locator("> span")).toHaveCount(1);
 });
 
 test("hides pulse on non-available status", async ({ mount }) => {
   const component = await mount(<StatusBadge status="closed">Closed</StatusBadge>);
-  const dot = component.locator("[data-tone='neutral']");
+  const dot = component.locator("[data-status='closed']");
   await expect(dot).toBeVisible();
   await expect(dot.locator("> span")).toHaveCount(0);
 });
@@ -25,21 +25,21 @@ test("hides pulse on non-available status", async ({ mount }) => {
 test("idle status renders the dot but no pulse element", async ({ mount }) => {
   const component = await mount(<StatusBadge status="idle">On a break</StatusBadge>);
   await expect(component.getByText("On a break")).toBeVisible();
-  const dot = component.locator("[data-tone='neutral']");
+  const dot = component.locator("[data-status='idle']");
   await expect(dot).toBeVisible();
   await expect(dot.locator("> span")).toHaveCount(0);
 });
 
 test('default status (no prop) resolves to "available" with pulse', async ({ mount }) => {
   const component = await mount(<StatusBadge>Taking conversations</StatusBadge>);
-  const dot = component.locator("[data-tone='accent']");
+  const dot = component.locator("[data-status='available']");
   await expect(dot).toBeVisible();
   await expect(dot.locator("> span")).toHaveCount(1);
 });
 
 test("dot carries aria-hidden so the colored circle is not announced", async ({ mount }) => {
   const component = await mount(<StatusBadge status="available">Open</StatusBadge>);
-  const dot = component.locator("[data-tone='accent']");
+  const dot = component.locator("[data-status='available']");
   await expect(dot).toHaveAttribute("aria-hidden", "true");
 });
 
@@ -47,7 +47,7 @@ test("pulse animation uses the --dur-pulse token (1800ms) — regression guard",
   mount,
 }) => {
   const component = await mount(<StatusBadge status="available">Open</StatusBadge>);
-  const pulse = component.locator("[data-tone='accent'] > span");
+  const pulse = component.locator("[data-status='available'] > span");
   // Browsers normalise animation-duration to seconds.
   await expect(pulse).toHaveCSS("animation-duration", "1.8s");
   await expect(pulse).toHaveCSS("animation-iteration-count", "infinite");
@@ -79,11 +79,11 @@ test("reduced-motion: pulse animation is suppressed when prefers-reduced-motion 
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   const component = await mount(<StatusBadge status="available">Open</StatusBadge>);
-  const pulse = component.locator("[data-tone='accent'] > span");
+  const pulse = component.locator("[data-status='available'] > span");
   await expect(pulse).toHaveCSS("animation-name", "none");
 });
 
-/* ---- new tone prop tests ---- */
+/* ---- new tone prop tests (drives data-tone) ---- */
 
 test("tone='neutral' sets data-tone='neutral' on the dot", async ({ mount }) => {
   const component = await mount(<StatusBadge tone="neutral">Neutral</StatusBadge>);
@@ -121,9 +121,9 @@ test("tone takes precedence over status when both are set", async ({ mount }) =>
       Override
     </StatusBadge>,
   );
-  // tone="danger" wins — dot is danger, not accent
+  // tone="danger" wins — dot is data-tone='danger', and the legacy data-status path is skipped.
   await expect(component.locator("[data-tone='danger']")).toBeVisible();
-  await expect(component.locator("[data-tone='accent']")).toHaveCount(0);
+  await expect(component.locator("[data-status='available']")).toHaveCount(0);
 });
 
 test("tone overrides status and pulse defaults: tone='success' status='available' has no pulse by default", async ({
@@ -155,13 +155,13 @@ test("explicit pulse=false suppresses pulse even on status='available'", async (
       No pulse
     </StatusBadge>,
   );
-  const dot = component.locator("[data-tone='accent']");
+  const dot = component.locator("[data-status='available']");
   await expect(dot.locator("> span")).toHaveCount(0);
 });
 
 test("status='available' still pulses with no tone prop (back-compat)", async ({ mount }) => {
   const component = await mount(<StatusBadge status="available">Open</StatusBadge>);
-  const dot = component.locator("[data-tone='accent']");
+  const dot = component.locator("[data-status='available']");
   await expect(dot.locator("> span")).toHaveCount(1);
 });
 

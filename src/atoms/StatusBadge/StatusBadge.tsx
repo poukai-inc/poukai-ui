@@ -15,38 +15,38 @@ export interface StatusBadgeProps extends ComponentPropsWithoutRef<"p"> {
   children: ReactNode;
 }
 
-const STATUS_TONE_MAP: Record<StatusBadgeStatus, StatusBadgeTone> = {
-  available: "accent",
-  idle: "neutral",
-  closed: "neutral",
-};
-
 /**
- * Inline availability badge — a colored dot plus a short caption.
+ * Inline status badge — a colored dot plus a short caption.
  *
- * The `tone` prop is the primary API. The legacy `status` prop is still
- * supported and maps to a tone internally — `status="available"` is
- * equivalent to `tone="accent" pulse`. When both `tone` and `status` are
- * provided, `tone` wins.
+ * Two parallel APIs share one atom:
+ * - **`tone`** (primary, generic): drives the dot color via `data-tone` across
+ *   the six tones. Use this for arbitrary status indicators.
+ * - **`status`** (legacy availability): drives the dot via `data-status` with
+ *   the original three colors (`available` blue + halo + pulse, `idle` muted,
+ *   `closed` near-black). Preserved unchanged for back-compat.
+ *
+ * When both are set, `tone` wins (the `status` path is skipped). With neither,
+ * the legacy default is `status="available"`.
  */
 export const StatusBadge = forwardRef<HTMLParagraphElement, StatusBadgeProps>(function StatusBadge(
   { status, tone, pulse, className, children, ...rest },
   ref,
 ) {
-  // Resolve tone: explicit `tone` wins; otherwise map from `status`.
-  const resolvedTone: StatusBadgeTone = tone ?? (status ? STATUS_TONE_MAP[status] : "accent");
+  const usingTone = tone !== undefined;
+  // Legacy availability default — absent status behaves as "available".
+  const resolvedStatus: StatusBadgeStatus = status ?? "available";
 
-  // Resolve pulse: explicit `pulse` prop wins; otherwise pulse for the legacy
-  // availability default — no explicit tone AND status is "available" or absent
-  // (no-prop legacy behavior: status defaulted to "available").
+  // Pulse: explicit `pulse` wins; otherwise only the legacy available state pulses.
   const resolvedPulse: boolean =
-    pulse !== undefined
-      ? pulse
-      : tone === undefined && (status === undefined || status === "available");
+    pulse !== undefined ? pulse : !usingTone && resolvedStatus === "available";
+
+  // One attribute per path: tone → data-tone (6 generic tones), status →
+  // data-status (3 legacy availability colors). CSS keys off whichever is set.
+  const dotAttr = usingTone ? { "data-tone": tone } : { "data-status": resolvedStatus };
 
   return (
     <p ref={ref} className={clsx(styles.root, className)} {...rest}>
-      <span className={styles.dot} data-tone={resolvedTone} aria-hidden="true">
+      <span className={styles.dot} {...dotAttr} aria-hidden="true">
         {resolvedPulse && <span className={styles.pulse} />}
       </span>
       <span>{children}</span>

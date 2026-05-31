@@ -31,11 +31,12 @@ interface StatusBadgeProps extends ComponentPropsWithoutRef<"p"> {
 }
 ```
 
-### Resolution
+### Resolution (two parallel paths — no lossy mapping)
 
-- `tone` provided → it wins. Otherwise map `status`: `available`→`accent`+pulse, `idle`→`neutral`, `closed`→`neutral`.
-- Explicit `pulse` overrides the status-derived default. Pulse halo is only meaningful on `accent`.
-- The dot container carries `data-tone={resolvedTone}`; all CSS keys off `[data-tone="…"]`.
+- `tone` provided → **tone path**: dot carries `data-tone={tone}`, colored by the tone table below. The legacy `status` path is skipped.
+- No `tone` → **legacy status path**: dot carries `data-status={status ?? "available"}` and keeps the original three availability colors exactly (`available` blue + halo + pulse, `idle` muted gray, `closed` near-black `--fg`). Zero visual change from before.
+- Explicit `pulse` overrides the default. Default pulse is true only on the legacy `available` state; tone-path badges never pulse unless `pulse` is set. Pulse halo is only meaningful on `accent`/`available`.
+- Rationale for keeping two attributes rather than collapsing `status`→`tone`: the legacy `idle` and `closed` map to visually distinct colors (`--fg-muted` vs `--fg`) that a single `neutral` tone cannot represent, and external consumers/tests key off `[data-status]`. Preserving `data-status` is strictly back-compatible.
 
 ### Tone → token (no new tokens)
 

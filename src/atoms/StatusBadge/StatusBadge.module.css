@@ -18,6 +18,22 @@
   flex-shrink: 0;
 }
 
+/* ---- legacy status-based dot colors (back-compat) ---- */
+
+.dot[data-status="available"] {
+  background: var(--accent);
+  /* Static halo so the badge reads as "lit" between pulses. */
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+.dot[data-status="idle"] {
+  background: var(--fg-muted);
+}
+
+.dot[data-status="closed"] {
+  background: var(--fg);
+}
+
 /* ---- tone-based dot colors ---- */
 
 .dot[data-tone="neutral"] {

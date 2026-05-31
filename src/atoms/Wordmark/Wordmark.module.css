@@ -15,6 +15,12 @@
   flex-shrink: 0;
 }
 
+.img {
+  display: block;
+  width: auto;
+  flex-shrink: 0;
+}
+
 .sr {
   position: absolute;
   width: 1px;

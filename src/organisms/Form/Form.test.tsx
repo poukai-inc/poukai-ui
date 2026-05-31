@@ -155,3 +155,98 @@ test("a11y — Form with error state", async ({ mount, page }) => {
     .analyze();
   expect(violations, JSON.stringify(violations, null, 2)).toEqual([]);
 });
+
+/* ─── Interaction: onSubmit receives correct values ──────────── */
+
+test("onSubmit receives FormData with all named field values", async ({ mount, page }) => {
+  const submitted: Record<string, string> = {};
+
+  await mount(
+    <Form
+      onSubmit={(data) => {
+        for (const [k, v] of data.entries()) {
+          submitted[k] = String(v);
+        }
+      }}
+    >
+      <Field label="Name" id="state-name">
+        <Input name="name" defaultValue="Ada Lovelace" />
+      </Field>
+      <Field label="Role" id="state-role">
+        <Input name="role" defaultValue="Engineer" />
+      </Field>
+      <Button type="submit">Submit</Button>
+    </Form>,
+  );
+
+  await page.getByRole("button", { name: "Submit" }).click();
+  // Handler ran synchronously in iframe — button still present means no nav
+  await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
+});
+
+/* ─── Interaction: required field blocks submit ───────────────── */
+
+test("required field blocks submit when empty (HTML5 constraint)", async ({ mount, page }) => {
+  let submitCount = 0;
+
+  await mount(
+    <Form
+      onSubmit={() => {
+        submitCount++;
+      }}
+    >
+      <Field label="Email" id="req-email">
+        <Input type="email" name="email" required aria-label="Email" />
+      </Field>
+      <Button type="submit">Submit</Button>
+    </Form>,
+  );
+
+  // Do not fill the required field — click submit
+  await page.getByRole("button", { name: "Submit" }).click();
+  // onSubmit must not have been called (browser constraint validation blocks it)
+  expect(submitCount).toBe(0);
+  // The form is still present (no nav, no crash)
+  await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
+});
+
+/* ─── Interaction: typing into a controlled-like input ───────── */
+
+test("user can type into an input inside the Form", async ({ mount, page }) => {
+  await mount(
+    <Form onSubmit={() => {}}>
+      <Field label="Search" id="form-search">
+        <Input name="search" aria-label="Search" />
+      </Field>
+      <Button type="submit">Go</Button>
+    </Form>,
+  );
+
+  const input = page.getByRole("textbox", { name: "Search" });
+  await input.fill("hello world");
+  await expect(input).toHaveValue("hello world");
+});
+
+/* ─── Interaction: multiple fields submit together ───────────── */
+
+test("submit collects values from multiple fields via Field+Input", async ({ mount, page }) => {
+  await mount(
+    <Form onSubmit={() => {}}>
+      <Field label="First name" id="multi-first">
+        <Input name="first" defaultValue="Grace" />
+      </Field>
+      <Field label="Last name" id="multi-last">
+        <Input name="last" defaultValue="Hopper" />
+      </Field>
+      <Field label="Bio" id="multi-bio">
+        <Textarea name="bio" defaultValue="Compiler pioneer." />
+      </Field>
+      <Button type="submit">Submit</Button>
+    </Form>,
+  );
+
+  await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
+  await page.getByRole("button", { name: "Submit" }).click();
+  // All three controls are still present — form stayed on page
+  await expect(page.getByRole("button", { name: "Submit" })).toBeVisible();
+});

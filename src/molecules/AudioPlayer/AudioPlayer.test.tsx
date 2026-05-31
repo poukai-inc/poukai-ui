@@ -4,6 +4,8 @@ import { MinimalAudioPlayer } from "./__test_harness__";
 import { CaptionOnlyAudioPlayer } from "./__test_harness__";
 import { CustomLabelAudioPlayer } from "./__test_harness__";
 import { ClassNameAudioPlayer } from "./__test_harness__";
+import { UnsafeHrefAudioPlayer } from "./__test_harness__";
+import { HttpsHrefAudioPlayer } from "./__test_harness__";
 
 /* ---------- Root element ---------- */
 
@@ -96,6 +98,21 @@ test("omits transcript link when both caption and transcriptHref are absent", as
   const component = await mount(<MinimalAudioPlayer />);
   const link = component.locator("a");
   await expect(link).toHaveCount(0);
+});
+
+/* ---------- transcriptHref scheme safety (#378) ---------- */
+
+test("drops transcript link when transcriptHref uses a javascript: scheme", async ({ mount }) => {
+  const component = await mount(<UnsafeHrefAudioPlayer />);
+  const link = component.locator("a");
+  await expect(link).toHaveCount(0);
+});
+
+test("renders transcript link for a safe https transcriptHref", async ({ mount }) => {
+  const component = await mount(<HttpsHrefAudioPlayer />);
+  const link = component.locator("a");
+  await expect(link).toHaveCount(1);
+  await expect(link).toHaveAttribute("href", "https://example.com/transcript");
 });
 
 /* ---------- DOM order ---------- */

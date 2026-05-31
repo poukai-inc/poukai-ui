@@ -65,6 +65,12 @@ const adrs: Adr[] = Object.entries(decisionModules)
     const { frontmatter, body } = parseFrontmatter(raw);
     return {
       ...frontmatter,
+      // SAFETY: `body` is trusted input. It originates only from the build-time
+      // glob of `meta/decisions/*.md` above — maintainer-authored repo files,
+      // never user/runtime data. This is a Ladle-only showcase story and is not
+      // part of the published `dist` surface, so the un-sanitised `marked`
+      // output rendered via dangerouslySetInnerHTML below carries no XSS risk.
+      // If this ever renders untrusted markdown, sanitise (e.g. DOMPurify) first.
       bodyHtml: marked.parse(body, { async: false }) as string,
       path,
     };
@@ -150,6 +156,8 @@ const AdrCard = ({ adr }: { adr: Adr }) => (
         lineHeight: 1.6,
         maxWidth: "56ch",
       }}
+      // Trusted: see the SAFETY note where `bodyHtml` is built from
+      // maintainer-authored meta/decisions/*.md at build time.
       dangerouslySetInnerHTML={{ __html: adr.bodyHtml }}
     />
 

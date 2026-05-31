@@ -31,7 +31,22 @@ export type VideoEmbedProps = Omit<ComponentPropsWithoutRef<"figure">, "children
   caption?: ReactNode;
   /** Merged via clsx onto the root `<figure>` element. */
   className?: string;
+  /**
+   * `sandbox` token list applied to the `<iframe>`. Defaults to a set that
+   * keeps mainstream players (YouTube, Vimeo) working while restricting the
+   * frame's capabilities (no top-level navigation, no form submission).
+   *
+   * `src` is consumer-supplied and rendered verbatim — VideoEmbed does not
+   * validate the origin. Treat `src` as trusted (your own embed URLs); this
+   * default is defence-in-depth, not a substitute for trusting the source.
+   * Pass a custom token string to widen/narrow, or `false` to omit the
+   * attribute entirely (legacy behaviour).
+   * @default "allow-scripts allow-same-origin allow-presentation allow-popups"
+   */
+  sandbox?: string | false;
 };
+
+const DEFAULT_SANDBOX = "allow-scripts allow-same-origin allow-presentation allow-popups";
 
 const PRESET_ASPECT_RATIOS = {
   "16/9": styles.ratioSixteenNine,
@@ -48,7 +63,17 @@ const PRESET_ASPECT_RATIOS = {
  * @see meta/design/VideoEmbed.md
  */
 export const VideoEmbed = forwardRef<HTMLElement, VideoEmbedProps>(function VideoEmbed(
-  { src, title, aspectRatio = "16/9", lazy = true, bordered = false, caption, className, ...rest },
+  {
+    src,
+    title,
+    aspectRatio = "16/9",
+    lazy = true,
+    bordered = false,
+    caption,
+    className,
+    sandbox = DEFAULT_SANDBOX,
+    ...rest
+  },
   ref,
 ) {
   const presetClass = PRESET_ASPECT_RATIOS[aspectRatio as keyof typeof PRESET_ASPECT_RATIOS];
@@ -81,6 +106,7 @@ export const VideoEmbed = forwardRef<HTMLElement, VideoEmbedProps>(function Vide
           title={title}
           loading={lazy ? "lazy" : "eager"}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          sandbox={sandbox === false ? undefined : sandbox}
           allowFullScreen
         />
       </div>

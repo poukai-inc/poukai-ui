@@ -57,3 +57,27 @@ export function ClassNameAudioPlayer() {
     />
   );
 }
+
+/** AudioPlayer whose transcriptHref uses a dangerous javascript: scheme. */
+export function UnsafeHrefAudioPlayer() {
+  return (
+    <AudioPlayer
+      src={DEMO_SRC}
+      aria-label="Malicious transcript"
+      transcriptHref="javascript:alert('xss')"
+      data-testid="audio-root"
+    />
+  );
+}
+
+/** AudioPlayer with a safe absolute https transcript link. */
+export function HttpsHrefAudioPlayer() {
+  return (
+    <AudioPlayer
+      src={DEMO_SRC}
+      aria-label="External transcript"
+      transcriptHref="https://example.com/transcript"
+      data-testid="audio-root"
+    />
+  );
+}

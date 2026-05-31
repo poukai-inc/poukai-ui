@@ -1,15 +1,72 @@
 # Design spec: StatusBadge
 
 **Atomic layer**: atom
-**Status**: Shipped in v0.1.0
+**Status**: Approved — generic `tone` revision (2026-05-31)
 **Author**: poukai-design
-**Last updated**: 2026-05-19
+**Last updated**: 2026-05-31
 
 ---
 
 ## 1. Status
 
 Shipped in v0.1.0. Pulse animation fixed in v0.3.2 (pulse was invisible prior to that release). `--dur-pulse` token added and StatusBadge migrated to consume it in v0.16.0 (consistency audit). Test coverage backfilled in v0.16.0.
+
+**Generic `tone` revision (Approved 2026-05-31, GitHub #392).** Adds a generic `tone` API so the atom can render arbitrary status indicators (e.g. a consumer's post statuses) without forking. The legacy availability `status` API is preserved and maps onto tones internally.
+
+---
+
+## 1a. Generic tone API (v2.13)
+
+### Props
+
+```ts
+type StatusBadgeStatus = "available" | "idle" | "closed"; // legacy
+type StatusBadgeTone = "neutral" | "info" | "success" | "warning" | "danger" | "accent"; // primary
+
+interface StatusBadgeProps extends ComponentPropsWithoutRef<"p"> {
+  status?: StatusBadgeStatus; // legacy; maps to a tone internally
+  tone?: StatusBadgeTone; // primary; takes precedence over `status` when both set
+  pulse?: boolean; // opt-in; default false. status="available" enables it automatically
+  children: ReactNode;
+}
+```
+
+### Resolution (two parallel paths — no lossy mapping)
+
+- `tone` provided → **tone path**: dot carries `data-tone={tone}`, colored by the tone table below. The legacy `status` path is skipped.
+- No `tone` → **legacy status path**: dot carries `data-status={status ?? "available"}` and keeps the original three availability colors exactly (`available` blue + halo + pulse, `idle` muted gray, `closed` near-black `--fg`). Zero visual change from before.
+- Explicit `pulse` overrides the default. Default pulse is true only on the legacy `available` state; tone-path badges never pulse unless `pulse` is set. Pulse halo is only meaningful on `accent`/`available`.
+- Rationale for keeping two attributes rather than collapsing `status`→`tone`: the legacy `idle` and `closed` map to visually distinct colors (`--fg-muted` vs `--fg`) that a single `neutral` tone cannot represent, and external consumers/tests key off `[data-status]`. Preserving `data-status` is strictly back-compatible.
+
+### Tone → token (no new tokens)
+
+| tone    | dot background | halo                           |
+| ------- | -------------- | ------------------------------ |
+| neutral | `--fg-muted`   | none                           |
+| info    | `--fg-muted`   | none (see OQ-1)                |
+| success | `--success`    | none                           |
+| warning | `--warning`    | none                           |
+| danger  | `--danger`     | none                           |
+| accent  | `--accent`     | `0 0 0 2px var(--accent-glow)` |
+
+Pulse ring stays `var(--accent-glow)`; reduced-motion suppression preserved; dot stays `aria-hidden` (text carries meaning).
+
+### Consumer mapping (guidance, not hardcoded)
+
+| domain status (autopost) | DS tone |
+| ------------------------ | ------- |
+| draft                    | neutral |
+| pending_approval         | warning |
+| scheduled                | info    |
+| published                | success |
+| partially_published      | warning |
+| failed                   | danger  |
+| rejected                 | danger  |
+
+### Open questions (deferred, non-blocking)
+
+- **OQ-1:** `info` shares `--fg-muted` with `neutral`; text carries the distinction. Differentiating requires a new `--info` token (founder decision). Accepted as-is this pass.
+- **OQ-2:** Pulsing non-accent tones would reuse `--accent-glow` (mild mismatch). Per-tone glow tokens deferred until a consumer ships a prominent pulsing non-accent badge.
 
 ---
 
@@ -66,16 +123,16 @@ interface StatusBadgeProps extends ComponentPropsWithoutRef<"p"> {
 
 ## 5. Token contract
 
-| Token           | Value                     | Role                                                                   |
-| --------------- | ------------------------- | ---------------------------------------------------------------------- |
-| `--font-sans`   | Geist stack               | Root font-family (inherited by label span)                             |
-| `--fs-meta`     | `0.875rem` (14px)         | Root font-size — badge text in the meta/caption register               |
-| `--fg`          | `#1D1D1F`                 | Root text color (label); also `closed` dot color                       |
-| `--fg-muted`    | `#6E6E73`                 | `idle` dot color                                                       |
-| `--accent`      | `#0071E3`                 | `available` dot background                                             |
-| `--accent-glow` | `rgba(0, 113, 227, 0.18)` | `available` dot halo (`box-shadow`) and pulse ring background          |
-| `--dur-pulse`   | `1800ms`                  | Pulse animation duration — intentionally slow and meditative           |
-| `--space-3`     | `0.75rem` (12px)          | Gap between dot and label text                                         |
+| Token           | Value                     | Role                                                          |
+| --------------- | ------------------------- | ------------------------------------------------------------- |
+| `--font-sans`   | Geist stack               | Root font-family (inherited by label span)                    |
+| `--fs-meta`     | `0.875rem` (14px)         | Root font-size — badge text in the meta/caption register      |
+| `--fg`          | `#1D1D1F`                 | Root text color (label); also `closed` dot color              |
+| `--fg-muted`    | `#6E6E73`                 | `idle` dot color                                              |
+| `--accent`      | `#0071E3`                 | `available` dot background                                    |
+| `--accent-glow` | `rgba(0, 113, 227, 0.18)` | `available` dot halo (`box-shadow`) and pulse ring background |
+| `--dur-pulse`   | `1800ms`                  | Pulse animation duration — intentionally slow and meditative  |
+| `--space-3`     | `0.75rem` (12px)          | Gap between dot and label text                                |
 
 **`--dur-pulse` rationale.** 1800ms is deliberately slower than any other motion token in the system (`--dur-slow` is 600ms). The pulse is not a UI response to user action — it is an ambient signal, a heartbeat. A fast pulse would read as urgency or alerting. The slow, meditative cycle communicates "live but calm." This is a brand-level decision documented in `tokens.css`.
 
@@ -87,19 +144,27 @@ interface StatusBadgeProps extends ComponentPropsWithoutRef<"p"> {
 
 ### Status states (visual)
 
-| Status      | Dot color     | Halo                              | Pulse ring |
-| ----------- | ------------- | --------------------------------- | ---------- |
-| `available` | `--accent`    | `0 0 0 2px var(--accent-glow)`   | Animated   |
-| `idle`      | `--fg-muted`  | None                              | None       |
-| `closed`    | `--fg`        | None                              | None       |
+| Status      | Dot color    | Halo                           | Pulse ring |
+| ----------- | ------------ | ------------------------------ | ---------- |
+| `available` | `--accent`   | `0 0 0 2px var(--accent-glow)` | Animated   |
+| `idle`      | `--fg-muted` | None                           | None       |
+| `closed`    | `--fg`       | None                           | None       |
 
 ### Pulse animation
 
 ```css
 @keyframes poukai-pulse {
-  0%   { transform: scale(1);  opacity: 0.7; }
-  70%  {                        opacity: 0;   }
-  100% { transform: scale(4);  opacity: 0;   }
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 ```
 
@@ -148,7 +213,7 @@ If the badge appears inside a `<Hero>` or `<Section>` that has responsive paddin
 ```jsx
 import { StatusBadge } from "@poukai-inc/ui";
 
-<StatusBadge status="available">Taking conversations for Q3.</StatusBadge>
+<StatusBadge status="available">Taking conversations for Q3.</StatusBadge>;
 ```
 
 Renders a blue pulsing dot + label. Default `status="available"` — the prop can be omitted.
@@ -178,8 +243,12 @@ import { Hero, StatusBadge } from "@poukai-inc/ui";
   status={<StatusBadge status="available">Taking conversations for Q3.</StatusBadge>}
   title="Technical consulting for teams shipping with AI."
   lede="We work alongside founders and platform teams to close the gap between pilot and production."
-  cta={<Button asChild><a href="mailto:hello@pouk.ai">hello@pouk.ai</a></Button>}
-/>
+  cta={
+    <Button asChild>
+      <a href="mailto:hello@pouk.ai">hello@pouk.ai</a>
+    </Button>
+  }
+/>;
 ```
 
 The `Hero` component accepts any `ReactNode` in its `status` slot. `StatusBadge` is the canonical occupant of that slot.

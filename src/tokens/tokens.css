@@ -360,7 +360,12 @@ hr {
    ============================================================ */
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  /* Scoped with :not() so an explicit .light / [data-theme="light"] opt-out on
+     :root wins over the OS preference. The forced-dark block below duplicates
+     these values intentionally — UPDATE BOTH BLOCKS TOGETHER.
+     See meta/design/dark-mode.md §4 (Manual toggle). */
+  :root:not(.light):not([data-theme="light"]) {
+    color-scheme: dark;
     /* ---------- Surface stack (dark elevation: black floor → lighter gray) ---------- */
     --bg: #000000; /* Page floor. Pure black is the canonical dark-mode canvas (Apple iOS/macOS systemBackground dark). */
     --bg-elevated: #1c1c1e; /* Front-most layer: popovers, sheets, dialogs. Apple iOS systemBackground dark. */
@@ -400,4 +405,59 @@ hr {
     --bg-warning: #1c1408; /* Near-black with amber undertone. */
     --fg-on-warning: #ffd6a0; /* Warm straw. Contrast on --bg-warning: 13.74:1 (AAA). */
   }
+}
+
+/* ============================================================
+   Manual dark toggle (explicit opt-in) — GitHub #393, ADR-0006.
+   Setting `class="dark"` or `data-theme="dark"` on <html>/:root forces
+   dark regardless of OS preference. These values are a VERBATIM duplicate
+   of the @media block above — plain CSS has no shared-selector mechanism
+   under the repo's PostCSS plugins (custom-media + nesting only).
+   *** UPDATE BOTH BLOCKS TOGETHER. *** See meta/design/dark-mode.md §4.
+   ============================================================ */
+:root.dark,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  /* ---------- Surface stack (dark elevation: black floor → lighter gray) ---------- */
+  --bg: #000000;
+  --bg-elevated: #1c1c1e;
+  --surface: #1c1c1e;
+  --surface-section: #161618;
+
+  /* ---------- Foreground ---------- */
+  --fg: #f5f5f7;
+  --fg-muted: #86868b;
+
+  /* ---------- Structure ---------- */
+  --hairline: #2c2c2e;
+  --hairline-soft: #3a3a3c;
+
+  /* ---------- Accent ---------- */
+  --accent: #0a84ff;
+  --accent-glow: rgba(10, 132, 255, 0.24);
+
+  /* ---------- Warm accent (editorial band) ---------- */
+  --bg-warm-accent: #8a2e1c;
+  --fg-on-warm: #fdf5f0;
+  --fg-on-warm-muted: #d6b9a8;
+
+  /* ---------- Status color tier ---------- */
+  --success: #30d158;
+  --bg-success: #041a09;
+  --fg-on-success: #a8f0be;
+  --danger: #ff453a;
+  --bg-danger: #1c0a0a;
+  --fg-on-danger: #ffb4b0;
+  --warning: #ff9f0a;
+  --bg-warning: #1c1408;
+  --fg-on-warning: #ffd6a0;
+}
+
+/* Forced light (explicit opt-out). The light palette already lives in the
+   :root block at the top of this file; the :not() guards on the @media block
+   above keep OS-dark from overriding it. Only `color-scheme` needs forcing so
+   native controls (scrollbars, form widgets) match. */
+:root.light,
+:root[data-theme="light"] {
+  color-scheme: light;
 }

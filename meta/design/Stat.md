@@ -54,6 +54,7 @@ type StatAlign = "start" | "end";
 type StatSize = "md" | "lg";
 
 interface StatProps extends ComponentPropsWithoutRef<"div"> {
+  icon?: ReactNode; // optional — decorative icon above the numeral (aria-hidden)
   value: ReactNode; // required — the numeral string
   caption: ReactNode; // required — explanatory text
   source?: ReactNode; // optional — provenance / attribution

@@ -17,6 +17,15 @@
   text-align: right;
 }
 
+.icon {
+  /* Decorative; line-height 0 keeps the wrapper flush to the icon's box so the
+   * column gap stays honest. Colored with the brand accent by default; consumers
+   * can override via the passed SVG's own color/size. */
+  display: inline-flex;
+  line-height: 0;
+  color: var(--accent);
+}
+
 .value {
   font-family: var(--font-serif);
   font-weight: 400;

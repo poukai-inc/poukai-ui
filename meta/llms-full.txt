@@ -333,6 +333,7 @@ Default `size` on `<Icon>` is `"sm"` (16px). Lucide's SVG grid is designed for 1
 - Requires a caption — numeral alone is not self-explanatory.
 - value must be a numeral or numeral+unit string. source should be citation only.
 - Maximum 4 Stats per section. Maximum 1 size="lg" per section.
+- Optional `icon` (ReactNode) renders above the numeral in an `aria-hidden` wrapper — decorative only; the caption must still carry the meaning. Pass a sized SVG/icon element; it inherits no size from Stat.
 
 ### NumberFormat
 - Pure presentational formatter backed by native `Intl.NumberFormat`. Renders a `number` as a locale-correct string and nothing else. NEVER use as a layout or visual primitive — it owns no CSS.

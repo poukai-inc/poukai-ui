@@ -6,6 +6,12 @@ export type StatAlign = "start" | "end";
 export type StatSize = "md" | "lg";
 
 export interface StatProps extends ComponentPropsWithoutRef<"div"> {
+  /**
+   * Optional decorative icon rendered above the numeral inside an `aria-hidden`
+   * wrapper. Pass a sized element, e.g. `<Activity size={24} />`. Purely visual
+   * — the caption carries the meaning.
+   */
+  icon?: ReactNode;
   /** The numeral — e.g. "85%", "$300B", "3.2×". Rendered in display serif. */
   value: ReactNode;
   /** Short caption beneath the numeral. */
@@ -36,7 +42,7 @@ const sizeClass: Record<StatSize, string> = {
  *   <Stat value="85%" caption="of teams adopting AI plateau at pilot." source="MIT Sloan, 2025" />
  */
 export const Stat = forwardRef<HTMLDivElement, StatProps>(function Stat(
-  { value, caption, source, align = "start", size = "md", className, ...rest },
+  { icon, value, caption, source, align = "start", size = "md", className, ...rest },
   ref,
 ) {
   return (
@@ -45,6 +51,11 @@ export const Stat = forwardRef<HTMLDivElement, StatProps>(function Stat(
       className={clsx(styles.root, alignClass[align], sizeClass[size], className)}
       {...rest}
     >
+      {icon !== undefined && (
+        <span className={styles.icon} aria-hidden="true">
+          {icon}
+        </span>
+      )}
       <span className={styles.value}>{value}</span>
       <span className={styles.caption}>{caption}</span>
       {source ? <span className={styles.source}>{source}</span> : null}

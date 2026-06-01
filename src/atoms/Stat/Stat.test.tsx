@@ -9,6 +9,24 @@ test("renders value and caption", async ({ mount }) => {
   await expect(component.getByText("of AI pilots never reach production.")).toBeVisible();
 });
 
+test("renders icon in an aria-hidden wrapper when provided", async ({ mount }) => {
+  const component = await mount(
+    <Stat
+      icon={<svg data-testid="stat-icon" width={24} height={24} viewBox="0 0 24 24" />}
+      value="3.2×"
+      caption="faster delivery."
+    />,
+  );
+  const iconWrapper = component.locator("span[aria-hidden='true']");
+  await expect(iconWrapper).toHaveCount(1);
+  await expect(iconWrapper.locator("[data-testid='stat-icon']")).toBeVisible();
+});
+
+test("omits the icon wrapper when no icon prop is passed", async ({ mount }) => {
+  const component = await mount(<Stat value="85%" caption="of teams." />);
+  await expect(component.locator("span[aria-hidden='true']")).toHaveCount(0);
+});
+
 test("renders source line when provided", async ({ mount }) => {
   const component = await mount(
     <Stat value="$300B" caption="annual AI spend." source="IDC, 2025" />,

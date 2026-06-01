@@ -277,6 +277,7 @@ export {
   type SortDirection,
   type FilterState,
 } from "./molecules/DataTable";
+export { FileUploader, type FileUploaderProps, type FileEntry } from "./molecules/FileUploader";
 /* ---------- organisms ---------- */
 export { TeamGrid, type TeamGridProps } from "./organisms/TeamGrid";
 export { FailureModeList, type FailureModeListProps } from "./organisms/FailureModeList";

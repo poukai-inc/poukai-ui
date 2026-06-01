@@ -184,3 +184,4 @@ export {
   type ToastItemCloseProps,
   type ToastItemActionProps,
 } from "./molecules/ToastItem";
+export { FileUploader, type FileUploaderProps, type FileEntry } from "./molecules/FileUploader";

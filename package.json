@@ -500,6 +500,11 @@
       "import": "./dist/molecules/ToastItem.js",
       "require": "./dist/molecules/ToastItem.cjs"
     },
+    "./molecules/FileUploader": {
+      "types": "./dist/molecules/FileUploader.d.ts",
+      "import": "./dist/molecules/FileUploader.js",
+      "require": "./dist/molecules/FileUploader.cjs"
+    },
     "./organisms/Sidebar": {
       "types": "./dist/organisms/Sidebar.d.ts",
       "import": "./dist/organisms/Sidebar.js",

@@ -154,6 +154,7 @@ export default defineConfig({
               "molecules/FAQItem": resolve(__dirname, "src/molecules/FAQItem/index.ts"),
               "molecules/DataTable": resolve(__dirname, "src/molecules/DataTable/index.ts"),
               "molecules/ToastItem": resolve(__dirname, "src/molecules/ToastItem/index.ts"),
+              "molecules/FileUploader": resolve(__dirname, "src/molecules/FileUploader/index.ts"),
               "molecules/NewsletterField": resolve(
                 __dirname,
                 "src/molecules/NewsletterField/index.ts",

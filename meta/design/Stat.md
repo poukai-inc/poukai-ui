@@ -1,15 +1,17 @@
 # Design spec: Stat
 
 **Atomic layer**: atom
-**Status**: Shipped in v0.1.0
+**Status**: Approved — optional `icon` slot (2026-06-01)
 **Author**: poukai-design
-**Last updated**: 2026-05-19
+**Last updated**: 2026-06-01
 
 ---
 
 ## 1. Status
 
 Shipped in v0.1.0. Color inheritance fixed in v0.17.0 (the `caption` and `source` slots were previously hardcoded to `--fg-muted`; replaced with `color-mix(in srgb, currentColor 65%, transparent)` so inverted placements work without a prop). `--tracking-numeric` token added and wired in v0.17.0 (consistency audit — the `tracking-numeric` value on `source` was previously a hardcoded literal).
+
+**Optional `icon` slot (Approved 2026-06-01, GitHub #400).** Adds an optional `icon?: ReactNode` rendered above the numeral inside an `aria-hidden` wrapper (`.icon`: `display: inline-flex; line-height: 0; color: var(--accent)`), mirroring `FeatureCard`'s decorative-icon pattern. Purely decorative — the caption still carries meaning. Consumer passes a sized element (e.g. `<Activity size={24} />`); Stat imposes no size. No new tokens.
 
 ---
 
@@ -52,11 +54,12 @@ type StatAlign = "start" | "end";
 type StatSize = "md" | "lg";
 
 interface StatProps extends ComponentPropsWithoutRef<"div"> {
-  value: ReactNode;   // required — the numeral string
+  icon?: ReactNode; // optional — decorative icon above the numeral (aria-hidden)
+  value: ReactNode; // required — the numeral string
   caption: ReactNode; // required — explanatory text
   source?: ReactNode; // optional — provenance / attribution
-  align?: StatAlign;  // default "start"
-  size?: StatSize;    // default "md"
+  align?: StatAlign; // default "start"
+  size?: StatSize; // default "md"
 }
 ```
 
@@ -87,8 +90,8 @@ interface StatProps extends ComponentPropsWithoutRef<"div"> {
 | `--font-serif`     | Instrument Serif                            | Value numeral typeface                                                   |
 | `--font-sans`      | Geist stack                                 | Root font-family; caption typeface                                       |
 | `--font-mono`      | Geist Mono stack                            | Source typeface                                                          |
-| `--fs-stat`        | `clamp(2.75rem, 2rem + 3vw, 4.5rem)`       | Value size — `size="md"` (44–72px)                                       |
-| `--fs-stat-large`  | `clamp(3.5rem, 2.25rem + 5vw, 6rem)`       | Value size — `size="lg"` (56–96px)                                       |
+| `--fs-stat`        | `clamp(2.75rem, 2rem + 3vw, 4.5rem)`        | Value size — `size="md"` (44–72px)                                       |
+| `--fs-stat-large`  | `clamp(3.5rem, 2.25rem + 5vw, 6rem)`        | Value size — `size="lg"` (56–96px)                                       |
 | `--fs-body`        | `clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem)` | Caption font-size (17–19px)                                              |
 | `--fs-micro`       | `0.75rem` (12px)                            | Source font-size                                                         |
 | `--tracking-stat`  | `-0.015em`                                  | Value letter-spacing — tightens large serif numerals optically           |
@@ -136,11 +139,7 @@ The canonical two-column paired layout (see §9 example b) uses `gridTemplateCol
 ```jsx
 import { Stat } from "@poukai-inc/ui";
 
-<Stat
-  value="85%"
-  caption="of AI pilots never reach production."
-  source="MIT Sloan, 2025"
-/>
+<Stat value="85%" caption="of AI pilots never reach production." source="MIT Sloan, 2025" />;
 ```
 
 ### (b) Two-column pair — canonical `/why-ai` layout
@@ -155,18 +154,14 @@ import { Stat } from "@poukai-inc/ui";
     gap: "var(--space-12)",
   }}
 >
-  <Stat
-    value="85%"
-    caption="of AI pilots never reach production."
-    source="MIT Sloan, 2025"
-  />
+  <Stat value="85%" caption="of AI pilots never reach production." source="MIT Sloan, 2025" />
   <Stat
     value="$300B"
     caption="annual spend on initiatives that stall at proof-of-concept."
     source="IDC, 2025"
     align="end"
   />
-</div>
+</div>;
 ```
 
 The left stat is `align="start"` (default); the right stat is `align="end"`. The values anchor to their respective edges, giving the pair a balanced, mirror-like composition.
@@ -187,11 +182,7 @@ The left stat is `align="start"` (default); the right stat is `align="end"`. The
 
 ```jsx
 <div style={{ background: "var(--fg)", color: "var(--bg)", padding: "var(--space-12)" }}>
-  <Stat
-    value="85%"
-    caption="of AI pilots never reach production."
-    source="MIT Sloan, 2025"
-  />
+  <Stat value="85%" caption="of AI pilots never reach production." source="MIT Sloan, 2025" />
 </div>
 ```
 

@@ -63,6 +63,25 @@ export const LargeSize: Story = () => (
   />
 );
 
+export const WithIcon: Story = () => (
+  <Stat
+    icon={
+      <svg width={28} height={28} viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          d="M3 17l6-6 4 4 8-8"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </svg>
+    }
+    value="3.2×"
+    caption="faster delivery once a working dev loop replaces handoff theatre."
+  />
+);
+
 export const Inverted: Story = () => (
   <div style={{ background: "var(--fg)", padding: "var(--space-12)", color: "var(--bg)" }}>
     <Stat

@@ -202,6 +202,21 @@ test("a11y — Stat", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+test("a11y — Stat (with decorative icon)", async ({ mount, page }) => {
+  await mount(
+    <Stat
+      icon={
+        <svg width={24} height={24} viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="10" fill="currentColor" />
+        </svg>
+      }
+      value="3.2×"
+      caption="faster delivery once the dev loop replaces handoff theatre."
+    />,
+  );
+  await expectAxeClean(page);
+});
+
 test("a11y — EmailLink (variants)", async ({ mount, page }) => {
   await mount(
     <div>

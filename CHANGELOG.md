@@ -1,5 +1,75 @@
 # @poukai-inc/ui
 
+## 2.15.0
+
+### Minor Changes
+
+- 851e351: Dark mode gains a manual class/attribute toggle (#393).
+
+  Previously dark mode activated only via `@media (prefers-color-scheme: dark)`.
+  Now consumers can force a theme regardless of OS:
+  - `class="dark"` or `data-theme="dark"` on `<html>`/`:root` → forced dark.
+  - `class="light"` or `data-theme="light"` → forced light.
+  - No class → follows OS preference (unchanged).
+
+  Explicit choice wins over the OS preference (the media block is scoped
+  `:root:not(.light):not([data-theme="light"])`). The DS now also sets
+  `color-scheme` per forced mode so native controls (scrollbars, form widgets)
+  match. No new tokens — the dark values are unchanged.
+
+- 3281d45: feat(molecules): add FileUploader component (#399)
+
+  New `FileUploader` molecule — drag-and-drop file selection with per-file
+  progress, validation, and removal.
+  - Drop zone with drag-over feedback (valid/invalid states), click-to-browse,
+    and keyboard operation (Enter/Space opens file dialog).
+  - Uncontrolled by default; controlled via `files` + `onFilesAdded` /
+    `onFileRemoved`. Both modes fire all callbacks.
+  - Client-side validation: `accept` (MIME types and extensions) and
+    `maxSizeBytes`. Rejected files fire `onFileRejected` and are not added
+    to the list.
+  - Per-file `<ProgressBar size="sm">` rendered when `entry.progress` is set;
+    tone switches to `"danger"` when `entry.error` is also set.
+  - Full a11y: `role="button"` drop zone, visually-hidden input (remains in
+    a11y tree), polite live region for add/remove/reject, assertive live region
+    for drag state, `aria-label="Remove {filename}"` on remove buttons, and
+    focus management on removal.
+  - `<Field>`-compatible: accepts `id`, `aria-describedby`, `aria-invalid`,
+    `required` injected by `Field.cloneElement`.
+  - Zero lucide-react dependency — all glyphs are inline SVG.
+  - Tokens only: 23 approved tokens from `src/tokens/tokens.css`.
+
+- 4412c80: feat(SiteShell): app-shell expansion — sticky header, end slot, nested dropdown nav, mobile hamburger panel (#391)
+
+  Additive extension of SiteShell. All existing flat-routes + footer marketing usage renders identically when new props are absent.
+
+  New props:
+  - `sticky` (boolean, default `false`) — makes the header `position: sticky; top: 0` with a hairline `border-bottom` and compact block padding (`--space-4`).
+  - `end` (ReactNode, optional) — right-edge slot for consumer-supplied controls (avatar, sign-out, theme toggle). SiteShell is auth-unaware; consumers compose via `routes` and `end`.
+  - `mobileMenuLabel` / `mobileCloseLabel` (string) — i18n-friendly accessible names for the hamburger/close buttons.
+
+  Extended `SiteShellRoute`:
+  - `href` is now optional (group labels have no href).
+  - `items?: SiteShellRoute[]` — one level of nesting. On desktop renders via existing `DropdownMenu` atom (`modal={false}`). On mobile renders as an inline disclosure (no Radix dependency).
+
+  Mobile behaviour:
+  - Below 768px: nav collapses to hamburger button. Panel slides in with `translateY`/opacity transition at `--dur-mid`/`--easing`. Respects `prefers-reduced-motion`.
+  - Focus management: moves to first panel item on open; returns to hamburger on Escape or close.
+  - NOT modal — no focus trap.
+
+  No new tokens. Z-index `100` (sticky header + mobile panel) is the DS's documented raw-value exception — matches `Header.module.css` and the informal scale in `DropdownMenu.module.css`.
+  No lucide-react — all icons are inline SVG per spec §6.
+
+  Size-limit: the `dist/organisms.js` budget is raised from 44 kB → 58 kB (Arian-approved). SiteShell now adopts the `DropdownMenu` atom (which wraps `@radix-ui/react-dropdown-menu`) for nested/"More" desktop nav items. Radix dropdown was already a library dependency present in `dist/atoms.js`; the barrel import of `organisms.js` now includes it. Per-component subpath imports (`/organisms/SiteShell`) are unaffected and remain small.
+
+- e238592: `Stat` gains an optional `icon` prop (#400).
+
+  Renders a decorative icon above the numeral inside an `aria-hidden` wrapper —
+  mirroring `FeatureCard`'s icon pattern — for dashboard metric cards. Purely
+  visual; the caption still carries the meaning. Pass a sized element
+  (e.g. `<Activity size={24} />`); Stat imposes no size. No new tokens; omitting
+  `icon` renders identically to before.
+
 ## 2.14.0
 
 ### Minor Changes

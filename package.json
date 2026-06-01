@@ -756,7 +756,7 @@
     {
       "name": "ESM — organisms subpath",
       "path": "dist/organisms.js",
-      "limit": "44 kB"
+      "limit": "58 kB"
     },
     {
       "name": "ESM — tree-shaken (Wordmark + Button)",

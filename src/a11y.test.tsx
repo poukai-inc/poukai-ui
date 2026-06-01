@@ -1501,6 +1501,109 @@ test("a11y — SiteShell (full chrome)", async ({ mount, page }) => {
   await expectAxeClean(page, { fullPageSemantics: true });
 });
 
+test("a11y — SiteShell (with dropdown nav items)", async ({ mount, page }) => {
+  await mount(
+    <SiteShell
+      currentRoute="/dashboard"
+      routes={[
+        { href: "/dashboard", label: "Dashboard" },
+        { href: "/posts", label: "Posts" },
+        {
+          label: "More",
+          items: [
+            { href: "/settings", label: "Settings" },
+            { href: "/billing", label: "Billing" },
+          ],
+        },
+      ]}
+    >
+      <h1>App page</h1>
+      <p>Body copy.</p>
+    </SiteShell>,
+  );
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — SiteShell (with end slot)", async ({ mount, page }) => {
+  await mount(
+    <SiteShell
+      currentRoute="/dashboard"
+      routes={[
+        { href: "/dashboard", label: "Dashboard" },
+        { href: "/posts", label: "Posts" },
+      ]}
+      end={
+        <button
+          type="button"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--fs-meta)",
+            color: "var(--fg-muted)",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Sign out
+        </button>
+      }
+    >
+      <h1>App shell with end slot</h1>
+      <p>Body copy.</p>
+    </SiteShell>,
+  );
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — SiteShell (mobile open, hamburger visible)", async ({ mount, page }) => {
+  // Use narrow viewport so the hamburger is visible and the panel is reachable.
+  // Reduce motion so the panel transition completes instantly — axe scans after
+  // the state update but before the CSS opacity transition finishes can produce
+  // intermediate composited colors that fail the contrast check.
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 375, height: 812 });
+  const component = await mount(
+    <SiteShell
+      currentRoute="/why-ai"
+      routes={[
+        { href: "/why-ai", label: "Why AI" },
+        { href: "/roles", label: "Roles" },
+        {
+          label: "More",
+          items: [
+            { href: "/settings", label: "Settings" },
+            { href: "/billing", label: "Billing" },
+          ],
+        },
+      ]}
+      end={
+        <button
+          type="button"
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--fs-meta)",
+            color: "var(--fg-muted)",
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+          }}
+        >
+          Sign out
+        </button>
+      }
+    >
+      <h1>Mobile shell</h1>
+      <p>Body copy.</p>
+    </SiteShell>,
+  );
+  // Open the mobile panel and wait for any animations to settle
+  await component.getByRole("button", { name: "Open navigation" }).click();
+  await page.evaluate(() =>
+    Promise.all(document.getAnimations().map((a) => a.finished.catch(() => null))),
+  );
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
 test("a11y — Form (with Field + Input + Textarea + Button)", async ({ mount, page }) => {
   await mount(
     <Form onSubmit={() => undefined}>

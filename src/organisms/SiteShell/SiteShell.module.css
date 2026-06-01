@@ -1,3 +1,11 @@
+/* ============================================================
+   SiteShell — page chrome organism
+   Token contract: meta/design/SiteShell.md §3
+   All values reference CSS custom properties from tokens.css.
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
 .root {
   display: flex;
   flex-direction: column;
@@ -5,9 +13,19 @@
   min-height: 100dvh;
   background: var(--bg);
   color: var(--fg);
+  /* position:relative so the absolute-positioned mobile panel is contained
+     within the shell, not the viewport. */
+  position: relative;
+}
+
+/* sticky=true modifier — no additional root styles needed beyond position:relative
+   (already set above). The .header--sticky class handles the sticky header. */
+.root-sticky {
+  /* intentionally empty — modifier present for potential future use */
 }
 
 /* ---------- Header ---------- */
+
 .header {
   display: flex;
   align-items: center;
@@ -17,6 +35,22 @@
   /* Hairline below the header echoes the editorial rules used elsewhere. */
 }
 
+/* sticky variant: position:sticky with compact padding and a hairline border.
+   z-index: 100 — raw value per DS z-index informal scale (dropdowns 50,
+   Header/SiteShell nav 100, Dialog/Sheet 101, Toast 200, SkipLink 9999).
+   Z-index is a documented non-tokenised exception in this DS; see
+   src/atoms/DropdownMenu/DropdownMenu.module.css for the precedent comment. */
+.header--sticky {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: var(--hairline-w) solid var(--hairline);
+  background: var(--bg);
+  padding-block: var(--space-4);
+}
+
+/* ---------- Brand link ---------- */
+
 .brand {
   display: inline-flex;
   align-items: center;
@@ -24,6 +58,8 @@
   /* Disable the underline-grow on the wordmark — it's a logo, not body link. */
   background-image: none;
   padding-bottom: 0;
+  /* Prevent brand from shrinking when nav is long */
+  flex-shrink: 0;
 }
 
 .brand:focus-visible {
@@ -32,9 +68,17 @@
   border-radius: var(--radius-1);
 }
 
-/* ---------- Nav ---------- */
+/* ---------- Nav (desktop) ---------- */
+
+/* Hidden below --bp-md — shown as flex on desktop */
 .nav {
-  display: flex;
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav {
+    display: flex;
+  }
 }
 
 .nav-list {
@@ -51,13 +95,229 @@
   font-family: var(--font-sans);
   font-size: var(--fs-meta);
   /* `.muted-link` from tokens.css already supplies color + hover transition. */
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  /* Reset button defaults for dropdown triggers */
+  line-height: inherit;
 }
 
 .nav-link-active {
   color: var(--fg);
 }
 
+/* Dropdown trigger: same visual as nav-link + flex for chevron alignment */
+.nav-dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Chevron rotation on open dropdown */
+.chevron {
+  display: inline-flex;
+  align-items: center;
+  transition: transform var(--dur-fast) var(--easing);
+}
+
+/* Chevron open state — applied via className when disclosure is open (mobile),
+   or when the parent button has data-state="open" (Radix, desktop).
+   Note: Radix sets data-state="open" on the <button> trigger; the chevron span
+   is a child of that button, so we use :has on the button or apply a JS class.
+   The .chevron-open class is toggled directly in JSX for the mobile disclosure. */
+.chevron-open {
+  transform: rotate(180deg);
+}
+
+/* Desktop Radix dropdown: rotate chevron when trigger is open.
+   The trigger button gets data-state="open" from Radix.
+   :global is not used — instead we use a compound selector within the module. */
+.nav-dropdown-trigger[data-state="open"] .chevron {
+  transform: rotate(180deg);
+}
+
+/* ---------- End slot (desktop) ---------- */
+
+/* Hidden below --bp-md (appears in mobile panel instead) */
+.end {
+  display: none;
+  align-items: center;
+  gap: var(--space-4);
+  /* Push to right edge of the header flex row */
+  margin-inline-start: auto;
+}
+
+@media (min-width: 768px) {
+  .end {
+    display: flex;
+  }
+}
+
+/* ---------- Hamburger button (mobile only) ---------- */
+
+.hamburger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: var(--space-2);
+  color: var(--fg-muted);
+  cursor: pointer;
+  /* Tap target — at least 44px */
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: var(--radius-2);
+  transition: color var(--dur-fast) var(--easing);
+  /* Push to right edge when nav is hidden */
+  margin-inline-start: auto;
+}
+
+.hamburger:hover {
+  color: var(--fg);
+}
+
+.hamburger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+/* Hide hamburger on desktop where nav is visible */
+@media (min-width: 768px) {
+  .hamburger {
+    display: none;
+  }
+}
+
+/* ---------- Mobile panel ---------- */
+
+/* Panel sits directly below the header. position:absolute on the panel requires
+   position:relative on .root (set via .root-sticky) or on the header's stacking
+   context. Because SiteShell wraps the full page, the panel is positioned relative
+   to the shell root. z-index matches the header so it sits on the same layer. */
+.mobile-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  /* z-index: 100 — same informal scale as sticky header above */
+  z-index: 100;
+  /* --bg rather than --bg-elevated: --fg-muted (#6e6e73) on --bg-elevated
+     (#ffffff) produces a 4.39:1 contrast ratio — below WCAG AA 4.5:1 at 14px
+     normal weight. --fg-muted on --bg (#fbfbfd) gives 4.91:1 (AA pass).
+     The hairline border-bottom provides the necessary visual separation. */
+  background: var(--bg);
+  border-bottom: var(--hairline-w) solid var(--hairline);
+  padding: var(--space-6) var(--page-pad) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  /* Hidden by default: slide up + fade out */
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--dur-mid) var(--easing),
+    opacity var(--dur-mid) var(--easing);
+}
+
+/* Open state: slide in + fade in */
+.mobile-panel--open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Respect reduced motion — instant show/hide */
+@media (prefers-reduced-motion: reduce) {
+  .mobile-panel {
+    transition: none;
+  }
+}
+
+/* Hide panel on desktop — nav is always visible */
+@media (min-width: 768px) {
+  .mobile-panel {
+    display: none;
+  }
+}
+
+/* ---------- Mobile panel list ---------- */
+
+.mobile-panel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* ---------- Mobile nav links ---------- */
+
+.mobile-nav-link {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  padding-block: var(--space-2);
+}
+
+/* ---------- Mobile panel end slot ---------- */
+
+.mobile-panel-end-sep {
+  height: var(--hairline-w);
+  background: var(--hairline);
+  margin-block: var(--space-4);
+}
+
+.mobile-panel-end {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding-top: var(--space-2);
+}
+
+/* ---------- Mobile disclosure (nested items on mobile) ---------- */
+
+.mobile-disclosure {
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-disclosure-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: none;
+  border: none;
+  padding: var(--space-2) 0;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  cursor: pointer;
+  text-align: start;
+  width: 100%;
+}
+
+.mobile-disclosure-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+.mobile-disclosure-list {
+  list-style: none;
+  margin: 0;
+  /* Indent children below parent toggle */
+  padding: var(--space-1) 0 var(--space-2) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
 /* ---------- Main slot ---------- */
+
 .main {
   flex: 1 1 auto;
   padding: var(--space-12) var(--page-pad) var(--space-24);
@@ -68,6 +328,7 @@
 }
 
 /* ---------- Footer ---------- */
+
 .footer {
   border-top: var(--hairline-w) solid var(--hairline);
   padding: var(--space-8) var(--page-pad);

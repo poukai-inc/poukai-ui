@@ -1,5 +1,38 @@
 # @poukai-inc/ui
 
+## 2.14.0
+
+### Minor Changes
+
+- b50f481: `StatusBadge` gains a generic `tone` API (#392).
+
+  Adds `tone` ("neutral" | "info" | "success" | "warning" | "danger" | "accent")
+  plus an opt-in `pulse` prop, so the atom can render arbitrary status indicators
+  (e.g. a consumer's post statuses) without forking. The legacy `status`
+  ("available" | "idle" | "closed") API is preserved and maps onto tones
+  internally — `status="available"` is equivalent to `tone="accent"` + pulse, and
+  existing `status`-only usage renders identically.
+  - `tone` takes precedence over `status` when both are set.
+  - `pulse` defaults to false; `status="available"` enables it automatically.
+  - No new tokens — all six tones use existing color tokens (`--fg-muted`,
+    `--accent`, `--success`, `--warning`, `--danger`, `--accent-glow`). `info`
+    shares the neutral dot color this pass (text carries the distinction).
+
+- f0872b4: `Wordmark` gains an optional `src` prop for white-label deployments (#394).
+
+  When `src` is provided, `Wordmark` renders `<img src alt={label} height width="auto">`
+  instead of the bundled POUKAI inline SVG — letting consumers ship a per-deployment
+  logo without forking the atom. The bundled mark is unchanged when `src` is omitted
+  (zero breaking change).
+
+  Notes:
+  - The white-label image does **not** inherit `currentColor` (colors are baked into
+    the asset); supply a separate dark-mode asset and swap `src` at the call site if
+    needed. The bundled mark still inverts via `currentColor`.
+  - `javascript:`/`data:` scheme URLs are rejected at the attribute boundary and fall
+    back to the bundled mark (same posture as `AudioPlayer`/`VideoEmbed`).
+  - `label` is used as the `<img>` `alt` when `src` is set.
+
 ## 2.13.0
 
 ### Minor Changes

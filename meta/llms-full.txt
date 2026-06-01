@@ -3623,3 +3623,58 @@ useEffect(() => {
   ]}
 />
 ```
+
+### FileUploader
+- Drag-and-drop file selection molecule with per-file progress, validation, and removal. Provides a visually-styled drop zone, a hidden `<input type="file">`, and a file list with optional `<ProgressBar>` per entry. No remote upload logic — the component collects local `File` objects only; the caller owns the upload transport.
+- Root element: `<div>`. `forwardRef<HTMLDivElement, FileUploaderProps>`. `...rest` spread to root div. `displayName = "FileUploader"`.
+- Uncontrolled by default (manages its own `FileEntry[]` state). Becomes controlled when `files` prop is supplied — caller must update it in response to `onFilesAdded` / `onFileRemoved`. Both modes fire all callbacks.
+- `FileEntry` interface: `{ id: string; file: File; progress?: number; error?: string }`. IDs are auto-generated via `crypto.randomUUID()` (or a module counter fallback); stable for the entry's lifetime.
+- `accept` (string, optional) — forwarded to `<input accept>` and used for drop-event client-side validation. Supports MIME types (`image/*`, `application/pdf`) and extensions (`.pdf`, `.jpg`).
+- `maxSizeBytes` (number, optional) — files exceeding this are rejected with a human-readable error message (e.g. "File exceeds maximum size of 10.0 MB").
+- `multiple` (boolean, default `true`) — forwarded to `<input multiple>`. When `false`, dropping more than one file shows a zone-level error and only the first file is accepted.
+- `disabled` (boolean, default `false`) — entire component is inert: no drag, no dialog, no remove. `opacity: 0.5`, `pointer-events: none`.
+- `files` (FileEntry[], optional) — controlled file list. Omit for uncontrolled mode.
+- `onFilesAdded` ((entries: FileEntry[]) => void, optional) — called with newly accepted entries after validation passes.
+- `onFileRemoved` ((id: string) => void, optional) — called when user removes a file via the × button.
+- `onFileRejected` ((entry: FileEntry) => void, optional) — called for every file that fails `accept` or `maxSizeBytes` validation. Entry has `error` set; entry is NOT added to the file list.
+- `dropZoneLabel` (string, default `"Drag files here, or click to browse"`) — overrides the primary instruction line in the drop zone.
+- `className` (string, optional) — merged onto the root `<div>`.
+- Field integration: accepts `id`, `aria-describedby`, `aria-invalid`, `required` props injected by `<Field>` and forwards them to the hidden `<input>`.
+- Drop zone states: idle (`--bg` background, dashed `--hairline` border), drag-over-valid (`--accent-glow` bg, `--accent` border/text), drag-over-invalid (`--bg-danger` bg, `--danger` border/text), focus-visible (2px solid `--accent` outline), disabled (opacity 0.5).
+- File row states: default (`--bg-elevated` bg, `--hairline` border), error (border `--danger`), with-progress (`<ProgressBar size="sm">` below filename row).
+- A11y: drop zone has `role="button"` + `tabIndex={0}`. Enter/Space opens file dialog. Hidden input uses visually-hidden CSS (not `display:none`) to remain in the accessibility tree. Polite live region announces add/remove/reject events. Assertive live region announces drag-state changes. Remove buttons have `aria-label="Remove {filename}"`. Focus management on remove: moves to next/previous remove button, or drop zone when list empties.
+- No lucide-react. All three glyphs (upload arrow, file page, remove ×) are inline SVG with `aria-hidden="true"` and `currentColor` stroke.
+- Tokens: `--surface`, `--bg-elevated`, `--bg-danger`, `--accent`, `--accent-glow`, `--danger`, `--fg`, `--fg-muted`, `--hairline`, `--hairline-w`, `--radius-2`, `--radius-3`, `--font-sans`, `--fs-meta`, `--lh-meta`, `--space-1`, `--space-2`, `--space-3`, `--space-4`, `--space-6`, `--dur-fast`, `--dur-press`, `--easing`, `--icon-lg`, `--icon-sm`, `--btn-h-sm`.
+
+```tsx
+// (a) Zero-config uncontrolled:
+<FileUploader />
+
+// (b) With constraints:
+<FileUploader accept="image/*,application/pdf" maxSizeBytes={10485760} />
+
+// (c) Single-file mode:
+<FileUploader multiple={false} accept=".pdf" />
+
+// (d) Inside Field (canonical):
+<Field label="Attach media" helper="JPEG, PNG · max 5 MB" id="media-upload">
+  <FileUploader accept="image/*" maxSizeBytes={5242880} />
+</Field>
+
+// (e) Controlled (React Hook Form):
+<FileUploader
+  files={files}
+  onFilesAdded={(entries) => setFiles((prev) => [...prev, ...entries])}
+  onFileRemoved={(id) => setFiles((prev) => prev.filter((f) => f.id !== id))}
+  onFileRejected={(entry) => toast.error(entry.error ?? "File rejected")}
+  accept="image/*,application/pdf"
+  maxSizeBytes={26214400}
+/>
+
+// (f) With progress (caller drives progress updates):
+<FileUploader
+  files={files.map((f) => ({ ...f, progress: uploadProgress[f.id] }))}
+  onFilesAdded={(entries) => setFiles((prev) => [...prev, ...entries])}
+  onFileRemoved={(id) => setFiles((prev) => prev.filter((f) => f.id !== id))}
+/>
+```

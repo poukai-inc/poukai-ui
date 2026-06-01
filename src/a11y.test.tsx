@@ -120,6 +120,7 @@ import { DataTable } from "./molecules/DataTable";
 import type { ColumnDef } from "./molecules/DataTable";
 import { FAQSection } from "./organisms/FAQSection";
 import { NotFound } from "./organisms/NotFound";
+import { FileUploader, type FileEntry } from "./molecules/FileUploader";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -3597,4 +3598,89 @@ test("a11y — NotFound (with suggestions)", async ({ mount, page }) => {
     />,
   );
   await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+/* ---------- FileUploader ---------- */
+
+test("a11y — FileUploader (idle, no files)", async ({ mount, page }) => {
+  await mount(<FileUploader />);
+  await expectAxeClean(page);
+});
+
+test("a11y — FileUploader (with accept + maxSizeBytes hints)", async ({ mount, page }) => {
+  await mount(
+    <FileUploader
+      accept="image/*,application/pdf"
+      maxSizeBytes={10485760}
+      dropZoneLabel="Drag images or PDFs here, or click to browse"
+    />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FileUploader (with files — names, sizes, remove buttons)", async ({ mount, page }) => {
+  // Use non-empty content so CT serialisation preserves File metadata.
+  const files: FileEntry[] = [
+    {
+      id: "a11y-f1",
+      file: new File(["content"], "design-spec.pdf", { type: "application/pdf" }),
+    },
+    {
+      id: "a11y-f2",
+      file: new File(["content"], "photo.jpg", { type: "image/jpeg" }),
+    },
+  ];
+  await mount(
+    <FileUploader files={files} onFilesAdded={() => undefined} onFileRemoved={() => undefined} />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FileUploader (with progress bars)", async ({ mount, page }) => {
+  // Non-empty content ensures file.name is preserved across the CT boundary,
+  // so aria-labelledby on each ProgressBar resolves to a non-empty string.
+  const files: FileEntry[] = [
+    {
+      id: "a11y-p1",
+      file: new File(["content"], "uploading.mp4", { type: "video/mp4" }),
+      progress: 55,
+    },
+    {
+      id: "a11y-p2",
+      file: new File(["content"], "done.pdf", { type: "application/pdf" }),
+      progress: 100,
+    },
+  ];
+  await mount(
+    <FileUploader files={files} onFilesAdded={() => undefined} onFileRemoved={() => undefined} />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FileUploader (with per-file error)", async ({ mount, page }) => {
+  const files: FileEntry[] = [
+    {
+      id: "a11y-e1",
+      file: new File(["content"], "bad.exe", { type: "application/octet-stream" }),
+      error: "File type not supported",
+    },
+  ];
+  await mount(
+    <FileUploader files={files} onFilesAdded={() => undefined} onFileRemoved={() => undefined} />,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — FileUploader (disabled)", async ({ mount, page }) => {
+  await mount(<FileUploader disabled />);
+  await expectAxeClean(page);
+});
+
+test("a11y — FileUploader (inside Field)", async ({ mount, page }) => {
+  await mount(
+    <Field label="Attach files" id="a11y-fu-field" helper="PDF or images only.">
+      <FileUploader accept="image/*,application/pdf" maxSizeBytes={5242880} />
+    </Field>,
+  );
+  await expectAxeClean(page);
 });

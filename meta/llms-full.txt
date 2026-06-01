@@ -44,7 +44,9 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 
 ### Dark mode
 
-Dark mode is implemented as a `@media (prefers-color-scheme: dark)` block appended to `src/tokens/tokens.css`. It overrides every color token on `:root`. No component CSS changes — every component that consumes `var(--token)` references gains dark mode automatically. Full rationale in `meta/design/dark-mode.md`.
+Dark mode is implemented as a token tier in `src/tokens/tokens.css` that overrides every color token on `:root`. No component CSS changes — every component that consumes `var(--token)` references gains dark mode automatically. Full rationale in `meta/design/dark-mode.md`.
+
+**Activation (two paths).** (1) OS preference via `@media (prefers-color-scheme: dark)` — zero config. (2) Manual toggle: set `class="dark"` or `data-theme="dark"` on `<html>`/`:root` to force dark regardless of OS; `class="light"` / `data-theme="light"` forces light. **Explicit wins over OS** (the media block is scoped `:root:not(.light):not([data-theme="light"])`). The DS sets `color-scheme` per mode so native controls match. For no-flash SSR, set the class in a blocking `<head>` script before stylesheets load. Dark values are duplicated between the `@media` block and the explicit `:root.dark` block — update both together.
 
 **Philosophy.** Dark mode is not an inversion of the light palette. It is a parallel surface stack: backgrounds darken progressively toward black (the floor); foregrounds brighten toward near-white (never pure). The elevation rhythm inverts direction — surfaces RISE through lighter grays as they elevate, rather than toward white. `html { color-scheme: light dark }` is declared so browser-native controls (scrollbars, form inputs, selection) match the token-driven scheme.
 

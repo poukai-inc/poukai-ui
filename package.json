@@ -640,6 +640,11 @@
       "import": "./dist/organisms/NotFound.js",
       "require": "./dist/organisms/NotFound.cjs"
     },
+    "./organisms/DashboardShell": {
+      "types": "./dist/organisms/DashboardShell.d.ts",
+      "import": "./dist/organisms/DashboardShell.js",
+      "require": "./dist/organisms/DashboardShell.cjs"
+    },
     "./tokens.css": "./dist/tokens.css",
     "./styles.css": "./dist/styles.css",
     "./fonts/*": "./dist/fonts/*",

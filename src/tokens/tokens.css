@@ -67,17 +67,20 @@
 
   /* ---------- Status color tier — product feedback only (not editorial brand) ---------- */
   /* success: confirmations, completion, positive feedback. Apple systemGreen hue family. */
-  --success: #248a3d; /* WCAG AA on --bg (#FBFBFD): ~4.7:1 */
+  --success: #248a3d; /* WCAG AA on --bg (#FBFBFD): ~4.7:1. Text-safe; also used as dot fill on --bg. */
   --bg-success: #f0faf3; /* tinted page-tier surface — subtle green */
   --fg-on-success: #0d3d1e; /* deep forest for text on --bg-success: ~10.5:1 */
+  --line-success: #1a7533; /* saturated border/dot accent on --bg AND --bg-success: 5.58:1 / 5.39:1 (AA normal). Use for 4px card borders, kanban-lane rules, standalone status dots on tinted surfaces. */
   /* danger: errors, destructive actions. True red hue family — distinct from --bg-warm-accent brick-red. */
-  --danger: #b3261e; /* WCAG AA on --bg (#FBFBFD): ~7.2:1 */
+  --danger: #b3261e; /* WCAG AA on --bg (#FBFBFD): ~7.2:1. Text-safe; also used as dot fill on --bg. */
   --bg-danger: #fef0f0; /* tinted page-tier surface — subtle pink */
   --fg-on-danger: #5c1310; /* deep oxblood for text on --bg-danger: ~9.1:1 */
+  --line-danger: #b3261e; /* saturated border/dot accent on --bg AND --bg-danger: 5.94:1 / 5.54:1 (AA normal). Same value as --danger; distinct semantic role (border/dot vs. text-safe color). */
   /* warning: caution, attention required. Amber/ochre hue — distinct from --bg-warm-accent and --danger. */
-  --warning: #b46100; /* WCAG AA on --bg (#FBFBFD): ~4.6:1 */
+  --warning: #b46100; /* WCAG AA on --bg (#FBFBFD): ~4.6:1. Text-safe; also used as dot fill on --bg. */
   --bg-warning: #fff7e6; /* tinted page-tier surface — light cream */
   --fg-on-warning: #4a2900; /* deep brown for text on --bg-warning: ~10.2:1 */
+  --line-warning: #9a5200; /* saturated border/dot accent on --bg AND --bg-warning: 5.68:1 / 5.50:1 (AA normal). Use for 4px card borders, kanban-lane rules, standalone status dots on tinted surfaces. */
 
   /* ---------- Typography ---------- */
   --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
@@ -398,12 +401,15 @@ hr {
     --success: #30d158; /* Apple systemGreen dark. Contrast on --bg (#000): ~10.9:1 */
     --bg-success: #041a09; /* Near-black with green undertone. */
     --fg-on-success: #a8f0be; /* Soft mint. Contrast on --bg-success: ~13.1:1 (AAA). */
+    --line-success: #30d158; /* Border/dot accent on dark surfaces. Same as --success dark: both roles use the same bright green on near-black surfaces. */
     --danger: #ff453a; /* Apple systemRed dark. Brighter than light-mode to read clearly on dark surfaces. */
     --bg-danger: #1c0a0a; /* Near-black with red undertone. Tinted dark surface register. */
     --fg-on-danger: #ffb4b0; /* Softened salmon-pink. Contrast on --bg-danger: 11.63:1 (AAA). */
+    --line-danger: #ff453a; /* Border/dot accent on dark surfaces. Same as --danger dark: both roles use the same bright red on near-black surfaces. */
     --warning: #ff9f0a; /* Apple systemOrange dark. */
     --bg-warning: #1c1408; /* Near-black with amber undertone. */
     --fg-on-warning: #ffd6a0; /* Warm straw. Contrast on --bg-warning: 13.74:1 (AAA). */
+    --line-warning: #ff9f0a; /* Border/dot accent on dark surfaces. Same as --warning dark: both roles use the same bright amber on near-black surfaces. */
   }
 }
 
@@ -445,12 +451,15 @@ hr {
   --success: #30d158;
   --bg-success: #041a09;
   --fg-on-success: #a8f0be;
+  --line-success: #30d158;
   --danger: #ff453a;
   --bg-danger: #1c0a0a;
   --fg-on-danger: #ffb4b0;
+  --line-danger: #ff453a;
   --warning: #ff9f0a;
   --bg-warning: #1c1408;
   --fg-on-warning: #ffd6a0;
+  --line-warning: #ff9f0a;
 }
 
 /* Forced light (explicit opt-out). The light palette already lives in the

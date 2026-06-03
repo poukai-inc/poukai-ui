@@ -24,6 +24,14 @@
   /* intentionally empty — modifier present for potential future use */
 }
 
+/* Hydration modifier — present after JS hydration.
+   Before hydration, the desktop nav is visible at all widths so zero-JS consumers
+   always have an accessible navigation landmark. After hydration, the hamburger
+   pattern takes over at mobile widths via this modifier. */
+.root-hydrated {
+  /* modifier hook — layout changes driven by descendant selectors below */
+}
+
 /* ---------- Header ---------- */
 
 .header {
@@ -70,9 +78,19 @@
 
 /* ---------- Nav (desktop) ---------- */
 
-/* Hidden below --bp-md — shown as flex on desktop */
+/* Visible at all widths by default — zero-JS / SSR consumers get an accessible nav
+   at every viewport without needing JS to open a hamburger panel. Once JS hydrates
+   (root gets .root-hydrated), the hamburger pattern hides this below --bp-md. */
 .nav {
-  display: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* Hydrated: hide nav on mobile — hamburger takes over below --bp-md */
+@media (max-width: 767px) {
+  .root-hydrated .nav {
+    display: none;
+  }
 }
 
 @media (min-width: 768px) {
@@ -97,7 +115,11 @@
   /* `.muted-link` from tokens.css already supplies color + hover transition. */
   background: none;
   border: none;
-  padding: 0;
+  /* padding-block: 8px vertical padding gives 14px (--fs-meta) + 16px = 30px tap height
+     — meets WCAG 2.5.8 24px minimum and is relevant for the no-JS mobile fallback
+     where this nav renders at all viewport widths. */
+  padding-block: var(--space-2);
+  padding-inline: 0;
   cursor: pointer;
   /* Reset button defaults for dropdown triggers */
   line-height: inherit;
@@ -214,23 +236,35 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  /* Hidden by default: slide up + fade out */
+  /* Hidden by default: slide up + fade out.
+     visibility:hidden (rather than aria-hidden) removes contained links from the
+     a11y tree and tab order without triggering the aria-hidden-focus axe violation.
+     The transition delay ensures visibility snaps to hidden only after the fade-out
+     completes, so the element is not "hidden" while still visually on-screen. */
   transform: translateY(-8px);
   opacity: 0;
+  visibility: hidden;
   pointer-events: none;
   transition:
     transform var(--dur-mid) var(--easing),
-    opacity var(--dur-mid) var(--easing);
+    opacity var(--dur-mid) var(--easing),
+    visibility 0s linear var(--dur-mid);
 }
 
-/* Open state: slide in + fade in */
+/* Open state: slide in + fade in — visibility becomes visible immediately */
 .mobile-panel--open {
   transform: translateY(0);
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
+  transition:
+    transform var(--dur-mid) var(--easing),
+    opacity var(--dur-mid) var(--easing),
+    visibility 0s linear 0s;
 }
 
-/* Respect reduced motion — instant show/hide */
+/* Respect reduced motion — instant show/hide (transition: none collapses both
+   the opacity/transform transitions and the visibility delay simultaneously) */
 @media (prefers-reduced-motion: reduce) {
   .mobile-panel {
     transition: none;

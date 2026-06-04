@@ -1,0 +1,328 @@
+/* ============================================================
+   DashboardShell — sidebar-rail layout organism
+   Token contract: meta/design/DashboardShell.md §3
+   All values reference CSS custom properties from tokens.css.
+
+   Non-tokenised exceptions (documented by spec):
+   - Rail width: 14rem (224px). Non-tokenised by design — same exception as
+     z-index values. See meta/design/DashboardShell.md §4.
+   - Z-index scale (see spec §13 and SiteShell precedent):
+       Mobile top bar: 100  (sticky header layer)
+       Backdrop:       100  (same layer as top bar; DOM order wins)
+       Rail panel:     101  (above backdrop and top bar)
+       Hamburger btn:  102  (above backdrop + panel so it stays clickable when open)
+   ============================================================ */
+
+/* ---------- Root ---------- */
+
+.root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--bg);
+  color: var(--fg);
+}
+
+@media (min-width: 768px) {
+  .root {
+    flex-direction: row;
+  }
+}
+
+/* ---------- Desktop rail (aside) ---------- */
+
+/* Hidden below --bp-md; desktop layout is flex-row so the aside appears left */
+.rail {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .rail {
+    display: flex;
+    flex-direction: column;
+    /* Rail width: 14rem (224px). Non-tokenised by design — see spec §4. */
+    width: 14rem;
+    flex-shrink: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border-right: var(--hairline-w) solid var(--hairline);
+  }
+}
+
+/* ---------- Rail inner layout (shared by desktop + mobile panel) ---------- */
+
+.rail-inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding: var(--space-6) var(--space-4) var(--space-4);
+  min-height: 0;
+}
+
+/* ---------- Wordmark / brand link ---------- */
+
+.brand {
+  display: flex;
+  align-items: center;
+  margin-bottom: var(--space-6);
+  color: var(--fg);
+  /* Suppress the global link underline animation on the brand mark */
+  background-image: none;
+  padding-bottom: 0;
+  flex-shrink: 0;
+}
+
+.brand:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}
+
+/* ---------- Rail slot (optional, above nav) ---------- */
+
+.rail-slot {
+  margin-bottom: var(--space-8);
+}
+
+/* ---------- Nav ---------- */
+
+.nav {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+/* ---------- Nav links ---------- */
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-2);
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  line-height: var(--lh-meta);
+  color: var(--fg-muted);
+  /* Suppress the global link underline animation in nav context */
+  background-image: none;
+  padding-bottom: var(--space-2);
+  transition: color var(--dur-fast) var(--easing);
+}
+
+/* Active: aria-current="page" — accent left border + fg color */
+.nav-link[aria-current="page"] {
+  color: var(--fg);
+  border-left: 2px solid var(--accent);
+  /* Compensate leading padding so text stays optically aligned */
+  padding-left: calc(var(--space-3) - 2px);
+}
+
+@media (hover: hover) {
+  .nav-link:not([aria-current="page"]):hover {
+    color: var(--fg);
+  }
+}
+
+.nav-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-1);
+}
+
+/* ---------- Nav icon slot ---------- */
+
+.nav-icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  /* Icon inherits currentColor from the link */
+}
+
+/* ---------- Footer slot ---------- */
+
+.rail-footer {
+  margin-top: auto;
+  border-top: var(--hairline-w) solid var(--hairline);
+  padding: var(--space-4);
+  flex-shrink: 0;
+}
+
+/* ---------- Mobile top bar (<header> landmark) ---------- */
+
+/* Shown only below --bp-md; hidden on desktop via display:none.
+   Using <header> (not <div>) so content lives in the `banner` landmark (axe region rule). */
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--page-pad);
+  border-bottom: var(--hairline-w) solid var(--hairline);
+  background: var(--surface);
+  position: sticky;
+  top: 0;
+  /* z-index: 100 — same layer as sticky header; see spec §13 */
+  z-index: 100;
+}
+
+@media (min-width: 768px) {
+  .top-bar {
+    display: none;
+  }
+}
+
+/* ---------- Hamburger button (mobile only) ---------- */
+
+.hamburger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: var(--space-2);
+  color: var(--fg-muted);
+  cursor: pointer;
+  /* 44px minimum tap target */
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: var(--radius-2);
+  transition: color var(--dur-fast) var(--easing);
+  flex-shrink: 0;
+  /* z-index: 102 — above backdrop (100) and panel (101) so the button remains
+     clickable (and tappable) whether the panel is open or closed. */
+  position: relative;
+  z-index: 102;
+}
+
+.hamburger:hover {
+  color: var(--fg);
+}
+
+.hamburger:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+/* ---------- Panel close button (inside mobile off-canvas panel) ---------- */
+
+/* Dedicated X button at the top of the mobile panel. Placed inside the panel
+   so it is not covered by the panel's own content (the Wordmark spans the full
+   14rem panel width and would otherwise overlay the hamburger in the top bar). */
+.panel-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-end;
+  background: none;
+  border: none;
+  padding: var(--space-2);
+  margin: var(--space-3) var(--space-3) 0;
+  color: var(--fg-muted);
+  cursor: pointer;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: var(--radius-2);
+  transition: color var(--dur-fast) var(--easing);
+  flex-shrink: 0;
+}
+
+.panel-close:hover {
+  color: var(--fg);
+}
+
+.panel-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-1);
+}
+
+/* ---------- Backdrop (mobile) ---------- */
+
+/* position:fixed so it covers the full viewport including scrolled content.
+   z-index: 100 — same as top bar. Rendered AFTER top bar in DOM so same-layer
+   paint order means backdrop visually covers the top bar (correct behavior). */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  /* z-index: 100 — behind panel, in front of page content; see spec §13 */
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-mid) var(--easing);
+}
+
+.backdrop[data-state="open"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (min-width: 768px) {
+  .backdrop {
+    display: none;
+  }
+}
+
+/* ---------- Off-canvas rail panel (mobile) ---------- */
+
+/* position:fixed so the panel overlays the full viewport height including
+   scrolled content. z-index: 101 — one above backdrop and top bar. */
+.rail-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  /* Rail width: 14rem (224px). Non-tokenised by design — same value as desktop rail. */
+  width: 14rem;
+  background: var(--bg-elevated);
+  border-right: var(--hairline-w) solid var(--hairline);
+  /* z-index: 101 — one above backdrop (100) and top bar (100); see spec §13 */
+  z-index: 101;
+  transform: translateX(-100%);
+  transition: transform var(--dur-mid) var(--easing);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.rail-mobile[data-state="open"] {
+  transform: translateX(0);
+}
+
+@media (min-width: 768px) {
+  .rail-mobile {
+    display: none;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+/* Instant show/hide — panel and backdrop remain functionally present */
+@media (prefers-reduced-motion: reduce) {
+  .rail-mobile,
+  .backdrop {
+    transition: none;
+  }
+}
+
+/* ---------- Main content ---------- */
+
+.main {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow-y: auto;
+  padding: var(--space-8);
+}

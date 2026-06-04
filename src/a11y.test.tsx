@@ -3804,6 +3804,123 @@ test("a11y — FileUploader (inside Field)", async ({ mount, page }) => {
   await expectAxeClean(page);
 });
 
+/* ---------- DashboardShell ---------- */
+
+import { DashboardShell } from "./organisms/DashboardShell";
+
+test("a11y — DashboardShell (desktop, with nav + footer)", async ({ mount, page }) => {
+  await mount(
+    <DashboardShell
+      currentRoute="/dashboard/jobs"
+      routes={[
+        { href: "/dashboard", label: "Overview" },
+        { href: "/dashboard/jobs", label: "Jobs" },
+        { href: "/dashboard/team", label: "Team" },
+        { href: "/dashboard/settings", label: "Settings" },
+      ]}
+      footer={
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+          <span
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--fs-meta)",
+              color: "var(--fg)",
+            }}
+          >
+            Arian Zargaran
+          </span>
+          <button
+            type="button"
+            style={{
+              background: "none",
+              border: "none",
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--fs-meta)",
+              color: "var(--fg-muted)",
+              cursor: "pointer",
+            }}
+          >
+            Sign out
+          </button>
+        </div>
+      }
+    >
+      <h1>Jobs</h1>
+      <p>Dashboard main content.</p>
+    </DashboardShell>,
+  );
+  // fullPageSemantics: true — DashboardShell renders a full page chrome with main landmark
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — DashboardShell (no nav, no footer — bare shell)", async ({ mount, page }) => {
+  await mount(
+    <DashboardShell>
+      <h1>Bare shell</h1>
+      <p>No nav, no footer. Valid for surfaces injecting nav into children.</p>
+    </DashboardShell>,
+  );
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — DashboardShell (mobile panel open)", async ({ mount, page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await mount(
+    <DashboardShell
+      currentRoute="/dashboard"
+      routes={[
+        { href: "/dashboard", label: "Overview" },
+        { href: "/dashboard/jobs", label: "Jobs" },
+      ]}
+      footer={
+        <button
+          type="button"
+          style={{
+            background: "none",
+            border: "none",
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--fs-meta)",
+            color: "var(--fg-muted)",
+            cursor: "pointer",
+          }}
+        >
+          Sign out
+        </button>
+      }
+    >
+      <h1>Dashboard</h1>
+    </DashboardShell>,
+  );
+  // Open the mobile panel before scanning
+  const hamburger = page.getByRole("button", { name: "Open navigation" });
+  await hamburger.click();
+  await expect(page.locator("#dashboardshell-rail-panel")).toHaveAttribute("data-state", "open");
+  // The backdrop (aria-hidden) and mobile panel are in play — scan the full document
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — DashboardShell (with rail slot)", async ({ mount, page }) => {
+  await mount(
+    <DashboardShell
+      routes={[{ href: "/dashboard", label: "Overview" }]}
+      rail={
+        <div
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--fs-meta)",
+            color: "var(--fg-muted)",
+          }}
+        >
+          Acme Corp
+        </div>
+      }
+    >
+      <h1>Overview</h1>
+    </DashboardShell>,
+  );
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
 test("a11y — StatusDot (standalone — role=img + aria-label)", async ({ mount, page }) => {
   await mount(
     <div>

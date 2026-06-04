@@ -211,6 +211,10 @@ export default defineConfig({
               "organisms/FAQSection": resolve(__dirname, "src/organisms/FAQSection/index.ts"),
               "organisms/DocsLayout": resolve(__dirname, "src/organisms/DocsLayout/index.ts"),
               "organisms/NotFound": resolve(__dirname, "src/organisms/NotFound/index.ts"),
+              "organisms/DashboardShell": resolve(
+                __dirname,
+                "src/organisms/DashboardShell/index.ts",
+              ),
             },
             name: "PoukaiUI",
             formats: ["es", "cjs"] as const,

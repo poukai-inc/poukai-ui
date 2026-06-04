@@ -1,5 +1,74 @@
 # @poukai-inc/ui
 
+## 2.16.0
+
+### Minor Changes
+
+- ba8b3d7: feat(DashboardShell): new organism — sidebar-rail layout for authenticated ops surfaces (resolves #406)
+- 58357ed: feat(StatusDot): new atom — standalone status dot resolves #407
+
+  Adds `StatusDot`, a text-free colored circle for communicating semantic state in space-constrained
+  surfaces (kanban card indicators, fit badge dots, compact compound components).
+
+  **API**
+  - `tone`: `"neutral" | "info" | "success" | "warning" | "danger" | "accent"` — default `"neutral"`.
+    Uses `--line-success`, `--line-warning`, `--line-danger` for the three semantic tones and `--accent`
+    with a `--accent-glow` halo for `accent`. `neutral` and `info` both use `--fg-muted`.
+  - `size`: `"sm" | "md"` — `sm` = 8 px (inline label rows), `md` = 10 px (kanban/standalone). Default `"md"`.
+  - `disabled`: boolean — sets `opacity: 0.4`. Default `false`.
+  - Forwards all `<span>` attributes (`id`, `className`, `style`, `data-*`, `aria-*`).
+
+  **Accessibility**
+
+  Two permitted patterns: standalone (`role="img"` + `aria-label`) or decorative (`aria-hidden`, no role).
+  Dev-mode warning when neither is supplied.
+
+  **Tokens added (authored by poukai-design, approved in meta/brand.md 2026-06-02)**
+  - `--line-success: #1a7533` / dark: `#30d158`
+  - `--line-warning: #9a5200` / dark: `#ff9f0a`
+  - `--line-danger: #b3261e` / dark: `#ff453a`
+
+  **Subpath export**: `@poukai-inc/ui/atoms/StatusDot`
+
+### Patch Changes
+
+- 951393c: fix(SiteShell): close-panel aria-hidden-focus a11y regression (#410)
+
+  The 2.15.0 mobile panel rendered with `aria-hidden="true"` on the closed panel while
+  simultaneously keeping it in the DOM as `display:flex` with `opacity:0`. The `<a>` links
+  inside were still focusable, triggering the axe `aria-hidden-focus` rule at every mobile
+  viewport, which drops the Lighthouse mobile accessibility score below 100.
+
+  **Root-cause fix**: Replace `aria-hidden` with `visibility:hidden` on the closed panel.
+  `visibility:hidden` removes contained elements from the accessibility tree and tab order
+  without using `aria-hidden`, so the axe rule cannot fire. A `transition-delay` keeps
+  `visibility` visible until the fade-out completes and snaps to hidden only after the
+  element is no longer on-screen.
+
+  **Zero-JS / no-JS fallback**: The hamburger button and mobile panel now mount only after
+  JS hydration (progressive enhancement via a `hydrated` `useState` guard). Before
+  hydration the desktop nav is visible at all viewport widths (flex-wrapped), so zero-JS
+  consumers (marketing site with no client bundle) always have an accessible navigation
+  landmark at every viewport.
+
+  **Tap-target improvement**: `padding-block: var(--space-2)` added to `.nav-link` so
+  links shown in the no-JS mobile fallback meet the WCAG 2.5.8 24 px minimum target size.
+
+  No new tokens. No API changes. All existing prop defaults preserved.
+
+- d7035c3: Fix `Wordmark` SVG collapsing to 0×0 in zero-JS / SSR environments.
+
+  The `.svg` CSS rule previously set `height: 100%`, which requires an ancestor
+  with a resolved height. When no ancestor had an explicit height the percentage
+  resolved to 0 (circular dependency). Any consumer-site CSS forcing
+  `svg { height: 100% }` triggered the same collapse.
+
+  Fix: remove the `height: 100%` from the CSS class and expose the `height` prop
+  value as an inline style on the wrapper `<span>` so the container always
+  carries a concrete pixel height. The SVG continues to receive its inline
+  `height` style as before, and is now self-contained regardless of the ancestor
+  flex context.
+
 ## 2.15.0
 
 ### Minor Changes

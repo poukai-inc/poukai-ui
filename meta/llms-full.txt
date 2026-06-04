@@ -37,6 +37,9 @@ All tokens live in `src/tokens/tokens.css` on `:root`. Owned exclusively by `pou
 - `--warning: #b46100` — Amber/ochre. Used by Banner warning left-rule, future caution indicators. Distinct from `--bg-warm-accent` (#C0452C, brick-red editorial) — different hue family. WCAG AA on `--bg` (#FBFBFD): ~4.6:1.
 - `--bg-warning: #fff7e6` — Tinted page-tier surface (light cream). Used by Banner warning background. NEVER substitute for `--bg-warm-accent`; the warm-accent band is editorial, this is product feedback.
 - `--fg-on-warning: #4a2900` — Deep brown for text on `--bg-warning` (~10.2:1). Use only on `--bg-warning` surfaces.
+- `--line-success: #1a7533` — Saturated border/dot accent for `success` tone. Exceeds 4.5:1 on both `--bg` and `--bg-success`. Use for 4px card borders, kanban-lane rules, and `StatusDot` success fill. NEVER use as text color or surface fill.
+- `--line-danger: #b3261e` — Saturated border/dot accent for `danger` tone. Same value as `--danger`; distinct semantic role (border/dot vs. text-safe). Use for 4px card borders and `StatusDot` danger fill.
+- `--line-warning: #9a5200` — Saturated border/dot accent for `warning` tone. Exceeds 4.5:1 on both `--bg` and `--bg-warning`. Use for 4px card borders and `StatusDot` warning fill. NEVER use as text color or surface fill.
 
 **Elevation rhythm.** Four steps, low to high: `--surface (#F5F5F7) < --surface-section (#F8F8FA) < --bg (#FBFBFD) < --bg-elevated (#FFFFFF)`. Use `--surface` for recessed inline elements (code blocks, quote blocks, card fills). Use `--surface-section` for full-width alternating section bands on editorial pages — this is the only tier permitted as a section divider. Use `--bg` for the page canvas and page-level content. Use `--bg-elevated` for overlays that must read as front-most. Never skip steps. Never use `--surface` as a section divider.
 
@@ -3806,4 +3809,46 @@ useEffect(() => {
 >
   {children}
 </DashboardShell>
+```
+
+### StatusDot
+- Standalone colored circle communicating semantic state without a text label. The visual primitive beneath `StatusBadge`'s dot anatomy, extracted for independent composition. No pulse animation — `StatusDot` is always static.
+- Root element: `<span>`. `forwardRef<HTMLSpanElement, StatusDotProps>`. `...rest` spread to root span. `displayName = "StatusDot"`.
+- `tone` (`"neutral" | "info" | "success" | "warning" | "danger" | "accent"`, default `"neutral"`) — controls the dot fill color via `data-tone` attribute + CSS attribute selectors. `neutral` and `info` use `--fg-muted`. `success` uses `--line-success`. `warning` uses `--line-warning`. `danger` uses `--line-danger`. `accent` uses `--accent` with `box-shadow: 0 0 0 2px var(--accent-glow)` halo.
+- `size` (`"sm" | "md"`, default `"md"`) — `sm` = 8px diameter (inline badge dot, tight label rows), `md` = 10px diameter (kanban indicators, standalone dots). Both values are literal px in the CSS module (not tokenized — they are size-only constants with no reuse surface outside this component).
+- `disabled` (boolean, default `false`) — when `true`, sets `opacity: 0.4` on the root span via `data-disabled` attribute selector. All tones are equally dimmed.
+- Forwards all standard `<span>` HTML attributes including `id`, `className`, `style`, `data-*`, `aria-*`.
+- Accessibility contract — two permitted patterns:
+  1. Standalone: `<StatusDot tone="success" aria-label="Published" />` — renders `role="img"` + `aria-label`. Screen readers announce the label.
+  2. Decorative alongside text: `<StatusDot tone="success" aria-hidden />` + adjacent `<span>Published</span>` — no `role` is rendered; `aria-hidden="true"` is set. Accessible name deferred to the adjacent text.
+  - Dev-mode warning emitted (`process.env.NODE_ENV !== 'production'`) when neither `aria-label` nor `aria-hidden` is present.
+  - Not focusable — `tabIndex` must never be set to 0 or positive on this component.
+- No state, no event handlers, no client-only behavior. Static render works in RSC, SSR, SSG, and client-only environments.
+- Do NOT nest a `StatusDot` inside `StatusBadge` — `StatusBadge` renders its own dot internally. Do NOT use `StatusDot` for `Alert`'s icon slot. Do NOT add pulse animation — use `StatusBadge` with `pulse` for animated presence signals.
+- Tokens: `--fg-muted`, `--accent`, `--accent-glow`, `--line-success`, `--line-warning`, `--line-danger`.
+
+```tsx
+// (a) Standalone with accessible label:
+<StatusDot tone="success" aria-label="Published" />
+
+// (b) Decorative alongside visible text:
+<div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+  <StatusDot tone="warning" aria-hidden />
+  <span>Pending approval</span>
+</div>
+
+// (c) Small size — inline label rows:
+<StatusDot tone="danger" size="sm" aria-label="Failed" />
+
+// (d) Disabled:
+<StatusDot tone="success" disabled aria-label="Success (inactive)" />
+
+// (e) Kanban card header (canonical layout):
+<div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)" }}>
+  <StatusDot tone="accent" size="md" aria-hidden />
+  <span>Active feature branch</span>
+</div>
+
+// (f) Subpath import:
+import { StatusDot } from "@poukai-inc/ui/atoms/StatusDot";
 ```

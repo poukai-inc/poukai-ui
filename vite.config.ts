@@ -77,6 +77,7 @@ export default defineConfig({
               "atoms/Spinner": resolve(__dirname, "src/atoms/Spinner/index.ts"),
               "atoms/Stat": resolve(__dirname, "src/atoms/Stat/index.ts"),
               "atoms/StatusBadge": resolve(__dirname, "src/atoms/StatusBadge/index.ts"),
+              "atoms/StatusDot": resolve(__dirname, "src/atoms/StatusDot/index.ts"),
               "atoms/Switch": resolve(__dirname, "src/atoms/Switch/index.ts"),
               "atoms/Tag": resolve(__dirname, "src/atoms/Tag/index.ts"),
               "atoms/Text": resolve(__dirname, "src/atoms/Text/index.ts"),

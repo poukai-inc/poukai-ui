@@ -121,6 +121,7 @@ import type { ColumnDef } from "./molecules/DataTable";
 import { FAQSection } from "./organisms/FAQSection";
 import { NotFound } from "./organisms/NotFound";
 import { FileUploader, type FileEntry } from "./molecules/FileUploader";
+import { StatusDot } from "./atoms/StatusDot";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -3918,4 +3919,51 @@ test("a11y — DashboardShell (with rail slot)", async ({ mount, page }) => {
     </DashboardShell>,
   );
   await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — StatusDot (standalone — role=img + aria-label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <StatusDot tone="neutral" aria-label="Inactive" />
+      <StatusDot tone="info" aria-label="Info" />
+      <StatusDot tone="success" aria-label="Published" />
+      <StatusDot tone="warning" aria-label="Pending approval" />
+      <StatusDot tone="danger" aria-label="Failed" />
+      <StatusDot tone="accent" aria-label="Active" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatusDot (decorative — aria-hidden alongside visible text)", async ({
+  mount,
+  page,
+}) => {
+  await mount(
+    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <StatusDot tone="success" aria-hidden />
+      <span>Published</span>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatusDot (sizes)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <StatusDot tone="success" size="sm" aria-label="Small published" />
+      <StatusDot tone="success" size="md" aria-label="Medium published" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatusDot (disabled)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <StatusDot tone="neutral" disabled aria-label="Inactive (disabled)" />
+      <StatusDot tone="danger" disabled aria-label="Failed (disabled)" />
+    </div>,
+  );
+  await expectAxeClean(page);
 });

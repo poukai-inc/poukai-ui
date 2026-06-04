@@ -1,0 +1,55 @@
+.root {
+  display: inline-block;
+  border-radius: 50%;
+  flex-shrink: 0;
+  /* Size defaults — overridden by data-size selectors below. */
+  width: 10px;
+  height: 10px;
+}
+
+/* ---- sizes ---- */
+
+.root[data-size="sm"] {
+  /* 8px: inline badge dot — tight label rows, chip-fits. */
+  width: 8px;
+  height: 8px;
+}
+
+.root[data-size="md"] {
+  /* 10px: default — kanban indicators, standalone dots. */
+  width: 10px;
+  height: 10px;
+}
+
+/* ---- tone fills ---- */
+
+.root[data-tone="neutral"] {
+  background-color: var(--fg-muted);
+}
+
+.root[data-tone="info"] {
+  background-color: var(--fg-muted);
+}
+
+.root[data-tone="success"] {
+  background-color: var(--line-success);
+}
+
+.root[data-tone="warning"] {
+  background-color: var(--line-warning);
+}
+
+.root[data-tone="danger"] {
+  background-color: var(--line-danger);
+}
+
+.root[data-tone="accent"] {
+  background-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+
+/* ---- disabled state ---- */
+
+.root[data-disabled] {
+  opacity: 0.4;
+}

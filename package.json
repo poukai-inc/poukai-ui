@@ -90,6 +90,11 @@
       "import": "./dist/atoms/StatusBadge.js",
       "require": "./dist/atoms/StatusBadge.cjs"
     },
+    "./atoms/StatusDot": {
+      "types": "./dist/atoms/StatusDot.d.ts",
+      "import": "./dist/atoms/StatusDot.js",
+      "require": "./dist/atoms/StatusDot.cjs"
+    },
     "./atoms/Tag": {
       "types": "./dist/atoms/Tag.d.ts",
       "import": "./dist/atoms/Tag.js",

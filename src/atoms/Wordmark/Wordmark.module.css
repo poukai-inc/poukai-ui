@@ -10,7 +10,9 @@
 
 .svg {
   display: block;
-  height: 100%;
+  /* height is set via inline style from the `height` prop; no percentage rule
+     here so that the value never creates a circular dependency when the parent
+     flex container has no resolved height (zero-JS / SSR environments). */
   width: auto;
   flex-shrink: 0;
 }

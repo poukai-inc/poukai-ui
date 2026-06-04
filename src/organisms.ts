@@ -136,3 +136,8 @@ export {
 export { FAQSection, type FAQSectionProps } from "./organisms/FAQSection";
 export { DocsLayout, type DocsLayoutProps } from "./organisms/DocsLayout";
 export { NotFound, type NotFoundProps, type NotFoundSuggestion } from "./organisms/NotFound";
+export {
+  DashboardShell,
+  type DashboardShellProps,
+  type DashboardShellRoute,
+} from "./organisms/DashboardShell";

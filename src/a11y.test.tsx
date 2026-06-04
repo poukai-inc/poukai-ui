@@ -121,6 +121,7 @@ import type { ColumnDef } from "./molecules/DataTable";
 import { FAQSection } from "./organisms/FAQSection";
 import { NotFound } from "./organisms/NotFound";
 import { FileUploader, type FileEntry } from "./molecules/FileUploader";
+import { StatusDot } from "./atoms/StatusDot";
 
 /**
  * a11y gate — every component is mounted in isolation and scanned with axe.
@@ -1600,6 +1601,33 @@ test("a11y — SiteShell (mobile open, hamburger visible)", async ({ mount, page
   await component.getByRole("button", { name: "Open navigation" }).click();
   await page.evaluate(() =>
     Promise.all(document.getAnimations().map((a) => a.finished.catch(() => null))),
+  );
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — SiteShell (mobile, panel closed — aria-hidden-focus regression #410)", async ({
+  mount,
+  page,
+}) => {
+  // Narrow viewport matches the zero-JS consumer's Lighthouse mobile check (360×640).
+  // The panel is rendered after hydration but must be hidden without aria-hidden
+  // (visibility:hidden is used instead). This test confirms no aria-hidden-focus
+  // violation fires when links are inside the closed panel.
+  await page.setViewportSize({ width: 360, height: 640 });
+  await mount(
+    <SiteShell
+      currentRoute="/why-ai"
+      routes={[
+        { href: "/why-ai", label: "Why AI" },
+        { href: "/roles", label: "Roles" },
+        { href: "/principles", label: "Principles" },
+        { href: "/about", label: "About" },
+      ]}
+      footer={<p>© Pouk AI INC 2026</p>}
+    >
+      <h1>Page heading</h1>
+      <p>Body copy.</p>
+    </SiteShell>,
   );
   await expectAxeClean(page, { fullPageSemantics: true });
 });
@@ -3799,6 +3827,170 @@ test("a11y — FileUploader (inside Field)", async ({ mount, page }) => {
     <Field label="Attach files" id="a11y-fu-field" helper="PDF or images only.">
       <FileUploader accept="image/*,application/pdf" maxSizeBytes={5242880} />
     </Field>,
+  );
+  await expectAxeClean(page);
+});
+
+/* ---------- DashboardShell ---------- */
+
+import { DashboardShell } from "./organisms/DashboardShell";
+
+test("a11y — DashboardShell (desktop, with nav + footer)", async ({ mount, page }) => {
+  await mount(
+    <DashboardShell
+      currentRoute="/dashboard/jobs"
+      routes={[
+        { href: "/dashboard", label: "Overview" },
+        { href: "/dashboard/jobs", label: "Jobs" },
+        { href: "/dashboard/team", label: "Team" },
+        { href: "/dashboard/settings", label: "Settings" },
+      ]}
+      footer={
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+          <span
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--fs-meta)",
+              color: "var(--fg)",
+            }}
+          >
+            Arian Zargaran
+          </span>
+          <button
+            type="button"
+            style={{
+              background: "none",
+              border: "none",
+              fontFamily: "var(--font-sans)",
+              fontSize: "var(--fs-meta)",
+              color: "var(--fg-muted)",
+              cursor: "pointer",
+            }}
+          >
+            Sign out
+          </button>
+        </div>
+      }
+    >
+      <h1>Jobs</h1>
+      <p>Dashboard main content.</p>
+    </DashboardShell>,
+  );
+  // fullPageSemantics: true — DashboardShell renders a full page chrome with main landmark
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — DashboardShell (no nav, no footer — bare shell)", async ({ mount, page }) => {
+  await mount(
+    <DashboardShell>
+      <h1>Bare shell</h1>
+      <p>No nav, no footer. Valid for surfaces injecting nav into children.</p>
+    </DashboardShell>,
+  );
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — DashboardShell (mobile panel open)", async ({ mount, page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await mount(
+    <DashboardShell
+      currentRoute="/dashboard"
+      routes={[
+        { href: "/dashboard", label: "Overview" },
+        { href: "/dashboard/jobs", label: "Jobs" },
+      ]}
+      footer={
+        <button
+          type="button"
+          style={{
+            background: "none",
+            border: "none",
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--fs-meta)",
+            color: "var(--fg-muted)",
+            cursor: "pointer",
+          }}
+        >
+          Sign out
+        </button>
+      }
+    >
+      <h1>Dashboard</h1>
+    </DashboardShell>,
+  );
+  // Open the mobile panel before scanning
+  const hamburger = page.getByRole("button", { name: "Open navigation" });
+  await hamburger.click();
+  await expect(page.locator("#dashboardshell-rail-panel")).toHaveAttribute("data-state", "open");
+  // The backdrop (aria-hidden) and mobile panel are in play — scan the full document
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — DashboardShell (with rail slot)", async ({ mount, page }) => {
+  await mount(
+    <DashboardShell
+      routes={[{ href: "/dashboard", label: "Overview" }]}
+      rail={
+        <div
+          style={{
+            fontFamily: "var(--font-sans)",
+            fontSize: "var(--fs-meta)",
+            color: "var(--fg-muted)",
+          }}
+        >
+          Acme Corp
+        </div>
+      }
+    >
+      <h1>Overview</h1>
+    </DashboardShell>,
+  );
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
+test("a11y — StatusDot (standalone — role=img + aria-label)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <StatusDot tone="neutral" aria-label="Inactive" />
+      <StatusDot tone="info" aria-label="Info" />
+      <StatusDot tone="success" aria-label="Published" />
+      <StatusDot tone="warning" aria-label="Pending approval" />
+      <StatusDot tone="danger" aria-label="Failed" />
+      <StatusDot tone="accent" aria-label="Active" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatusDot (decorative — aria-hidden alongside visible text)", async ({
+  mount,
+  page,
+}) => {
+  await mount(
+    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <StatusDot tone="success" aria-hidden />
+      <span>Published</span>
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatusDot (sizes)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <StatusDot tone="success" size="sm" aria-label="Small published" />
+      <StatusDot tone="success" size="md" aria-label="Medium published" />
+    </div>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — StatusDot (disabled)", async ({ mount, page }) => {
+  await mount(
+    <div>
+      <StatusDot tone="neutral" disabled aria-label="Inactive (disabled)" />
+      <StatusDot tone="danger" disabled aria-label="Failed (disabled)" />
+    </div>,
   );
   await expectAxeClean(page);
 });

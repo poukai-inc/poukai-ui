@@ -68,7 +68,7 @@ export const Wordmark = forwardRef<HTMLSpanElement, WordmarkProps>(function Word
   const resolvedSrc = src !== undefined ? safeSrc(src) : undefined;
 
   return (
-    <span ref={ref} className={clsx(styles.root, className)} style={style} {...rest}>
+    <span ref={ref} className={clsx(styles.root, className)} style={{ height, ...style }} {...rest}>
       {resolvedSrc !== undefined ? (
         <img src={resolvedSrc} alt={label} height={height} width="auto" className={styles.img} />
       ) : (

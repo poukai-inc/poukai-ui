@@ -17,6 +17,15 @@ test("respects custom height", async ({ mount }) => {
   await expect(svg).toHaveCSS("height", "128px");
 });
 
+test("wrapper span carries intrinsic height so svg height:100% resolves in zero-JS environments", async ({
+  mount,
+}) => {
+  const component = await mount(<Wordmark height={56} />);
+  // The root <span> must have height:56px so that any external CSS forcing
+  // svg { height:100% } resolves to 56px rather than 0 (circular dependency).
+  await expect(component).toHaveCSS("height", "56px");
+});
+
 test("announces accessible label", async ({ mount }) => {
   const component = await mount(<Wordmark label="Poukai design" />);
   await expect(component.getByText("Poukai design")).toBeAttached();

@@ -234,9 +234,17 @@ export const SiteShell = forwardRef<HTMLDivElement, SiteShellProps>(function Sit
   ref,
 ) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  // Progressive enhancement: hamburger + mobile panel only mount after JS hydration.
+  // Until then the desktop nav is visible at all widths so zero-JS consumers
+  // (e.g. the marketing site with no client bundle) always have an accessible nav.
+  const [hydrated, setHydrated] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const hasRoutes = routes.length > 0;
+
+  useEffect(() => {
+    setHydrated(true);
+  }, []);
 
   // Focus management: move focus into panel on open, return to hamburger on close
   useEffect(() => {
@@ -272,7 +280,16 @@ export const SiteShell = forwardRef<HTMLDivElement, SiteShellProps>(function Sit
   };
 
   return (
-    <div ref={ref} className={clsx(styles.root, sticky && styles.rootSticky, className)} {...rest}>
+    <div
+      ref={ref}
+      className={clsx(
+        styles.root,
+        sticky && styles.rootSticky,
+        hydrated && styles.rootHydrated,
+        className,
+      )}
+      {...rest}
+    >
       <header className={clsx(styles.header, sticky && styles.headerSticky)}>
         <a href={homeHref} className={styles.brand} aria-label="Poukai — home">
           <Wordmark height={56} />
@@ -347,8 +364,8 @@ export const SiteShell = forwardRef<HTMLDivElement, SiteShellProps>(function Sit
         {/* End slot — desktop only; also appears in mobile panel */}
         {end !== undefined ? <div className={styles.end}>{end}</div> : null}
 
-        {/* Hamburger — shown only below --bp-md when routes exist */}
-        {hasRoutes ? (
+        {/* Hamburger — rendered only after hydration (no-JS consumers see nav instead) */}
+        {hydrated && hasRoutes ? (
           <button
             ref={hamburgerRef}
             type="button"
@@ -363,13 +380,14 @@ export const SiteShell = forwardRef<HTMLDivElement, SiteShellProps>(function Sit
         ) : null}
       </header>
 
-      {/* Mobile panel */}
-      {hasRoutes ? (
+      {/* Mobile panel — rendered only after hydration.
+          visibility:hidden (not aria-hidden) keeps closed links out of the a11y
+          tree and tab order without triggering the aria-hidden-focus axe violation. */}
+      {hydrated && hasRoutes ? (
         <div
           ref={panelRef}
           id="siteshell-mobile-panel"
           className={clsx(styles.mobilePanel, mobileOpen && styles.mobilePanelOpen)}
-          aria-hidden={!mobileOpen}
         >
           {/* Wrap in <nav> so panel contents are inside a landmark (axe region rule) */}
           <nav aria-label={navLabel}>

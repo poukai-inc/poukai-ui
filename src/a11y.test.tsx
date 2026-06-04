@@ -1605,6 +1605,33 @@ test("a11y — SiteShell (mobile open, hamburger visible)", async ({ mount, page
   await expectAxeClean(page, { fullPageSemantics: true });
 });
 
+test("a11y — SiteShell (mobile, panel closed — aria-hidden-focus regression #410)", async ({
+  mount,
+  page,
+}) => {
+  // Narrow viewport matches the zero-JS consumer's Lighthouse mobile check (360×640).
+  // The panel is rendered after hydration but must be hidden without aria-hidden
+  // (visibility:hidden is used instead). This test confirms no aria-hidden-focus
+  // violation fires when links are inside the closed panel.
+  await page.setViewportSize({ width: 360, height: 640 });
+  await mount(
+    <SiteShell
+      currentRoute="/why-ai"
+      routes={[
+        { href: "/why-ai", label: "Why AI" },
+        { href: "/roles", label: "Roles" },
+        { href: "/principles", label: "Principles" },
+        { href: "/about", label: "About" },
+      ]}
+      footer={<p>© Pouk AI INC 2026</p>}
+    >
+      <h1>Page heading</h1>
+      <p>Body copy.</p>
+    </SiteShell>,
+  );
+  await expectAxeClean(page, { fullPageSemantics: true });
+});
+
 test("a11y — Form (with Field + Input + Textarea + Button)", async ({ mount, page }) => {
   await mount(
     <Form onSubmit={() => undefined}>

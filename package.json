@@ -190,6 +190,11 @@
       "import": "./dist/atoms/Input.js",
       "require": "./dist/atoms/Input.cjs"
     },
+    "./atoms/PasswordInput": {
+      "types": "./dist/atoms/PasswordInput.d.ts",
+      "import": "./dist/atoms/PasswordInput.js",
+      "require": "./dist/atoms/PasswordInput.cjs"
+    },
     "./atoms/Radio": {
       "types": "./dist/atoms/Radio.d.ts",
       "import": "./dist/atoms/Radio.js",

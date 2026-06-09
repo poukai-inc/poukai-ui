@@ -43,6 +43,7 @@ import { Footer } from "./organisms/Footer";
 import { Dialog, DialogBasic } from "./organisms/Dialog";
 import { Tabs, TabsBasic } from "./organisms/Tabs";
 import { Input } from "./atoms/Input";
+import { PasswordInput } from "./atoms/PasswordInput";
 import { Select } from "./atoms/Select";
 import { Checkbox } from "./atoms/Checkbox";
 import { Switch } from "./atoms/Switch";
@@ -1443,6 +1444,25 @@ test("a11y — Field + Input (email, with helper)", async ({ mount, page }) => {
       <Input type="email" placeholder="you@example.com" />
     </Field>,
   );
+  await expectAxeClean(page);
+});
+
+test("a11y — Field + PasswordInput (masked, with helper)", async ({ mount, page }) => {
+  await mount(
+    <Field label="Password" id="a11y-gate-field-password" helper="At least 12 characters.">
+      <PasswordInput autoComplete="current-password" />
+    </Field>,
+  );
+  await expectAxeClean(page);
+});
+
+test("a11y — Field + PasswordInput (revealed)", async ({ mount, page }) => {
+  const component = await mount(
+    <Field label="Password" id="a11y-gate-field-password-shown">
+      <PasswordInput autoComplete="current-password" />
+    </Field>,
+  );
+  await component.getByRole("button", { name: "Show password" }).click();
   await expectAxeClean(page);
 });
 

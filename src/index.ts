@@ -89,6 +89,7 @@ export {
   type ProgressBarTone,
 } from "./atoms/ProgressBar";
 export { Input, type InputProps, type InputSize } from "./atoms/Input";
+export { PasswordInput, type PasswordInputProps } from "./atoms/PasswordInput";
 export { Select, type SelectProps, type SelectSize } from "./atoms/Select";
 
 export { Textarea, type TextareaProps, type TextareaResize } from "./atoms/Textarea";

@@ -67,6 +67,7 @@ export default defineConfig({
               "atoms/Logo": resolve(__dirname, "src/atoms/Logo/index.ts"),
               "atoms/Mark": resolve(__dirname, "src/atoms/Mark/index.ts"),
               "atoms/NumberFormat": resolve(__dirname, "src/atoms/NumberFormat/index.ts"),
+              "atoms/PasswordInput": resolve(__dirname, "src/atoms/PasswordInput/index.ts"),
               "atoms/ProgressBar": resolve(__dirname, "src/atoms/ProgressBar/index.ts"),
               "atoms/Prose": resolve(__dirname, "src/atoms/Prose/index.ts"),
               "atoms/Radio": resolve(__dirname, "src/atoms/Radio/index.ts"),

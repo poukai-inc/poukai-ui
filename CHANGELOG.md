@@ -1,5 +1,11 @@
 # @poukai-inc/ui
 
+## 2.17.0
+
+### Minor Changes
+
+- 6f8af81: Add `PasswordInput` atom — a password `Input` with a built-in show/hide reveal toggle (composes `Input` + a ghost `IconButton` using Lucide `Eye` / `EyeOff`).
+
 ## 2.16.0
 
 ### Minor Changes
